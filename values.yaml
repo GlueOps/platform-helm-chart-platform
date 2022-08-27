@@ -10,6 +10,9 @@ gitHub:
 
 
 
+externalDns:
+  cloudflare_api_token: "{{ .Values.certManager.cloudflare_api_token }}"
+
 certManager:
   cloudflare_api_token: nil
   zerossl_eab_hmac_key: nil
