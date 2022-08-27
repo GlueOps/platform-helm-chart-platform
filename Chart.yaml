@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: v0.1.0
+description: GlueOps Helm Chart for deploying ArgoCD
+name: glueops-argo-cd
+version: 0.1.0
+dependencies:
+  - name: argo-cd
+    version: 4.8.2
+    repository: https://argoproj.github.io/argo-helm
+    condition: argo-cd.glueops_is_argo_cd_enabled
+

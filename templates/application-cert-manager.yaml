@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+spec:
+  destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    namespace: glueops-core-cert-manager
+    server: ''
+  source:
+    path: ''
+    repoURL: 'https://glueops.github.io/helm-charts'
+    targetRevision: 0.2.4
+    helm:
+      parameters:
+        - name: cert-manager.google_cloud_project_id
+          value: {{ .Values.cloudDns.project_id }}
+        - name: cert-manager.google_cloud_service_account_key
+          value: {{ .Values.cloudDns.serviceAccountKeyJson }}
+    chart: glueops-cert-manager
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2

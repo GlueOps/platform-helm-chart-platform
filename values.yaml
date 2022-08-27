@@ -1,0 +1,42 @@
+# Default values for glueops-argocd.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+gitHub:
+  sshKey: "base64-ssh-key"
+  credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
+  k8sBootstrapRepo: "base64-encoded-string" #git@github.com:GlueOps/platform.git
+
+cloudDns:
+  project_id: "various-dns-zones-for-testing"
+  serviceAccountKeyJson: "base64-encoded-json-file-from-google-service-account"
+
+argo-cd:
+  glueops:
+    enabled: false
+    destination_cluster_for_core_apps: "in-cluster"
+    ingress_controller_service_type: "LoadBalancer"
+    ingress_controller_host_port_enabled: false
+  server:
+    extraArgs:
+      - --insecure
+    service:
+      type: ClusterIP
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: "argocd.gcp.glueops.rocks"
+    ingress:
+      enabled: true
+      hosts: ["argocd.gcp.glueops.rocks"]
+      annotations:
+        cert-manager.io/cluster-issuer: glueops-cert-letsencrypt-prod
+        kubernetes.io/ingress.class: "nginx"
+      tls: 
+        - 
+          hosts: 
+            - argocd.gcp.glueops.rocks
+          secretName: echo-tls
+
+
+
+
