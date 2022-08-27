@@ -15,7 +15,7 @@ spec:
     helm:
       parameters:
         - name: cloudflare.apiToken
-          value: {{ .Values.apiToken }}
+          value: {{ .Values.externalDns.cloudflare_api_token }}
         - name: provider
           value: cloudflare
   project: glueops-core
