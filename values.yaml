@@ -8,6 +8,14 @@ gitHub:
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
   k8sBootstrapRepo: "base64-encoded-string" #git@github.com:GlueOps/platform.git
 
+
+
+certManager:
+  cloudflare_api_token: nil
+  zerossl_eab_hmac_key: nil
+  zerossl_eab_kid: nil
+
+
 argo-cd:
   glueops:
     enabled: false
@@ -25,7 +33,7 @@ argo-cd:
       enabled: true
       hosts: ["argocd.gcp.glueops.rocks"]
       annotations:
-        cert-manager.io/cluster-issuer: glueops-cert-letsencrypt-prod
+        cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
         kubernetes.io/ingress.class: "nginx"
       tls: 
         - 
