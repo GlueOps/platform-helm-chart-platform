@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  destination:
+    name: in-cluster
+    namespace: glueops-core-kube-prometheus-stack
+  project: glueops-core
+  source:
+    repoURL: 'https://prometheus-community.github.io/helm-charts'
+    targetRevision: 39.2.1
+    helm:
+      skipCrds: true
+      values: |-
+        grafana:
+          # username is 'admin'
+          adminPassword: prom-operator
+          ingress:
+            enabled: true
+            annotations:
+              kubernetes.io/ingress.class: nginx
+            hosts: ['grafana.gcp.glueops.rocks']
+            path: "/"
+            tls:
+            - secretName: tls-credential
+              hosts:
+              - grafana.gcp.glueops.rocks
+    chart: kube-prometheus-stack
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
