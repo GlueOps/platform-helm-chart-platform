@@ -10,13 +10,15 @@ spec:
   source:
     path: ''
     repoURL: 'https://glueops.github.io/helm-charts'
-    targetRevision: 0.2.4
+    targetRevision: 0.3.0
     helm:
       parameters:
-        - name: cert-manager.google_cloud_project_id
-          value: {{ .Values.cloudDns.project_id }}
-        - name: cert-manager.google_cloud_service_account_key
-          value: {{ .Values.cloudDns.serviceAccountKeyJson }}
+        - name: cert-manager.cloudflare_api_token
+          value: {{ .Values.certManager.cloudflare_api_token }}
+        - name: cert-manager.zerossl_eab_hmac_key
+          value: {{ .Values.certManager.zerossl_eab_hmac_key }}
+        - name: cert-manager.zerossl_eab_kid
+          value: {{ .Values.certManager.zerossl_eab_kid }}
     chart: glueops-cert-manager
   project: glueops-core
   syncPolicy:
