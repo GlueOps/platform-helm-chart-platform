@@ -8,10 +8,6 @@ gitHub:
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
   k8sBootstrapRepo: "base64-encoded-string" #git@github.com:GlueOps/platform.git
 
-cloudDns:
-  project_id: "various-dns-zones-for-testing"
-  serviceAccountKeyJson: "base64-encoded-json-file-from-google-service-account"
-
 argo-cd:
   glueops:
     enabled: false
