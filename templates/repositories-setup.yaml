@@ -1,15 +1,15 @@
-apiVersion: v1
-data:
-  sshPrivateKey: {{ .Values.gitHub.sshKey }}
-  url: {{ .Values.gitHub.credentialTemplateUrl }}
-kind: Secret
-metadata:
-  annotations:
-    managed-by: argocd.argoproj.io
-  labels:
-    argocd.argoproj.io/secret-type: repo-creds
-  name: creds-github-ssh-key
----
+# apiVersion: v1
+# data:
+#   sshPrivateKey: {{ .Values.gitHub.sshKey }}
+#   url: {{ .Values.gitHub.credentialTemplateUrl }}
+# kind: Secret
+# metadata:
+#   annotations:
+#     managed-by: argocd.argoproj.io
+#   labels:
+#     argocd.argoproj.io/secret-type: repo-creds
+#   name: creds-github-ssh-key
+# ---
 apiVersion: v1
 data:
   type: Z2l0
