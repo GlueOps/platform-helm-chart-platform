@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: internal-ingress-nginx
 spec:
   destination:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
-    namespace: glueops-core-ingress-nginx
+    namespace: glueops-core-internal-ingress-nginx
     server: ''
   source:
     path: ''
@@ -17,6 +17,14 @@ spec:
           value: {{ index .Values "argo-cd" "glueops" "ingress_controller_service_type" }}
         - name: controller.hostPort.enabled
           value: '{{ index .Values "argo-cd" "glueops" "ingress_controller_host_port_enabled" }}'
+      values: |-
+        controller:
+          electionID: internal-ingress-nginx-leader
+          ingressClassResource:
+            name: internal-ingress-nginx
+            enabled: true
+            default: false
+            controllerValue: "k8s.io/internal-ingress-nginx"
     chart: ingress-nginx
   project: glueops-core
   syncPolicy:

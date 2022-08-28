@@ -21,14 +21,14 @@ spec:
           ingress:
             enabled: true
             annotations:
-              kubernetes.io/ingress.class: nginx
+              kubernetes.io/ingress.class: internal-ingress-nginx
               cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
-            hosts: ['grafana.gcp.glueops.rocks']
+            hosts: ['{{ .Values.grafana.hostname }}']
             path: "/"
             tls:
             - secretName: tls-credential
               hosts:
-              - grafana.gcp.glueops.rocks
+              - {{ .Values.grafana.hostname }}
     chart: kube-prometheus-stack
   syncPolicy:
     automated:
