@@ -20,6 +20,7 @@ spec:
       values: |-
         controller:
           electionID: external-ingress-nginx-leader
+          ingressClassByName: true
           ingressClassResource:
             name: external-ingress-nginx
             enabled: true
