@@ -21,6 +21,7 @@ spec:
         controller:
           electionID: external-ingress-nginx-leader
           ingressClassByName: true
+          ingressClass: external-ingress-nginx
           ingressClassResource:
             name: external-ingress-nginx
             enabled: true
