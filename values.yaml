@@ -11,12 +11,18 @@ gitHub:
 
 
 externalDns:
-  cloudflare_api_token: "{{ .Values.certManager.cloudflare_api_token }}"
+  cloudflare_api_token: nil
+
+
 
 certManager:
   cloudflare_api_token: nil
   zerossl_eab_hmac_key: nil
   zerossl_eab_kid: nil
+
+
+grafana:
+  hostname: "grafana.gcp.glueops.rocks"
 
 
 argo-cd:
@@ -37,7 +43,7 @@ argo-cd:
       hosts: ["argocd.gcp.glueops.rocks"]
       annotations:
         cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "internal-ingress-nginx"
       tls: 
         - 
           hosts: 

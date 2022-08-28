@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-ingress-nginx
+spec:
+  destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    namespace: glueops-core-external-ingress-nginx
+    server: ''
+  source:
+    path: ''
+    repoURL: 'https://kubernetes.github.io/ingress-nginx'
+    targetRevision: v4.1.4
+    helm:
+      parameters:
+        - name: controller.service.type
+          value: {{ index .Values "argo-cd" "glueops" "ingress_controller_service_type" }}
+        - name: controller.hostPort.enabled
+          value: '{{ index .Values "argo-cd" "glueops" "ingress_controller_host_port_enabled" }}'
+      values: |-
+        controller:
+          electionID: external-ingress-nginx-leader
+          ingressClassResource:
+            name: external-ingress-nginx
+            enabled: true
+            default: false
+            controllerValue: "k8s.io/external-ingress-nginx"
+    chart: ingress-nginx
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true  
+    retry:
+      limit: 5
+      backoff:
+        duration: 10s
+        maxDuration: 3m0s
+        factor: 2
