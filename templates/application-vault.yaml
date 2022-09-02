@@ -1,0 +1,121 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault
+  namespace: glueops-core
+spec:
+  destination:
+    name: ''
+    namespace: glueops-core-vault
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: ''
+    repoURL: 'https://helm.releases.hashicorp.com'
+    targetRevision: 0.21.0
+    chart: vault
+    helm:
+      values: |-
+        # Vault Helm Chart Value Overrides
+        global:
+          enabled: true
+          tlsDisable: false
+
+        injector:
+          enabled: true
+          # Use the Vault K8s Image https://github.com/hashicorp/vault-k8s/
+          image:
+            repository: "hashicorp/vault-k8s"
+            tag: "0.14.1"
+
+          resources:
+              requests:
+                memory: 50Mi
+                cpu: 50m
+              limits:
+                memory: 256Mi
+                cpu: 250m
+
+        server:
+          extraEnvironmentVars:
+            VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
+            VAULT_TLSCERT: /vault/userconfig/vault-tls/tls.crt
+            VAULT_TLSKEY: /vault/userconfig/vault-tls/tls.key
+
+          # extraVolumes is a list of extra volumes to mount. These will be exposed
+          # to Vault in the path `/vault/userconfig/<name>/`.
+          extraVolumes:
+            - type: secret
+              name: vault-tls
+
+          standalone:
+            enabled: false
+
+          # Run Vault in "HA" mode.
+          ha:
+            enabled: true
+            replicas: 3
+            raft:
+                enabled: true
+                setNodeId: true
+                config: |
+                  ui = true
+                  listener "tcp" {
+                    address = "[::]:8200"
+                    cluster_address = "[::]:8201"
+                    tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
+                    tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
+                    tls_client_ca_file = "/vault/userconfig/vault-tls/ca.crt"
+                    tls_min_version = "tls12"
+                  }
+                  storage "raft" {
+                    path = "/vault/data"
+                      retry_join {
+                      leader_api_addr = "https://vault-0.vault-internal:8200"
+                      leader_client_cert_file = "/vault/userconfig/vault-tls/tls.crt"
+                      leader_client_key_file = "/vault/userconfig/vault-tls/tls.key"
+                      leader_ca_cert_file = "/vault/userconfig/vault-tls/ca.crt"
+                    }
+                    retry_join {
+                      leader_api_addr = "https://vault-1.vault-internal:8200"
+                      leader_client_cert_file = "/vault/userconfig/vault-tls/tls.crt"
+                      leader_client_key_file = "/vault/userconfig/vault-tls/tls.key"
+                      leader_ca_cert_file = "/vault/userconfig/vault-tls/ca.crt"
+                    }
+                    retry_join {
+                      leader_api_addr = "https://vault-2.vault-internal:8200"
+                      leader_client_cert_file = "/vault/userconfig/vault-tls/tls.crt"
+                      leader_client_key_file = "/vault/userconfig/vault-tls/tls.key"
+                      leader_ca_cert_file = "/vault/userconfig/vault-tls/ca.crt"
+                    }
+
+
+                    autopilot {
+                      cleanup_dead_servers = "true"
+                      last_contact_threshold = "200ms"
+                      last_contact_failure_threshold = "10m"
+                      max_trailing_logs = 250000
+                      min_quorum = 5
+                      server_stabilization_time = "10s"
+                    }
+
+                  }
+
+                  service_registration "kubernetes" {}
+
+        # Vault UI
+        ui:
+          enabled: true
+          externalPort: 8200
+  project: glueops-core
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      jqPathExpressions:
+        - '.webhooks[0].clientConfig.caBundle'
+      kind: MutatingWebhookConfiguration
+  syncPolicy:
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
