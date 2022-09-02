@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault-certs
+  namespace: glueops-core
+spec:
+  destination:
+    namespace: glueops-core-vault
+    server: https://kubernetes.default.svc
+  project: glueops-core
+  source:
+    path: issuer-and-certicates
+    repoURL: https://github.com/GlueOps/cert-manager-issuer-and-certificates-for-vault.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+    - CreateNamespace=true
+    
