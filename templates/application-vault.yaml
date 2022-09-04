@@ -71,6 +71,7 @@ spec:
                     path = "/vault/data"
                     retry_join {
                       auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=vault\" namespace=\"glueops-core-vault\" "
+                      leader_tls_servername = "vault.glueops-core-vault.svc.cluster.local"
                       leader_client_cert_file = "/vault/userconfig/vault-tls/tls.crt"
                       leader_client_key_file = "/vault/userconfig/vault-tls/tls.key"
                       leader_ca_cert_file = "/vault/userconfig/vault-tls/ca.crt"
