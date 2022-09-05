@@ -39,8 +39,7 @@ spec:
           ingress:
               tls:
               - secretName: vault-tls
-              hosts:
-              - vault.gcp.glueops.rocks
+              hosts: ["vault.gcp.glueops.rocks"]
               
           extraEnvironmentVars:
             VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
