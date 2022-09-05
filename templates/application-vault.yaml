@@ -70,7 +70,7 @@ spec:
                 enabled: true
                 setNodeId: true
                 config: |
-                  ui = true
+                  ui = false
                   listener "tcp" {
                     address = "[::]:8200"
                     cluster_address = "[::]:8201"
