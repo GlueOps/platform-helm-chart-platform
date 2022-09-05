@@ -37,6 +37,8 @@ spec:
 
         server:
           ingress:
+              annotations: 
+                cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
               ingressClassName: internal-ingress-nginx
               enabled: true
               tls:
