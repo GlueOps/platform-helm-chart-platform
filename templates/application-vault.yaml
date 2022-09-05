@@ -37,6 +37,7 @@ spec:
 
         server:
           ingress:
+              ingressClassName: internal-ingress-nginx
               enabled: true
               tls:
                 - secretName: vault-ui-tls
