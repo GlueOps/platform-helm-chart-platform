@@ -36,7 +36,6 @@ spec:
                 cpu: 250m
         ui:
           enabled: true
-          activeVaultPodOnly: true
           
         server:
           ingress:
