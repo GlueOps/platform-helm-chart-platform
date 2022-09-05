@@ -41,7 +41,7 @@ spec:
           ingress:
               annotations: 
                 cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
-              ingressClassName: internal-ingress-nginx
+                kubernetes.io/ingress.class: internal-ingress-nginx
               enabled: true
               tls:
                 - secretName: vault-ui-tls
