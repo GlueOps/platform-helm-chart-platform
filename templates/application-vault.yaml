@@ -39,7 +39,9 @@ spec:
           ingress:
               enabled: true
               tls:
-              - secretName: vault-tls
+                - secretName: vault-tls
+                  hosts:
+                  - host: vault.gcp.glueops.rocks
               hosts: 
                 - host: vault.gcp.glueops.rocks
               
