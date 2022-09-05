@@ -34,7 +34,10 @@ spec:
               limits:
                 memory: 256Mi
                 cpu: 250m
-
+        ui:
+          enabled: true
+          activeVaultPodOnly: true
+          
         server:
           ingress:
               annotations: 
@@ -70,7 +73,7 @@ spec:
                 enabled: true
                 setNodeId: true
                 config: |
-                  ui = false
+                  ui = true
                   listener "tcp" {
                     address = "[::]:8200"
                     cluster_address = "[::]:8201"
