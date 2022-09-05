@@ -41,7 +41,7 @@ spec:
               tls:
                 - secretName: vault-tls
                   hosts:
-                  - host: vault.gcp.glueops.rocks
+                    - vault.gcp.glueops.rocks
               hosts: 
                 - host: vault.gcp.glueops.rocks
               
