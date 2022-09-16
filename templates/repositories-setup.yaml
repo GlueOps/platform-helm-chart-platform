@@ -26,7 +26,7 @@ type: Opaque
 apiVersion: v1
 data:
   type: aGVsbQ== #helm
-  url: aHR0cHM6Ly9nbHVlb3BzLmdpdGh1Yi5pby9oZWxtLWNoYXJ0cw== #https://glueops.github.io/helm-charts
+  url: aHR0cHM6Ly9nbHVlb3BzLmdpdGh1Yi5pby9wbGF0Zm9ybS1oZWxtLWNoYXJ0cw== #https://glueops.github.io/platform-helm-charts
 kind: Secret
 metadata:
   annotations:

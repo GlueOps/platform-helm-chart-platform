@@ -9,7 +9,7 @@ spec:
     server: ''
   source:
     path: ''
-    repoURL: 'https://glueops.github.io/helm-charts'
+    repoURL: 'https://glueops.github.io/platform-helm-charts'
     targetRevision: 0.4.0
     helm:
       parameters:
