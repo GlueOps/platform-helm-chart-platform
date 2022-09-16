@@ -12,6 +12,7 @@ spec:
     repoURL: 'https://glueops.github.io/platform-helm-charts'
     targetRevision: 0.4.0
     helm:
+      skipCrds: true
       parameters:
         - name: cert-manager.cloudflare_api_token
           value: {{ .Values.certManager.cloudflare_api_token }}
