@@ -37,7 +37,7 @@ spec:
                auth_url: https://github.com/login/oauth/authorize
                token_url: https://github.com/login/oauth/access_token
                api_url: https://api.github.com/user
-               team_ids: 6646903 6595392
+               team_ids: 6646903,6595392
                allowed_organizations: GlueOps demo-antoniostacos
                client_id: {{ .Values.grafana.github_client_id }}
                client_secret: {{ .Values.grafana.github_client_secret }}
