@@ -28,13 +28,13 @@ grafana:
 argo-cd:
   glueops:
     enabled: false
-    apps_cluster_name: ""
-    github_client_id: ""
-    github_client_secret: ""
+    apps_cluster_name: nil
+    github_client_id: nil
+    github_client_secret: nil
     destination_cluster_for_core_apps: "in-cluster"
     ingress_controller_service_type: "LoadBalancer"
     ingress_controller_host_port_enabled: false
-  server:
+  server: nil
     extraArgs:
       - --insecure
     service:
