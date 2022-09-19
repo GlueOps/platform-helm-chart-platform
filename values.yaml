@@ -23,6 +23,10 @@ certManager:
 
 grafana:
   hostname: "grafana.gcp.glueops.rocks"
+  root_url: nil
+  github_client_id: nil
+  github_client_secret: nil
+  
 
 
 argo-cd:
