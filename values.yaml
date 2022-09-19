@@ -34,7 +34,9 @@ argo-cd:
     destination_cluster_for_core_apps: "in-cluster"
     ingress_controller_service_type: "LoadBalancer"
     ingress_controller_host_port_enabled: false
-  server: nil
+  server:
+    config: nil
+    rbacConfig: nil
     extraArgs:
       - --insecure
     service:
