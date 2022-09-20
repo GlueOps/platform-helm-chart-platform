@@ -42,9 +42,6 @@ spec:
                allowed_organizations: GlueOps
                client_id: {{ .Values.grafana.github_client_id }}
                client_secret: {{ .Values.grafana.github_client_secret }}
-            log:
-              mode: console
-              level: debug
     chart: kube-prometheus-stack
   syncPolicy:
     automated:
