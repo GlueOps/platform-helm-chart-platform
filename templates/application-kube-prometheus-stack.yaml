@@ -32,7 +32,8 @@ spec:
           grafana.ini:
             protocol: https
             domain: {{ .Values.grafana.hostname }}
-            root_url: "https://{{ .Values.grafana.hostname }}/"
+            server:
+              root_url: "https://{{ .Values.grafana.hostname }}/"
             auth.github:
                enabled: true
                allow_sign_up: true
