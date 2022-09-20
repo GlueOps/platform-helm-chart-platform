@@ -31,6 +31,7 @@ spec:
               - {{ .Values.grafana.hostname }}
           grafana.ini:
             auth.github:
+               allow_sign_up = true
                root_url: {{ .Values.grafana.root_url }}
                enabled: true
                allow_sign_up: false
