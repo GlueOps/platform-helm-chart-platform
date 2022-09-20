@@ -30,7 +30,7 @@ spec:
               hosts:
               - {{ .Values.grafana.hostname }}
           grafana.ini:
-               root_url: "%(protocol)s://%(domain)s/grafana/"
+            root_url: "%(protocol)s://%(domain)s/grafana/"
             auth.github:
                enabled: true
                allow_sign_up: true
