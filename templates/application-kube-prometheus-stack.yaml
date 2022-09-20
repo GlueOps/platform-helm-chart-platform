@@ -31,7 +31,7 @@ spec:
               - {{ .Values.grafana.hostname }}
           grafana.ini:
             auth.github:
-               root_url:  %(protocol)s://%(domain)s/
+               root_url: "%(protocol)s://%(domain)s/"
                enabled: true
                allow_sign_up: true
                scopes: user:email,read:org
