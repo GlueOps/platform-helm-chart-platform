@@ -23,9 +23,12 @@ spec:
     chart: glueops-cert-manager
   project: glueops-core
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     retry:
-      limit: 5
       backoff:
         duration: 10s
-        maxDuration: 3m0s
         factor: 2
+        maxDuration: 3m0s
+      limit: 5
