@@ -5,6 +5,6 @@ name: glueops-argo-cd
 version: 0.1.0
 dependencies:
   - name: argo-cd
-    version: 5.5.0
+    version: 5.4.7
     repository: https://argoproj.github.io/argo-helm
     condition: argo-cd.glueops_is_argo_cd_enabled
