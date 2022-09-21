@@ -9,14 +9,20 @@ spec:
     name: in-cluster
     namespace: glueops-core-kube-prometheus-stack
   project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
     repoURL: https://github.com/prometheus-community/helm-charts.git
     path: charts/kube-prometheus-stack/crds/
     targetRevision: kube-prometheus-stack-40.1.0
     directory:
       recurse: true
-  syncPolicy:
-    syncOptions:
-      - Replace=true
-      - CreateNamespace=true
     
