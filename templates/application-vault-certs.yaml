@@ -9,6 +9,8 @@ spec:
     server: https://kubernetes.default.svc
   project: glueops-core
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
     automated:
       prune: true
       selfHeal: true
@@ -22,6 +24,4 @@ spec:
     path: issuer-and-certicates
     repoURL: https://github.com/GlueOps/cert-manager-issuer-and-certificates-for-vault.git
     targetRevision: HEAD
-    syncOptions:
-    - CreateNamespace=true
     
