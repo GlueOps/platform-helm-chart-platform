@@ -10,6 +10,8 @@ spec:
     namespace: glueops-core-kube-prometheus-stack
   project: glueops-core
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
     automated:
       prune: true
       selfHeal: true
