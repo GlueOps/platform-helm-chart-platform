@@ -10,7 +10,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
-    targetRevision: v4.1.4
+    targetRevision: v4.2.5
     helm:
       parameters:
         - name: controller.service.type
@@ -30,9 +30,6 @@ spec:
     chart: ingress-nginx
   project: glueops-core
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - CreateNamespace=true  
     retry:
