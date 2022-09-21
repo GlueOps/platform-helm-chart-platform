@@ -105,11 +105,6 @@ spec:
 
                   service_registration "kubernetes" {}
   project: glueops-core
-  ignoreDifferences:
-    - group: admissionregistration.k8s.io
-      jqPathExpressions:
-        - '.webhooks[0].clientConfig.caBundle'
-      kind: MutatingWebhookConfiguration
   syncPolicy:
     retry:
       limit: 2
@@ -117,3 +112,8 @@ spec:
         duration: 5s
         maxDuration: 3m0s
         factor: 2
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      jqPathExpressions:
+        - '.webhooks[0].clientConfig.caBundle'
+      kind: MutatingWebhookConfiguration
