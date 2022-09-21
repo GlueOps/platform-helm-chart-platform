@@ -30,9 +30,6 @@ spec:
     chart: ingress-nginx
   project: glueops-core
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - CreateNamespace=true  
     retry:

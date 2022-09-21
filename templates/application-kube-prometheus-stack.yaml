@@ -43,7 +43,3 @@ spec:
                client_id: {{ .Values.grafana.github_client_id }}
                client_secret: {{ .Values.grafana.github_client_secret }}
     chart: kube-prometheus-stack
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
