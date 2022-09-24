@@ -47,9 +47,9 @@ spec:
               tls:
                 - secretName: vault-ui-tls
                   hosts:
-                    - vault.gcp.glueops.rocks
+                    - {{ .Values.vault.hostname }}
               hosts: 
-                - host: vault.gcp.glueops.rocks
+                - host: {{ .Values.vault.hostname }}
               
           extraEnvironmentVars:
             VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
