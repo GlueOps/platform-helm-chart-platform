@@ -11,7 +11,8 @@ spec:
   project: glueops-core
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true  
+      - CreateNamespace=true
+      - Replace=true
     automated:
       prune: true
       selfHeal: true
