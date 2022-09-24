@@ -3,6 +3,15 @@
 # Declare variables to be passed into your templates.
 
 
+glueops_settings:
+  domain: nil
+  cloud:
+    name: nil
+    region: nil
+    dns: "{{ tpl .Values.glueops_settings.cloud.region . }}.{{ tpl .Values.glueops_settings.cloud.name . }}.{{ tpl .Values.glueops_settings.domain . }}"
+
+
+
 gitHub:
   sshKey: "base64-ssh-key"
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
@@ -21,10 +30,10 @@ certManager:
   zerossl_eab_kid: nil
 
 vault:
-  hostname: "vault.gcp.glueops.rocks"
+  hostname: "vault.{{ tpl .Values.glueops_settings.cloud.dns . }}"
 
 grafana:
-  hostname: "grafana.gcp.glueops.rocks"
+  hostname: "grafana.{{ tpl .Values.glueops_settings.cloud.dns . }}"
   root_url: nil
   github_client_id: nil
   github_client_secret: nil
@@ -48,17 +57,17 @@ argo-cd:
     service:
       type: ClusterIP
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: "argocd.gcp.glueops.rocks"
+        external-dns.alpha.kubernetes.io/hostname: "argocd.{{ tpl .Values.glueops_settings.cloud.dns . }}"
     ingress:
       enabled: true
-      hosts: ["argocd.gcp.glueops.rocks"]
+      hosts: ["argocd.{{ tpl .Values.glueops_settings.cloud.dns . }}"]
       annotations:
         cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
         kubernetes.io/ingress.class: "internal-ingress-nginx"
       tls: 
         - 
           hosts: 
-            - argocd.gcp.glueops.rocks
+            - "argocd.{{ tpl .Values.glueops_settings.cloud.dns . }}"
           secretName: echo-tls
 
 
