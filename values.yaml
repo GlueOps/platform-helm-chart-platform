@@ -8,7 +8,7 @@ glueops_settings:
   cloud:
     name: nil
     region: nil
-    dns: "{{ tpl .Values.glueops_settings.cloud.region . }}.{{ tpl .Values.glueops_settings.cloud.name . }}.{{ tpl .Values.glueops_settings.domain . }}"
+    dns: "{{ .Values.glueops_settings.cloud.region }}.{{ .Values.glueops_settings.cloud.name }}.{{ .Values.glueops_settings.domain }}"
 
 
 
