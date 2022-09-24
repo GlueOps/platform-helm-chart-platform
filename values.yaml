@@ -20,6 +20,8 @@ certManager:
   zerossl_eab_hmac_key: nil
   zerossl_eab_kid: nil
 
+vault:
+  hostname: "vault.gcp.glueops.rocks"
 
 grafana:
   hostname: "grafana.gcp.glueops.rocks"
