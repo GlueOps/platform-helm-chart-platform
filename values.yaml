@@ -8,7 +8,7 @@ glueops_settings:
   cloud:
     name: nil
     region: nil
-    dns: "{{ .Values.glueops_settings.cloud.region }}.{{ .Values.glueops_settings.cloud.name }}.{{ .Values.glueops_settings.domain }}"
+  environment_domain: "{{ .Values.glueops_settings.cloud.region }}.{{ .Values.glueops_settings.cloud.name }}.{{ .Values.glueops_settings.domain }}"
 
 
 
@@ -30,10 +30,10 @@ certManager:
   zerossl_eab_kid: nil
 
 vault:
-  hostname: "vault.{{ tpl .Values.glueops_settings.cloud.dns . }}"
+  hostname: "vault.{{ tpl .Values.glueops_settings.environment_domain . }}"
 
 grafana:
-  hostname: "grafana.{{ tpl .Values.glueops_settings.cloud.dns . }}"
+  hostname: "grafana.{{ tpl .Values.glueops_settings.environment_domain . }}"
   root_url: nil
   github_client_id: nil
   github_client_secret: nil
@@ -57,17 +57,17 @@ argo-cd:
     service:
       type: ClusterIP
       annotations:
-        external-dns.alpha.kubernetes.io/hostname: "argocd.{{ tpl .Values.glueops_settings.cloud.dns . }}"
+        external-dns.alpha.kubernetes.io/hostname: "argocd.{{ tpl .Values.glueops_settings.environment_domain . }}"
     ingress:
       enabled: true
-      hosts: ["argocd.{{ tpl .Values.glueops_settings.cloud.dns . }}"]
+      hosts: ["argocd.{{ tpl .Values.glueops_settings.environment_domain . }}"]
       annotations:
         cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
         kubernetes.io/ingress.class: "internal-ingress-nginx"
       tls: 
         - 
           hosts: 
-            - "argocd.{{ tpl .Values.glueops_settings.cloud.dns . }}"
+            - "argocd.{{ tpl .Values.glueops_settings.environment_domain . }}"
           secretName: echo-tls
 
 
