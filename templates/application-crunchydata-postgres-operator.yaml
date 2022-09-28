@@ -1,26 +1,26 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: cunchydata-postgres-operator
-  namespace: glueops-core
-spec:
-  destination:
-    namespace: glueops-core-crunchydata-postgres
-    server: https://kubernetes.default.svc
-  project: glueops-core
-  source:
-    path: helm/install
-    repoURL: https://github.com/CrunchyData/postgres-operator-examples/
-    targetRevision: HEAD
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true  
-    automated:
-      prune: true
-      selfHeal: true
-    retry:
-      backoff:
-        duration: 10s
-        factor: 2
-        maxDuration: 3m0s
-      limit: 5
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: cunchydata-postgres-operator
+#   namespace: glueops-core
+# spec:
+#   destination:
+#     namespace: glueops-core-crunchydata-postgres
+#     server: https://kubernetes.default.svc
+#   project: glueops-core
+#   source:
+#     path: helm/install
+#     repoURL: https://github.com/CrunchyData/postgres-operator-examples/
+#     targetRevision: HEAD
+#   syncPolicy:
+#     syncOptions:
+#       - CreateNamespace=true  
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     retry:
+#       backoff:
+#         duration: 10s
+#         factor: 2
+#         maxDuration: 3m0s
+#       limit: 5
