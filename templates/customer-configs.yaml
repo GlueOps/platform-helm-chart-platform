@@ -28,7 +28,7 @@ apiVersion: argoproj.io/v1alpha1
     roles:
     - description: {{ .Values.gitHub.customer_github_org_and_team }}
       groups:
-      - {{ .Values.gitHub.customer_github_org_and_team }}
+      - "{{ .Values.gitHub.customer_github_org_and_team }}"
       name: developers
     sourceRepos:
     - https://glueops.github.io/helm-charts
