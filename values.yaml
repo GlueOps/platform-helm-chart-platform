@@ -29,6 +29,7 @@ grafana:
   root_url: nil
   github_client_id: nil
   github_client_secret: nil
+  github_org_names: nil
   
 
 
