@@ -1,13 +1,13 @@
-apiVersion: v1
-data:
-  project: ZGV2ZWxvcG1lbnQK #development
-  type: aGVsbQ== #helm
-  url: aHR0cHM6Ly9nbHVlb3BzLmdpdGh1Yi5pby9oZWxtLWNoYXJ0cwo= #https://glueops.github.io/helm-charts
-kind: Secret
-metadata:
-  annotations:
-    managed-by: argocd.argoproj.io
-  labels:
-    argocd.argoproj.io/secret-type: repository
-  name: repo-github-helm-charts
-type: Opaque
+# apiVersion: v1
+# data:
+#   project: ZGV2ZWxvcG1lbnQK #development
+#   type: aGVsbQ== #helm
+#   url: aHR0cHM6Ly9nbHVlb3BzLmdpdGh1Yi5pby9oZWxtLWNoYXJ0cwo= #https://glueops.github.io/helm-charts
+# kind: Secret
+# metadata:
+#   annotations:
+#     managed-by: argocd.argoproj.io
+#   labels:
+#     argocd.argoproj.io/secret-type: repository
+#   name: repo-github-helm-charts
+# type: Opaque
