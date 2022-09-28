@@ -12,7 +12,8 @@
 # ---
 apiVersion: v1
 data:
-  type: Z2l0
+  project: Z2x1ZW9wcy1jb3Jl #glueops-core
+  type: Z2l0 #git
   url: {{ .Values.gitHub.k8sBootstrapRepo }}
 kind: Secret
 metadata:
@@ -25,6 +26,7 @@ type: Opaque
 ---
 apiVersion: v1
 data:
+  project: Z2x1ZW9wcy1jb3Jl #glueops-core
   type: aGVsbQ== #helm
   url: aHR0cHM6Ly9nbHVlb3BzLmdpdGh1Yi5pby9wbGF0Zm9ybS1oZWxtLWNoYXJ0cw== #https://glueops.github.io/platform-helm-charts
 kind: Secret
