@@ -12,26 +12,23 @@ metadata:
     argocd.argoproj.io/secret-type: repository
   name: glueops-public-helm-charts
 type: Opaque
-# ---
-# apiVersion: argoproj.io/v1alpha1
-#   kind: AppProject
-#   metadata:
-#     name: development
-#   spec:
-#     clusterResourceWhitelist:
-#     - group: '*'
-#       kind: '*'
-#     destinations:
-#     - name: '*'
-#       namespace: '*'
-#       server: '*'
-#     roles:
-#     - description: {{ .Values.gitHub.customer_github_org_and_team }}
-#       groups:
-#       - "{{ .Values.gitHub.customer_github_org_and_team }}"
-#       name: developers
-#     sourceRepos:
-#     - https://glueops.github.io/helm-charts
-#   status:
-#     jwtTokensByRole:
-#       developers: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: development
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - name: '*'
+    namespace: '*'
+    server: '*'
+  roles:
+  - description: {{ .Values.gitHub.customer_github_org_and_team }}
+    groups:
+    - "{{ .Values.gitHub.customer_github_org_and_team }}"
+    name: developers
+  sourceRepos:
+  - https://glueops.github.io/helm-charts
