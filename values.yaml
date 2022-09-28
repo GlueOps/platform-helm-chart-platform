@@ -8,6 +8,7 @@ gitHub:
   sshKey: "base64-ssh-key"
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
   k8sBootstrapRepo: "base64-encoded-string" #git@github.com:GlueOps/platform.git
+  customer_github_org_and_team: "org:team"
 
 
 
