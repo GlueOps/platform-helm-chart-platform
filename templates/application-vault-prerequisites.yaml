@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault-prerequisites
+spec:
+  destination:
+    name: in-cluster
+    namespace: glueops-core-vault
+  project: glueops-core
+  source:
+    chart: glueops-vault-prerequisites
+    {{- if .Values.vault.cloud.enable.gcp }}
+    helm:
+      parameters:
+      {{- if .Values.vault.cloud.enable.gcp }}
+      - name: cloud.credentials.gcp.GOOGLE_CREDENTIALS
+        value: {{ .Values.vault.cloud.credentials.gcp.GOOGLE_CREDENTIALS }}
+      {{- end }}
+      {{- if .Values.vault.cloud.enable.gcp }}
+      - name: cloud.enable.gcp
+        value: '{{ .Values.vault.cloud.enable.gcp }}'
+      {{- end }}
+    {{- end }}
+    repoURL: https://glueops.github.io/platform-helm-charts
+    targetRevision: 0.1.3
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+    - CreateNamespace=true
