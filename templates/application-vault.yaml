@@ -8,7 +8,7 @@ spec:
     namespace: glueops-core-vault
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
-    targetRevision: 0.21.0
+    targetRevision: 0.22.0
     chart: vault
     helm:
       values: |-
