@@ -19,6 +19,16 @@ spec:
       - name: cloud.credentials.gcp.GOOGLE_CREDENTIALS
         value: '{{ .Values.terraformCloudOperator.cloud.credentials.gcp.GOOGLE_CREDENTIALS }}'
       {{- end }}
+      {{- if .Values.terraformCloudOperator.cloud.enable.aws }}
+      - name: cloud.enable.aws
+        value: '{{ .Values.terraformCloudOperator.cloud.enable.aws }}'
+      - name: cloud.credentials.aws.AWS_ACCESS_KEY_ID
+        value: '{{ .Values.terraformCloudOperator.cloud.credentials.aws.AWS_ACCESS_KEY_ID }}'
+      - name: cloud.credentials.aws.AWS_SECRET_ACCESS_KEY
+        value: '{{ .Values.terraformCloudOperator.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY }}'
+      - name: cloud.credentials.aws.AWS_REGION
+        value: '{{ .Values.terraformCloudOperator.cloud.credentials.aws.AWS_REGION }}'
+      {{- end }}
       - name: terraform.syncWorkspace.logLevel
         value: debug
     repoURL: https://glueops.github.io/platform-helm-charts
