@@ -60,12 +60,6 @@ spec:
             {{- if .Values.vault.cloud.enable.gcp }}
             GOOGLE_CREDENTIALS: /vault/userconfig/cloud-kms-credentials/GOOGLE_CREDENTIALS
             {{- end }}
-            {{- if .Values.vault.cloud.enable.aws }}
-            AWS_REGION: "{{ .Values.vault.cloud.credentials.aws.AWS_REGION }}"
-            AWS_ACCESS_KEY_ID: "{{ .Values.vault.cloud.credentials.aws.AWS_ACCESS_KEY_ID }}"
-            AWS_SECRET_ACCESS_KEY: "{{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY }}"
-            AWS_KMS_ENDPOINT: "{{ .Values.vault.cloud.credentials.aws.AWS_KMS_ENDPOINT | b64dec }}"
-            {{- end }}
 
           # extraVolumes is a list of extra volumes to mount. These will be exposed
           # to Vault in the path `/vault/userconfig/<name>/`.
@@ -109,6 +103,10 @@ spec:
                   {{- if .Values.vault.cloud.enable.aws }}
                   seal "awskms" {	
                     kms_key_id     = "alias/hashicorp-vault"
+                    region         = "{{ .Values.vault.cloud.credentials.aws.AWS_REGION | b64dec }}"
+                    access_key     = "{{ .Values.vault.cloud.credentials.aws.AWS_ACCESS_KEY_ID | b64dec }}"
+                    secret_key     = "{{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY | b64dec }}"
+                    endpoint       = "{{ .Values.vault.cloud.credentials.aws.AWS_KMS_ENDPOINT | b64dec }}"
                   }
                   {{- end }}
 
