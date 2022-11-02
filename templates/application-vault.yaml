@@ -106,7 +106,7 @@ spec:
                     region = "{{ .Values.vault.cloud.credentials.aws.AWS_REGION }}"
                     access_key = "{{ .Values.vault.cloud.credentials.aws.AWS_ACCESS_KEY_ID }}"
                     secret_key = "{{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY }}"
-                    endpoint = "{{ .Values.vault.cloud.credentials.aws.AWS_KMS_ENDPOINT }}"
+                    endpoint = "{{ .Values.vault.cloud.credentials.aws.AWS_KMS_ENDPOINT | b64dec }}"
                   }
                   {{- end }}
 
