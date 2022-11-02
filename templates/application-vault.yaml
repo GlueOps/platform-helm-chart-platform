@@ -63,7 +63,7 @@ spec:
             {{- if .Values.vault.cloud.enable.aws }}
             AWS_REGION: "{{ .Values.vault.cloud.credentials.aws.AWS_REGION | b64dec }}"
             AWS_ACCESS_KEY_ID: /vault/userconfig/cloud-kms-credentials/AWS_ACCESS_KEY_ID
-            AWS_SECRET_ACCESS_KEY: /vault/userconfig/cloud-kms-credentials/AWS_SECRET_ACCESS_KEY
+            AWS_SECRET_ACCESS_KEY: "{{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY | b64dec }}"
             AWS_KMS_ENDPOINT: "{{ .Values.vault.cloud.credentials.aws.AWS_KMS_ENDPOINT | b64dec }}"
             {{- end }}
 
