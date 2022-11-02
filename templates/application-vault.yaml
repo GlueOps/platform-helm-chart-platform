@@ -64,6 +64,7 @@ spec:
             AWS_REGION: /vault/userconfig/cloud-kms-credentials/AWS_REGION
             AWS_ACCESS_KEY_ID: /vault/userconfig/cloud-kms-credentials/AWS_ACCESS_KEY_ID
             AWS_SECRET_ACCESS_KEY: /vault/userconfig/cloud-kms-credentials/AWS_SECRET_ACCESS_KEY
+            AWS_KMS_ENDPOINT: /vault/userconfig/cloud-kms-credentials/AWS_KMS_ENDPOINT
             {{- end }}
 
           # extraVolumes is a list of extra volumes to mount. These will be exposed
