@@ -103,9 +103,9 @@ spec:
                   {{- if .Values.vault.cloud.enable.aws }}
                   seal "awskms" {	
                     kms_key_id     = "alias/hashicorp-vault"
-                    region = "{{ .Values.vault.cloud.credentials.aws.AWS_REGION }}"
-                    access_key = "{{ .Values.vault.cloud.credentials.aws.AWS_ACCESS_KEY_ID }}"
-                    secret_key = "{{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY }}"
+                    region = "{{ .Values.vault.cloud.credentials.aws.AWS_REGION | b64dec }}"
+                    access_key = "{{ .Values.vault.cloud.credentials.aws.AWS_ACCESS_KEY_ID | b64dec }}"
+                    secret_key = "{{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY | b64dec }}"
                     endpoint = "{{ .Values.vault.cloud.credentials.aws.AWS_KMS_ENDPOINT | b64dec }}"
                   }
                   {{- end }}
