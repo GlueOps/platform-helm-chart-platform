@@ -25,14 +25,6 @@ spec:
     helm:
       parameters:
       {{- if .Values.vault.cloud.enable.aws }}
-      - name: cloud.credentials.aws.AWS_ACCESS_KEY_ID
-        value: {{ .Values.vault.cloud.credentials.aws.AWS_ACCESS_KEY_ID }}
-      - name: cloud.credentials.aws.AWS_SECRET_ACCESS_KEY
-        value: {{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY }}
-      - name: cloud.credentials.aws.AWS_REGION
-        value: {{ .Values.vault.cloud.credentials.aws.AWS_REGION }}
-      {{- end }}
-      {{- if .Values.vault.cloud.enable.aws }}
       - name: cloud.enable.aws
         value: '{{ .Values.vault.cloud.enable.aws }}'
       {{- end }}
