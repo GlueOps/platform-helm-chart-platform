@@ -31,8 +31,6 @@ spec:
         value: {{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY }}
       - name: cloud.credentials.aws.AWS_REGION
         value: {{ .Values.vault.cloud.credentials.aws.AWS_REGION }}
-      - name: cloud.credentials.aws.AWS_KMS_ENDPOINT
-        value: {{ .Values.vault.cloud.credentials.aws.AWS_KMS_ENDPOINT }}
       {{- end }}
       {{- if .Values.vault.cloud.enable.aws }}
       - name: cloud.enable.aws
