@@ -3,15 +3,14 @@ kind: Application
 metadata:
   name: kube-prometheus-stack-crds
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   destination:
-    name: in-cluster
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
     namespace: glueops-core-kube-prometheus-stack
   project: glueops-core
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true
       - Replace=true
     automated:
       prune: true

@@ -2,11 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: external-dns
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
     namespace: glueops-core-external-dns
-    server: ''
   source:
     path: ''
     repoURL: 'https://charts.bitnami.com/bitnami'

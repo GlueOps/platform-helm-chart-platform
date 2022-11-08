@@ -2,11 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cert-manager
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
     namespace: glueops-core-cert-manager
-    server: ''
   source:
     path: ''
     repoURL: 'https://glueops.github.io/platform-helm-charts'
@@ -23,6 +24,8 @@ spec:
     chart: glueops-cert-manager
   project: glueops-core
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
