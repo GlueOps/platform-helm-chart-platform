@@ -2,10 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: terraform-cloud-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
     namespace: glueops-core-terraform-cloud-operator
-    name: in-cluster
   project: glueops-core
   source:
     chart: glueops-terraform-cloud-operator
@@ -31,8 +33,10 @@ spec:
       {{- end }}
       - name: terraform.syncWorkspace.logLevel
         value: debug
+      - name: global.terraform_cloud_organization_name
+        value: '{{ .Values.terraformCloudOperator.terraform_cloud_organization_name }}'
     repoURL: https://glueops.github.io/platform-helm-charts
-    targetRevision: 0.2.0
+    targetRevision: 0.5.1
   syncPolicy:
     automated:
       prune: true

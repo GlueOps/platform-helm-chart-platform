@@ -18,6 +18,7 @@ externalDns:
 
 terraformCloudOperator:
   terraform_cloud_api_token: nil
+  terraform_cloud_organization_name: nil
   cloud:
     enable:
       aws: false
@@ -38,6 +39,8 @@ certManager:
 
 vault:
   hostname: nil
+  config:
+    glues_env: nil
   cloud:
     enable:
       aws: false

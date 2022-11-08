@@ -2,11 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: internal-ingress-nginx
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   destination:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
     namespace: glueops-core-internal-ingress-nginx
-    server: ''
   source:
     path: ''
     repoURL: 'https://kubernetes.github.io/ingress-nginx'

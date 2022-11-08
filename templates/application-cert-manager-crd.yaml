@@ -2,11 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cert-manager-crds
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   destination:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
     namespace: glueops-core-cert-manager
-    server: ''
   source:
     path: v1.10.0/
     repoURL: 'https://github.com/GlueOps/cert-manager-crds'
@@ -14,7 +15,6 @@ spec:
   project: glueops-core
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true
       - Replace=true
     automated:
       prune: true

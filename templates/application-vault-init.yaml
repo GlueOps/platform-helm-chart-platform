@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault-init
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"  
+spec:
+  destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    namespace: glueops-core-tfc-workspaces
+  source:
+    path: ''
+    repoURL: 'https://glueops.github.io/helm-charts'
+    targetRevision: 0.5.0
+    chart: vault-init
+    helm:
+      parameters:
+        - name: UNUSED_VALUE
+          value: nil
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 15
+      backoff:
+        duration: 60s
+        factor: 2
+        maxDuration: 15m0s
+    syncOptions:
+    - CreateNamespace=true
