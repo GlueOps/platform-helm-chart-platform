@@ -36,7 +36,7 @@ spec:
       - name: global.terraform_cloud_organization_name
         value: '{{ .Values.terraformCloudOperator.terraform_cloud_organization_name }}'
     repoURL: https://glueops.github.io/platform-helm-charts
-    targetRevision: 0.5.1
+    targetRevision: 0.6.0
   syncPolicy:
     automated:
       prune: true
