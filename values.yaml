@@ -7,60 +7,24 @@
 gitHub:
   sshKey: "base64-ssh-key"
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
-  k8sBootstrapRepo: "base64-encoded-string" #git@github.com:GlueOps/platform.git
+  k8sBootstrapRepo: aHR0cHM6Ly9naXRodWIuY29tL0dsdWVPcHMvcGxhdGZvcm0uZ2l0
   customer_github_org_and_team: "org:team"
 
 
 
-externalDns:
-  cloudflare_api_token: nil
-
-
-terraformCloudOperator:
-  terraform_cloud_api_token: nil
-  terraform_cloud_organization_name: nil
-  cloud:
-    enable:
-      aws: false
-      gcp: false
-    credentials:
-      aws:
-        AWS_ACCESS_KEY_ID: nil
-        AWS_SECRET_ACCESS_KEY: nil
-        AWS_REGION: nil
-      gcp:
-        GOOGLE_CREDENTIALS: nil #base64encoded without any newlines
-
+cloudflare_api_token: nil
 
 certManager:
-  cloudflare_api_token: nil
   zerossl_eab_hmac_key: nil
   zerossl_eab_kid: nil
 
 vault:
-  hostname: nil
   config:
     glues_env: nil
-  cloud:
-    enable:
-      aws: false
-      gcp: false
-    credentials:
-      aws:
-        AWS_ACCESS_KEY_ID: nil
-        AWS_SECRET_ACCESS_KEY: nil
-        AWS_REGION: nil
-        AWS_KMS_ENDPOINT: nil
-      gcp:
-        GOOGLE_CREDENTIALS: nil #base64encoded without any newlines
-        GOOGLE_PROJECT: nil
-        KMS_KEY_RING: nil
-        KMS_CRYPTO_KEY: nil
+
     
 
 grafana:
-  hostname: nil
-  root_url: nil
   github_client_id: nil
   github_client_secret: nil
   github_org_names: nil
@@ -70,21 +34,42 @@ grafana:
 argo-cd:
   glueops:
     enabled: false
-    apps_cluster_name: nil
     github_client_id: nil
     github_client_secret: nil
     destination_cluster_for_core_apps: "in-cluster"
     ingress_controller_service_type: "LoadBalancer"
     ingress_controller_host_port_enabled: false
   server:
-    config: nil
+    config:
+      exec.enabled: "true"
+      resource.customizations.health.argoproj.io_Application: |
+        hs = {}
+        hs.status = "Progressing"
+        hs.message = ""
+        if obj.status ~= nil then
+          if obj.status.health ~= nil then
+            hs.status = obj.status.health.status
+            if obj.status.health.message ~= nil then
+              hs.message = obj.status.health.message
+            end
+          end
+        end
+        return hs
+      resource.customizations.health.app.terraform.io_Workspace: |
+        hs = {}
+        hs.status = "Degraded"
+        hs.message = ""
+        if obj.status ~= nil then
+          if obj.status.runStatus == "applied" then
+            hs.status = "Healthy"
+          end
+        end
+        return hs
     rbacConfig: nil
     extraArgs:
       - --insecure
     service:
       type: ClusterIP
-      annotations:
-        external-dns.alpha.kubernetes.io/hostname: nil
     ingress:
       enabled: true
       hosts: nil

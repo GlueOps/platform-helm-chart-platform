@@ -26,6 +26,11 @@ spec:
     targetRevision: 41.7.4
     helm:
       skipCrds: true
+      parameters:
+        - name: prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues
+          value: 'false'
+        - name: prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues
+          value: 'false'
       values: |-
         grafana:
           # username is 'admin'
@@ -35,15 +40,15 @@ spec:
             annotations:
               kubernetes.io/ingress.class: internal-ingress-nginx
               cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
-            hosts: ['{{ .Values.grafana.hostname }}']
+            hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
             tls:
             - secretName: tls-credential
               hosts:
-              - {{ .Values.grafana.hostname }}
+              - grafana.{{ .Values.captain_domain }}
           grafana.ini:
             server:
-              root_url: "https://{{ .Values.grafana.hostname }}/"
+              root_url: "https://grafana.{{ .Values.captain_domain }}/"
             auth.github:
                enabled: true
                allow_sign_up: true
