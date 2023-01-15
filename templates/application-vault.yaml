@@ -44,34 +44,20 @@ spec:
               tls:
                 - secretName: vault-ui-tls
                   hosts:
-                    - {{ .Values.vault.hostname }}
+                    - vault.{{ .Values.captain_domain }}
               hosts: 
-                - host: {{ .Values.vault.hostname }}
+                - host: vault.{{ .Values.captain_domain }}
               
           extraEnvironmentVars:
             VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
             VAULT_TLSCERT: /vault/userconfig/vault-tls/tls.crt
             VAULT_TLSKEY: /vault/userconfig/vault-tls/tls.key
-            {{- if .Values.vault.cloud.enable.gcp }}
-            GOOGLE_CREDENTIALS: /vault/userconfig/cloud-kms-credentials/GOOGLE_CREDENTIALS
-            {{- end }}
-            {{- if .Values.vault.cloud.enable.aws }}
-            VAULT_SEAL_TYPE: "awskms"
-            VAULT_AWSKMS_SEAL_KEY_ID: "alias/hashicorp-vault"
-            AWS_REGION: {{ .Values.vault.cloud.credentials.aws.AWS_REGION | b64dec | quote }}
-            AWS_ACCESS_KEY_ID: {{ .Values.vault.cloud.credentials.aws.AWS_ACCESS_KEY_ID | b64dec | quote }}
-            AWS_SECRET_ACCESS_KEY: {{ .Values.vault.cloud.credentials.aws.AWS_SECRET_ACCESS_KEY | b64dec | quote }}
-            {{- end }}
 
           # extraVolumes is a list of extra volumes to mount. These will be exposed
           # to Vault in the path `/vault/userconfig/<name>/`.
           extraVolumes:
             - type: secret
               name: vault-tls
-            {{- if or .Values.vault.cloud.enable.gcp }}
-            - type: secret
-              name: cloud-kms-credentials
-            {{- end }}
 
           standalone:
             enabled: false
@@ -92,16 +78,10 @@ spec:
                     tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
                     tls_client_ca_file = "/vault/userconfig/vault-tls/ca.crt"
                     tls_min_version = "tls12"
+                    telemetry {
+                      unauthenticated_metrics_access = true
+                    }
                   }
-
-                  {{- if .Values.vault.cloud.enable.gcp }}
-                  seal "gcpckms" {	
-                    project     = "{{ .Values.vault.cloud.credentials.gcp.GOOGLE_PROJECT }}"
-                    region      = "global"	
-                    key_ring    = "{{ .Values.vault.cloud.credentials.gcp.KMS_KEY_RING }}"
-                    crypto_key  = "{{ .Values.vault.cloud.credentials.gcp.KMS_CRYPTO_KEY }}"
-                  }
-                  {{- end }}
 
                   storage "raft" {
                     path = "/vault/data"
@@ -122,6 +102,12 @@ spec:
                       server_stabilization_time = "10s"
                     }
 
+                  }
+                  
+                  telemetry {
+                      disable_hostname = true
+                      prometheus_retention_time = "30s"
+                      enable_hostname_label = true
                   }
 
                   service_registration "kubernetes" {}

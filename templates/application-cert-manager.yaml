@@ -16,11 +16,15 @@ spec:
       skipCrds: true
       parameters:
         - name: cert-manager.cloudflare_api_token
-          value: {{ .Values.certManager.cloudflare_api_token }}
+          value: {{ .Values.cloudflare_api_token }}
         - name: cert-manager.zerossl_eab_hmac_key
           value: {{ .Values.certManager.zerossl_eab_hmac_key }}
         - name: cert-manager.zerossl_eab_kid
           value: {{ .Values.certManager.zerossl_eab_kid }}
+        - name: cert-manager.prometheus.enabled
+          value: "true"
+        - name: cert-manager.prometheus.servicemonitor.enabled
+          value: "true"
     chart: glueops-cert-manager
   project: glueops-core
   syncPolicy:
