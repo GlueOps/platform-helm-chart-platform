@@ -1,22 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vault-prerequisites
+  name: strimzi-operator
   annotations:
-    argocd.argoproj.io/sync-wave: "3"  
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   destination:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
-    namespace: glueops-core-vault
-  project: glueops-core
+    namespace: glueops-core-strimzi-operator
   source:
-    chart: glueops-vault-prerequisites
+    repoURL: 'https://strimzi.io/charts/'
+    targetRevision: 0.32.0
+    chart: strimzi-kafka-operator
     helm:
       parameters:
-      - name: UNUSED_VALUE
-        value: "bmls"
-    repoURL: https://helm.gpkg.io/platform
-    targetRevision: 0.1.0
+        - name: watchAnyNamespace
+          value: 'true'
+  project: glueops-core
   syncPolicy:
     automated:
       prune: true
@@ -27,5 +27,3 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 5
-    syncOptions:
-    - CreateNamespace=true
