@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: strimzi-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    namespace: glueops-core-strimzi-operator
+  source:
+    repoURL: 'https://strimzi.io/charts/'
+    targetRevision: 0.32.0
+    chart: strimzi-kafka-operator
+    helm:
+      parameters:
+        - name: watchAnyNamespace
+          value: 'true'
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
