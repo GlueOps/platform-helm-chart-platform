@@ -10,30 +10,33 @@
 #     argocd.argoproj.io/secret-type: repo-creds
 #   name: creds-github-ssh-key
 # ---
+
 apiVersion: v1
 data:
+  name: cGxhdGZvcm0= #platform
   project: Z2x1ZW9wcy1jb3Jl #glueops-core
-  type: Z2l0 #git
-  url: {{ .Values.gitHub.k8sBootstrapRepo }}
+  type: aGVsbQ== #helm
+  url: aHR0cHM6Ly9oZWxtLmdwa2cuaW8vcGxhdGZvcm0= #https://helm.gpkg.io/platform
 kind: Secret
 metadata:
   annotations:
     managed-by: argocd.argoproj.io
   labels:
     argocd.argoproj.io/secret-type: repository
-  name: repo-github-k8s-cluster-bootstrap-via-argocd
+  name: helm-glueops-platform
 type: Opaque
 ---
 apiVersion: v1
 data:
+  name: c2VydmljZQ== #service
   project: Z2x1ZW9wcy1jb3Jl #glueops-core
   type: aGVsbQ== #helm
-  url: aHR0cHM6Ly9nbHVlb3BzLmdpdGh1Yi5pby9wbGF0Zm9ybS1oZWxtLWNoYXJ0cw== #https://glueops.github.io/platform-helm-charts
+  url: aHR0cHM6Ly9oZWxtLmdwa2cuaW8vc2VydmljZQ== #https://helm.gpkg.io/service
 kind: Secret
 metadata:
   annotations:
     managed-by: argocd.argoproj.io
   labels:
     argocd.argoproj.io/secret-type: repository
-  name: repo-helm-glueops-public
+  name: helm-glueops-service
 type: Opaque
