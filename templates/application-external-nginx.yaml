@@ -20,6 +20,10 @@ spec:
           value: '{{ index .Values "argo-cd" "glueops" "ingress_controller_host_port_enabled" }}'
       values: |-
         controller:
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
           electionID: external-ingress-nginx-leader
           ingressClassByName: true
           ingressClass: external-ingress-nginx
