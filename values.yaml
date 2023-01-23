@@ -3,17 +3,24 @@
 # Declare variables to be passed into your templates.
 
 
+captain_domain: nil
 
 gitHub:
   sshKey: "base64-ssh-key"
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
   customer_github_org_and_team: "org:team"
 
-cloudflare_api_token: nil
+externalDns:
+  aws_accessKey: nil
+  aws_secretKey: nil
+  aws_region: nil
 
 certManager:
   zerossl_eab_hmac_key: nil
   zerossl_eab_kid: nil
+  aws_region: nil
+  aws_accessKey: nil
+  aws_secretKey: nil
 
 vault:
   config:

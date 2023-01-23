@@ -11,16 +11,22 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.1.0
+    targetRevision: 0.2.0
     helm:
       skipCrds: true
       parameters:
-        - name: cert-manager.cloudflare_api_token
-          value: {{ .Values.cloudflare_api_token }}
         - name: cert-manager.zerossl_eab_hmac_key
           value: {{ .Values.certManager.zerossl_eab_hmac_key }}
         - name: cert-manager.zerossl_eab_kid
           value: {{ .Values.certManager.zerossl_eab_kid }}
+        - name: cert-manager.aws_region
+          value: {{ .Values.certManager.aws_region }}
+        - name: cert-manager.aws_accessKey
+          value: {{ .Values.certManager.aws_accessKey }}
+        - name: cert-manager.aws_secretKey
+          value: {{ .Values.certManager.aws_secretKey }}
+        - name: cert-manager.captain_domain
+          value: {{ .Values.captain_domain }}
         - name: cert-manager.prometheus.enabled
           value: "true"
         - name: cert-manager.prometheus.servicemonitor.enabled
