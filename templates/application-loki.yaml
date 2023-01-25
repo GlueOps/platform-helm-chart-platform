@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    namespace: glueops-core-loki
+  source:
+    path: ''
+    repoURL: 'https://grafana.github.io/helm-charts'
+    targetRevision: 2.6.0
+    chart: loki
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
