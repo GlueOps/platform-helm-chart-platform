@@ -46,6 +46,10 @@ spec:
             - secretName: tls-credential
               hosts:
               - grafana.{{ .Values.captain_domain }}
+          additionalDataSources:
+          - name: Loki
+            type: loki
+            url: {{ .Values.grafana.loki_data_source_domain }}
           grafana.ini:
             server:
               root_url: "https://grafana.{{ .Values.captain_domain }}/"
