@@ -23,8 +23,10 @@ grafana:
   github_client_id: nil
   github_client_secret: nil
   github_org_names: nil
-  # TODO - is there a better way to reference this domain? can I export the destination from loki svc?
   loki_data_source_domain: 'http://loki.glueops-core-loki.svc.cluster.local:3100'
+
+promtail:
+  client_url: http://loki.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push
 
 argo-cd:
   glueops:
