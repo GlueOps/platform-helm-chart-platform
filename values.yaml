@@ -5,6 +5,14 @@
 
 captain_domain: nil
 
+glueops_backups:
+  vault:
+    aws_region: nil
+    aws_accessKey: nil
+    aws_secretKey: nil
+    cron_expression: "0 */6 * * *"
+    company_key: nil
+
 gitHub:
   sshKey: "base64-ssh-key"
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
