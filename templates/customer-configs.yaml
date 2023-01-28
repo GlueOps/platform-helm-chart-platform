@@ -13,6 +13,21 @@ metadata:
   name: helm-glueops-project-template
 type: Opaque
 ---
+apiVersion: v1
+data:
+  name: c2VydmljZQ== #service
+  project: ZGV2ZWxvcG1lbnQ= #development
+  type: aGVsbQ== #helm
+  url: aHR0cHM6Ly9oZWxtLmdwa2cuaW8vc2VydmljZQ== #https://helm.gpkg.io/service
+kind: Secret
+metadata:
+  annotations:
+    managed-by: argocd.argoproj.io
+  labels:
+    argocd.argoproj.io/secret-type: repository
+  name: helm-glueops-service
+type: Opaque
+---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
@@ -32,3 +47,4 @@ spec:
     name: developers
   sourceRepos:
   - https://helm.gpkg.io/project-template
+  - https://helm.gpkg.io/service

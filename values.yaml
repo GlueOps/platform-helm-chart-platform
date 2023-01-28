@@ -54,6 +54,7 @@ argo-cd:
   server:
     config:
       exec.enabled: "true"
+      application.resourceTrackingMethod: "annotation+label"
       resource.customizations.health.argoproj.io_Application: |
         hs = {}
         hs.status = "Progressing"
