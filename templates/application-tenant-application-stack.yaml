@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenant-application-stack 
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+spec:
+  destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    namespace: gluops-core-customer-stack
+  project: glueops-core
+  source:
+    directory:
+      jsonnet: {}
+      recurse: true
+    path: .
+    repoURL: {{ .Values.gitHub.tenant_application_stack_repo }}
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: v1
+data:
+  insecure: dHJ1ZQ== # true
+  name: dGVuYW50LWNsdXN0ZXItYXBwbGljYXRpb25z # tenant-cluster-applications
+  project: Z2x1ZW9wcy1jb3Jl # glueops-core
+  sshPrivateKey: {{ .Values.gitHub.tenant_b64enc_ssh_private_key }}
+  type: Z2l0 # git
+  url: {{ .Values.gitHub.tenant_application_stack_repo | b64enc }}
+kind: Secret
+metadata:
+  annotations:
+    managed-by: argocd.argoproj.io
+  labels:
+    argocd.argoproj.io/secret-type: repository
+  name: repo-tenant-cluster-applications
