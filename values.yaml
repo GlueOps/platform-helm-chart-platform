@@ -17,6 +17,9 @@ gitHub:
   sshKey: "base64-ssh-key"
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
   customer_github_org_and_team: "org:team"
+  tenant_application_stack_repo: nil # "git@github.com:GlueOps/test-customer-stack.git"
+  # Save pem to a file and create this string using "cat <key-file> | base64 | tr -d '\n'"
+  tenant_b64enc_ssh_private_key: nil
 
 externalDns:
   aws_accessKey: nil
