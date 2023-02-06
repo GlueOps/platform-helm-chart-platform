@@ -24,6 +24,6 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.4.0
+    targetRevision: 0.6.0
     chart: glueops-grafana-dashboards
   project: glueops-core
