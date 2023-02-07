@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-pull-request-bot
+spec:
+  destination:
+    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    namespace: glueops-core-pull-request-bot
+  source:
+    path: kubernetes/
+    repoURL: 'https://github.com/GlueOps/pull-request-bot.git'
+    targetRevision: v0.2.0
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2

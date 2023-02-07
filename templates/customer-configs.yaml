@@ -48,3 +48,19 @@ spec:
   sourceRepos:
   - https://helm.gpkg.io/project-template
   - https://helm.gpkg.io/service
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: git-provider-api-token
+type: Opaque
+data:
+  token: {{ .Values.gitHub.api_token | b64enc }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: glueops-captain-domain
+data:
+  captain_domain: {{ .Values.captain_domain }}
+---
