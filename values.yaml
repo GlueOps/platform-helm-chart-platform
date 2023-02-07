@@ -14,6 +14,7 @@ glueops_backups:
     company_key: nil
 
 gitHub:
+  api_token: nil
   sshKey: "base64-ssh-key"
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
   customer_github_org_and_team: "org:team"
