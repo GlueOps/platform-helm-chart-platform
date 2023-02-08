@@ -20,6 +20,11 @@ spec:
           value: '{{ index .Values "argo-cd" "glueops" "ingress_controller_host_port_enabled" }}'
       values: |-
         controller:
+          extraArgs:
+            default-ssl-certificate: glueops-core/ingress-nginx-default-certs
+          service:
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: internal-ingress.{{ .Values.captain_domain }}
           metrics:
             enabled: true
             serviceMonitor:

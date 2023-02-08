@@ -37,14 +37,9 @@ spec:
           ingress:
               activeService: false
               annotations: 
-                cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
                 kubernetes.io/ingress.class: internal-ingress-nginx
                 nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
               enabled: true
-              tls:
-                - secretName: vault-ui-tls
-                  hosts:
-                    - vault.{{ .Values.captain_domain }}
               hosts: 
                 - host: vault.{{ .Values.captain_domain }}
               
