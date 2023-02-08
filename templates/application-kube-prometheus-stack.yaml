@@ -39,13 +39,8 @@ spec:
             enabled: true
             annotations:
               kubernetes.io/ingress.class: internal-ingress-nginx
-              cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
-            tls:
-            - secretName: tls-credential
-              hosts:
-              - grafana.{{ .Values.captain_domain }}
           additionalDataSources:
           - name: Loki
             type: loki

@@ -48,6 +48,12 @@ spec:
   sourceRepos:
   - https://helm.gpkg.io/project-template
   - https://helm.gpkg.io/service
+{{- if .Values.development_mode_enabled }}
+  - https://incubating-helm.gpkg.io/project-template
+  - https://incubating-helm.gpkg.io/service
+  - https://incubating-helm.gpkg.io/platform
+{{- end }}
+
 ---
 apiVersion: v1
 kind: Secret

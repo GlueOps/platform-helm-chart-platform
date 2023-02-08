@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-
+development_mode_enabled: false
 captain_domain: nil
 
 glueops_backups:
@@ -91,10 +91,4 @@ argo-cd:
       enabled: true
       hosts: nil
       annotations:
-        cert-manager.io/cluster-issuer: glueops-cert-zerossl-prod
         kubernetes.io/ingress.class: "internal-ingress-nginx"
-      tls: 
-        - 
-          hosts: 
-            - nil
-          secretName: echo-tls
