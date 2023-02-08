@@ -21,7 +21,7 @@ spec:
       values: |-
         controller:
           extraArgs:
-            default-ssl-certificate: glueops-core/ingress-nginx-default-certs
+            default-ssl-certificate: glueops-core-cert-manager/ingress-nginx-default-certs
           service:
             annotations:
               external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
