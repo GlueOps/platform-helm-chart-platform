@@ -72,15 +72,9 @@ argo-cd:
           end
         end
         return hs
-      resource.customizations.health.app.terraform.io_Workspace: |
+      resource.customizations.health.external-secrets.io_ExternalSecret: |
         hs = {}
-        hs.status = "Degraded"
-        hs.message = ""
-        if obj.status ~= nil then
-          if obj.status.runStatus == "applied" then
-            hs.status = "Healthy"
-          end
-        end
+        hs.status = "Healthy"
         return hs
     rbacConfig: nil
     extraArgs:
