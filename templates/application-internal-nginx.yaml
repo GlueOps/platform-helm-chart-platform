@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
-    targetRevision: v4.4.0
+    targetRevision: v4.5.2
     helm:
       parameters:
         - name: controller.service.type

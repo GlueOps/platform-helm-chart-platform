@@ -11,7 +11,22 @@ spec:
   source:
     path: ''
     repoURL: 'https://grafana.github.io/helm-charts'
-    targetRevision: 2.6.0
+    targetRevision: 4.6.1
+    helm:
+      skipCrds: true
+      parameters:
+        - name: loki.commonConfig.replication_factor
+          value: '1'
+        - name: loki.auth_enabled
+          value: 'false'
+        - name: loki.storage.type
+          value: 'filesystem'
+        - name: singleBinary.replicas
+          value: '1'
+        - name: singleBinary.persistence.enableStatefulSetAutoDeletePVC
+          value: 'false'
+        # - name: selfMonitoring.enabled
+        #   value: 'false'
     chart: loki
   project: glueops-core
   syncPolicy:
