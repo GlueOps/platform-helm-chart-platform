@@ -10,7 +10,7 @@ spec:
     namespace: glueops-core-vault
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
-    targetRevision: 0.22.1
+    targetRevision: 0.23.0
     chart: vault
     helm:
       values: |-
@@ -19,21 +19,12 @@ spec:
           enabled: true
           tlsDisable: false
 
-        injector:
-          enabled: true
-          # Use the Vault K8s Image https://github.com/hashicorp/vault-k8s/
-
-          resources:
-              requests:
-                memory: 50Mi
-                cpu: 50m
-              limits:
-                memory: 256Mi
-                cpu: 250m
         ui:
           enabled: true
           
         server:
+          image:
+            tag: 1.12.3
           ingress:
               activeService: false
               annotations: 

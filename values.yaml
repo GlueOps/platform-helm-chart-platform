@@ -55,7 +55,21 @@ argo-cd:
     destination_cluster_for_core_apps: "in-cluster"
     ingress_controller_service_type: "LoadBalancer"
     ingress_controller_host_port_enabled: false
+
+  redis-ha:
+    enabled: true
+  controller:
+    replicas: 1
+  repoServer:
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+  applicationSet:
+    replicaCount: 2
   server:
+    autoscaling:
+      enabled: true
+      minReplicas: 2
     config:
       exec.enabled: "true"
       application.resourceTrackingMethod: "annotation+label"

@@ -9,7 +9,7 @@ spec:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
     namespace: glueops-core-cert-manager
   source:
-    path: v1.10.0/
+    path: v1.11.0/
     repoURL: 'https://github.com/GlueOps/cert-manager-crds'
     targetRevision: HEAD
   project: glueops-core
