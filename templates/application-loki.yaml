@@ -17,13 +17,30 @@ spec:
         - name: loki.auth_enabled
           value: 'false'
         - name: loki.storage.type
-          value: 'filesystem'
-        - name: singleBinary.replicas
-          value: '1'
-        - name: loki.commonConfig.replication_factor
-          value: '1'
-        - name: singleBinary.persistence.enableStatefulSetAutoDeletePVC
+          value: s3
+        - name: loki.storage.bucketNames.chunks
+          value: {{ .Values.loki.bucket }}
+        - name: loki.storage.bucketNames.ruler
+          value: {{ .Values.loki.bucket }}
+        - name: loki.storage.bucketNames.admin
+          value: {{ .Values.loki.bucket }}
+        - name: loki.storage.s3.s3
+          value: s3://{{ .Values.loki.bucket }}
+        - name: loki.storage.s3.endpoint
+          value: s3.{{ .Values.loki.aws_region }}.amazonaws.com
+        - name: loki.storage.s3.region
+          value: {{ .Values.loki.aws_region }}
+        - name: loki.storage.s3.accessKeyId
+          value: {{ .Values.loki.aws_accessKey }}
+        - name: loki.storage.s3.secretAccessKey
+          value: {{ .Values.loki.aws_secretKey }}
+        - name: loki.storage.s3.s3ForcePathStyle
           value: 'false'
+        - name: loki.storage.s3.insecure
+          value: 'false'
+        - name: read.persistence.enableStatefulSetAutoDeletePVC
+          value: 'false'
+        # PLAT-63
         - name: test.enabled
           value: 'false'
         - name:  grafana-agent-operator.enabled
@@ -32,6 +49,20 @@ spec:
           value: 'false'
         - name: monitoring.selfMonitoring.grafanaAgent.installOperator
           value: 'false'
+      values: |-
+        loki:
+          commonConfig:
+            path_prefix: /var/loki
+            replication_factor: 3
+          schemaConfig:
+            configs:
+              - from: 2018-04-15
+                store: boltdb-shipper
+                object_store: s3
+                schema: v11
+                index:
+                  prefix: loki_index_
+                  period: 24h
     chart: loki
   project: glueops-core
   syncPolicy:
