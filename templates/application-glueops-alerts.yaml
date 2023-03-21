@@ -1,16 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-grafana-dashboards
+  name: glueops-alerts
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   destination:
     name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
-    namespace: glueops-core-kube-prometheus-stack
+    namespace: glueops-core-alerts
   project: glueops-core
   syncPolicy:
     syncOptions:
+      - CreateNamespace=true  
       - Replace=true
     automated:
       prune: true
@@ -24,6 +25,11 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.7.0
-    chart: glueops-grafana-dashboards
+    targetRevision: 0.1.0
+    helm:
+      skipCrds: true
+      parameters:
+        - name: prometheus-alertmanagerconfig-opsgenie.opsgenie.apikey
+          value: {{ .Values.glueops_alerts.opsgenie_apikey }}
+    chart: glueops-prometheus-alerts
   project: glueops-core

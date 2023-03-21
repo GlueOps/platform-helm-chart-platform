@@ -21,7 +21,8 @@ spec:
 
         ui:
           enabled: true
-          
+        injector:
+          enabled: false
         server:
           image:
             tag: 1.12.3
