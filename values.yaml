@@ -5,6 +5,9 @@
 development_mode_enabled: false
 captain_domain: nil
 
+glueops_alerts:
+  opsgenie_apikey: nil
+
 glueops_backups:
   vault:
     aws_region: nil

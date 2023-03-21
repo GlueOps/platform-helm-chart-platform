@@ -26,12 +26,43 @@ spec:
     targetRevision: 45.1.1
     helm:
       skipCrds: true
-      parameters:
-        - name: prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues
-          value: 'false'
-        - name: prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues
-          value: 'false'
       values: |-
+        # https://github.com/prometheus-operator/prometheus-operator/issues/2890#issuecomment-583006452
+        coreDns:
+          enabled: false
+        kubeControllerManager:
+          enabled: false
+        kubeScheduler:
+          enabled: false
+        kubeProxy:
+          enabled: false
+        alertmanager:
+          alertmanagerSpec:
+            image:
+              registry: ghcr.io
+              repository: glueops/alertmanager
+              tag: v0.25.0-glueops
+            logLevel: debug
+            # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
+            # Example when alert manager renders my hack: 
+            # https://grafana.{{ .Values.captain_domain }}/alerting/list
+            # - Note: the captain domain does get replaced with the actual captain domain
+            externalUrl: https://grafana.{{ .Values.captain_domain }}/alerting/list
+        defaultRules:
+          disabled:
+            KubePodNotReady: true
+        prometheus: 
+          prometheusSpec:
+            ruleSelector: {}
+            ruleNamespaceSelector: {}
+            ruleSelectorNilUsesHelmValues: false
+            serviceMonitorSelector: {}
+            serviceMonitorNamespaceSelector: {}
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelector: {}
+            podMonitorNamespaceSelector: {}
+            podMonitorSelectorNilUsesHelmValues: false
+            logLevel: debug
         grafana:
           ingress:
             enabled: true
@@ -43,6 +74,11 @@ spec:
           - name: Loki
             type: loki
             url: {{ .Values.grafana.loki_data_source_domain }}
+          - name: Alertmanager
+            type: alertmanager
+            jsonData:
+              implementation: prometheus
+            url: "http://kube-prometheus-stack-alertmanager.glueops-core-kube-prometheus-stack:9093/"
           grafana.ini:
             server:
               root_url: "https://grafana.{{ .Values.captain_domain }}/"

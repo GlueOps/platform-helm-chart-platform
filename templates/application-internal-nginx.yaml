@@ -14,12 +14,56 @@ spec:
     targetRevision: v4.5.2
     helm:
       parameters:
+        - name: controller.service.externalTrafficPolicy
+          value: "Local"
         - name: controller.service.type
           value: {{ index .Values "argo-cd" "glueops" "ingress_controller_service_type" }}
         - name: controller.hostPort.enabled
           value: '{{ index .Values "argo-cd" "glueops" "ingress_controller_host_port_enabled" }}'
       values: |-
         controller:
+          config:
+            # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/log-format.md
+            # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
+            log-format-upstream: '{
+                                   "time_iso8601": "$time_iso8601", 
+                                   "msec": "$msec",
+                                   "remote_addr": "$remote_addr", 
+                                   "request": "$request",
+                                   "proxy_protocol_addr": "$proxy_protocol_addr", 
+                                   "x_forwarded_for": "$proxy_add_x_forwarded_for", 
+                                   "req_id": "$req_id",
+                                   "remote_user": "$remote_user",
+                                   "bytes_sent": $bytes_sent,
+                                   "request_time": $request_time,
+                                   "status": $status, 
+                                   "body_bytes_sent": "$body_bytes_sent",
+                                   "host": "$host",
+                                   "server_protocol": "$server_protocol",
+                                   "uri": "$uri",
+                                   "args": "$args",
+                                   "request_length": $request_length,
+                                   "proxy_upstream_name": "$proxy_upstream_name", 
+                                   "proxy_alternative_upstream_name": "$proxy_alternative_upstream_name",
+                                   "upstream_addr": "$upstream_addr",
+                                   "upstream_response_length": "$upstream_response_length",
+                                   "upstream_response_time": "$upstream_response_time", 
+                                   "upstream_status":"$upstream_status",
+                                   "request_method": "$request_method",
+                                   "http_referer": "$http_referer",
+                                   "namespace": "$namespace",
+                                   "ingress_name": "$ingress_name", 
+                                   "service_name": "$service_name", 
+                                   "service_port": "$service_port",
+                                   "http_host": "$http_host",
+                                   "scheme": "$scheme",
+                                   "server_name": "$server_name",
+                                   "upstream_cache_status": "$upstream_cache_status",
+                                   "request_id": "$request_id",
+                                   "ssl_protocol": "$ssl_protocol",
+                                   "ssl_cipher": "$ssl_cipher",
+                                   "http_user_agent": "$http_user_agent"
+                                   }' 
           extraArgs:
             default-ssl-certificate: glueops-core-cert-manager/ingress-nginx-default-certs
           service:
