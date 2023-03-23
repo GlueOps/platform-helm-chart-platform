@@ -6,7 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
-    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    name: "in-cluster"
     namespace: glueops-core-promtail
   source:
     path: ''
@@ -16,7 +16,7 @@ spec:
     helm:
       parameters:
         - name: config.clients[0].url
-          value: {{ .Values.promtail.client_url }}
+          value: http://loki-write.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push
   project: glueops-core
   syncPolicy:
     syncOptions:

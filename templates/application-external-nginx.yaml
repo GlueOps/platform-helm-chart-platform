@@ -6,7 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   destination:
-    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    name: "in-cluster"
     namespace: glueops-core-external-ingress-nginx
   source:
     path: ''
@@ -17,9 +17,9 @@ spec:
         - name: controller.service.externalTrafficPolicy
           value: "Local"
         - name: controller.service.type
-          value: {{ index .Values "argo-cd" "glueops" "ingress_controller_service_type" }}
+          value: LoadBalancer
         - name: controller.hostPort.enabled
-          value: '{{ index .Values "argo-cd" "glueops" "ingress_controller_host_port_enabled" }}'
+          value: 'false'
       values: |-
         controller:
           config:
