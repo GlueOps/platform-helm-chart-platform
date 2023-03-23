@@ -8,7 +8,7 @@ Deploy the ArgoCD Platform. This chart is never packaged up but gets used via `h
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://argoproj.github.io/argo-helm | argo-cd | 5.22.0 |
+| https://argoproj.github.io/argo-helm | argo-cd | 5.27.1 |
 
 ## Values
 
