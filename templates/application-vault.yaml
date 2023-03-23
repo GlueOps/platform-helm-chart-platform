@@ -25,7 +25,7 @@ spec:
           enabled: false
         server:
           image:
-            tag: 1.12.3
+            tag: 1.12.4
           ingress:
               activeService: false
               annotations: 

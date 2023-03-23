@@ -10,7 +10,7 @@ spec:
     namespace: glueops-core-strimzi-operator
   source:
     repoURL: 'https://strimzi.io/charts/'
-    targetRevision: 0.33.1
+    targetRevision: 0.34.0
     chart: strimzi-kafka-operator
     helm:
       parameters:
