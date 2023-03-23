@@ -6,7 +6,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
-    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    name: "in-cluster"
     namespace: glueops-core-kube-prometheus-stack
   project: glueops-core
   syncPolicy:
@@ -73,7 +73,7 @@ spec:
           additionalDataSources:
           - name: Loki
             type: loki
-            url: {{ .Values.grafana.loki_data_source_domain }}
+            url: http://loki-read.glueops-core-loki.svc.cluster.local:3100
           - name: Alertmanager
             type: alertmanager
             jsonData:

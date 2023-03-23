@@ -4,7 +4,7 @@ metadata:
   name: glueops-pull-request-bot
 spec:
   destination:
-    name: {{ index .Values "argo-cd" "glueops" "destination_cluster_for_core_apps" }}
+    name: "in-cluster"
     namespace: glueops-core-pull-request-bot
   source:
     path: kubernetes/
