@@ -3,7 +3,7 @@ development_mode_enabled: false
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
 # This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-captain_domain: <cluster_env>.<tenant-name-goes-here>.glueopshosted.rocks
+captain_domain: <cluster_env>.<tenant-name-goes-here>.onglueops.rocks
 
 glueops_alerts:
   # -- Part of `opsgenie_prometheus_api_keys` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -35,7 +35,7 @@ gitHub:
   # -- Create a deploy key to access the application stack repository it and format using `cat <key-file> | base64 | tr -d '\n'`. ref: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys
   tenant_b64enc_ssh_private_key: XXXXXXXXXXXXXXXXXXXXXXXXXX
 
-# Used to manage glueopshosted DNS entries
+# Used to manage onglueops DNS entries
 externalDns:
   # -- Part of `externaldns_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_accessKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -44,7 +44,7 @@ externalDns:
   # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_region: us-west-2
 
-# Used to manage SSL certificates. Leverages DNS verification for glueopshosted domains.
+# Used to manage SSL certificates. Leverages DNS verification for onglueops domains.
 certManager:
   # -- Get your EAB credentials from: https://zerossl.com/documentation/acme#:~:text=To%20generate%20EAB%20credentials%20click,a%20new%20set%20of%20credentials Note: these appear only once so be sure to save them!
   zerossl_eab_hmac_key: XXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -130,7 +130,7 @@ argo-cd:
         hs = {}
         hs.status = "Healthy"
         return hs
-      url: "https://argocd.<cluster_env>.<tenant-name-goes-here>.glueopshosted.rocks"
+      url: "https://argocd.<cluster_env>.<tenant-name-goes-here>.onglueops.rocks"
       # -- To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps
       # This dex.config is to create a GitHub connector for SSO to ArgoCD.
       # @default -- `''` (See [values.yaml])
@@ -166,7 +166,7 @@ argo-cd:
     service:
       type: ClusterIP
     ingress:
-      hosts: ["argocd.<cluster_env>.<tenant-name-goes-here>.glueopshosted.rocks"]
+      hosts: ["argocd.<cluster_env>.<tenant-name-goes-here>.onglueops.rocks"]
       # @ignored
       enabled: true
       # @ignored
