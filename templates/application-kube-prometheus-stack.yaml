@@ -64,6 +64,7 @@ spec:
             podMonitorSelectorNilUsesHelmValues: false
             logLevel: debug
         grafana:
+          adminPassword: "{{ .Values.grafana.admin_password }}"
           ingress:
             enabled: true
             annotations:
@@ -74,16 +75,9 @@ spec:
           - name: Loki
             type: loki
             url: http://loki-read.glueops-core-loki.svc.cluster.local:3100
-          - name: Alertmanager
-            type: alertmanager
-            jsonData:
-              implementation: prometheus
-            url: "http://kube-prometheus-stack-alertmanager.glueops-core-kube-prometheus-stack:9093/"
           grafana.ini:
             server:
               root_url: "https://grafana.{{ .Values.captain_domain }}/"
-            security:
-              disable_initial_admin_creation: true
             auth.github:
                enabled: true
                allow_sign_up: true
