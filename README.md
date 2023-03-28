@@ -36,6 +36,7 @@ Deploy the ArgoCD Platform. This chart is never packaged up but gets used via `h
 | glueops_backups.vault.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.company_key | string | `"<tenant-name-goes-here>"` |  |
+| grafana.admin_password | string | `"glueops-is-awesome"` | Default admin password. CHANGE THIS!!!! |
 | grafana.github_client_id | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps |
 | grafana.github_client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps |
 | grafana.github_other_org_names | string | `"glueops-rocks"` |  |

@@ -67,6 +67,8 @@ grafana:
   # @ignored
   github_admin_team_name: grafana_super_admins
   github_other_org_names: glueops-rocks
+  # -- Default admin password. CHANGE THIS!!!!
+  admin_password: glueops-is-awesome
 
 
 loki:
