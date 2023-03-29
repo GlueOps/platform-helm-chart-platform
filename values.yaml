@@ -58,10 +58,6 @@ certManager:
   aws_region: us-west-2
 
 grafana:
-  # -- To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps
-  github_client_id: XXXXXXXXXXXXXXXXXXXXXXXXXX
-  # -- To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps
-  github_client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
   # @ignored
   github_admin_org_name: GlueOps
   # @ignored
@@ -83,6 +79,9 @@ loki:
 
 argo-cd:
   # many of these ignored values can be found in the argo-cd helm chart docs: https://artifacthub.io/packages/helm/argo/argo-cd
+  # @ignored
+  dex:
+    enabled: false
   # @ignored
   redis-ha:
     enabled: true
@@ -136,18 +135,13 @@ argo-cd:
       # -- To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps
       # This dex.config is to create a GitHub connector for SSO to ArgoCD.
       # @default -- `''` (See [values.yaml])
-      dex.config: |
-        connectors:
-          - type: github
-            id: github
-            name: GitHub
-            config:
-              clientID: XXXXXXXXXXXXXXXXXXXXXXXXXX
-              clientSecret: XXXXXXXXXXXXXXXXXXXXXXXXXX
-              orgs:
-              - name: GlueOps
-              - name: glueops-rocks
-              loadAllGroups: true
+      oidc.config: |
+        name: GitHub SSO
+        issuer: https://dex.<cluster_env>.<tenant-name-goes-here>.onglueops.rocks
+        clientID: argocd
+        # -- This is the clientSecret needs to match the one you created below in dex.github.client_secret
+        clientSecret: XXXXXXXXXXXXXXXXXXXXXXXXXX
+        redirectURI: https://argocd.<cluster_env>.<tenant-name-goes-here>.onglueops.rocks/api/dex/callback
     rbacConfig:
       # -- A good reference for this is: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
       # This default policy is for GlueOps orgs/teams only. Please change it to reflect your own orgs/teams.
@@ -175,3 +169,23 @@ argo-cd:
       annotations:
         # this is the internal-nginx ingress class name. Check the application-internal-nginx.yaml under the templates directory for more details.
         kubernetes.io/ingress.class: "internal-ingress-nginx"
+
+
+
+  
+dex:
+  github:
+    # -- To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps
+    client_id: XXXXXXXXXXXXXXXXXXXXXXXXXX
+    # -- To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps
+    client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
+    # -- Specify the github orgs you want to allow access to. This is a list of strings. Note: users still need to be in the proper groups to have access.
+    orgs:
+      - GlueOps
+      - glueops-rocks
+  argocd:
+    # -- Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
+    client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
+  grafana:
+    # -- Specify a unique password here. This will be used to connect grafana via OAuth to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
+    client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
