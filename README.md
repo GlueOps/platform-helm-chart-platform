@@ -14,7 +14,7 @@ Deploy the ArgoCD Platform. This chart is never packaged up but gets used via `h
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| argo-cd.server.config."dex.config" | string | `''` (See [values.yaml]) | To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps This dex.config is to create a GitHub connector for SSO to ArgoCD. |
+| argo-cd.server.config."oidc.config" | string | `''` (See [values.yaml]) | To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps This dex.config is to create a GitHub connector for SSO to ArgoCD. |
 | argo-cd.server.config.url | string | `"https://argocd.<cluster_env>.<tenant-name-goes-here>.onglueops.rocks"` |  |
 | argo-cd.server.ingress.hosts[0] | string | `"argocd.<cluster_env>.<tenant-name-goes-here>.onglueops.rocks"` |  |
 | argo-cd.server.rbacConfig."policy.csv" | string | `''` (See [values.yaml]) | A good reference for this is: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/ This default policy is for GlueOps orgs/teams only. Please change it to reflect your own orgs/teams. `development` is the project that all developers are expected to deploy under |
@@ -24,6 +24,11 @@ Deploy the ArgoCD Platform. This chart is never packaged up but gets used via `h
 | certManager.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.zerossl_eab_hmac_key | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Get your EAB credentials from: https://zerossl.com/documentation/acme#:~:text=To%20generate%20EAB%20credentials%20click,a%20new%20set%20of%20credentials Note: these appear only once so be sure to save them! |
 | certManager.zerossl_eab_kid | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Get your EAB credentials from: https://zerossl.com/documentation/acme#:~:text=To%20generate%20EAB%20credentials%20click,a%20new%20set%20of%20credentials Note: these appear only once so be sure to save them! |
+| dex.argocd.client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32` |
+| dex.github.client_id | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps |
+| dex.github.client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps |
+| dex.github.orgs | list | `["GlueOps","glueops-rocks"]` | Specify the github orgs you want to allow access to. This is a list of strings. Note: users still need to be in the proper groups to have access. |
+| dex.grafana.client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Specify a unique password here. This will be used to connect grafana via OAuth to the Dex IDP. You can create one with in bash `openssl rand -base64 32` |
 | externalDns.aws_accessKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `externaldns_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | externalDns.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | externalDns.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `externaldns_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
@@ -37,8 +42,6 @@ Deploy the ArgoCD Platform. This chart is never packaged up but gets used via `h
 | glueops_backups.vault.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.company_key | string | `"<tenant-name-goes-here>"` |  |
 | grafana.admin_password | string | `"glueops-is-awesome"` | Default admin password. CHANGE THIS!!!! |
-| grafana.github_client_id | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps |
-| grafana.github_client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientID and clientSecret please reference: https://github.com/GlueOps/github-oauth-apps |
 | grafana.github_other_org_names | string | `"glueops-rocks"` |  |
 | loki.aws_accessKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
