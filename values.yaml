@@ -79,9 +79,9 @@ loki:
 
 dex:
   github:
-    # -- To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps
+    # -- To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1
     client_id: XXXXXXXXXXXXXXXXXXXXXXXXXX
-    # -- To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps
+    # -- To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1
     client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
     # -- Specify the github orgs you want to allow access to. This is a list of strings. Note: users still need to be in the proper groups to have access.
     orgs:
