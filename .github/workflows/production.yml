@@ -1,0 +1,13 @@
+name: Publish Production Helm Charts
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  call-workflow-passing-data:
+    uses: GlueOps/github-workflows/.github/workflows/publish-helm-chart.yml@main
+    secrets: inherit
+    with:
+      GLUEOPS_ENV: "production"
+      HELM_CHART_REPO_NAME: "platform"

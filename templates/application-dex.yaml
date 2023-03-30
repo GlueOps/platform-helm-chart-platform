@@ -1,0 +1,68 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: glueops-dex
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-dex
+  project: glueops-core
+  source:
+    chart: dex
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          className: "internal-ingress-nginx"
+          hosts:
+            - host: dex.{{ .Values.captain_domain }}
+              paths:
+                - path: /
+                  pathType: Prefix
+        config:
+          issuer: https://dex.{{ .Values.captain_domain }}
+          storage:
+            type: memory
+          connectors:
+            - type: github
+              id: github
+              name: GitHub
+              config:
+                redirectURI: https://dex.{{ .Values.captain_domain }}/callback
+                clientID: {{ .Values.dex.github.client_id }}
+                clientSecret: {{ .Values.dex.github.client_secret }}
+                {{- if .Values.dex.github.orgs }}
+                orgs:
+                {{- range .Values.dex.github.orgs }}
+                  - name: {{ . }}
+                {{- end }}
+                {{- end }}
+                loadAllGroups: true
+          staticClients:
+            - id: argocd
+              name: Argo CD
+              redirectURIs:
+                - 'https://argocd.{{ .Values.captain_domain }}/auth/callback'
+              secret: {{ .Values.dex.argocd.client_secret }}
+            - id: grafana
+              name: Grafana
+              redirectURIs:
+                - 'https://grafana.{{ .Values.captain_domain }}/login/generic_oauth'
+              secret: {{ .Values.dex.grafana.client_secret }}
+    repoURL: https://charts.dexidp.io
+    targetRevision: 0.14.0
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+    - CreateNamespace=true
+    - Prune=true
