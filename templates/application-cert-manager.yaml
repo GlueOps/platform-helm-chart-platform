@@ -10,8 +10,8 @@ spec:
     namespace: glueops-core-cert-manager
   source:
     path: ''
-    repoURL: 'https://incubating-helm.gpkg.io/platform'
-    targetRevision: 0.5.0-alpha1
+    repoURL: 'https://helm.gpkg.io/platform'
+    targetRevision: 0.5.0
     helm:
       skipCrds: true
       parameters:
