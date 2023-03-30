@@ -46,10 +46,6 @@ externalDns:
 
 # Used to manage SSL certificates. Leverages DNS verification for onglueops domains.
 certManager:
-  # -- Get your EAB credentials from: https://zerossl.com/documentation/acme#:~:text=To%20generate%20EAB%20credentials%20click,a%20new%20set%20of%20credentials Note: these appear only once so be sure to save them!
-  zerossl_eab_hmac_key: XXXXXXXXXXXXXXXXXXXXXXXXXX
-  # -- Get your EAB credentials from: https://zerossl.com/documentation/acme#:~:text=To%20generate%20EAB%20credentials%20click,a%20new%20set%20of%20credentials Note: these appear only once so be sure to save them!
-  zerossl_eab_kid: XXXXXXXXXXXXXXXXXXXXXXXXXX
   # -- Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_accessKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
   # -- Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
