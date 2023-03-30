@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -15,8 +15,8 @@ This chart deploys the GlueOps Platform
 | certManager.zerossl_eab_hmac_key | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Get your EAB credentials from: https://zerossl.com/documentation/acme#:~:text=To%20generate%20EAB%20credentials%20click,a%20new%20set%20of%20credentials Note: these appear only once so be sure to save them! |
 | certManager.zerossl_eab_kid | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Get your EAB credentials from: https://zerossl.com/documentation/acme#:~:text=To%20generate%20EAB%20credentials%20click,a%20new%20set%20of%20credentials Note: these appear only once so be sure to save them! |
 | dex.argocd.client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32` |
-| dex.github.client_id | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps |
-| dex.github.client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps |
+| dex.github.client_id | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1 |
+| dex.github.client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1 |
 | dex.github.orgs | list | `["GlueOps","glueops-rocks"]` | Specify the github orgs you want to allow access to. This is a list of strings. Note: users still need to be in the proper groups to have access. |
 | dex.grafana.client_secret | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Specify a unique password here. This will be used to connect grafana via OAuth to the Dex IDP. You can create one with in bash `openssl rand -base64 32` |
 | externalDns.aws_accessKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `externaldns_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
