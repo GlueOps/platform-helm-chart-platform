@@ -15,10 +15,6 @@ spec:
     helm:
       skipCrds: true
       parameters:
-        - name: cert-manager.zerossl_eab_hmac_key
-          value: {{ .Values.certManager.zerossl_eab_hmac_key }}
-        - name: cert-manager.zerossl_eab_kid
-          value: {{ .Values.certManager.zerossl_eab_kid }}
         - name: cert-manager.aws_region
           value: {{ .Values.certManager.aws_region }}
         - name: cert-manager.aws_accessKey
