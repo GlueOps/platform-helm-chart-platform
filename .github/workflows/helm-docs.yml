@@ -1,9 +1,0 @@
-name: Generate Docs
-
-on:
-  push
-
-jobs:
-  call-workflow-passing-data:
-    uses: GlueOps/github-workflows/.github/workflows/helm-docs.yml@main
-    secrets: inherit

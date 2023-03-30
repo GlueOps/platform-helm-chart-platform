@@ -1,0 +1,10 @@
+name: Publish Development Helm Charts
+on: workflow_dispatch
+
+jobs:
+  call-workflow-passing-data:
+    uses: GlueOps/github-workflows/.github/workflows/publish-helm-chart.yml@main
+    secrets: inherit
+    with:
+      GLUEOPS_ENV: "development"
+      HELM_CHART_REPO_NAME: "platform"
