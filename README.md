@@ -2,13 +2,7 @@
 
 ![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
-Deploy the ArgoCD Platform. This chart is never packaged up but gets used via `helm template` command.
-
-## Requirements
-
-| Repository | Name | Version |
-|------------|------|---------|
-| https://argoproj.github.io/argo-helm | argo-cd | 5.27.1 |
+This chart deploys the GlueOps Platform
 
 ## Values
 
