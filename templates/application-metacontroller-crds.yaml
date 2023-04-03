@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metacontroller-crds
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-metacontroller
+  source:
+    path: ''
+    repoURL: 'https://helm.gpkg.io/platform'
+    targetRevision: v4.10.0
+    chart: metacontroller-helm
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+
+    
