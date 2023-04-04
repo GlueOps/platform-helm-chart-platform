@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-pomerium
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: pomerium
+  source:
+    kustomize:
+      images:
+      - pomerium/ingress-controller:sha-4727f17
+    path: .
+    repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
+    targetRevision: v0.1.0
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5

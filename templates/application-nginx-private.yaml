@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: internal-ingress-nginx
+  name: private-ingress-nginx
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-internal-ingress-nginx
+    namespace: glueops-core-private-ingress-nginx
   source:
     path: ''
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
@@ -65,22 +65,26 @@ spec:
                                    "http_user_agent": "$http_user_agent"
                                    }' 
           extraArgs:
-            default-ssl-certificate: glueops-core-cert-manager/ingress-nginx-default-certs
+            default-ssl-certificate: glueops-core-cert-manager/{{ .Values.certManager.name_of_default_certificate }}
           service:
+            external:
+              enabled: 'false'
+            internal:
+              enabled: 'true'
             annotations:
-              external-dns.alpha.kubernetes.io/hostname: internal-ingress.{{ .Values.captain_domain }}
+              external-dns.alpha.kubernetes.io/hostname: private-ingress.{{ .Values.captain_domain }}
           metrics:
             enabled: true
             serviceMonitor:
               enabled: true
-          electionID: internal-ingress-nginx-leader
+          electionID: private-ingress-nginx-leader
           ingressClassByName: true
-          ingressClass: internal-ingress-nginx
+          ingressClass: private
           ingressClassResource:
-            name: internal-ingress-nginx
+            name: private
             enabled: true
             default: false
-            controllerValue: "k8s.io/internal-ingress-nginx"
+            controllerValue: "k8s.io/private-ingress-nginx"
     chart: ingress-nginx
   project: glueops-core
   syncPolicy:
