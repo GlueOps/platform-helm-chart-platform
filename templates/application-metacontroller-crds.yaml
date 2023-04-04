@@ -10,7 +10,7 @@ spec:
     namespace: glueops-core-metacontroller
   source:
     path: ''
-    repoURL: 'https://incubating-helm.gpkg.io/platform'
+    repoURL: 'https://helm.gpkg.io/platform'
     targetRevision: v4.10.0
     chart: metacontroller-helm
   project: glueops-core
@@ -26,5 +26,3 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 5
-
-    
