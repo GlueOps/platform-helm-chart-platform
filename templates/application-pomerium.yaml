@@ -1,21 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-crds
+  name: glueops-pomerium
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-cert-manager
+    namespace: pomerium
   source:
-    path: v1.11.0/
-    repoURL: 'https://github.com/GlueOps/cert-manager-crds'
-    targetRevision: HEAD
+    kustomize:
+      images:
+      - pomerium/ingress-controller:sha-4727f17
+    path: .
+    repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
+    targetRevision: v0.1.0
   project: glueops-core
   syncPolicy:
     syncOptions:
-      - Replace=true
+      - CreateNamespace=true  
     automated:
       prune: true
       selfHeal: true
