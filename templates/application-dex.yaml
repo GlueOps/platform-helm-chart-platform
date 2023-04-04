@@ -15,7 +15,7 @@ spec:
       values: |
         ingress:
           enabled: true
-          className: "internal-ingress-nginx"
+          className: "public"
           hosts:
             - host: dex.{{ .Values.captain_domain }}
               paths:
@@ -51,6 +51,11 @@ spec:
               redirectURIs:
                 - 'https://grafana.{{ .Values.captain_domain }}/login/generic_oauth'
               secret: {{ .Values.dex.grafana.client_secret }}
+            - id: pomerium
+              name: Pomerium
+              redirectURIs:
+                - 'https://authenticated.{{ .Values.captain_domain }}/oauth2/callback'
+              secret: {{ .Values.dex.pomerium.client_secret }}
     repoURL: https://charts.dexidp.io
     targetRevision: 0.14.0
   syncPolicy:

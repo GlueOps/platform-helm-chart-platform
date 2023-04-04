@@ -28,9 +28,13 @@ spec:
             tag: 1.12.4
           ingress:
               activeService: false
+              ingressClassName: public-authenticated
               annotations: 
-                kubernetes.io/ingress.class: internal-ingress-nginx
-                nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+                cert-manager.io/cluster-issuer: letsencrypt
+                ingress.pomerium.io/allow_any_authenticated_user: 'true'
+                ingress.pomerium.io/pass_identity_headers: 'true'
+                ingress.pomerium.io/secure_upstream: 'true'
+                ingress.pomerium.io/tls_skip_verify: 'true'
               enabled: true
               hosts: 
                 - host: vault.{{ .Values.captain_domain }}

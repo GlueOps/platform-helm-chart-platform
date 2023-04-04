@@ -46,6 +46,8 @@ externalDns:
 
 # Used to manage SSL certificates. Leverages DNS verification for onglueops domains.
 certManager:
+  # @ignore
+  name_of_default_certificate: default-ingress-cert
   # -- Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_accessKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
   # -- Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -88,4 +90,7 @@ dex:
     client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
   grafana:
     # -- Specify a unique password here. This will be used to connect grafana via OAuth to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
+    client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
+  pomerium:
+    # -- Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
     client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
