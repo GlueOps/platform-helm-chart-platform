@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metacontroller-crds
+  name: metacontroller
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
@@ -15,8 +15,6 @@ spec:
     chart: metacontroller-helm
   project: glueops-core
   syncPolicy:
-    syncOptions:
-      - Replace=true
     automated:
       prune: true
       selfHeal: true
@@ -26,3 +24,6 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 5
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
