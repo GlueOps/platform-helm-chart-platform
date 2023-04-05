@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-loki-alert-group-controller
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-loki-alert-group-controller
+  source:
+    path: kubernetes/
+    repoURL: 'https://github.com/GlueOps/metacontroller-operator-loki-rule-group.git'
+    targetRevision: feature/loki-operator-webhook
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
