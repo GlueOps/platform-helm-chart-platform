@@ -56,6 +56,11 @@ spec:
               redirectURIs:
                 - 'https://authenticated.{{ .Values.captain_domain }}/oauth2/callback'
               secret: {{ .Values.dex.pomerium.client_secret }}
+            - id: vault
+              name: Hashicorp Vault
+              redirectURIs:
+                - 'https://vault.{{ .Values.captain_domain }}/ui/vault/auth/oidc/oidc/callback'
+              secret: {{ .Values.dex.vault.client_secret }}
     repoURL: https://charts.dexidp.io
     targetRevision: 0.14.0
   syncPolicy:
