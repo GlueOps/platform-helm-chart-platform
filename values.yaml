@@ -94,3 +94,6 @@ dex:
   pomerium:
     # -- Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
     client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
+    # -- Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
+  vault:
+    client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXX
