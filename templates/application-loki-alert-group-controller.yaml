@@ -11,9 +11,11 @@ spec:
   source:
     path: ''
     repoURL: 'https://incubating-helm.gpkg.io/platform'
-    targetRevision: v0.1.0-alpha12
+    targetRevision: v0.1.0-alpha13
     helm:
       parameters:
+        - name: appNamespace
+          value: glueops-core-loki-alert-group-controller
         - name: replicaCount
           value: '1'
         - name: image.pullPolicy
