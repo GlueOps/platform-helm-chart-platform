@@ -76,7 +76,6 @@ loki:
   aws_secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
 
 lokiAlertGroupController:
-  replica_count: 1
   image:
     pull_policy: Always
     tag: v0.1.0-alpha8
