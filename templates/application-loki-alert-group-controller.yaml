@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://incubating-helm.gpkg.io/platform'
-    targetRevision: v0.1.0-alpha7
+    targetRevision: v0.1.0-alpha8
     helm:
       parameters:
         - name: loki-alert-group-controller.replicaCount
