@@ -11,15 +11,15 @@ spec:
   source:
     path: ''
     repoURL: 'https://incubating-helm.gpkg.io/platform'
-    targetRevision: v0.1.0-alpha8
+    targetRevision: v0.1.0-alpha9
     helm:
       parameters:
-        - name: loki-alert-group-controller.image.pullPolicy
-          value: {{ .Values.lokiAlertGroupController.image.pull_policy }}
-        - name: loki-alert-group-controller.image.tag
-          value: {{ .Values.lokiAlertGroupController.image.tag }}
-        - name: loki-alert-group-controller.image.lokiGatewayUrl
-          value: {{ .Values.lokiAlertGroupController.image.loki_gateway_url }}
+        - name: replicaCount
+          value: 1
+        - name: image.pullPolicy
+          value: Always
+        - name: image.lokiGatewayUrl
+          value: 'http://loki-gateway.glueops-core-loki.svc.cluster.local'
     chart: platform-helm-chart-metacontroller-operator-loki-rule-group
   project: glueops-core
   syncPolicy:
