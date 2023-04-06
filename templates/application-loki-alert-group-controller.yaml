@@ -15,11 +15,11 @@ spec:
     helm:
       parameters:
         - name: loki-alert-group-controller.image.pullPolicy
-          value: {{ .Values.lokiAlertGroupController.image.pull_policy}}
+          value: {{ .Values.lokiAlertGroupController.image.pull_policy }}
         - name: loki-alert-group-controller.image.tag
-          value: {{ .Values.lokiAlertGroupController.image.tag}}
+          value: {{ .Values.lokiAlertGroupController.image.tag }}
         - name: loki-alert-group-controller.image.lokiGatewayUrl
-          value: {{ .Values.lokiAlertGroupController.image.loki_gateway_url}}
+          value: {{ .Values.lokiAlertGroupController.image.loki_gateway_url }}
     chart: platform-helm-chart-metacontroller-operator-loki-rule-group
   project: glueops-core
   syncPolicy:
