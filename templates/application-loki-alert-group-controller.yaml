@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://incubating-helm.gpkg.io/platform'
-    targetRevision: v0.1.0-alpha9
+    targetRevision: v0.1.0-alpha10
     helm:
       parameters:
         - name: replicaCount
