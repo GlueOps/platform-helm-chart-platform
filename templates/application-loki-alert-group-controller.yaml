@@ -10,8 +10,8 @@ spec:
     namespace: glueops-core-loki-alert-group-controller
   source:
     path: ''
-    repoURL: 'https://incubating-helm.gpkg.io/platform'
-    targetRevision: v0.1.0-alpha13
+    repoURL: 'https://helm.gpkg.io/platform'
+    targetRevision: v0.1.0
     helm:
       parameters:
         - name: appNamespace
