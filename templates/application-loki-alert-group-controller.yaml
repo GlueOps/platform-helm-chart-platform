@@ -10,16 +10,14 @@ spec:
     namespace: glueops-core-loki-alert-group-controller
   source:
     path: ''
-    repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: v0.1.0
+    repoURL: 'https://incubating-helm.gpkg.io/platform'
+    targetRevision: v0.1.0-antonio-beta1
     helm:
       parameters:
         - name: appNamespace
           value: glueops-core-loki-alert-group-controller
         - name: replicaCount
           value: '1'
-        - name: image.pullPolicy
-          value: Always
         - name: image.lokiGatewayUrl
           value: 'http://loki-gateway.glueops-core-loki.svc.cluster.local'
     chart: platform-helm-chart-metacontroller-operator-loki-rule-group
