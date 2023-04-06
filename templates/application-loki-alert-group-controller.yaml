@@ -14,8 +14,6 @@ spec:
     targetRevision: v0.1.0-alpha8
     helm:
       parameters:
-        - name: loki-alert-group-controller.replicaCount
-          value: {{ .Values.lokiAlertGroupController.replica_count }}
         - name: loki-alert-group-controller.image.pullPolicy
           value: {{ .Values.lokiAlertGroupController.image.pull_policy}}
         - name: loki-alert-group-controller.image.tag
