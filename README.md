@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.6.0-antonio-alpha11](https://img.shields.io/badge/Version-0.6.0--antonio--alpha11-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.6.0-antonio-alpha12](https://img.shields.io/badge/Version-0.6.0--antonio--alpha12-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -37,6 +37,3 @@ This chart deploys the GlueOps Platform
 | loki.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary"` | Format: glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary |
-| lokiAlertGroupController.image.loki_gateway_url | string | `"http://loki-gateway.glueops-core-loki.svc.cluster.local"` |  |
-| lokiAlertGroupController.image.pull_policy | string | `"Always"` |  |
-| lokiAlertGroupController.image.tag | string | `"v0.1.0-alpha8"` |  |
