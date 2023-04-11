@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://incubating-helm.gpkg.io/platform'
-    targetRevision: v0.1.0-antonio-beta15
+    targetRevision: v0.1.0-antonio-beta16
     helm:
       parameters:
         - name: appNamespace
