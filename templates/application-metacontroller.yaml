@@ -12,6 +12,10 @@ spec:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
     targetRevision: v4.10.0
+    helm:
+      parameters:
+        - name: replicas
+          value: '2'
     chart: metacontroller-helm
   project: glueops-core
   syncPolicy:
