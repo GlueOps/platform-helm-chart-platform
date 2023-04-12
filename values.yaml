@@ -64,7 +64,6 @@ grafana:
   # -- Default admin password. CHANGE THIS!!!!
   admin_password: glueops-is-awesome
 
-
 loki:
   # -- Format: glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary
   bucket: glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary
