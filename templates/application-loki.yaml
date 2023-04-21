@@ -63,6 +63,13 @@ spec:
                 index:
                   prefix: loki_index_
                   period: 24h
+          rulerConfig:
+            alertmanager_url: http://kube-prometheus-stack-alertmanager.glueops-core-kube-prometheus-stack.svc.cluster.local:9093
+            ring:
+              kvstore:
+                store: inmemory
+            enable_api: true
+            enable_alertmanager_v2: true
     chart: loki
   project: glueops-core
   syncPolicy:
