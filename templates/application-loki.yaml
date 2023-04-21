@@ -40,6 +40,8 @@ spec:
           value: 'false'
         - name: read.persistence.enableStatefulSetAutoDeletePVC
           value: 'false'
+        - name: backend.persistence.enableStatefulSetAutoDeletePVC
+          value: 'false'
         # PLAT-63
         - name: test.enabled
           value: 'false'
