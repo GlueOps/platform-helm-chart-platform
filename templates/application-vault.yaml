@@ -10,7 +10,7 @@ spec:
     namespace: glueops-core-vault
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
-    targetRevision: 0.23.0
+    targetRevision: 0.24.1
     chart: vault
     helm:
       values: |-
@@ -25,7 +25,7 @@ spec:
           enabled: false
         server:
           image:
-            tag: 1.12.4
+            tag: 1.13.1
           ingress:
               activeService: false
               ingressClassName: public-authenticated
