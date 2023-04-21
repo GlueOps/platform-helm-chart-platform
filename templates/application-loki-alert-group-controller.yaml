@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: v0.1.0
+    targetRevision: v0.2.0
     helm:
       parameters:
         - name: appNamespace
