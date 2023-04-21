@@ -62,7 +62,7 @@ spec:
                 - 'https://vault.{{ .Values.captain_domain }}/ui/vault/auth/oidc/oidc/callback'
               secret: {{ .Values.dex.vault.client_secret }}
     repoURL: https://charts.dexidp.io
-    targetRevision: 0.14.0
+    targetRevision: 0.14.1
   syncPolicy:
     automated:
       prune: true
