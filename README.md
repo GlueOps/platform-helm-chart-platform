@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.6.1](https://img.shields.io/badge/Version-0.6.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.7.3](https://img.shields.io/badge/Version-0.7.3-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -26,7 +26,7 @@ This chart deploys the GlueOps Platform
 | gitHub.customer_github_org_and_team | string | `"glueops-rocks:developers"` | The format is: <github-org-name>:<github-team-name> (The team should include the developers) |
 | gitHub.tenant_application_stack_repo | string | `"git@github.com:<your-org-name>/<your-repo-name>.git"` | This is the repo that will be used to store all the tenant's cluster applications. The developers will have access to this repo and will be able to create PRs to this repo. The repo should be private.  |
 | gitHub.tenant_b64enc_ssh_private_key | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Create a deploy key to access the application stack repository it and format using `cat <key-file> | base64 | tr -d '\n'`. ref: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys |
-| glueops_alerts.opsgenie_apikey | string | `"nil"` | Part of `opsgenie_prometheus_api_keys` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_alerts.opsgenie_apikey | string | `"nil"` | Found at `opsgenie_credentials` in the json output that is part of `opsgenie_prometheus_api_keys` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_accessKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
@@ -36,4 +36,4 @@ This chart deploys the GlueOps Platform
 | loki.aws_accessKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| loki.bucket | string | `"glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary"` | Format: glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary |
+| loki.bucket | string | `"glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary"` | Format: glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
