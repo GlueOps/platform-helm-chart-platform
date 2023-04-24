@@ -42,6 +42,11 @@ spec:
           value: 'false'
         - name: backend.persistence.enableStatefulSetAutoDeletePVC
           value: 'false'
+        # to be removed when this PR is merged - https://github.com/grafana/loki/pull/9215
+        # currently, the new service 'loki-backend', which manages alerts,
+        # isn't available via the loki gateway endpoint
+        - name: read.legacyReadTarget
+          value: 'true'
         # PLAT-63
         - name: test.enabled
           value: 'false'
