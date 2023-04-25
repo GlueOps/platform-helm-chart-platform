@@ -76,7 +76,7 @@ spec:
           additionalDataSources:
           - name: Loki
             type: loki
-            url: http://loki-read.glueops-core-loki.svc.cluster.local:3100
+            url: http://loki-gateway.glueops-core-loki.svc.cluster.local
           grafana.ini:
             server:
               root_url: "https://grafana.{{ .Values.captain_domain }}/"
