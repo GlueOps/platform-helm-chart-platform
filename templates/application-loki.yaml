@@ -42,6 +42,11 @@ spec:
           value: 'false'
         - name: backend.persistence.enableStatefulSetAutoDeletePVC
           value: 'false'
+        # to be removed when this PR is merged - https://github.com/grafana/loki/pull/9215
+        # currently, the new service 'loki-backend', which manages alerts,
+        # isn't available via the loki gateway endpoint
+        - name: read.legacyReadTarget
+          value: 'true'
         # PLAT-63
         - name: test.enabled
           value: 'false'
@@ -65,6 +70,13 @@ spec:
                 index:
                   prefix: loki_index_
                   period: 24h
+          rulerConfig:
+            alertmanager_url: http://kube-prometheus-stack-alertmanager.glueops-core-kube-prometheus-stack.svc.cluster.local:9093
+            ring:
+              kvstore:
+                store: inmemory
+            enable_api: true
+            enable_alertmanager_v2: true
     chart: loki
   project: glueops-core
   syncPolicy:
