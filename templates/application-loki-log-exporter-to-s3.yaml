@@ -25,12 +25,10 @@ spec:
         value: "{{ .Values.glueops_backups.loki_exporter_to_s3.company_key }}"
       - name: cron_expression
         value: "{{ .Values.glueops_backups.loki_exporter_to_s3.cron_expression }}"
-      - name: s3_bucket_name
-        value: "{{ .Values.glueops_backups.loki_exporter_to_s3.s3_bucket_name }}"
       - name: loki_addr
         value: "http://loki-gateway.glueops-core-loki.svc.cluster.local"
     repoURL: https://incubating-helm.gpkg.io/platform
-    targetRevision: 0.1.0-alpha2
+    targetRevision: 0.1.0-alpha3
   syncPolicy:
     automated:
       prune: true
