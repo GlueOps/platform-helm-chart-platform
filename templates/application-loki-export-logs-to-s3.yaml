@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-log-exporter-to-s3
+  annotations:
+    argocd.argoproj.io/sync-wave: "100"  
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-backup
+  project: glueops-core
+  source:
+    chart: glueops-loki-log-exporter-to-s3
+    helm:
+      parameters:
+      - name: aws_region
+        value: "{{ .Values.glueops_backups.loki_exporter_to_s3.aws_region }}"
+      - name: aws_accessKey
+        value: "{{ .Values.glueops_backups.loki_exporter_to_s3.aws_accessKey }}"
+      - name: aws_secretKey
+        value: "{{ .Values.glueops_backups.loki_exporter_to_s3.aws_secretKey }}"
+      - name: captain_domain
+        value: "{{ .Values.captain_domain }}"
+      - name: company_key
+        value: "{{ .Values.glueops_backups.loki_exporter_to_s3.company_key }}"
+      - name: cron_expression
+        value: "{{ .Values.glueops_backups.loki_exporter_to_s3.cron_expression }}"
+      - name: s3_bucket_name
+        value: "{{ .Values.glueops_backups.loki_exporter_to_s3.s3_bucket_name }}"
+      - name: loki_addr
+        value: "http://loki-gateway.glueops-core-loki.svc.cluster.local"
+    repoURL: https://incubating-helm.gpkg.io/platform
+    targetRevision: 0.1.0-alpha2
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+    - CreateNamespace=true
