@@ -28,7 +28,7 @@ spec:
       - name: loki_addr
         value: "http://loki-gateway.glueops-core-loki.svc.cluster.local"
     repoURL: https://incubating-helm.gpkg.io/platform
-    targetRevision: 0.1.0-alpha4
+    targetRevision: 0.1.0-alpha5
   syncPolicy:
     automated:
       prune: true
