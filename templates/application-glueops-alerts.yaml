@@ -26,12 +26,9 @@ spec:
       limit: 5
   source:
     path: ''
-    repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.3.0
+    repoURL: 'https://incubating-helm.gpkg.io/platform'
+    targetRevision: 0.4.0-antonio-alpha1
     helm:
       skipCrds: true
-      parameters:
-        - name: prometheus-alertmanagerconfig-opsgenie.opsgenie.apikey
-          value: {{ .Values.glueops_alerts.opsgenie_apikey }}
     chart: glueops-prometheus-alerts
   project: glueops-core
