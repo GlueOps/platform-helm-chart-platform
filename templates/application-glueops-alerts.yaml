@@ -27,11 +27,8 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.3.0
+    targetRevision: 0.4.0
     helm:
       skipCrds: true
-      parameters:
-        - name: prometheus-alertmanagerconfig-opsgenie.opsgenie.apikey
-          value: {{ .Values.glueops_alerts.opsgenie_apikey }}
     chart: glueops-prometheus-alerts
   project: glueops-core
