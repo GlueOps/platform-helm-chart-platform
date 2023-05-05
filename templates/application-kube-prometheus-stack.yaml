@@ -55,15 +55,6 @@ spec:
         prometheus: 
           prometheusSpec:
             replicas: 2
-            externalLabels:
-              replica: '$(POD_NAME)'
-            containers:
-              - name: prometheus
-                env:
-                  - name: POD_NAME
-                    valueFrom:
-                      fieldRef:
-                        fieldPath: metadata.labels['statefulset.kubernetes.io/pod-name']
             ruleSelector: {}
             ruleNamespaceSelector: {}
             ruleSelectorNilUsesHelmValues: false
