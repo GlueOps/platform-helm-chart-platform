@@ -16,7 +16,7 @@ glueops_backups:
     # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
     aws_region: us-west-2
     # -- Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-    aws_accessKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
+    aws_accessKey: ${var.test}
     # -- Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
     aws_secretKey: XXXXXXXXXXXXXXXXXXXXXXXXXX
     # @ignored
