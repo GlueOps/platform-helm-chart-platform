@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.10.0](https://img.shields.io/badge/Version-0.10.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.11.0-venkataalpha1](https://img.shields.io/badge/Version-0.11.0--venkataalpha1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -31,7 +31,7 @@ This chart deploys the GlueOps Platform
 | glueops_backups.loki_exporter_to_s3.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.company_key | string | `"<tenant-name-goes-here>"` |  |
-| glueops_backups.vault.aws_accessKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.vault.aws_accessKey | string | `"${var.test}"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.company_key | string | `"<tenant-name-goes-here>"` |  |
