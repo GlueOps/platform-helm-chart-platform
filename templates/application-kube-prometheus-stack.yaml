@@ -53,7 +53,7 @@ spec:
             KubePodNotReady: true
         prometheusOperator:
           hostNetwork: true
-          internalPort: 10254
+          internalPort: 10754
         prometheus: 
           prometheusSpec:
             ruleSelector: {}
