@@ -22,6 +22,11 @@ spec:
           value: 'false'
       values: |-
         controller:
+          hostNetwork: true
+          hostPort:
+            ports:
+              http: 10752
+              https: 10753
           config:
             # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/log-format.md
             # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/

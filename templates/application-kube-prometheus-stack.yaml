@@ -51,6 +51,10 @@ spec:
         defaultRules:
           disabled:
             KubePodNotReady: true
+        prometheusOperator:
+          hostNetwork: true
+          tls:
+            internalPort: 10754
         prometheus: 
           prometheusSpec:
             ruleSelector: {}
@@ -63,6 +67,7 @@ spec:
             podMonitorNamespaceSelector: {}
             podMonitorSelectorNilUsesHelmValues: false
             logLevel: debug
+            hostNetwork: true
         grafana:
           adminPassword: "{{ .Values.grafana.admin_password }}"
           ingress:

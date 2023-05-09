@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.6.2
+    targetRevision: 0.7.0
     helm:
       skipCrds: true
       parameters:
