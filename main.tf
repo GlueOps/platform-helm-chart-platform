@@ -103,8 +103,41 @@ data "local_file" "platform_values_template" {
   filename = "${path.module}/values.yaml"
 }
 
+variable "admin_github_org_name" {
+  description = "Admin GitHub org name"
+  default     = "GlueOps"
+  type        = string
+  nullable    = true
+}
+
+variable "tenant_github_org_name" {
+  description = "Tenant GitHub org name"
+  default     = "glueops-rocks"
+  type        = string
+  nullable    = true
+}
+
+variable "grafana_admin_password" {
+  description = "Grafana admin password"
+  default     = "supersecret1234"
+  type        = string
+  nullable    = true
+}
+
+variable "tenant_b64enc_ssh_private_key" {
+  description = "base64 encoded deployment key for tenant stack repository"
+  type        = string
+  nullable    = false
+}
+
+variable "github_api_token" {
+  description = "GitHub API token"
+  type        = string
+  nullable    = false
+}
+
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", "${var.tenant_key}"),
@@ -127,7 +160,11 @@ output "helm_values" {
     "placeholder_dex_argocd_client_secret", var.dex_argocd_client_secret),
     "placeholder_dex_grafana_client_secret", var.dex_grafana_client_secret),
     "placeholder_dex_pomerium_client_secret", var.dex_pomerium_client_secret),
-  "placeholder_dex_vault_client_secret", var.dex_vault_client_secret)
+    "placeholder_dex_vault_client_secret", var.dex_vault_client_secret),
+    "placeholder_admin_github_org_name", var.admin_github_org_name),
+    "placeholder_tenant_github_org_name", var.tenant_github_org_name),
+    "placeholder_grafana_admin_password", var.grafana_admin_password),
+    "placeholder_tenant_b64enc_ssh_private_key", var.tenant_b64enc_ssh_private_key),
+  "placeholder_github_api_token", var.github_api_token)
 
 }
-

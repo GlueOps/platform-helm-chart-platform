@@ -35,15 +35,15 @@ glueops_backups:
 
 gitHub:
   # -- create a Personal Access Token in github that has repo scope access. It would be best to use a service account for this otherwise all the comments on PR will be left in your name
-  api_token: XXXXXXXXXXXXXXXXXXXXXXXXXX
+  api_token: placeholder_github_api_token
   # @ignored
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
   # -- The format is: <github-org-name>:<github-team-name> (The team should include the developers)
-  customer_github_org_and_team: "glueops-rocks:developers"
+  customer_github_org_and_team: "placeholder_tenant_github_org_name:developers"
   # -- This is the repo that will be used to store all the tenant's cluster applications. The developers will have access to this repo and will be able to create PRs to this repo. The repo should be private. 
-  tenant_application_stack_repo: "git@github.com:<your-org-name>/<your-repo-name>.git"
+  tenant_application_stack_repo: "git@github.com:placeholder_tenant_github_org_name/glueops-placeholder_tenant_key-placeholder_cluster_environment-stack.git"
   # -- Create a deploy key to access the application stack repository it and format using `cat <key-file> | base64 | tr -d '\n'`. ref: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys
-  tenant_b64enc_ssh_private_key: XXXXXXXXXXXXXXXXXXXXXXXXXX
+  tenant_b64enc_ssh_private_key: placeholder_tenant_b64enc_ssh_private_key
 
 # Used to manage onglueops DNS entries, found at `externaldns_credentials` in the json output of terraform-module-cloud-multy-prerequisites 
 externalDns:
@@ -67,12 +67,12 @@ certManager:
 
 grafana:
   # @ignored
-  github_admin_org_name: GlueOps
+  github_admin_org_name: placeholder_admin_github_org_name
   # @ignored
   github_admin_team_name: grafana_super_admins
-  github_other_org_names: glueops-rocks
+  github_other_org_names: placeholder_tenant_github_org_name
   # -- Default admin password. CHANGE THIS!!!!
-  admin_password: glueops-is-awesome
+  admin_password: placeholder_grafana_admin_password
 
 loki:
   # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
@@ -96,8 +96,8 @@ dex:
     client_secret: placeholder_dex_github_client_secret
     # -- Specify the github orgs you want to allow access to. This is a list of strings. Note: users still need to be in the proper groups to have access.
     orgs:
-      - GlueOps
-      - glueops-rocks
+      - placeholder_admin_github_org_name
+      - placeholder_tenant_github_org_name
   argocd:
     # -- Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
     client_secret: placeholder_dex_argocd_client_secret
