@@ -76,7 +76,7 @@ spec:
                     - ReadWriteOnce
                   resources:
                     requests:
-                      storage: 50Gi
+                      storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: true
         grafana:
           adminPassword: "{{ .Values.grafana.admin_password }}"
