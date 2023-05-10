@@ -100,7 +100,7 @@ variable "cluster_environment" {
 
 
 data "local_file" "platform_values_template" {
-  filename = "${path.module}/values.yaml"
+  filename = "../values.yaml"
 }
 
 output "helm_values" {
