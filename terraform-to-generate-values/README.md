@@ -2,7 +2,7 @@ Below will is an example of how to generate the helm values for the platform hel
 
 ```hcl
 module "glueops_platform_helm_values" {
-  source                       = "git::https://github.com/GlueOps/platform-helm-chart-platform.git"
+  source                       = "git::https://github.com/GlueOps/platform-helm-chart-platform.git//terraform-to-generate-values"
   dex_github_client_id         = "43570a74c8bfc85da6b0"
   dex_github_client_secret     = "9f583c64f841e84e634468214bb0c0b4748dca7c"
   dex_argocd_client_secret     = "Zsbui/29YEqoGOzuI8snlqGcdaRYPSLocwLXDB5GhZY="
