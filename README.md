@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.10.0](https://img.shields.io/badge/Version-0.10.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.11.0](https://img.shields.io/badge/Version-0.11.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -41,3 +41,4 @@ This chart deploys the GlueOps Platform
 | loki.aws_region | string | `"us-west-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"XXXXXXXXXXXXXXXXXXXXXXXXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary"` | Format: glueops-tenant-<tenant-name-goes-here>-<cluster_env>-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
