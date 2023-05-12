@@ -30,6 +30,8 @@ spec:
         # https://github.com/prometheus-operator/prometheus-operator/issues/2890#issuecomment-583006452
         coreDns:
           enabled: false
+        # https://github.com/prometheus-community/helm-charts/issues/1033
+        fullnameOverride: "kps"
         kubeControllerManager:
           enabled: false
         kubeScheduler:
