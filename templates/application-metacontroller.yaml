@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: v4.10.0
+    targetRevision: v4.10.3
     helm:
       parameters:
         - name: replicas

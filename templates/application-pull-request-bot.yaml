@@ -9,7 +9,7 @@ spec:
   source:
     path: kubernetes/
     repoURL: 'https://github.com/GlueOps/pull-request-bot.git'
-    targetRevision: v0.4.0
+    targetRevision: v0.5.1
   project: glueops-core
   syncPolicy:
     syncOptions:

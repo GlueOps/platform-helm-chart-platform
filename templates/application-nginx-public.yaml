@@ -11,7 +11,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
-    targetRevision: v4.6.0
+    targetRevision: v4.6.1
     helm:
       parameters:
         - name: controller.service.externalTrafficPolicy
