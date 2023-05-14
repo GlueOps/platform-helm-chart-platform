@@ -25,7 +25,7 @@ spec:
           enabled: false
         server:
           image:
-            tag: 1.13.1
+            tag: 1.13.2
           ingress:
               activeService: false
               ingressClassName: public-authenticated
