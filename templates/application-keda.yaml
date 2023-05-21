@@ -24,6 +24,8 @@ spec:
               memory: 1000Mi
   project: glueops-core
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
     automated:
       prune: true
       selfHeal: true
