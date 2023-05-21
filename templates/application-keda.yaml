@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keda
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-keda
+  source:
+    repoURL: 'https://kedacore.github.io/charts'
+    targetRevision: 2.10.2
+    chart: keda
+    helm:
+      values: |-
+        resources:
+          operator:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 1
+              memory: 1000Mi
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
