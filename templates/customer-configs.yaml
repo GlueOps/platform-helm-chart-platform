@@ -26,9 +26,9 @@ spec:
     namespace: '*'
     server: '*'
   roles:
-  - description: {{ .Values.gitHub.customer_github_org_and_team }}
+  - description: {{ .Values.gitHub.tenant_github_org_and_team }}
     groups:
-    - "{{ .Values.gitHub.customer_github_org_and_team }}"
+    - "{{ .Values.gitHub.tenant_github_org_and_team }}"
     name: developers
   sourceRepos:
   - https://helm.gpkg.io/project-template
