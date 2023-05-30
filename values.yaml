@@ -35,8 +35,8 @@ glueops_backups:
 
 gitHub:
   # -- Create an Application in github that has repo scope access and can comment against PRs. https://docs.github.com/en/apps/creating-github-apps/setting-up-a-github-app/creating-a-github-app.  Format the key using format using `cat <key-file> | base64 | tr -d '\n'`
-  github_app_id: placeholder_github_tenant_app_id
-  github_app_installation_id: placeholder_github_tenant_app_installation_id
+  github_app_id: "placeholder_github_tenant_app_id"
+  github_app_installation_id: "placeholder_github_tenant_app_installation_id"
   github_app_b64enc_private_key: placeholder_github_tenant_app_b64enc_private_key
   # @ignored
   credentialTemplateUrl: "Z2l0QGdpdGh1Yi5jb20=" #git@github.com
