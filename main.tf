@@ -124,25 +124,32 @@ variable "grafana_admin_password" {
   nullable    = true
 }
 
-variable "tenant_b64enc_ssh_private_key" {
-  description = "base64 encoded deployment key for tenant stack repository"
+variable "github_tenant_app_id" {
+  description = "GitHub App ID"
   type        = string
   nullable    = false
 }
 
-variable "github_api_token" {
-  description = "GitHub API token"
+variable "github_tenant_app_installation_id" {
+  description = "GitHub App Installation ID"
   type        = string
   nullable    = false
 }
+
+variable "github_tenant_app_b64enc_private_key" {
+  description = "GitHub App Private Key, base64 encoded"
+  type        = string
+  nullable    = false
+}
+
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
-    "placeholder_tenant_key", "${var.tenant_key}"),
-    "placeholder_cluster_environment", "${var.cluster_environment}"),
-    "placeholder_glueops_root_domain", "${var.glueops_root_domain}"),
+    "placeholder_tenant_key", var.tenant_key),
+    "placeholder_cluster_environment", var.cluster_environment),
+    "placeholder_glueops_root_domain", var.glueops_root_domain),
     "placeholder_opsgenie_api_key", var.opsgenie_api_key),
     "placeholder_aws_region", var.aws_region),
     "placeholder_vault_aws_access_key", var.vault_aws_access_key),
@@ -164,7 +171,7 @@ output "helm_values" {
     "placeholder_admin_github_org_name", var.admin_github_org_name),
     "placeholder_tenant_github_org_name", var.tenant_github_org_name),
     "placeholder_grafana_admin_password", var.grafana_admin_password),
-    "placeholder_tenant_b64enc_ssh_private_key", var.tenant_b64enc_ssh_private_key),
-  "placeholder_github_api_token", var.github_api_token)
-
+  "placeholder_github_tenant_app_id", var.github_tenant_app_id),
+  "placeholder_github_tenant_app_installation_id", var.github_tenant_app_installation_id),
+  "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key)
 }

@@ -38,15 +38,6 @@ spec:
   - https://incubating-helm.gpkg.io/service
   - https://incubating-helm.gpkg.io/platform
 {{- end }}
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: git-provider-api-token
-type: Opaque
-data:
-  token: {{ .Values.gitHub.api_token | b64enc }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -54,4 +45,21 @@ metadata:
   name: glueops-captain-domain
 data:
   captain_domain: {{ .Values.captain_domain }}
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: tenant-repo-creds
+  labels:
+    argocd.argoproj.io/instance: argo-cd
+    argocd.argoproj.io/secret-type: repo-creds
+type: Opaque
+stringData:
+  url: https://github.com/{{ .Values.gitHub.tenant_github_org }}
+  # url: git@github.com:{{ .Values.gitHub.tenant_github_org }}.git
+  githubAppID: "{{ .Values.gitHub.github_app_id }}"
+  githubAppInstallationID: "{{ .Values.gitHub.github_app_installation_id }}"
+data:
+  githubAppPrivateKey: {{ .Values.gitHub.github_app_b64enc_private_key }}
 ---
