@@ -171,7 +171,7 @@ output "helm_values" {
     "placeholder_admin_github_org_name", var.admin_github_org_name),
     "placeholder_tenant_github_org_name", var.tenant_github_org_name),
     "placeholder_grafana_admin_password", var.grafana_admin_password),
-  "placeholder_github_tenant_app_id", var.github_tenant_app_id),
-  "placeholder_github_tenant_app_installation_id", var.github_tenant_app_installation_id),
+    "placeholder_github_tenant_app_id", var.github_tenant_app_id),
+    "placeholder_github_tenant_app_installation_id", var.github_tenant_app_installation_id),
   "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key)
 }
