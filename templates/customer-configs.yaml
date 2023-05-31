@@ -57,7 +57,6 @@ metadata:
 type: Opaque
 stringData:
   url: https://github.com/{{ .Values.gitHub.tenant_github_org }}
-  # url: git@github.com:{{ .Values.gitHub.tenant_github_org }}.git
   githubAppID: "{{ .Values.gitHub.github_app_id }}"
   githubAppInstallationID: "{{ .Values.gitHub.github_app_installation_id }}"
 data:
