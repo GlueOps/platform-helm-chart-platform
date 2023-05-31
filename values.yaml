@@ -1,5 +1,5 @@
 # @ignored
-development_mode_enabled: false
+development_mode_enabled: placeholder_this_is_development
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
 # This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites

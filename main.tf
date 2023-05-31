@@ -98,6 +98,11 @@ variable "cluster_environment" {
   description = "this is the cluster environment name (e.g. dev, staging, prod, nonprod, uswestprod, etc.))"
 }
 
+variable "this_is_development" {
+  type = bool
+  description = "Determines whether the cluster is a development cluster or deployed in a customer environment."
+}
+
 
 data "local_file" "platform_values_template" {
   filename = "${path.module}/values.yaml"
@@ -144,10 +149,11 @@ variable "github_tenant_app_b64enc_private_key" {
 
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
+    "placeholder_this_is_development", var.this_is_development),
     "placeholder_cluster_environment", var.cluster_environment),
     "placeholder_glueops_root_domain", var.glueops_root_domain),
     "placeholder_opsgenie_api_key", var.opsgenie_api_key),
