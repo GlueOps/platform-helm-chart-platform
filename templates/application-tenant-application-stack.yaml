@@ -34,7 +34,6 @@ data:
   insecure: dHJ1ZQ== # true
   name: dGVuYW50LWNsdXN0ZXItYXBwbGljYXRpb25z # tenant-cluster-applications
   project: Z2x1ZW9wcy1jb3Jl # glueops-core
-  sshPrivateKey: {{ .Values.gitHub.tenant_b64enc_ssh_private_key }}
   type: Z2l0 # git
   url: {{ .Values.gitHub.tenant_application_stack_repo | b64enc }}
 kind: Secret
