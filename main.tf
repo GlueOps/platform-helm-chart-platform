@@ -99,7 +99,7 @@ variable "cluster_environment" {
 }
 
 variable "this_is_development" {
-  type = bool
+  type        = bool
   description = "Determines whether the cluster is a development cluster or deployed in a customer environment."
 }
 
