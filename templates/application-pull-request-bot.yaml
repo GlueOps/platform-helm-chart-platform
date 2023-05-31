@@ -9,7 +9,7 @@ spec:
   source:
     path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.1.0
+    targetRevision: 0.2.0
     chart: glueops-pull-request-bot
   project: glueops-core
   syncPolicy:
