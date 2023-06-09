@@ -32,4 +32,4 @@ spec:
       skipCrds: true
       parameters:
         - name: prometheus-alertmanagerconfig-opsgenie.opsgenie.apikey
-          value: {{ .Values.glueops_alerts.opsgenie_apikey }
+          value: {{ .Values.glueops_alerts.opsgenie_apikey }}
