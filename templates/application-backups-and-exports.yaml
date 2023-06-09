@@ -105,6 +105,8 @@ spec:
     repoURL: https://incubating-helm.gpkg.io/project-template
     targetRevision: 0.1.0-alpha1
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
