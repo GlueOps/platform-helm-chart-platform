@@ -8,9 +8,22 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-public-ingress-nginx
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
-    path: ''
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
+    chart: ingress-nginx
     targetRevision: v4.6.1
     helm:
       parameters:
@@ -86,17 +99,3 @@ spec:
             enabled: true
             default: false
             controllerValue: "k8s.io/public-ingress-nginx"
-    chart: ingress-nginx
-  project: glueops-core
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true  
-    automated:
-      prune: true
-      selfHeal: true
-    retry:
-      backoff:
-        duration: 10s
-        factor: 2
-        maxDuration: 3m0s
-      limit: 5

@@ -8,13 +8,6 @@ spec:
   destination:
     name: "in-cluster"
     namespace: pomerium
-  source:
-    kustomize:
-      images:
-      - pomerium/ingress-controller:sha-4727f17
-    path: .
-    repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
-    targetRevision: v0.2.0
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -28,3 +21,10 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 5
+  source:
+    repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
+    path: .
+    targetRevision: v0.2.0
+    kustomize:
+      images:
+      - pomerium/ingress-controller:sha-4727f17

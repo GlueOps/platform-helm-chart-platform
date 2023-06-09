@@ -23,6 +23,7 @@ spec:
       limit: 5
   source:
     repoURL: 'https://prometheus-community.github.io/helm-charts'
+    chart: kube-prometheus-stack
     targetRevision: 45.27.2
     helm:
       skipCrds: true
@@ -109,4 +110,3 @@ spec:
               api_url: https://dex.{{ .Values.captain_domain }}/userinfo
               ssl_verify: false
               role_attribute_path: contains(groups[*], '{{ .Values.grafana.github_admin_org_name }}:{{ .Values.grafana.github_admin_team_name }}') && 'Admin' || 'Viewer'
-    chart: kube-prometheus-stack

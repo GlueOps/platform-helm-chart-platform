@@ -9,14 +9,6 @@ spec:
     name: "in-cluster"
     namespace: glueops-core-vault
   project: glueops-core
-  source:
-    chart: glueops-vault-prerequisites
-    helm:
-      parameters:
-      - name: UNUSED_VALUE
-        value: "bmls"
-    repoURL: https://helm.gpkg.io/platform
-    targetRevision: 0.1.0
   syncPolicy:
     automated:
       prune: true
@@ -29,3 +21,11 @@ spec:
       limit: 5
     syncOptions:
     - CreateNamespace=true
+  source:
+    repoURL: https://helm.gpkg.io/platform
+    chart: glueops-vault-prerequisites
+    targetRevision: 0.1.0
+    helm:
+      parameters:
+      - name: UNUSED_VALUE
+        value: "bmls"

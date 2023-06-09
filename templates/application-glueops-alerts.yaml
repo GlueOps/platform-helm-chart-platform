@@ -25,10 +25,8 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    path: ''
     repoURL: 'https://helm.gpkg.io/platform'
+    chart: glueops-alerts
     targetRevision: 0.1.1
     helm:
       skipCrds: true
-    chart: glueops-alerts
-  project: glueops-core

@@ -6,11 +6,6 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-pull-request-bot
-  source:
-    path: ''
-    repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.2.0
-    chart: glueops-pull-request-bot
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -25,3 +20,7 @@ spec:
         maxDuration: 3m0s
         factor: 2
       limit: 2
+  source:
+    repoURL: 'https://helm.gpkg.io/platform'
+    chart: glueops-pull-request-bot
+    targetRevision: 0.2.0

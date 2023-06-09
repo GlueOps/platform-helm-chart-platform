@@ -22,8 +22,6 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.7.0
     chart: glueops-grafana-dashboards
-  project: glueops-core
+    targetRevision: 0.7.0
