@@ -10,8 +10,8 @@ spec:
     namespace: glueops-core-keda
   source:
     repoURL: 'https://kedacore.github.io/charts'
-    targetRevision: 2.10.2
     chart: keda
+    targetRevision: 2.10.2
     helm:
       values: |-
         resources:
@@ -22,11 +22,14 @@ spec:
             limits:
               cpu: 1
               memory: 1000Mi
+        metricServer:
+          useHostNetwork: true
         prometheus:
           metricServer:
             enabled: true
             serviceMonitor:
               enabled: true
+              enableHostNetwork: true
           operator:
             enabled: true
             port: 8080
