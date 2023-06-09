@@ -22,9 +22,9 @@ spec:
     syncOptions:
     - CreateNamespace=true
   source:
-    repoURL: https://incubating-helm.gpkg.io/platform
+    repoURL: https://helm.gpkg.io/platform
     chart: glueops-vault-prerequisites
-    targetRevision: 0.2.0-alpha2
+    targetRevision: 0.2.0
     helm:
       parameters:
       - name: UNUSED_VALUE
