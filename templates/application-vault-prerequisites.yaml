@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: https://incubating-helm.gpkg.io/platform
     chart: glueops-vault-prerequisites
-    targetRevision: 0.2.0-alpha1
+    targetRevision: 0.2.0-alpha2
     helm:
       parameters:
       - name: UNUSED_VALUE
