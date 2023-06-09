@@ -35,26 +35,6 @@ spec:
             port: 8080
             serviceMonitor:
               enabled: true
-            # prometheusRules:
-            #   enabled: true
-            #   namespace: glueops-core-keda
-            #   alerts:
-            #     - alert: KedaScalerErrors
-            #       annotations:
-            #         description: Keda scaledObject {{ $labels.scaledObject }} is experiencing errors with {{ $labels.scaler }} scaler
-            #         summary: Keda Scaler {{ $labels.scaler }} Errors
-            #       expr: sum by ( scaledObject , scaler) (rate(keda_metrics_adapter_scaler_errors[2m]))  > 0
-            #       for: 2m
-            #       labels:
-            #         severity: warning
-            #     - alert: '[Keda] Errors in Scaled Object'
-            #       expr: |
-            #         rate(keda_metrics_adapter_scaled_object_errors[5m])> 0
-            #       for: 10m
-            #       labels:
-            #         severity: warning
-            #       annotations:
-            #         description: Errors detected in scaled object
           webhooks:
             enabled: true
             port: 8080
