@@ -8,10 +8,26 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-vault
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      jqPathExpressions:
+        - '.webhooks[0].clientConfig.caBundle'
+      kind: MutatingWebhookConfiguration
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
-    targetRevision: 0.24.1
     chart: vault
+    targetRevision: 0.24.1
     helm:
       values: |-
         # Vault Helm Chart Value Overrides
@@ -25,7 +41,7 @@ spec:
           enabled: false
         server:
           image:
-            tag: 1.13.2
+            tag: 1.13.3
           ingress:
               activeService: false
               ingressClassName: public-authenticated
@@ -102,19 +118,3 @@ spec:
                   }
 
                   service_registration "kubernetes" {}
-  project: glueops-core
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    retry:
-      backoff:
-        duration: 10s
-        factor: 2
-        maxDuration: 3m0s
-      limit: 5
-  ignoreDifferences:
-    - group: admissionregistration.k8s.io
-      jqPathExpressions:
-        - '.webhooks[0].clientConfig.caBundle'
-      kind: MutatingWebhookConfiguration

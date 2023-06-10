@@ -8,17 +8,6 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-loki-alert-group-controller
-  source:
-    path: ''
-    repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.3.0
-    helm:
-      parameters:
-        - name: appNamespace
-          value: glueops-core-loki-alert-group-controller
-        - name: image.lokiApiEndpoint
-          value: 'http://loki-gateway.glueops-core-loki.svc.cluster.local'
-    chart: glueops-metacontroller-operator-loki-rule-group
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -32,3 +21,13 @@ spec:
         maxDuration: 3m0s
         factor: 2
       limit: 2
+  source:
+    repoURL: 'https://helm.gpkg.io/platform'
+    chart: glueops-metacontroller-operator-loki-rule-group
+    targetRevision: 0.3.0
+    helm:
+      parameters:
+        - name: appNamespace
+          value: glueops-core-loki-alert-group-controller
+        - name: image.lokiApiEndpoint
+          value: 'http://loki-gateway.glueops-core-loki.svc.cluster.local'

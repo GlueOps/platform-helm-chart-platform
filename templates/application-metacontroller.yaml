@@ -8,15 +8,6 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-metacontroller
-  source:
-    path: ''
-    repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: v4.10.3
-    helm:
-      parameters:
-        - name: replicas
-          value: '2'
-    chart: metacontroller-helm
   project: glueops-core
   syncPolicy:
     automated:
@@ -31,3 +22,11 @@ spec:
     syncOptions:
       - Replace=true
       - CreateNamespace=true
+  source:
+    repoURL: 'https://helm.gpkg.io/platform'
+    chart: metacontroller-helm
+    targetRevision: v4.10.3
+    helm:
+      parameters:
+        - name: replicas
+          value: '2'

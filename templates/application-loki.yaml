@@ -8,10 +8,23 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-loki
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
-    path: ''
     repoURL: 'https://grafana.github.io/helm-charts'
-    targetRevision: 5.5.1
+    chart: loki
+    targetRevision: 5.6.4
     helm:
       parameters:
         - name: loki.auth_enabled
@@ -77,17 +90,3 @@ spec:
                 store: inmemory
             enable_api: true
             enable_alertmanager_v2: true
-    chart: loki
-  project: glueops-core
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true  
-    automated:
-      prune: true
-      selfHeal: true
-    retry:
-      backoff:
-        duration: 10s
-        factor: 2
-        maxDuration: 3m0s
-      limit: 5

@@ -8,15 +8,6 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-promtail
-  source:
-    path: ''
-    repoURL: 'https://grafana.github.io/helm-charts'
-    targetRevision: 6.11.2
-    chart: promtail
-    helm:
-      parameters:
-        - name: config.clients[0].url
-          value: http://loki-write.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -30,3 +21,11 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 5
+  source:
+    repoURL: 'https://grafana.github.io/helm-charts'
+    chart: promtail
+    targetRevision: 6.11.3
+    helm:
+      parameters:
+        - name: config.clients[0].url
+          value: http://loki-write.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push

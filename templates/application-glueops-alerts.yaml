@@ -25,10 +25,11 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.1.1
+    chart: glueops-alerts
+    targetRevision: 0.2.0
     helm:
       skipCrds: true
-    chart: glueops-alerts
-  project: glueops-core
+      parameters:
+        - name: prometheus-alertmanagerconfig-opsgenie.opsgenie.apikey
+          value: {{ .Values.glueops_alerts.opsgenie_apikey }}

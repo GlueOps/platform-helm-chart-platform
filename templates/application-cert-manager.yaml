@@ -8,10 +8,23 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-cert-manager
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
-    path: ''
     repoURL: 'https://helm.gpkg.io/platform'
-    targetRevision: 0.7.2
+    chart: glueops-cert-manager
+    targetRevision: 0.8.0
     helm:
       skipCrds: true
       parameters:
@@ -29,17 +42,3 @@ spec:
           value: "true"
         - name: cert-manager.prometheus.servicemonitor.enabled
           value: "true"
-    chart: glueops-cert-manager
-  project: glueops-core
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
-    automated:
-      prune: true
-      selfHeal: true
-    retry:
-      backoff:
-        duration: 10s
-        factor: 2
-        maxDuration: 3m0s
-      limit: 5
