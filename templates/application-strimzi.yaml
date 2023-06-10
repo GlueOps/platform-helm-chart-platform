@@ -8,14 +8,6 @@ spec:
   destination:
     name: "in-cluster"
     namespace: glueops-core-strimzi-operator
-  source:
-    repoURL: 'https://strimzi.io/charts/'
-    targetRevision: 0.34.0
-    chart: strimzi-kafka-operator
-    helm:
-      parameters:
-        - name: watchAnyNamespace
-          value: 'true'
   project: glueops-core
   syncPolicy:
     automated:
@@ -29,3 +21,11 @@ spec:
       limit: 5
     syncOptions:
     - CreateNamespace=true
+  source:
+    repoURL: 'https://strimzi.io/charts/'
+    chart: strimzi-kafka-operator
+    targetRevision: 0.35.1
+    helm:
+      parameters:
+        - name: watchAnyNamespace
+          value: 'true'
