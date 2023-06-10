@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-alerts
-    targetRevision: 0.1.1
+    targetRevision: 0.2.0
     helm:
       skipCrds: true
       parameters:
