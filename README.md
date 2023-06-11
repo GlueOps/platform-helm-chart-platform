@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.16.0-alpha1](https://img.shields.io/badge/Version-0.16.0--alpha1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.16.0-alpha2](https://img.shields.io/badge/Version-0.16.0--alpha2-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -40,6 +40,12 @@ This chart deploys the GlueOps Platform
 | glueops_backups.vault.company_key | string | `"placeholder_tenant_key"` |  |
 | grafana.admin_password | string | `"placeholder_grafana_admin_password"` | Default admin password. CHANGE THIS!!!! |
 | grafana.github_other_org_names | string | `"placeholder_tenant_github_org_name"` |  |
+| host_network.cert_manager.webhook_secure_port | int | `10750` |  |
+| host_network.enabled | bool | `true` |  |
+| host_network.external_secrets.webhook_port | int | `10751` |  |
+| host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `10754` |  |
+| host_network.nginx_public.controller.host_port.ports.http | int | `10752` |  |
+| host_network.nginx_public.controller.host_port.ports.https | int | `10753` |  |
 | loki.aws_accessKey | string | `"placeholder_loki_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
