@@ -47,4 +47,4 @@ spec:
         - name: cert-manager.webhook.hostNetwork
           value: "{{ .Values.host_network.enabled }}"
         - name: cert-manager.webhook.securePort
-          value: {{ .Values.host_network.cert_manager.webhook_secure_port }}
+          value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
