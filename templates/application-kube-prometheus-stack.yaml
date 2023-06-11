@@ -58,9 +58,9 @@ spec:
           disabled:
             KubePodNotReady: true
         prometheusOperator:
-          hostNetwork: true
+          hostNetwork: {{ .Values.host_network.enabled }}
           tls:
-            internalPort: 10754
+            internalPort: {{ .Values.host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port }}
         prometheus: 
           prometheusSpec:
             replicas: 2
@@ -82,7 +82,7 @@ spec:
                   resources:
                     requests:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
-            hostNetwork: true
+            hostNetwork: {{ .Values.host_network.enabled }}
         grafana:
           adminPassword: "{{ .Values.grafana.admin_password }}"
           ingress:

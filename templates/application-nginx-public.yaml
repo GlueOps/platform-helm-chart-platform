@@ -37,11 +37,11 @@ spec:
           value: 'false'
       values: |-
         controller:
-          hostNetwork: true
+          hostNetwork: {{ .Values.host_network.enabled }}
           hostPort:
             ports:
-              http: 10752
-              https: 10753
+              http: {{ .Values.nginx_public.controller.host_port.ports.http }}
+              https: {{ .Values.nginx_public.controller.host_port.ports.https }}
           config:
             # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/log-format.md
             # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
