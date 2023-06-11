@@ -4,6 +4,8 @@ metadata:
   name: public-ingress-nginx
   annotations:
     argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"

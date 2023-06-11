@@ -4,6 +4,8 @@ metadata:
   name: cert-manager
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"

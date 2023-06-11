@@ -4,6 +4,8 @@ metadata:
   name: tenant-application-stack 
   annotations:
     argocd.argoproj.io/sync-wave: "20"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"

@@ -4,6 +4,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   name: glueops-dex
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"
