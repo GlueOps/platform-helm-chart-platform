@@ -2,7 +2,7 @@
 development_mode_enabled: placeholder_this_is_development
 
 host_network:
-  enabled: "true"
+  enabled: true
   external_secrets:
     webhook_port: 10751
   cert_manager:
