@@ -2,21 +2,21 @@
 development_mode_enabled: placeholder_this_is_development
 
 host_network:
-  enabled: true
+  enabled: placeholder_enable_host_network
   external_secrets:
-    webhook_port: 10751
+    webhook_port: 49250
   cert_manager:
-    webhook_secure_port: 10750
+    webhook_secure_port: 49260
   nginx_public:
     controller:
       host_port:
         ports:
-          http: 10752
-          https: 10753
+          http: 49270
+          https: 49271
   kube_pometheus_stack:
     prometheusOperator:
       tls:
-        internal_port: 10754
+        internal_port: 49280
 
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
