@@ -4,6 +4,8 @@ metadata:
   name: glueops-grafana-dashboards
   annotations:
     argocd.argoproj.io/sync-wave: "3"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"
@@ -24,4 +26,4 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-grafana-dashboards
-    targetRevision: 0.8.1
+    targetRevision: 0.8.2

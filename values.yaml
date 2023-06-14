@@ -1,6 +1,24 @@
 # @ignored
 development_mode_enabled: placeholder_this_is_development
 
+host_network:
+  enabled: placeholder_enable_host_network
+  external_secrets:
+    webhook_port: 45010
+  cert_manager:
+    webhook_secure_port: 45020
+  nginx_public:
+    controller:
+      host_port:
+        ports:
+          http: 45030
+          https: 45031
+  kube_pometheus_stack:
+    prometheusOperator:
+      tls:
+        internal_port: 45040
+
+
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
 # This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
 captain_domain: placeholder_cluster_environment.placeholder_tenant_key.placeholder_glueops_root_domain
