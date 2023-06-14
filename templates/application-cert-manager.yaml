@@ -4,6 +4,8 @@ metadata:
   name: cert-manager
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"
@@ -42,3 +44,7 @@ spec:
           value: "true"
         - name: cert-manager.prometheus.servicemonitor.enabled
           value: "true"
+        - name: cert-manager.webhook.hostNetwork
+          value: "{{ .Values.host_network.enabled }}"
+        - name: cert-manager.webhook.securePort
+          value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"

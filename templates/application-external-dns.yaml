@@ -4,6 +4,8 @@ metadata:
   name: external-dns
   annotations:
     argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"
@@ -42,7 +44,7 @@ spec:
         - name: aws.preferCNAME
           value: "true"
         - name: txtPrefix
-          value: extdnsk8s
+          value: "extdns-"
         - name: metrics.enabled
           value: "true"
         - name: metrics.serviceMonitor.enabled

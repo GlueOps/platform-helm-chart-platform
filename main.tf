@@ -103,6 +103,12 @@ variable "this_is_development" {
   description = "Determines whether the cluster is a development cluster or deployed in a customer environment."
 }
 
+variable "host_network_enabled" {
+  type        = bool
+  description = "Determines whether or not to use hostNetwork mode."
+}
+  
+
 
 data "local_file" "platform_values_template" {
   filename = "${path.module}/values.yaml"
@@ -149,11 +155,12 @@ variable "github_tenant_app_b64enc_private_key" {
 
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
     "placeholder_this_is_development", var.this_is_development),
+    "placeholder_enable_host_network", var.host_network_enabled),
     "placeholder_cluster_environment", var.cluster_environment),
     "placeholder_glueops_root_domain", var.glueops_root_domain),
     "placeholder_opsgenie_api_key", var.opsgenie_api_key),
