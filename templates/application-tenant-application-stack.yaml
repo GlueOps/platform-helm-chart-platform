@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     name: "in-cluster"
-    namespace: gluops-core-customer-stack
+    namespace: glueops-core-customer-stack
   project: glueops-core
   source:
     directory:
