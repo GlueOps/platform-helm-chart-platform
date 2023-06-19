@@ -15,7 +15,7 @@ spec:
     directory:
       jsonnet: {}
       recurse: true
-    path: .
+    path: manifests/
     repoURL: {{ .Values.captain_repo.ssh_clone_url }}
     targetRevision: HEAD
   syncPolicy:
