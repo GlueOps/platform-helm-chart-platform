@@ -55,7 +55,7 @@ glueops_backups:
 
 captain_repo:
   # -- This is a read only deploy key that will be used to read the captain repo. Part of output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  deploy_key: placeholder_captain_repo_b64enc_private_deploy_key
+  private_b64enc_deploy_key: placeholder_captain_repo_b64enc_private_deploy_key
   # -- This is the github url of the captain repo https://github.com/glueops/development-captains/tenant . Part of output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   ssh_clone_url: placeholder_captain_repo_ssh_clone_url
 
