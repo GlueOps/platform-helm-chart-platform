@@ -107,7 +107,7 @@ variable "host_network_enabled" {
   type        = bool
   description = "Determines whether or not to use hostNetwork mode."
 }
-  
+
 
 
 data "local_file" "platform_values_template" {
@@ -153,12 +153,26 @@ variable "github_tenant_app_b64enc_private_key" {
   nullable    = false
 }
 
+variable "captain_repo_b64encoded_private_deploy_key" {
+  description = "Captain repo private deploy key, base64 encoded"
+  type        = string
+  nullable    = false
+}
+
+variable "captain_repo_https_url" {
+  description = "Captain repo HTTPS clone URL"
+  type        = string
+  nullable    = false
+}
+
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
+    "placeholder_captain_repo_b64enc_private_deploy_key", var.captain_repo_b64encoded_private_deploy_key),
+    "placeholder_captain_repo_https_url", var.captain_repo_https_url),
     "placeholder_this_is_development", var.this_is_development),
     "placeholder_enable_host_network", var.host_network_enabled),
     "placeholder_cluster_environment", var.cluster_environment),
