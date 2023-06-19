@@ -26,10 +26,8 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-metacontroller-operator-loki-rule-group
-    targetRevision: 0.3.0
+    targetRevision: 0.3.1
     helm:
       parameters:
-        - name: appNamespace
-          value: glueops-core-loki-alert-group-controller
         - name: image.lokiApiEndpoint
           value: 'http://loki-gateway.glueops-core-loki.svc.cluster.local'
