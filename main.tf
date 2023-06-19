@@ -159,8 +159,8 @@ variable "captain_repo_b64encoded_private_deploy_key" {
   nullable    = false
 }
 
-variable "captain_repo_https_url" {
-  description = "Captain repo HTTPS clone URL"
+variable "captain_repo_ssh_clone_url" {
+  description = "Captain repo SSH clone URL"
   type        = string
   nullable    = false
 }
@@ -172,7 +172,7 @@ output "helm_values" {
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
     "placeholder_captain_repo_b64enc_private_deploy_key", var.captain_repo_b64encoded_private_deploy_key),
-    "placeholder_captain_repo_https_url", var.captain_repo_https_url),
+    "placeholder_captain_repo_ssh_clone_url", var.captain_repo_ssh_clone_url),
     "placeholder_this_is_development", var.this_is_development),
     "placeholder_enable_host_network", var.host_network_enabled),
     "placeholder_cluster_environment", var.cluster_environment),
