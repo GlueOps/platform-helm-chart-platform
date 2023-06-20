@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: captain-repo-manifests
+  name: captain-manifests
   annotations:
     argocd.argoproj.io/sync-wave: "20"
   finalizers:
@@ -34,7 +34,7 @@ spec:
 apiVersion: v1
 data:
   insecure: dHJ1ZQ== # true
-  name: Y2FwdGFpbi1yZXBvLW1hbmlmZXN0cwo= # captain-repo-manifests
+  name: Y2FwdGFpbi1tYW5pZmVzdHM= # captain-manifests
   project: Z2x1ZW9wcy1jb3Jl # glueops-core
   type: Z2l0 # git
   url: {{ .Values.captain_repo.ssh_clone_url | b64enc }}
