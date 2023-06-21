@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-webhook-ingress-push
+  namespace: glueops-core
+spec:
+  ingressClassName: public
+  rules:
+  - host: webhooks-argocd.{{ .Values.captain_domain }}
+    http:
+      paths:
+      - pathType: Exact
+        path: /api/webhook
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 443
