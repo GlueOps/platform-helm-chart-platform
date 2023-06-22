@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server
+  name: webhook-argocd-server
 spec:
   ingressClassName: public
   rules:
-  - host: webhooks-argocd-server.{{ .Values.captain_domain }}
+  - host: webhook-argocd-server.{{ .Values.captain_domain }}
     http:
       paths:
       - pathType: Exact
