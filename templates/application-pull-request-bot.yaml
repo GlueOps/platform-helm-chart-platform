@@ -25,4 +25,4 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-pull-request-bot
-    targetRevision: 0.2.0
+    targetRevision: 0.3.0
