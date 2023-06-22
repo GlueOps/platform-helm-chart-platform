@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webhook-argocd-server
+spec:
+  ingressClassName: public
+  rules:
+  - host: webhook-argocd-server.{{ .Values.captain_domain }}
+    http:
+      paths:
+      - pathType: Exact
+        path: /api/webhook
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 443
