@@ -22,9 +22,9 @@ spec:
         maxDuration: 3m0s
       limit: 2
   source:
-    repoURL: https://incubating-helm.gpkg.io/project-template
-    chart: app-helm-chart
-    targetRevision: 0.1.0-alpha1
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.1.0
     helm:
       values: |+
         appName: "glueops-backup-and-exports"
