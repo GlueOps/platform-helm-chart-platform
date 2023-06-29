@@ -24,6 +24,6 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: 'https://incubating-helm.gpkg.io/platform'
+    repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-grafana-dashboards
-    targetRevision: 0.9.0-alpha1
+    targetRevision: 0.9.0
