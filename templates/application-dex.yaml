@@ -41,6 +41,8 @@ spec:
                 - path: /
                   pathType: Prefix
         config:
+          oauth2:
+            skipApprovalScreen: true
           issuer: https://dex.{{ .Values.captain_domain }}
           storage:
             type: memory
