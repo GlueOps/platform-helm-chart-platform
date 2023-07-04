@@ -27,9 +27,11 @@ spec:
   source:
     repoURL: https://charts.dexidp.io
     chart: dex
-    targetRevision: 0.14.1
+    targetRevision: 0.14.3
     helm:
       values: |
+        image:
+          tag: v2.37.0
         ingress:
           enabled: true
           className: "public"

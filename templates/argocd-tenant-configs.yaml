@@ -1,19 +1,4 @@
 apiVersion: v1
-data:
-  name: cHJvamVjdC10ZW1wbGF0ZQ== #project-template
-  project: ZGV2ZWxvcG1lbnQ= #development
-  type: aGVsbQ== #helm
-  url: aHR0cHM6Ly9oZWxtLmdwa2cuaW8vcHJvamVjdC10ZW1wbGF0ZQ== #https://helm.gpkg.io/project-template
-kind: Secret
-metadata:
-  annotations:
-    managed-by: argocd.argoproj.io
-  labels:
-    argocd.argoproj.io/secret-type: repository
-  name: helm-glueops-project-template
-type: Opaque
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: glueops-captain-domain
