@@ -1,0 +1,64 @@
+# Original PR is here:
+# https://github.com/GlueOps/platform-helm-chart-platform/blob/ddf7888db2755fe4ad1a9d639c84bd87e2cf7e9a/templates/application-keda.yaml
+#
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keda
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-keda
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+      - Replace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://kedacore.github.io/charts'
+    targetRevision: 2.11.1
+    chart: keda
+    helm:
+      values: |-
+        resources:
+          operator:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 1
+              memory: 1000Mi
+        prometheus:
+          metricServer:
+            enabled: true
+        prometheus:
+            webhooks:
+                port: 45055
+                serviceMonitor:
+                    targetPort: 45058
+            operator:
+                enabled: true
+                port: 45056
+            metricServer:
+                port: 45057
+        service:
+            portHttps:  "{{ .Values.host_network.keda.service.portHttps }}"
+            portHttpsTarget: "{{ .Values.host_network.keda.service.portHttpsTarget }}"
+        metricsServer:
+            useHostNetwork: "{{ .Values.host_network.enabled }}"
+        webhooks:
+            enabled: true
+            port:  "{{ .Values.host_network.keda.webhooks.port }}"
+            healthProbePort: "{{ .Values.host_network.keda.webhooks.healthProbePort }}"
+            useHostNetwork: "{{ .Values.host_network.enabled }}"

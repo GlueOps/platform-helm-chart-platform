@@ -17,6 +17,17 @@ host_network:
     prometheusOperator:
       tls:
         internal_port: 45040
+  keda:
+    webhooks:
+      port: 45050
+      healthProbePort: 45051
+    prometheus:
+      metricServer:
+        port: 45054
+    service:
+        portHttps:  45052
+        portHttpsTarget: 45053
+    
 
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
