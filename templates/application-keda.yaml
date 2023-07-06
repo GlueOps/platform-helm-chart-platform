@@ -7,6 +7,8 @@ metadata:
   name: keda
   annotations:
     argocd.argoproj.io/sync-wave: "4"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"
