@@ -26,13 +26,11 @@ host_network:
       portHttpsTarget: 45053
     prometheus:
       webhooks:
-        port: 45055
-        serviceMonitor:
-          targetPort: 45058
+        port: 45054
       operator:
-        port: 45056
+        port: 45055
       metricServer:
-        port: 45057
+        port: 45056
 
 
 

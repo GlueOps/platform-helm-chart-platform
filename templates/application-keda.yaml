@@ -49,8 +49,6 @@ spec:
             webhooks:
                 enabled: true
                 port: {{ .Values.host_network.keda.prometheus.webhooks.port }}
-                serviceMonitor:
-                    targetPort: {{ .Values.host_network.keda.prometheus.webhooks.serviceMonitor.targetPort }}
             operator:
                 enabled: true
                 port: {{ .Values.host_network.keda.prometheus.operator.port }}
