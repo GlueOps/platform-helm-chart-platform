@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.19.1](https://img.shields.io/badge/Version-0.19.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.20.0](https://img.shields.io/badge/Version-0.20.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -44,6 +44,13 @@ This chart deploys the GlueOps Platform
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
 | host_network.enabled | string | `"placeholder_enable_host_network"` |  |
 | host_network.external_secrets.webhook_port | int | `45010` |  |
+| host_network.keda.prometheus.metricServer.port | int | `45056` |  |
+| host_network.keda.prometheus.operator.port | int | `45055` |  |
+| host_network.keda.prometheus.webhooks.port | int | `45054` |  |
+| host_network.keda.service.portHttps | int | `45052` |  |
+| host_network.keda.service.portHttpsTarget | int | `45053` |  |
+| host_network.keda.webhooks.healthProbePort | int | `45051` |  |
+| host_network.keda.webhooks.port | int | `45050` |  |
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
