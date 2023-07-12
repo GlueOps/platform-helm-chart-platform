@@ -34,7 +34,9 @@ spec:
           tag: v2.37.0
         ingress:
           enabled: true
-          className: "public"
+          className: "public-authenticated"
+          annotations:
+            ingress.pomerium.io/allow_public_unauthenticated_access: 'true'
           hosts:
             - host: dex.{{ .Values.captain_domain }}
               paths:
