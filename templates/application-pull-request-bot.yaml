@@ -38,6 +38,13 @@ spec:
           create: true
           name: pull-request-bot
         deployment:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
           serviceAccount:
             enabled: true
             name: pull-request-bot
