@@ -24,9 +24,9 @@ spec:
         factor: 2
       limit: 2
   source:
-    repoURL: 'https://helm.gpkg.io/platform'
-    chart: glueops-metacontroller-operator-loki-rule-group
-    targetRevision: 0.3.1
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.2.0
     helm:
       values: |
         appName: '{{ .Release.Name }}'
@@ -38,11 +38,11 @@ spec:
 
         service:
           enabled: true
+          port: 80
 
+        app:
+          port: 80
         deployment:
-          containerPorts:
-            - name: http
-              port: 80
           envVariables:
             - name: LOKI_API_ENDPOINT
               value: 'http://loki-gateway.glueops-core-loki.svc.cluster.local'
@@ -116,8 +116,11 @@ spec:
                               properties:
                                 status:
                                   type: string
-              subresources:
-                status: {}
+                  subresources:
+                   status: {}
+
+
+
           - |-
             apiVersion: metacontroller.k8s.io/v1alpha1
             kind: CompositeController
