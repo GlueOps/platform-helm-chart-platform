@@ -48,3 +48,36 @@ spec:
           value: "{{ .Values.host_network.enabled }}"
         - name: cert-manager.webhook.securePort
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
+      values: |-
+        cert-manager:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule"
+          webhook:
+            nodeSelector:
+              glueops.dev/role: "glueops-platform"
+            tolerations:
+              - key: "glueops.dev/role"
+                operator: "Equal"
+                value: "glueops-platform"
+                effect: "NoSchedule"
+          cainjector:
+            nodeSelector:
+              glueops.dev/role: "glueops-platform"
+            tolerations:
+              - key: "glueops.dev/role"
+                operator: "Equal"
+                value: "glueops-platform"
+                effect: "NoSchedule"
+          startupapicheck:
+            nodeSelector:
+              glueops.dev/role: "glueops-platform"
+            tolerations:
+              - key: "glueops.dev/role"
+                operator: "Equal"
+                value: "glueops-platform"
+                effect: "NoSchedule"

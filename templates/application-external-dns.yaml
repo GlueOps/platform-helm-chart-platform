@@ -49,3 +49,11 @@ spec:
           value: "true"
         - name: metrics.serviceMonitor.enabled
           value: "true"
+      values: |
+        nodeSelector:
+          glueops.dev/role: "glueops-platform"
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "glueops-platform"
+            effect: "NoSchedule"

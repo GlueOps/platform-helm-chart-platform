@@ -31,3 +31,11 @@ spec:
       parameters:
         - name: watchAnyNamespace
           value: 'true'
+      values: |-
+        nodeSelector:
+          glueops.dev/role: "glueops-platform"
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "glueops-platform"
+            effect: "NoSchedule" 

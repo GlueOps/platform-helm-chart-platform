@@ -27,9 +27,16 @@ spec:
   source:
     repoURL: https://charts.dexidp.io
     chart: dex
-    targetRevision: 0.14.3
+    targetRevision: 0.15.2
     helm:
       values: |
+        nodeSelector:
+          glueops.dev/role: "glueops-platform"
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "glueops-platform"
+            effect: "NoSchedule"
         image:
           tag: v2.37.0
         ingress:

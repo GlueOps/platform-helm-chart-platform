@@ -72,6 +72,54 @@ spec:
         - name: monitoring.selfMonitoring.grafanaAgent.installOperator
           value: 'false'
       values: |-
+        write:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
+        tableManager:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
+        read:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
+        backend:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
+        singleBinary:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
+        gateway:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
         loki:
           commonConfig:
             path_prefix: /var/loki

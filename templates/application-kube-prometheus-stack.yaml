@@ -43,6 +43,13 @@ spec:
           enabled: false
         alertmanager:
           alertmanagerSpec:
+            nodeSelector:
+              glueops.dev/role: "glueops-platform"
+            tolerations:
+              - key: "glueops.dev/role"
+                operator: "Equal"
+                value: "glueops-platform"
+                effect: "NoSchedule"
             image:
               registry: ghcr.io
               repository: glueops/alertmanager
@@ -61,8 +68,31 @@ spec:
           hostNetwork: {{ .Values.host_network.enabled }}
           tls:
             internalPort: {{ .Values.host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port }}
+          admissionWebhooks:
+            patch:
+              nodeSelector:
+                glueops.dev/role: "glueops-platform"
+              tolerations:
+                - key: "glueops.dev/role"
+                  operator: "Equal"
+                  value: "glueops-platform"
+                  effect: "NoSchedule"
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule"          
         prometheus: 
           prometheusSpec:
+            nodeSelector:
+              glueops.dev/role: "glueops-platform"
+            tolerations:
+              - key: "glueops.dev/role"
+                operator: "Equal"
+                value: "glueops-platform"
+                effect: "NoSchedule" 
             replicas: 2
             ruleSelector: {}
             ruleNamespaceSelector: {}
@@ -84,6 +114,13 @@ spec:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
         grafana:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
           adminPassword: "{{ .Values.grafana.admin_password }}"
           ingress:
             enabled: true

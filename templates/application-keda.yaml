@@ -33,6 +33,13 @@ spec:
     chart: keda
     helm:
       values: |-
+        nodeSelector:
+          glueops.dev/role: "glueops-platform"
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "glueops-platform"
+            effect: "NoSchedule"
         watchNamespace: "''"
         resources:
             operator:

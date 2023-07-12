@@ -32,3 +32,11 @@ spec:
       parameters:
         - name: replicas
           value: '2'
+      values: |-
+        nodeSelector:
+          glueops.dev/role: "glueops-platform"
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "glueops-platform"
+            effect: "NoSchedule" 

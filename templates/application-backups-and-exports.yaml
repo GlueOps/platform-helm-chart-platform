@@ -39,6 +39,13 @@ spec:
           enabled: true
           jobs:
             vault-backups-to-s3:
+              nodeSelector:
+                glueops.dev/role: "glueops-platform"
+              tolerations:
+                - key: "glueops.dev/role"
+                  operator: "Equal"
+                  value: "glueops-platform"
+                  effect: "NoSchedule"
               serviceAccount:
                 enabled: true
                 name: vault-backup
@@ -79,6 +86,13 @@ spec:
                   medium: "" # Set to "Memory" for tmpfs (RAM-backed filesystem), or leave empty for node's filesystem
                   sizeLimit: 2G # Set the desired size limit
             loki-log-exporter-to-s3:
+              nodeSelector:
+                glueops.dev/role: "glueops-platform"
+              tolerations:
+                - key: "glueops.dev/role"
+                  operator: "Equal"
+                  value: "glueops-platform"
+                  effect: "NoSchedule"
               schedule: "{{ .Values.glueops_backups.loki_exporter_to_s3.cron_expression }}"
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10

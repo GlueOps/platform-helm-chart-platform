@@ -42,6 +42,13 @@ spec:
         injector:
           enabled: false
         server:
+          nodeSelector:
+            glueops.dev/role: "glueops-platform"
+          tolerations:
+            - key: "glueops.dev/role"
+              operator: "Equal"
+              value: "glueops-platform"
+              effect: "NoSchedule" 
           image:
             tag: 1.13.4
           ingress:
