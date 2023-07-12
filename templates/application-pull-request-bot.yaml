@@ -23,6 +23,55 @@ spec:
         factor: 2
       limit: 2
   source:
-    repoURL: 'https://helm.gpkg.io/platform'
-    chart: glueops-pull-request-bot
-    targetRevision: 0.3.0
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.2.0
+    helm:
+      values: |
+        appName: 'pull-request-bot'
+        image:
+          registry: ghcr.io
+          repository: glueops/pull-request-bot
+          tag: v0.7.0
+          pullPolicy: Always
+        serviceAccount:
+          create: true
+          name: pull-request-bot
+        deployment:
+          serviceAccount:
+            enabled: true
+            name: pull-request-bot
+          replicas: 1
+          enabled: true
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+        customResources:
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRole
+            metadata:
+              name: pull-request-bot
+            rules:
+            - apiGroups: [""]
+              resources: ["secrets", "configmaps"]
+              verbs: ["get", "list", "watch"]
+            - apiGroups: ["argoproj.io"]
+              resources: ["applications","applicationsets"]
+              verbs: ["list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              name: pull-request-bot
+            subjects:
+            - kind: ServiceAccount
+              name: pull-request-bot
+              namespace: glueops-core-pull-request-bot
+            roleRef:
+              kind: ClusterRole
+              name: pull-request-bot
+              apiGroup: rbac.authorization.k8s.io
+        
