@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.21.0-alpha1](https://img.shields.io/badge/Version-0.21.0--alpha1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.21.0](https://img.shields.io/badge/Version-0.21.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -39,6 +39,11 @@ This chart deploys the GlueOps Platform
 | glueops_backups.vault.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_secretKey | string | `"placeholder_vault_aws_secret_key"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.company_key | string | `"placeholder_tenant_key"` |  |
+| glueops_node_and_tolerations.nodeSelector."glueops.dev/role" | string | `"glueops-platform"` |  |
+| glueops_node_and_tolerations.tolerations[0].effect | string | `"NoSchedule"` |  |
+| glueops_node_and_tolerations.tolerations[0].key | string | `"glueops.dev/role"` |  |
+| glueops_node_and_tolerations.tolerations[0].operator | string | `"Equal"` |  |
+| glueops_node_and_tolerations.tolerations[0].value | string | `"glueops-platform"` |  |
 | grafana.admin_password | string | `"placeholder_grafana_admin_password"` | Default admin password. CHANGE THIS!!!! |
 | grafana.github_other_org_names | string | `"placeholder_tenant_github_org_name"` |  |
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
