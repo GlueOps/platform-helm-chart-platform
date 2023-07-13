@@ -27,14 +27,17 @@ spec:
   source:
     repoURL: https://charts.dexidp.io
     chart: dex
-    targetRevision: 0.14.3
+    targetRevision: 0.15.2
     helm:
       values: |
+        {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         image:
           tag: v2.37.0
         ingress:
           enabled: true
-          className: "public"
+          className: "public-authenticated"
+          annotations:
+            ingress.pomerium.io/allow_public_unauthenticated_access: 'true'
           hosts:
             - host: dex.{{ .Values.captain_domain }}
               paths:

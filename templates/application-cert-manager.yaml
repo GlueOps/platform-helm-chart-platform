@@ -48,3 +48,12 @@ spec:
           value: "{{ .Values.host_network.enabled }}"
         - name: cert-manager.webhook.securePort
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
+      values: |-
+        cert-manager:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          webhook:
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
+          cainjector:
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
+          startupapicheck:
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}

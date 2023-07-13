@@ -41,8 +41,11 @@ spec:
           enabled: false
         kubeProxy:
           enabled: false
+        kube-state-metrics:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         alertmanager:
           alertmanagerSpec:
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             image:
               registry: ghcr.io
               repository: glueops/alertmanager
@@ -61,8 +64,13 @@ spec:
           hostNetwork: {{ .Values.host_network.enabled }}
           tls:
             internalPort: {{ .Values.host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port }}
+          admissionWebhooks:
+            patch:
+              {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         prometheus: 
           prometheusSpec:
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             replicas: 2
             ruleSelector: {}
             ruleNamespaceSelector: {}
@@ -84,6 +92,7 @@ spec:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
         grafana:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           ingress:
             enabled: true
@@ -91,6 +100,8 @@ spec:
             annotations:
               ingress.pomerium.io/allow_any_authenticated_user: 'true'
               ingress.pomerium.io/pass_identity_headers: 'true'
+              ingress.pomerium.io/allow_websockets: 'true'
+              ingress.pomerium.io/idle_timeout: 0s
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
           additionalDataSources:
