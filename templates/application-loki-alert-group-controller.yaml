@@ -46,13 +46,7 @@ spec:
           envVariables:
             - name: LOKI_API_ENDPOINT
               value: 'http://loki-gateway.glueops-core-loki.svc.cluster.local'
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2
           enabled: true
           imagePullPolicy: Always

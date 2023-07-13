@@ -50,34 +50,10 @@ spec:
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
       values: |-
         cert-manager:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule"
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           webhook:
-            nodeSelector:
-              glueops.dev/role: "glueops-platform"
-            tolerations:
-              - key: "glueops.dev/role"
-                operator: "Equal"
-                value: "glueops-platform"
-                effect: "NoSchedule"
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
           cainjector:
-            nodeSelector:
-              glueops.dev/role: "glueops-platform"
-            tolerations:
-              - key: "glueops.dev/role"
-                operator: "Equal"
-                value: "glueops-platform"
-                effect: "NoSchedule"
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
           startupapicheck:
-            nodeSelector:
-              glueops.dev/role: "glueops-platform"
-            tolerations:
-              - key: "glueops.dev/role"
-                operator: "Equal"
-                value: "glueops-platform"
-                effect: "NoSchedule"
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}

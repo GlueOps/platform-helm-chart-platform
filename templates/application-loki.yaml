@@ -73,54 +73,24 @@ spec:
           value: 'false'
       values: |-
         write:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         tableManager:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         read:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         backend:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         singleBinary:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         gateway:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         loki:
+          querier:
+            max_concurrent: 2048
+          limits_config:
+            split_queries_by_interval: 30m
+          frontend:
+            max_outstanding_per_tenant: 2048
           commonConfig:
             path_prefix: /var/loki
             replication_factor: 3

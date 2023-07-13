@@ -42,13 +42,7 @@ spec:
         injector:
           enabled: false
         server:
-          nodeSelector:
-            glueops.dev/role: "glueops-platform"
-          tolerations:
-            - key: "glueops.dev/role"
-              operator: "Equal"
-              value: "glueops-platform"
-              effect: "NoSchedule" 
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
             tag: 1.13.4
           ingress:
@@ -60,6 +54,7 @@ spec:
                 ingress.pomerium.io/pass_identity_headers: 'true'
                 ingress.pomerium.io/secure_upstream: 'true'
                 ingress.pomerium.io/tls_skip_verify: 'true'
+                ingress.pomerium.io/idle_timeout: 0s
               enabled: true
               hosts: 
                 - host: vault.{{ .Values.captain_domain }}
