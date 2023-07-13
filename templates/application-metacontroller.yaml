@@ -32,3 +32,5 @@ spec:
       parameters:
         - name: replicas
           value: '2'
+      values: |-
+        {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
