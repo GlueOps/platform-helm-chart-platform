@@ -47,7 +47,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.3.0
+              image: ghcr.io/glueops/backup-tools:v0.4.0
               command: ["/bin/bash", "-c"]
               args:
                 - backup-vault
@@ -78,14 +78,14 @@ spec:
               - name: vault-backups
                 emptyDir:
                   medium: "" # Set to "Memory" for tmpfs (RAM-backed filesystem), or leave empty for node's filesystem
-                  sizeLimit: 2G # Set the desired size limit
+                  sizeLimit: 20G # Set the desired size limit
             loki-log-exporter-to-s3:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
               schedule: "{{ .Values.glueops_backups.loki_exporter_to_s3.cron_expression }}"
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.3.0
+              image: ghcr.io/glueops/backup-tools:v0.4.0
               command: ["/bin/bash", "-c"]
               args:
                 - backup-loki-logs-as-json
@@ -116,4 +116,4 @@ spec:
               - name: loki-log-exports
                 emptyDir:
                   medium: "" # Set to "Memory" for tmpfs (RAM-backed filesystem), or leave empty for node's filesystem
-                  sizeLimit: 2G # Set the desired size limit
+                  sizeLimit: 20G # Set the desired size limit

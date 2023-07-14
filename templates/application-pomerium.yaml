@@ -26,7 +26,4 @@ spec:
   source:
     repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
     path: .
-    targetRevision: v0.2.1
-    kustomize:
-      images:
-      - pomerium/ingress-controller:sha-dd49d67
+    targetRevision: v0.3.0

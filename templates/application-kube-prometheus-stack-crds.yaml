@@ -25,8 +25,8 @@ spec:
       limit: 5
   source:
     repoURL: https://github.com/prometheus-community/helm-charts.git
-    path: charts/kube-prometheus-stack/crds/
-    targetRevision: kube-prometheus-stack-46.8.0
+    path: charts/kube-prometheus-stack/charts/crds/crds
+    targetRevision: kube-prometheus-stack-48.1.1
     directory:
       recurse: true
     
