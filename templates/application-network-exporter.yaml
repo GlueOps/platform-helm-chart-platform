@@ -23,6 +23,6 @@ spec:
         factor: 2
       limit: 2
   source:
-    repoURL: 'https://incubating-helm.gpkg.io/platform'
+    repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-network-exporter
-    targetRevision: 0.2.0-alpha1
+    targetRevision: 0.2.0
