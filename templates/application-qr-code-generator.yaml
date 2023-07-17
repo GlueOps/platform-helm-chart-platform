@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-pull-request-bot
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-pull-request-bot
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+    source:
+        repoURL: 'https://helm.gpkg.io/project-template'
+        targetRevision: 0.2.0
+        helm:
+            valueFiles:
+            - values.yaml
+            values: |-
+            replicaCount: '2'
+            image: 
+                registry: ghcr.io
+                repository: glueops/qr-code-generator
+                tag: dev
+                pullPolicy: Always
+                port: 8000
+                
+            deployment: 
+                enabled: true
+
+            service:
+                enabled: true
+                type: ClusterIP
+                ports: 
+                - port: 80
+                    name: service-port
+                    protocol: TCP
+                    targetPort: 8000
+
+            ingress:
+                enabled: true
+                ingressClassName: public
+                entries:
+                - name: external
+                    hosts:
+                    - hostname: qr-code-generator.test-80-np.pluto.onglueops.rocks
+                        paths:
+                        - path: /
+                            pathType: Prefix
+                            servicePortNumber: 80
+        chart: app
+        destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: qr-code-generator
+        syncPolicy:
+        automated:
+            selfHeal: true
+        syncOptions:
+            - CreateNamespace=true
+        retry:
+            limit: 2
+            backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m0s
