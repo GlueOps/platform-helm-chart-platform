@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-pull-request-bot
+  name: glueops-qr-code-generator
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-pull-request-bot
+    namespace: glueops-core-qr-code-generator
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -23,45 +23,41 @@ spec:
         factor: 2
       limit: 5
     source:
-        repoURL: 'https://helm.gpkg.io/project-template'
-        targetRevision: 0.2.0
-        helm:
-            valueFiles:
-            - values.yaml
-            values: |-
-            replicaCount: '2'
-            image: 
-                registry: ghcr.io
-                repository: glueops/qr-code-generator
-                tag: dev
-                pullPolicy: Always
-                port: 8000
+      repoURL: 'https://helm.gpkg.io/project-template'
+      chart: app
+      targetRevision: 0.2.0
+      helm:
+        values: |-
+          replicaCount: '2'
+          image: 
+            registry: ghcr.io
+            repository: glueops/qr-code-generator
+            tag: dev
+            pullPolicy: Always
+            port: 8000
                 
-            deployment: 
-                enabled: true
-                {{- toYaml .Values.glueops_node_and_tolerations | nindent 16 }}
+          deployment: 
+            enabled: true
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
 
-            service:
-                enabled: true
-                type: ClusterIP
-                ports: 
-                - port: 80
-                    name: qr-code-generator
-                    protocol: TCP
-                    targetPort: 8000
+          service:
+            enabled: true
+            type: ClusterIP
+            ports: 
+            - port: 80
+                name: qr-code-generator
+                protocol: TCP
+                targetPort: 8000
 
-            ingress:
-                enabled: true
-                ingressClassName: public
-                entries:
-                - name: public
-                    hosts:
-                    - hostname: qr-code-generator.{{ .Values.captain_domain }}
-                        paths:
+          ingress:
+            enabled: true
+            ingressClassName: public
+            entries:
+              - name: public
+                hosts:
+                  - hostname: qr-code-generator.{{ .Values.captain_domain }}
+                      paths:
                         - path: /
-                            pathType: Prefix
-                            servicePortNumber: 80
-        chart: app
-        destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: qr-code-generator
+                          pathType: Prefix
+                          servicePortNumber: 80
+       
