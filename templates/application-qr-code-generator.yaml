@@ -18,7 +18,7 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 10s
         maxDuration: 3m0s
         factor: 2
       limit: 2
@@ -45,7 +45,7 @@ spec:
                 type: ClusterIP
                 ports: 
                 - port: 80
-                    name: service-port
+                    name: qr-code-generator
                     protocol: TCP
                     targetPort: 8000
 
@@ -53,7 +53,7 @@ spec:
                 enabled: true
                 ingressClassName: public
                 entries:
-                - name: external
+                - name: qr-code-generator
                     hosts:
                     - hostname: qr-code-generator.test-80-np.pluto.onglueops.rocks
                         paths:
@@ -64,14 +64,3 @@ spec:
         destination:
         server: 'https://kubernetes.default.svc'
         namespace: qr-code-generator
-        syncPolicy:
-        automated:
-            selfHeal: true
-        syncOptions:
-            - CreateNamespace=true
-        retry:
-            limit: 2
-            backoff:
-            duration: 5s
-            factor: 2
-            maxDuration: 3m0s
