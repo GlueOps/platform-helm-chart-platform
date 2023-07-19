@@ -22,42 +22,42 @@ spec:
         maxDuration: 3m0s
         factor: 2
       limit: 5
-    source:
-      repoURL: 'https://helm.gpkg.io/project-template'
-      chart: app
-      targetRevision: 0.2.0
-      helm:
-        values: |-
-          replicaCount: '2'
-          image: 
-            registry: ghcr.io
-            repository: glueops/qr-code-generator
-            tag: v0.1.0
-            pullPolicy: Always
-            port: 8000
+  source:
+    repoURL: 'https://helm.gpkg.io/project-template'
+    chart: app
+    targetRevision: 0.2.0
+    helm:
+      values: |-
+        replicaCount: '2'
+        image: 
+          registry: ghcr.io
+          repository: glueops/qr-code-generator
+          tag: v0.1.0
+          pullPolicy: Always
+          port: 8000
                 
-          deployment: 
-            enabled: true
-            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
+        deployment: 
+          enabled: true
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
 
-          service:
-            enabled: true
-            type: ClusterIP
-            ports: 
+        service:
+          enabled: true
+          type: ClusterIP
+          ports: 
             - port: 80
-                name: qr-code-generator
-                protocol: TCP
-                targetPort: 8000
+              name: qr-code-generator
+              protocol: TCP
+              targetPort: 8000
 
-          ingress:
-            enabled: true
-            ingressClassName: public
-            entries:
-              - name: public
-                hosts:
-                  - hostname: qr-code-generator.{{ .Values.captain_domain }}
-                      paths:
-                        - path: /
-                          pathType: Prefix
-                          servicePortNumber: 80
+        ingress:
+          enabled: true
+          ingressClassName: public
+          entries:
+            - name: public
+              hosts:
+                - hostname: qr-code-generator.{{ .Values.captain_domain }}
+                  paths:
+                    - path: /
+                      pathType: Prefix
+                      servicePortNumber: 80
        
