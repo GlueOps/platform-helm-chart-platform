@@ -85,9 +85,17 @@ spec:
         gateway:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         loki:
+          compactor:
+            working_directory: /tmp/compactor
+            shared_store: s3
+            compaction_interval: 10m
+            retention_enabled: true
+            retention_delete_delay: 2h
+            retention_delete_worker_count: 50
           querier:
             max_concurrent: 2048
           limits_config:
+            retention_period: 768h
             split_queries_by_interval: 30m
           frontend:
             max_outstanding_per_tenant: 2048
