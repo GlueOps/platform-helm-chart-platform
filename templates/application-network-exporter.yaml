@@ -26,3 +26,7 @@ spec:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-network-exporter
     targetRevision: 0.2.0
+    helm:
+      values: |-
+        tolerations:
+          {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 10 }}
