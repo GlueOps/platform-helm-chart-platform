@@ -29,7 +29,7 @@ spec:
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
     chart: vault
-    targetRevision: 0.24.1
+    targetRevision: 0.25.0
     helm:
       values: |-
         # Vault Helm Chart Value Overrides
@@ -44,7 +44,7 @@ spec:
         server:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
-            tag: 1.13.4
+            tag: 1.14.1
           ingress:
               activeService: false
               ingressClassName: public-authenticated
