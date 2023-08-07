@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-cluster-info-page
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-cluster-info-page
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.3.0
+    helm:
+      values: |+
+        appName: "glueops-cluster-info-page"
+
+      
+        image:
+          registry: ghcr.io
+          repository: glueops/cluster-information-help-page-html
+          tag: v0.1.0
+          pullPolicy: Always
+          port: 80
+        
+        
+        service:
+          enabled: true
+        
+        deployment:
+          replicas: 1
+          enabled: true
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 15Mi
+        
+        ingress:
+          enabled: true
+          ingressClassName: public-authenticated
+          annotations:
+            ingress.pomerium.io/allow_any_authenticated_user: 'true'
+          entries:
+            - name: public-authenticated
+              hosts:
+                - hostname: cluster-info.infra.glueops.onglueops.com
