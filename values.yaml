@@ -126,6 +126,11 @@ prometheus:
   # -- Volume of storage requested for each Prometheus PVC, in Gi
   volume_claim_storage_request: "50"
 
+vault:
+  # -- Volume of storage requested for each Vault Data PVC, in Gi
+  data_storage: 10
+    
+
 dex:
   github:
     # -- To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1
@@ -159,8 +164,3 @@ glueops_node_and_tolerations:
       effect: "NoSchedule"
 
 
-
-  vault:
-    # -- Volume of storage requested for each Vault Data PVC, in Gi
-    data_storage: 10
-    
