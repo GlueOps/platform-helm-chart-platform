@@ -157,3 +157,10 @@ glueops_node_and_tolerations:
       operator: "Equal"
       value: "glueops-platform"
       effect: "NoSchedule"
+
+
+
+  vault:
+    # -- Volume of storage requested for each Vault Data PVC, in Gi
+    data_storage: 10
+    
