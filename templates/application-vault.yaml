@@ -45,6 +45,8 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
             tag: 1.14.1
+          dataStorage:
+            size: {{ .Values.vault.data_storage }}Gi
           ingress:
               activeService: false
               ingressClassName: public-authenticated
