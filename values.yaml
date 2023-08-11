@@ -129,6 +129,10 @@ prometheus:
 vault:
   # -- Volume of storage requested for each Vault Data PVC, in Gi
   data_storage: 10
+
+nginx:
+  # -- number of replicas for ingress controller
+  controller_replica_count: 2
     
 
 dex:
@@ -162,5 +166,3 @@ glueops_node_and_tolerations:
       operator: "Equal"
       value: "glueops-platform"
       effect: "NoSchedule"
-
-

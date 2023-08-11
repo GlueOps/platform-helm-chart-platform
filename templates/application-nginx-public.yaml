@@ -32,7 +32,7 @@ spec:
         controller:
           admissionWebhooks:
             enabled: false
-          replicaCount: 4
+          replicaCount: {{ .Values.nginx.controller_replica_count }}
           maxUnavailable: 1
           config:
             # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/log-format.md
