@@ -54,17 +54,10 @@ spec:
             affinity:
               podAntiAffinity:
                 requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                      - yolo
-                  topologyKey: kubernetes.io/hostname
                 - topologyKey: kubernetes.io/hostname
                   labelSelector:
                     matchExpressions:
-                      - {key: app.kubernetes.io/name, operator: In, values: [prometheus]}
+                      - {key: app.kubernetes.io/name, operator: In, values: [alertmanager]}
             replicas: 2
             # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
             # Example when alert manager renders my hack: 
@@ -99,13 +92,11 @@ spec:
             affinity:
               podAntiAffinity:
                 requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
+                - topologyKey: kubernetes.io/hostname
+                  labelSelector:
                     matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                      - yolo
-                  topologyKey: kubernetes.io/hostname
+                      - {key: app.kubernetes.io/name, operator: In, values: [external-secrets-webhook]}
+                  namespaceSelector: {}
                 - topologyKey: kubernetes.io/hostname
                   labelSelector:
                     matchExpressions:
