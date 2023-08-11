@@ -51,6 +51,7 @@ spec:
               repository: glueops/alertmanager
               tag: v0.25.0-glueops
             logLevel: debug
+            podAntiAffinity: "hard"
             replicas: 2
             # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
             # Example when alert manager renders my hack: 
@@ -82,6 +83,7 @@ spec:
             podMonitorNamespaceSelector: {}
             podMonitorSelectorNilUsesHelmValues: false
             logLevel: debug
+            podAntiAffinity: "hard"
             storageSpec:
               volumeClaimTemplate:
                 spec:
