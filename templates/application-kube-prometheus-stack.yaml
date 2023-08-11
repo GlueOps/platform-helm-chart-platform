@@ -100,7 +100,7 @@ spec:
                 - topologyKey: kubernetes.io/hostname
                   labelSelector:
                     matchExpressions:
-                      - {key: app.kubernetes.io/name, operator: In, values: [alertmanager]}
+                      - {key: app.kubernetes.io/name, operator: In, values: [prometheus]}
             storageSpec:
               volumeClaimTemplate:
                 spec:
