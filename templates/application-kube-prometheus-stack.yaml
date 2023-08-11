@@ -51,7 +51,20 @@ spec:
               repository: glueops/alertmanager
               tag: v0.25.0-glueops
             logLevel: debug
-            podAntiAffinity: "hard"
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                      - yolo
+                  topologyKey: kubernetes.io/hostname
+                - topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchExpressions:
+                      - {key: app.kubernetes.io/name, operator: In, values: [prometheus]}
             replicas: 2
             # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
             # Example when alert manager renders my hack: 
@@ -83,7 +96,20 @@ spec:
             podMonitorNamespaceSelector: {}
             podMonitorSelectorNilUsesHelmValues: false
             logLevel: debug
-            podAntiAffinity: "hard"
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                      - yolo
+                  topologyKey: kubernetes.io/hostname
+                - topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchExpressions:
+                      - {key: app.kubernetes.io/name, operator: In, values: [alertmanager]}
             storageSpec:
               volumeClaimTemplate:
                 spec:
