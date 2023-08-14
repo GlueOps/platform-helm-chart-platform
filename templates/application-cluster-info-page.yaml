@@ -58,4 +58,4 @@ spec:
           entries:
             - name: public-authenticated
               hosts:
-                - hostname: cluster-info.infra.glueops.onglueops.com
+                - hostname: cluster-info.{{ .Values.captain_domain }}
