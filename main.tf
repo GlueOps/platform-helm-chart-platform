@@ -188,11 +188,6 @@ variable "vault_init_controller_s3_key" {
   nullable = false
   }
 
-  variable "vault_init_controller_aws_region" {
-  description = "Vault Init Controller S3 creds"
-  type = string
-  nullable = false
-  }
 
 output "helm_values" {
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
