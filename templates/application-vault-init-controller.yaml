@@ -42,7 +42,7 @@ spec:
           - name: VAULT_S3_BUCKET
             value: "{{ .Values.vault_init_controller.s3_bucket_name }}"
           - name: VAULT_SECRET_FILE
-            value: "{{ .Values.vault_init_controller.s3_key_path_to_vault_access_json }}"
+            value: "{{ .Values.vault_init_controller.s3_key_path }}"
           - name: RECONCILE_PERIOD
             value: "{{ .Values.vault_init_controller.reconcile_period }}"
           - name: AWS_ACCESS_KEY_ID
