@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: opsgenie-cluster-monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-opsgenie-cluster-monitoring
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.3.0
+    helm:
+      values: |
+        appName: '{{ .Release.Name }}'
+        image:
+          registry: ghcr.io
+          repository: glueops/cluster-monitoring
+          tag: dev
+          pullPolicy: Always
+
+        service:
+          enabled: true
+          port: 80
+
+        app:
+          port: 80
+        deployment:
+          envVariables:
+            - name: OPSGENIE-CLUSTER-MONITORING-API-KEY
+              value: {{ .Values.glueops_alerts.opsgenie_apikey_cluster_monitoring }}
+          replicas: 2
+          enabled: true
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
