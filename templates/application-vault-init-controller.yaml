@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-vault-init-controller
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-vault
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.3.0
+    helm:
+      values: |
+        appName: 'vault-init-controller'
+        image:
+          registry: ghcr.io
+          repository: glueops/vault-init-controller
+          tag: main
+        deployment:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          replicas: 1
+          enabled: true
+          imagePullPolicy: Always
+          envVariables:
+          - name: VAULT_S3_BUCKET
+            value: "{{ .Values.vault_init_controller.s3_bucket_name }}"
+          - name: VAULT_SECRET_FILE
+            value: "{{ .Values.vault_init_controller.s3_key_path_to_vault_access_json }}"
+          - name: RECONCILE_PERIOD
+            value: "{{ .Values.vault_init_controller.reconcile_period }}"
+          - name: AWS_ACCESS_KEY_ID
+            value: "{{ .Values.vault_init_controller.aws_accessKey }}"
+          - name: AWS_SECRET_ACCESS_KEY
+            value: "{{ .Values.vault_init_controller.aws_secretKey }}"
+          - name: AWS_DEFAULT_REGION
+            value: "{{ .Values.vault_init_controller.aws_region }}"
+          - name: PAUSE_RECONCILE
+            value: "{{ .Values.vault_init_controller.pause_reconcile }}"
