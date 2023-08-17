@@ -164,12 +164,6 @@ variable "captain_repo_ssh_clone_url" {
 }
 
 
-variable "vault_init_controller_s3_bucket_name" {
-  description = "Vault Init Controller S3 Bucket"
-  type = string
-  nullable = false
-}
-
 variable "vault_init_controller_s3_key" {
   description = "Vault Init Controller S3 key path that has the vault creds"
   type = string
