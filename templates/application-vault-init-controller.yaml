@@ -12,7 +12,6 @@ spec:
   syncPolicy:
     syncOptions:
       - Replace=true
-      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
@@ -33,8 +32,37 @@ spec:
           registry: ghcr.io
           repository: glueops/vault-init-controller
           tag: main
+        serviceAccount:
+          create: true
+          name: vault-init-controller
+        customResources:
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: vault-init-controller
+            rules:
+            - apiGroups: [""]
+              resources: ["pods"]
+              verbs: ["get", "list", "watch"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: vault-init-controller
+            subjects:
+            - kind: ServiceAccount
+              name: vault-init-controller
+              namespace: glueops-core-vault
+            roleRef:
+              kind: Role
+              name: vault-init-controller
+              apiGroup: rbac.authorization.k8s.io
         deployment:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          serviceAccount:
+            enabled: true
+            name: vault-init-controller
           replicas: 1
           enabled: true
           imagePullPolicy: Always
