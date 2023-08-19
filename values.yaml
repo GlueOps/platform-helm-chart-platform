@@ -177,7 +177,7 @@ vault_init_controller:
   aws_accessKey: placeholder_vault_init_controller_aws_access_key
   # -- S3 Credentials to access the vault_access.json
   aws_secretKey: placeholder_vault_init_controller_aws_access_secret
-  # -- S3 Credentials to access the vault_access.json
+  # -- S3 region to access the vault_access.json
   aws_region: placeholder_aws_region
   # -- How often the controller should run
   reconcile_period: 30
