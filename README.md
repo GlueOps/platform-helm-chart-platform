@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.28.1](https://img.shields.io/badge/Version-0.28.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.29.0](https://img.shields.io/badge/Version-0.29.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -66,3 +66,10 @@ This chart deploys the GlueOps Platform
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
 | prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
 | vault.data_storage | int | `10` | Volume of storage requested for each Vault Data PVC, in Gi |
+| vault_init_controller.aws_accessKey | string | `"placeholder_vault_init_controller_aws_access_key"` | S3 Credentials to access the vault_access.json |
+| vault_init_controller.aws_region | string | `"placeholder_aws_region"` | S3 region to access the vault_access.json |
+| vault_init_controller.aws_secretKey | string | `"placeholder_vault_init_controller_aws_access_secret"` | S3 Credentials to access the vault_access.json |
+| vault_init_controller.pause_reconcile | bool | `false` | Enable/Disable reconcile |
+| vault_init_controller.reconcile_period | int | `30` | How often the controller should run |
+| vault_init_controller.s3_bucket_name | string | `"glueops-tenant-placeholder_tenant_key-primary"` | S3 bucket that will store the vault unseal key(s) and root token |
+| vault_init_controller.s3_key_path | string | `"placeholder_vault_init_controller_s3_key"` | S3 key/path to the unseal key(s) and root token |
