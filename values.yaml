@@ -166,3 +166,20 @@ glueops_node_and_tolerations:
       operator: "Equal"
       value: "glueops-platform"
       effect: "NoSchedule"
+
+
+vault_init_controller:
+  # -- S3 bucket that will store the vault unseal key(s) and root token
+  s3_bucket_name: glueops-tenant-placeholder_tenant_key-primary
+  # -- S3 key/path to the unseal key(s) and root token
+  s3_key_path: placeholder_vault_init_controller_s3_key
+  # -- S3 Credentials to access the vault_access.json
+  aws_accessKey: placeholder_vault_init_controller_aws_access_key
+  # -- S3 Credentials to access the vault_access.json
+  aws_secretKey: placeholder_vault_init_controller_aws_access_secret
+  # -- S3 region to access the vault_access.json
+  aws_region: placeholder_aws_region
+  # -- How often the controller should run
+  reconcile_period: 30
+  # -- Enable/Disable reconcile
+  pause_reconcile: false
