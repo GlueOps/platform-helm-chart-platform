@@ -44,7 +44,7 @@ glueops_alerts:
 
 glueops_cluster_monitoring:
   opsgenie_apikey_cluster_monitoring: placeholder_opsgenie_api_key_cluster_monitoring
-  ping_sleep: 10
+  ping_sleep: 10 # this value is time in seconds
 
 # Configuration for backups taken by the GlueOps Platform
 glueops_backups:
