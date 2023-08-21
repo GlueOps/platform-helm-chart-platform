@@ -225,5 +225,5 @@ output "helm_values" {
     "placeholder_vault_init_controller_s3_key", var.vault_init_controller_s3_key),
     "placeholder_vault_init_controller_aws_access_key",var.vault_init_controller_aws_access_key),
     "placeholder_vault_init_controller_aws_access_secret",var.vault_init_controller_aws_access_secret),
-    "placeholder_opsgenie_api_key_cluster_monitoring",var.opsgenie_api_key_cluster_monitoring)
+    "placeholder_opsgenie_api_key_cluster_monitoring", var.opsgenie_api_key_cluster_monitoring)
 }

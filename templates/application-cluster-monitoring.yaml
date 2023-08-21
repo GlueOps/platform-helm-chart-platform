@@ -48,8 +48,8 @@ spec:
               value: {{ .Values.glueops_cluster_monitoring.opsgenie_apikey_cluster_monitoring }}
             - name: CLUSTER_NAME
               value: {{ .Values.captain_domain }}
-            - name: PING_SLEEP_MINUTES
-              value: {{ .Values.glueops_cluster_monitoring.ping_sleep_minutes }}
+            - name: PING_SLEEP_SECONDS
+              value: {{ .Values.glueops_cluster_monitoring.ping_sleep_seconds }}
           replicas: 2
           enabled: true
           imagePullPolicy: Always
