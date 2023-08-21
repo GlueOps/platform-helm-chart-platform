@@ -188,7 +188,6 @@ variable "vault_init_controller_s3_key" {
 
 
 output "helm_values" {
- feature/add-cluster-monitoring
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(replace(
       data.local_file.platform_values_template.content,
