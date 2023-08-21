@@ -44,8 +44,12 @@ spec:
           port: 80
         deployment:
           envVariables:
-            - name: OPSGENIE-CLUSTER-MONITORING-API-KEY
-              value: {{ .Values.glueops_alerts.opsgenie_apikey_cluster_monitoring }}
+            - name: OPSGENIE_CLUSTER_MONITORING_API_KEY
+              value: {{ .Values.glueops_cluster_monitoring.opsgenie_apikey_cluster_monitoring }}
+            - name: CLUSTER_NAME
+              value: {{ .Values.captain_domain }}
+            - name: PING_SLEEP
+              value: {{ .Values.glueops_cluster_monitoring.ping_sleep }}
           replicas: 2
           enabled: true
           imagePullPolicy: Always

@@ -1,12 +1,16 @@
 terraform {
   required_providers {
     http = {
-      source  = "hashicorp/http"
+      source = "hashicorp/http"
     }
     local = {
-      source  = "hashicorp/local"
+      source = "hashicorp/local"
     }
   }
+}
+
+variable "opsgenie_api_key_cluster_monitoring" {
+  description = "API Key of Heartbeat created"
 }
 
 variable "opsgenie_api_key" {
@@ -166,9 +170,9 @@ variable "captain_repo_ssh_clone_url" {
 
 output "helm_values" {
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
-    replace(
+    replace(replace(
       data.local_file.platform_values_template.content,
-    "placeholder_tenant_key", var.tenant_key),
+      "placeholder_tenant_key", var.tenant_key),
     "placeholder_captain_repo_b64enc_private_deploy_key", var.captain_repo_b64encoded_private_deploy_key),
     "placeholder_captain_repo_ssh_clone_url", var.captain_repo_ssh_clone_url),
     "placeholder_this_is_development", var.this_is_development),
@@ -198,5 +202,6 @@ output "helm_values" {
     "placeholder_grafana_admin_password", var.grafana_admin_password),
     "placeholder_github_tenant_app_id", var.github_tenant_app_id),
     "placeholder_github_tenant_app_installation_id", var.github_tenant_app_installation_id),
-  "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key)
+    "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
+  "placeholder_opsgenie_api_key_cluster_monitoring", var.opsgenie_api_key_cluster_monitoring)
 }
