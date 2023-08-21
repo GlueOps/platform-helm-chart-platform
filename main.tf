@@ -168,7 +168,27 @@ variable "captain_repo_ssh_clone_url" {
 }
 
 
+variable "vault_init_controller_s3_key" {
+  description = "Vault Init Controller S3 key path that has the vault creds"
+  type = string
+  nullable = false
+  }
+
+  variable "vault_init_controller_aws_access_key" {
+  description = "Vault Init Controller S3 creds"
+  type = string
+  nullable = false
+  }
+
+  variable "vault_init_controller_aws_access_secret" {
+  description = "Vault Init Controller S3 creds"
+  type = string
+  nullable = false
+  }
+
+
 output "helm_values" {
+ feature/add-cluster-monitoring
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(replace(
       data.local_file.platform_values_template.content,
@@ -203,5 +223,8 @@ output "helm_values" {
     "placeholder_github_tenant_app_id", var.github_tenant_app_id),
     "placeholder_github_tenant_app_installation_id", var.github_tenant_app_installation_id),
     "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
+  "placeholder_vault_init_controller_s3_key",var.vault_init_controller_s3_key),
+  "placeholder_vault_init_controller_aws_access_key",var.vault_init_controller_aws_access_key),
+  "placeholder_vault_init_controller_aws_access_secret",var.vault_init_controller_aws_access_secret),
   "placeholder_opsgenie_api_key_cluster_monitoring", var.opsgenie_api_key_cluster_monitoring)
 }
