@@ -65,7 +65,7 @@ spec:
             name: vault-init-controller
           replicas: 1
           enabled: true
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           envVariables:
           - name: VAULT_S3_BUCKET
             value: "{{ .Values.vault_init_controller.s3_bucket_name }}"

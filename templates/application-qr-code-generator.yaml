@@ -33,7 +33,7 @@ spec:
           registry: ghcr.io
           repository: glueops/qr-code-generator
           tag: v0.1.0
-          pullPolicy: Always
+          pullPolicy: IfNotPresent
           port: 8000
                 
         deployment: 
