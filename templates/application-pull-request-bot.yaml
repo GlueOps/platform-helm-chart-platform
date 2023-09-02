@@ -32,8 +32,8 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/pull-request-bot
-          tag: v0.9.0
-          pullPolicy: Always
+          tag: v0.10.0
+          pullPolicy: IfNotPresent
         serviceAccount:
           create: true
           name: pull-request-bot
@@ -44,7 +44,7 @@ spec:
             name: pull-request-bot
           replicas: 1
           enabled: true
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               cpu: 100m
