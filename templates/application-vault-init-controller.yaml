@@ -31,7 +31,7 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/vault-init-controller
-          tag: v0.1.0
+          tag: v0.1.1
         serviceAccount:
           create: true
           name: vault-init-controller
@@ -65,7 +65,7 @@ spec:
             name: vault-init-controller
           replicas: 1
           enabled: true
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           envVariables:
           - name: VAULT_S3_BUCKET
             value: "{{ .Values.vault_init_controller.s3_bucket_name }}"

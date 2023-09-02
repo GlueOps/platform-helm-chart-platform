@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack
-    targetRevision: 48.3.1
+    targetRevision: 49.2.0
     helm:
       skipCrds: true
       values: |-
@@ -49,7 +49,7 @@ spec:
             image:
               registry: ghcr.io
               repository: glueops/alertmanager
-              tag: v0.25.0-glueops
+              tag: v0.26.0-glueops
             logLevel: debug
             replicas: 2
             # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
@@ -94,6 +94,8 @@ spec:
         grafana:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
+          image:
+            tag: 10.1.1
           ingress:
             enabled: true
             ingressClassName: public-authenticated

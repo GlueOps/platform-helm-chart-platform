@@ -25,7 +25,7 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-network-exporter
-    targetRevision: 0.2.0
+    targetRevision: 0.2.1
     helm:
       values: |-
         tolerations:
