@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://charts.bitnami.com/bitnami'
     chart: external-dns
-    targetRevision: 6.24.1
+    targetRevision: 6.24.2
     helm:
       parameters:
         - name: aws.credentials.secretKey
