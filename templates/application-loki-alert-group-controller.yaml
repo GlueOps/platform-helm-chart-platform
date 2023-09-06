@@ -35,6 +35,7 @@ spec:
           repository: glueops/metacontroller-operator-loki-rule-group
           tag: v0.2.5
           pullPolicy: IfNotPresent
+          port: 80
 
         service:
           enabled: true
