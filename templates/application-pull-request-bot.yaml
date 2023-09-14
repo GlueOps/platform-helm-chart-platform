@@ -38,6 +38,9 @@ spec:
           create: true
           name: pull-request-bot
         deployment:
+          envVariables:
+            - name: WATCH_FOR_APPS_DELAY_SECONDS
+              value: {{ .Values.pull_request_bot.watch_for_apps_delay_seconds }}
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           serviceAccount:
             enabled: true
