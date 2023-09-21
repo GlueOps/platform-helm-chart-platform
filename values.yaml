@@ -133,6 +133,10 @@ vault:
 nginx:
   # -- number of replicas for ingress controller
   controller_replica_count: 2
+
+pull_request_bot:
+  # -- number of seconds to wait before checking ArgoCD for new applications
+  watch_for_apps_delay_seconds: '10'
     
 
 dex:
