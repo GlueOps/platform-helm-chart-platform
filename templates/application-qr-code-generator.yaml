@@ -25,14 +25,14 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/project-template'
     chart: app
-    targetRevision: 0.2.0
+    targetRevision: 0.3.0
     helm:
       values: |-
         replicaCount: '2'
         image: 
           registry: ghcr.io
           repository: glueops/qr-code-generator
-          tag: v0.2.0
+          tag: v0.2.1
           pullPolicy: IfNotPresent
           port: 8000
                 
