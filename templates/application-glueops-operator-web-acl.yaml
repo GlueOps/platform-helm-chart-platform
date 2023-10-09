@@ -100,7 +100,7 @@ spec:
                             type: string
                             description: "Raw JSON string representation of the full AWS WAF WebACL definition"
                 subresources:
-                 status: {}
+                  status: {}
           - |-
             apiVersion: metacontroller.k8s.io/v1alpha1
             kind: CompositeController
