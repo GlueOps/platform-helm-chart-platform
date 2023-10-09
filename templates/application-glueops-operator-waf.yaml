@@ -34,7 +34,6 @@ spec:
           registry: ghcr.io
           repository: glueops/metacontroller-operator-waf
           tag: main
-          pullPolicy: Always
           port: 8000
 
         service:
@@ -43,6 +42,8 @@ spec:
 
         app:
           port: 8000
+        serviceAccount:
+          create: true
         deployment:
           envVariables:
             - name: AWS_ACCESS_KEY_ID
@@ -53,11 +54,15 @@ spec:
               value: "us-east-1"
             - name: CAPTAIN_DOMAIN
               value: "{{ .Values.captain_domain }}"
+            - name: VAULT_ADDR
+              value: "https://vault-active.glueops-core-vault.svc.cluster.local:8200"
+            - name: K8S_ROLE
+              value: "reader-role"
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2
           enabled: true
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: 100m
