@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-operator-web-acl
+  name: glueops-operator-waf-web-acl
   annotations:
     argocd.argoproj.io/sync-wave: "3"
   finalizers:
@@ -29,10 +29,10 @@ spec:
     targetRevision: 0.3.0
     helm:
       values: |
-        appName: 'glueops-operator-web-acl'
+        appName: 'glueops-operator-waf-web-acl'
         image:
           registry: ghcr.io
-          repository: glueops/metacontroller-operator-web-acl
+          repository: glueops/metacontroller-operator-waf-web-acl
           tag: main
           pullPolicy: IfNotPresent
           port: 8000
@@ -105,7 +105,7 @@ spec:
             apiVersion: metacontroller.k8s.io/v1alpha1
             kind: CompositeController
             metadata:
-              name: glueops-operator-web-acl
+              name: glueops-operator-waf-web-acl
             spec:
               generateSelector: true
               parentResource:
@@ -120,11 +120,11 @@ spec:
               hooks:
                 sync:
                   webhook:
-                    url: http://glueops-operator-web-acl.glueops-core-operators.svc.cluster.local/sync
+                    url: http://glueops-operator-waf-web-acl.glueops-core-operators.svc.cluster.local/sync
                     timeout: "60s"
                 finalize:
                   webhook:
-                    url: http://glueops-operator-web-acl.glueops-core-operators.svc.cluster.local/finalize
+                    url: http://glueops-operator-waf-web-acl.glueops-core-operators.svc.cluster.local/finalize
                     timeout: "60s"
         
 
