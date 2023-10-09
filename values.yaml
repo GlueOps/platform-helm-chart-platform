@@ -187,3 +187,12 @@ vault_init_controller:
   reconcile_period: 30
   # -- Enable/Disable reconcile
   pause_reconcile: false
+
+
+glueops_operators:
+  waf:
+    aws_accessKey: placeholder_glueops_operators_waf_aws_access_key
+    aws_secretKey: placeholder_glueops_operators_waf_aws_secret_key
+  web_acl:
+    aws_accessKey: placeholder_glueops_operators_web_acl_aws_access_key
+    aws_secretKey: placeholder_glueops_operators_web_acl_aws_secret_key
