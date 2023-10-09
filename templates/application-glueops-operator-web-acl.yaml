@@ -29,7 +29,7 @@ spec:
     targetRevision: 0.3.0
     helm:
       values: |
-        appName: '{{ .Release.Name }}'
+        appName: 'glueops-operator-web-acl'
         image:
           registry: ghcr.io
           repository: glueops/metacontroller-operator-web-acl
@@ -105,7 +105,7 @@ spec:
             apiVersion: metacontroller.k8s.io/v1alpha1
             kind: CompositeController
             metadata:
-              name: {{ .Release.Name }}
+              name: glueops-operator-web-acl
             spec:
               generateSelector: true
               parentResource:
@@ -120,11 +120,11 @@ spec:
               hooks:
                 sync:
                   webhook:
-                    url: http://{{ .Release.Name }}.glueops-core-operators.svc.cluster.local/sync
+                    url: http://glueops-operator-web-acl.glueops-core-operators.svc.cluster.local/sync
                     timeout: "60s"
                 finalize:
                   webhook:
-                    url: http://{{ .Release.Name }}.glueops-core-operators.svc.cluster.local/finalize
+                    url: http://glueops-operator-web-acl.glueops-core-operators.svc.cluster.local/finalize
                     timeout: "60s"
         
 
