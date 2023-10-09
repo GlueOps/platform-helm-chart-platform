@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: operator-waf
+  name: glueops-operator-web-acl
   annotations:
     argocd.argoproj.io/sync-wave: "3"
   finalizers:
@@ -32,7 +32,7 @@ spec:
         appName: '{{ .Release.Name }}'
         image:
           registry: ghcr.io
-          repository: glueops/metacontroller-operator-waf
+          repository: glueops/metacontroller-operator-web-acl
           tag: main
           pullPolicy: IfNotPresent
           port: 8000
@@ -46,18 +46,13 @@ spec:
         deployment:
           envVariables:
             - name: AWS_ACCESS_KEY_ID
-              value: ''
+              value: "{{ .Values.glueops_operators.web_acl.aws_accessKey }}"
             - name: AWS_SECRET_ACCESS_KEY
-              value: ''
+              value: "{{ .Values.glueops_operators.web_acl.aws_secretKey }}"
             - name: AWS_DEFAULT_REGION
-              value: 'us-east-1'
+              value: "us-east-1"
             - name: CAPTAIN_DOMAIN
-              value: ''
-            - name: 
-              value: ''
-
-
-
+              value: "{{ .Values.captain_domain }}"
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2
@@ -74,16 +69,18 @@ spec:
             apiVersion: apiextensions.k8s.io/v1
             kind: CustomResourceDefinition
             metadata:
-              name: webapplicationfirewalls.metacontroller.glueops.dev
+              name: webapplicationfirewallwebacls.metacontroller.glueops.dev
             spec:
-              group:  metacontroller.glueops.dev
+              group: metacontroller.glueops.dev
               names:
-                kind: WebApplicationFirewall
-                plural: webapplicationfirewalls
-                singular: webapplicationfirewall
+                kind: WebApplicationFirewallWebACL
+                plural: webapplicationfirewallwebacls
+                singular: webapplicationfirewallwebacl
                 shortNames:
-                - waf
-                - wafs
+                - webacl
+                - webacls
+                - wafwebacl
+                - wafwebacls
               scope: Namespaced
               versions:
               - name: v1alpha1
@@ -99,15 +96,11 @@ spec:
                       spec:
                         type: object
                         properties:
-                          domains:
-                            type: array
-                            items:
-                              type: string
-                              immutable: true
-                          custom_certificate_secret_store_path:
+                          web_acl_definition:
                             type: string
+                            description: "Raw JSON string representation of the full AWS WAF WebACL definition"
                 subresources:
-                status: {}
+                 status: {}
           - |-
             apiVersion: metacontroller.k8s.io/v1alpha1
             kind: CompositeController
@@ -117,7 +110,7 @@ spec:
               generateSelector: true
               parentResource:
                 apiVersion: metacontroller.glueops.dev/v1alpha1
-                resource: webapplicationfirewalls
+                resource: webapplicationfirewallwebacls
               childResources:
                 - apiVersion: v1
                   resource: configmaps
