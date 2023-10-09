@@ -33,8 +33,8 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/metacontroller-operator-waf
-          tag: main
-          pullPolicy: IfNotPresent
+          tag: fe4b485ee2cabc13086160be74e9c478d3011829
+          pullPolicy: Always
           port: 8000
 
         service:
@@ -98,8 +98,10 @@ spec:
                             type: array
                             items:
                               type: string
+                              description: "List of domains we want to have on the cert. This should include the TLD and any subdomains. Wildcards are also allowed."
                           custom_certificate_secret_store_path:
                             type: string
+                            description: "Optional. If you want to use a certificate instead of using one from AWS please feel free to import your own from vault. Ex. secret/ssl-antoniostacos.com"
                 subresources:
                   status: {}
           - |-
