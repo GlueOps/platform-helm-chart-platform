@@ -104,6 +104,9 @@ spec:
                             items:
                               type: string
                               description: "List of domains we want to have on the cert. This should include the TLD and any subdomains. Wildcards are also allowed."
+                          web_acl_name:
+                            type: string
+                            description: "Optional. Firewall Rules/Web ACL to enforce. You must have first deployed a WebApplicationFirewallWebACL resource."
                           custom_certificate_secret_store_path:
                             type: string
                             description: "Optional. If you want to use a certificate instead of using one from AWS please feel free to import your own from vault. Ex. secret/ssl-antoniostacos.com"
