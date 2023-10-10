@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.34.0-rc3](https://img.shields.io/badge/Version-0.34.0--rc3-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.34.0-rc4](https://img.shields.io/badge/Version-0.34.0--rc4-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -44,6 +44,10 @@ This chart deploys the GlueOps Platform
 | glueops_node_and_tolerations.tolerations[0].key | string | `"glueops.dev/role"` |  |
 | glueops_node_and_tolerations.tolerations[0].operator | string | `"Equal"` |  |
 | glueops_node_and_tolerations.tolerations[0].value | string | `"glueops-platform"` |  |
+| glueops_operators.waf.aws_accessKey | string | `"placeholder_glueops_operators_waf_aws_access_key"` |  |
+| glueops_operators.waf.aws_secretKey | string | `"placeholder_glueops_operators_waf_aws_secret_key"` |  |
+| glueops_operators.web_acl.aws_accessKey | string | `"placeholder_glueops_operators_web_acl_aws_access_key"` |  |
+| glueops_operators.web_acl.aws_secretKey | string | `"placeholder_glueops_operators_web_acl_aws_secret_key"` |  |
 | grafana.admin_password | string | `"placeholder_grafana_admin_password"` | Default admin password. CHANGE THIS!!!! |
 | grafana.github_other_org_names | string | `"placeholder_tenant_github_org_name"` |  |
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
