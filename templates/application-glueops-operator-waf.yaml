@@ -58,6 +58,8 @@ spec:
               value: "https://vault-active.glueops-core-vault.svc.cluster.local:8200"
             - name: K8S_ROLE
               value: "reader-role"
+            - name: LOG_LEVEL
+              value: "INFO"
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2

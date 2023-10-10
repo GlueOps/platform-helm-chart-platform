@@ -52,6 +52,8 @@ spec:
               value: "us-east-1"
             - name: CAPTAIN_DOMAIN
               value: "{{ .Values.captain_domain }}"
+            - name: LOG_LEVEL
+              value: "INFO"
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2
