@@ -1,10 +1,10 @@
 terraform {
   required_providers {
     http = {
-      source  = "hashicorp/http"
+      source = "hashicorp/http"
     }
     local = {
-      source  = "hashicorp/local"
+      source = "hashicorp/local"
     }
   }
 }
@@ -166,25 +166,49 @@ variable "captain_repo_ssh_clone_url" {
 
 variable "vault_init_controller_s3_key" {
   description = "Vault Init Controller S3 key path that has the vault creds"
-  type = string
-  nullable = false
-  }
+  type        = string
+  nullable    = false
+}
 
-  variable "vault_init_controller_aws_access_key" {
+variable "vault_init_controller_aws_access_key" {
   description = "Vault Init Controller S3 creds"
-  type = string
-  nullable = false
-  }
+  type        = string
+  nullable    = false
+}
 
-  variable "vault_init_controller_aws_access_secret" {
+variable "vault_init_controller_aws_access_secret" {
   description = "Vault Init Controller S3 creds"
-  type = string
-  nullable = false
-  }
+  type        = string
+  nullable    = false
+}
+
+variable "glueops_operators_waf_aws_access_key" {
+  description = "GlueOps Metacontroller Operator AWS WAF Credentials"
+  type        = string
+  nullable    = false
+}
+
+variable "glueops_operators_waf_aws_secret_key" {
+  description = "GlueOps Metacontroller Operator AWS WAF Credentials"
+  type        = string
+  nullable    = false
+}
+
+variable "glueops_operators_web_acl_aws_access_key" {
+  description = "GlueOps Metacontroller Operator AWS WebACL Credentials"
+  type        = string
+  nullable    = false
+}
+variable "glueops_operators_web_acl_aws_secret_key" {
+  description = "GlueOps Metacontroller Operator AWS WebACL Credentials"
+  type        = string
+  nullable    = false
+}
+
 
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
@@ -217,8 +241,13 @@ output "helm_values" {
     "placeholder_grafana_admin_password", var.grafana_admin_password),
     "placeholder_github_tenant_app_id", var.github_tenant_app_id),
     "placeholder_github_tenant_app_installation_id", var.github_tenant_app_installation_id),
-  "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
-  "placeholder_vault_init_controller_s3_key",var.vault_init_controller_s3_key),
-  "placeholder_vault_init_controller_aws_access_key",var.vault_init_controller_aws_access_key),
-  "placeholder_vault_init_controller_aws_access_secret",var.vault_init_controller_aws_access_secret)
+    "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
+    "placeholder_vault_init_controller_s3_key", var.vault_init_controller_s3_key),
+    "placeholder_vault_init_controller_aws_access_key", var.vault_init_controller_aws_access_key),
+    "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret),
+    "placeholder_glueops_operators_waf_aws_access_key", var.glueops_operators_waf_aws_access_key),
+    "placeholder_glueops_operators_waf_aws_secret_key", var.glueops_operators_waf_aws_secret_key),
+    "placeholder_glueops_operators_web_acl_aws_access_key", var.glueops_operators_web_acl_aws_access_key),
+  "placeholder_glueops_operators_web_acl_aws_secret_key", var.glueops_operators_web_acl_aws_secret_key)
+
 }

@@ -1,0 +1,142 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-operator-waf
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-operators
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.3.0
+    helm:
+      values: |
+        appName: 'glueops-operator-waf'
+        image:
+          registry: ghcr.io
+          repository: glueops/metacontroller-operator-waf
+          tag: v0.1.0
+          port: 8000
+
+        service:
+          enabled: true
+          port: 80
+
+        app:
+          port: 8000
+        serviceAccount:
+          create: true
+        deployment:
+          envVariables:
+            - name: AWS_ACCESS_KEY_ID
+              value: "{{ .Values.glueops_operators.waf.aws_accessKey }}"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "{{ .Values.glueops_operators.waf.aws_secretKey }}"
+            - name: AWS_DEFAULT_REGION
+              value: "us-east-1"
+            - name: CAPTAIN_DOMAIN
+              value: "{{ .Values.captain_domain }}"
+            - name: VAULT_ADDR
+              value: "https://vault-active.glueops-core-vault.svc.cluster.local:8200"
+            - name: K8S_ROLE
+              value: "reader-role"
+              
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          replicas: 2
+          enabled: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
+
+        customResources:
+          - |-
+            apiVersion: apiextensions.k8s.io/v1
+            kind: CustomResourceDefinition
+            metadata:
+              name: webapplicationfirewalls.metacontroller.glueops.dev
+            spec:
+              group:  metacontroller.glueops.dev
+              names:
+                kind: WebApplicationFirewall
+                plural: webapplicationfirewalls
+                singular: webapplicationfirewall
+                shortNames:
+                - waf
+                - wafs
+              scope: Namespaced
+              versions:
+              - name: v1alpha1
+                served: true
+                storage: true
+                schema:
+                  openAPIV3Schema:
+                    type: object
+                    properties:
+                      status:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                      spec:
+                        type: object
+                        properties:
+                          domains:
+                            type: array
+                            items:
+                              type: string
+                              description: "List of domains we want to have on the cert. This should include the TLD and any subdomains. Wildcards are also allowed."
+                          web_acl_name:
+                            type: string
+                            description: "Optional. Firewall Rules/Web ACL to enforce. You must have first deployed a WebApplicationFirewallWebACL resource."
+                          custom_certificate_secret_store_path:
+                            type: string
+                            description: "Optional. If you want to use a certificate instead of using one from AWS please feel free to import your own from vault. Ex. secret/ssl-antoniostacos.com"
+                subresources:
+                  status: {}
+          - |-
+            apiVersion: metacontroller.k8s.io/v1alpha1
+            kind: CompositeController
+            metadata:
+              name: glueops-operator-waf
+            spec:
+              generateSelector: true
+              parentResource:
+                apiVersion: metacontroller.glueops.dev/v1alpha1
+                resource: webapplicationfirewalls
+              childResources:
+                - apiVersion: v1
+                  resource: configmaps
+                  updateStrategy:
+                    method: InPlace
+              resyncPeriodSeconds: 30
+              hooks:
+                sync:
+                  webhook:
+                    url: http://glueops-operator-waf.glueops-core-operators.svc.cluster.local/sync
+                    timeout: "60s"
+                finalize:
+                  webhook:
+                    url: http://glueops-operator-waf.glueops-core-operators.svc.cluster.local/finalize
+                    timeout: "60s"
+        
+
+
+                    
