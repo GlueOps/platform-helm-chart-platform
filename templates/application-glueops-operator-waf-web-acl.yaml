@@ -33,7 +33,7 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/metacontroller-operator-waf-web-acl
-          tag: v0.1.0
+          tag: v0.2.0
           port: 8000
 
         service:
@@ -52,6 +52,8 @@ spec:
               value: "us-east-1"
             - name: CAPTAIN_DOMAIN
               value: "{{ .Values.captain_domain }}"
+            - name: LOG_LEVEL
+              value: "INFO"
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2
