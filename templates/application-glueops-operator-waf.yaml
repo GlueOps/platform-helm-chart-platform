@@ -33,7 +33,7 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/metacontroller-operator-waf
-          tag: v0.1.0
+          tag: v0.2.0
           port: 8000
 
         service:
@@ -58,6 +58,8 @@ spec:
               value: "https://vault-active.glueops-core-vault.svc.cluster.local:8200"
             - name: K8S_ROLE
               value: "reader-role"
+            - name: LOG_LEVEL
+              value: "INFO"
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2
