@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.3.0
+    targetRevision: 0.4.0
     helm:
       values: |
         appName: 'glueops-operator-waf'
