@@ -28,6 +28,7 @@ spec:
     targetRevision: 0.4.0
     helm:
       values: |-
+        appName: 'qr-code-generator'
         replicaCount: '2'
         image: 
           registry: ghcr.io
