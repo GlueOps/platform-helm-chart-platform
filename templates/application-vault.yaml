@@ -44,7 +44,7 @@ spec:
         server:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
-            tag: 1.14.4
+            tag: 1.14.5
           dataStorage:
             size: {{ .Values.vault.data_storage }}Gi
           ingress:
