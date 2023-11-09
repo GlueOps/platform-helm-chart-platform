@@ -32,6 +32,22 @@ spec:
       values: |
         appName: 'glueops-core-alerts'
 
+        image:
+          registry: ghcr.io
+          tag: v0.2.0-alpha2
+          repository: glueops/cluster-monitoring
+          pullPolicy: IfNotPresent
+        deployment:
+          replicas: 1
+          enabled: true
+          envVariables:
+            - name: OPSGENIE_API_KEY
+              value: {{ .Values.glueops_alerts.opsgenie_apikey }}
+            - name: OPSGENIE_HEARTBEAT_NAME
+              value: {{ .Values.captain_domain }}
+            - name: OPSGENIE_PING_INTERVAL_MINUTES
+              value: 1
+
         secret:
           enabled: true
           secrets:
