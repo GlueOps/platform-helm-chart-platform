@@ -47,7 +47,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.7.5
+              image: ghcr.io/glueops/backup-tools:v0.7.6
               command: ["/bin/bash", "-c"]
               args:
                 - backup-vault
@@ -85,7 +85,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.7.5
+              image: ghcr.io/glueops/backup-tools:v0.7.6
               command: ["/bin/bash", "-c"]
               args:
                 - backup-loki-logs-as-json
