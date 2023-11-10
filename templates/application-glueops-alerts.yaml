@@ -34,7 +34,7 @@ spec:
 
         image:
           registry: ghcr.io
-          tag: v0.2.1
+          tag: v0.2.2
           repository: glueops/cluster-monitoring
           pullPolicy: IfNotPresent
         deployment:
