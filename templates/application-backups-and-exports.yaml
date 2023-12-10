@@ -36,22 +36,21 @@ spec:
 
         image:
           registry: ghcr.io
-          repository: glueops/vault-backup-validator:v0.1.3
+          repository: glueops/vault-backup-validator
           tag: v0.1.3
-
+  
         deployment:
           enabled: true
+          labels:
+            glueops.dev/app-name: vault-backup-validator
+          matchLabels:
+            glueops.dev/app-name: vault-backup-validator
         service:
           enabled: true
           labels:
             expose: "true"
           type: ClusterIP
-          ports:
-          - port: 8080
-            name: http
-            protocol: TCP
-            targetPort: 8080
-
+          port: 8080
       
         cronJob:
           enabled: true
