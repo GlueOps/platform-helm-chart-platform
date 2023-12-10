@@ -187,6 +187,8 @@ vault_init_controller:
   reconcile_period: 30
   # -- Enable/Disable reconcile
   pause_reconcile: false
+  # -- Enable/Disable restore of an existing backup upon a fresh deployment of vault during cluster bootstrap
+  enable_restore: false
 
 
 glueops_operators:

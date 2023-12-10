@@ -74,6 +74,7 @@ This chart deploys the GlueOps Platform
 | vault_init_controller.aws_accessKey | string | `"placeholder_vault_init_controller_aws_access_key"` | S3 Credentials to access the vault_access.json |
 | vault_init_controller.aws_region | string | `"placeholder_aws_region"` | S3 region to access the vault_access.json |
 | vault_init_controller.aws_secretKey | string | `"placeholder_vault_init_controller_aws_access_secret"` | S3 Credentials to access the vault_access.json |
+| vault_init_controller.enable_restore | bool | `false` | Enable/Disable restore of an existing backup upon a fresh deployment of vault during cluster bootstrap |
 | vault_init_controller.pause_reconcile | bool | `false` | Enable/Disable reconcile |
 | vault_init_controller.reconcile_period | int | `30` | How often the controller should run |
 | vault_init_controller.s3_bucket_name | string | `"glueops-tenant-placeholder_tenant_key-primary"` | S3 bucket that will store the vault unseal key(s) and root token |
