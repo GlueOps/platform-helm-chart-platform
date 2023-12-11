@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: metacontroller-helm
-    targetRevision: v4.11.5
+    targetRevision: v4.11.7
     helm:
       parameters:
         - name: replicas
