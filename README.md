@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.37.0-rc2](https://img.shields.io/badge/Version-0.37.0--rc2-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.37.0-venkata-1](https://img.shields.io/badge/Version-0.37.0--venkata--1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -60,6 +60,7 @@ This chart deploys the GlueOps Platform
 | host_network.keda.service.portHttpsTarget | int | `45053` |  |
 | host_network.keda.webhooks.healthProbePort | int | `45051` |  |
 | host_network.keda.webhooks.port | int | `45050` |  |
+| host_network.kube_pometheus_stack.admissionWebhooks.deployment.tls.internal_port | int | `45041` |  |
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |

@@ -17,6 +17,10 @@ host_network:
     prometheusOperator:
       tls:
         internal_port: 45040
+      admissionWebhooks:
+        deployment:
+          tls:
+            internal_port: 45041
   keda:
     webhooks:
       port: 45050
