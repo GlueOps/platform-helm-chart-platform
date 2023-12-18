@@ -31,7 +31,7 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/vault-init-controller
-          tag: v0.2.0
+          tag: v0.2.1
         serviceAccount:
           create: true
           name: vault-init-controller
