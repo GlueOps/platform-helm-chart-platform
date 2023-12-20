@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.37.0-rc7](https://img.shields.io/badge/Version-0.37.0--rc7-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.37.0-rc8](https://img.shields.io/badge/Version-0.37.0--rc8-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
