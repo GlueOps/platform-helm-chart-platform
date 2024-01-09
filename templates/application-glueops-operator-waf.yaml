@@ -33,7 +33,7 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/metacontroller-operator-waf
-          tag: v0.3.6
+          tag: v0.4.0
           port: 8000
 
         service:
