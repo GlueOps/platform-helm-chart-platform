@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack
-    targetRevision: 55.5.0
+    targetRevision: 55.7.0
     helm:
       skipCrds: true
       values: |-
@@ -99,7 +99,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
-            tag: 10.2.2
+            tag: 10.2.3
           ingress:
             enabled: true
             ingressClassName: public-authenticated
