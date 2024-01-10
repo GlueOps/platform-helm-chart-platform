@@ -99,7 +99,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
-            tag: 10.2.3
+            tag: 10.2.2
           ingress:
             enabled: true
             ingressClassName: public-authenticated
