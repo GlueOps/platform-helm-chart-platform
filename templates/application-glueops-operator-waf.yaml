@@ -128,7 +128,7 @@ spec:
                   resource: configmaps
                   updateStrategy:
                     method: InPlace
-              resyncPeriodSeconds: 30
+              resyncPeriodSeconds: 180
               hooks:
                 sync:
                   webhook:
