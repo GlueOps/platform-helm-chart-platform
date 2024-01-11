@@ -31,6 +31,6 @@ spec:
     helm:
       parameters:
         - name: replicas
-          value: '2'
+          value: '1'
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
