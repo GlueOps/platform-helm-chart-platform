@@ -34,3 +34,12 @@ spec:
           value: '2'
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+
+        commandArgs:
+          - --zap-log-level=4
+          - --discovery-interval=20s
+          - --cache-flush-interval=30m
+          - --health-probe-bind-address=:8081
+          - --client-go-qps=150
+          - --client-go-burst=300
+          - --workers=50
