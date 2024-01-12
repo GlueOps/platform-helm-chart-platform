@@ -43,10 +43,6 @@ spec:
         app:
           port: 6379
         deployment:
-          envVariables:
-            - name: KEY1
-              value: "VAL1"
-
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 1
