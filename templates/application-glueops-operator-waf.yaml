@@ -33,7 +33,7 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/metacontroller-operator-waf
-          tag: v0.4.0
+          tag: v0.5.0
           port: 8000
 
         service:
@@ -60,9 +60,13 @@ spec:
               value: "reader-role"
             - name: LOG_LEVEL
               value: "INFO"
+            - name: CACHE_TTL
+              value: "180"
+            - name: MAX_TTL_ORPHANED_CERTS
+              value: "172800"
               
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
-          replicas: 2
+          replicas: 4
           enabled: true
           resources:
             requests:
@@ -128,16 +132,16 @@ spec:
                   resource: configmaps
                   updateStrategy:
                     method: InPlace
-              resyncPeriodSeconds: 180
+              resyncPeriodSeconds: 120
               hooks:
                 sync:
                   webhook:
                     url: http://glueops-operator-waf.glueops-core-operators.svc.cluster.local/sync
-                    timeout: "60s"
+                    timeout: "180s"
                 finalize:
                   webhook:
                     url: http://glueops-operator-waf.glueops-core-operators.svc.cluster.local/finalize
-                    timeout: "60s"
+                    timeout: "180s"
         
 
 

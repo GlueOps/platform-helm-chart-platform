@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-operator-shared-redis
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-operators
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.4.0
+    helm:
+      values: |
+        appName: 'glueops-operator-shared-redis'
+        image:
+          registry: docker.io
+          repository: redis
+          tag: 7.2.4-alpine3.19
+          port: 6379
+
+        service:
+          enabled: true
+          port: 6379
+
+        app:
+          port: 6379
+        deployment:
+          envVariables:
+            - name: KEY1
+              value: "VAL1"
+
+              
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          replicas: 1
+          enabled: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+
