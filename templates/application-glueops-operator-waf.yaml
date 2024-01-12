@@ -60,6 +60,8 @@ spec:
               value: "reader-role"
             - name: LOG_LEVEL
               value: "INFO"
+            - name: REDIS_CONNECTION_STRING
+              value: "redis://glueops-operator-shared-redis.glueops-core-operators.svc.cluster.local:6379"
             - name: CACHE_TTL
               value: "180"
             - name: MAX_TTL_ORPHANED_CERTS
