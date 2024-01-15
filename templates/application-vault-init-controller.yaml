@@ -17,10 +17,10 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
-        maxDuration: 3m0s
+        duration: 10s
         factor: 2
-      limit: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
