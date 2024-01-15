@@ -83,4 +83,7 @@ spec:
             value: "{{ .Values.vault_init_controller.pause_reconcile }}"
           - name: ENABLE_RESTORE
             value: "{{ .Values.vault_init_controller.enable_restore }}"
-          
+          - name: CAPTAIN_DOMAIN
+            value: "{{ .Values.captain_domain }}"
+          - name: BACKUP_PREFIX
+            value: "hashicorp-vault-backups"
