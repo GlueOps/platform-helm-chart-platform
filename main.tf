@@ -206,9 +206,22 @@ variable "glueops_operators_web_acl_aws_secret_key" {
 }
 
 
+variable "demo_balaji_aws_username" {
+  description = "Balaji aws username"
+  type        = string
+  nullable    = false
+}
+
+variable "demo_balaji_aws_password" {
+  description = "Balaji aws password"
+  type        = string
+  nullable    = false
+}
+
+
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
@@ -248,6 +261,8 @@ output "helm_values" {
     "placeholder_glueops_operators_waf_aws_access_key", var.glueops_operators_waf_aws_access_key),
     "placeholder_glueops_operators_waf_aws_secret_key", var.glueops_operators_waf_aws_secret_key),
     "placeholder_glueops_operators_web_acl_aws_access_key", var.glueops_operators_web_acl_aws_access_key),
-  "placeholder_glueops_operators_web_acl_aws_secret_key", var.glueops_operators_web_acl_aws_secret_key)
+    "placeholder_glueops_operators_web_acl_aws_secret_key", var.glueops_operators_web_acl_aws_secret_key),
+    "placeholder_demo_balaji_aws_username",var.demo_balaji_aws_username),
+    "placeholder_demo_balaji_aws_password",var.demo_balaji_aws_password)
 
 }
