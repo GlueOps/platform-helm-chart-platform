@@ -202,3 +202,8 @@ glueops_operators:
   web_acl:
     aws_accessKey: placeholder_glueops_operators_web_acl_aws_access_key
     aws_secretKey: placeholder_glueops_operators_web_acl_aws_secret_key
+
+
+demo_balaji:
+  aws_username: placeholder_demo_balaji_aws_username
+  aws_password: placeholder_demo_balaji_aws_password
