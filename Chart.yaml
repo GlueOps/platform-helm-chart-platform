@@ -2,4 +2,4 @@ apiVersion: v2
 appVersion: v0.1.0
 description: This chart deploys the GlueOps Platform
 name: glueops-platform
-version: 0.37.0-rc15
+version: 0.37.0
