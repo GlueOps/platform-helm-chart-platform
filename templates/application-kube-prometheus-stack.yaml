@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack
-    targetRevision: 52.1.0
+    targetRevision: 55.7.0
     helm:
       skipCrds: true
       values: |-
@@ -65,6 +65,10 @@ spec:
           tls:
             internalPort: {{ .Values.host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port }}
           admissionWebhooks:
+            deployment:
+              tls:
+                internalPort: {{ .Values.host_network.kube_pometheus_stack.prometheusOperator.admissionWebhooks.deployment.tls.internal_port }}
+              hostNetwork: {{ .Values.host_network.enabled }}
             patch:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
@@ -95,7 +99,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
-            tag: 10.1.5
+            tag: 10.2.2
           ingress:
             enabled: true
             ingressClassName: public-authenticated

@@ -27,10 +27,19 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: metacontroller-helm
-    targetRevision: v4.11.5
+    targetRevision: v4.11.7
     helm:
       parameters:
         - name: replicas
-          value: '2'
+          value: '1'
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+
+        commandArgs:
+          - --zap-log-level=4
+          - --discovery-interval=20s
+          - --cache-flush-interval=30m
+          - --health-probe-bind-address=:8081
+          - --client-go-qps=600
+          - --client-go-burst=600
+          - --workers=100

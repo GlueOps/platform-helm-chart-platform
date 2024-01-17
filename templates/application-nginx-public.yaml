@@ -35,6 +35,7 @@ spec:
           replicaCount: {{ .Values.nginx.controller_replica_count }}
           maxUnavailable: 1
           config:
+            ssl-reject-handshake: true
             # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/log-format.md
             # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
             log-format-upstream: '{

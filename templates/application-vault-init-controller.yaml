@@ -17,10 +17,10 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
-        maxDuration: 3m0s
+        duration: 10s
         factor: 2
-      limit: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
@@ -31,7 +31,7 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/vault-init-controller
-          tag: v0.1.4
+          tag: v0.2.2
         serviceAccount:
           create: true
           name: vault-init-controller
@@ -81,3 +81,9 @@ spec:
             value: "{{ .Values.vault_init_controller.aws_region }}"
           - name: PAUSE_RECONCILE
             value: "{{ .Values.vault_init_controller.pause_reconcile }}"
+          - name: ENABLE_RESTORE
+            value: "{{ .Values.vault_init_controller.enable_restore }}"
+          - name: CAPTAIN_DOMAIN
+            value: "{{ .Values.captain_domain }}"
+          - name: BACKUP_PREFIX
+            value: "hashicorp-vault-backups"
