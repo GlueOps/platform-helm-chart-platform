@@ -205,6 +205,14 @@ vault_init_controller:
   # -- Enable/Disable restore of an existing backup upon a fresh deployment of vault during cluster bootstrap
   enable_restore: true
 
+tls_cert_restore:
+  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_region: placeholder_aws_region
+  # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_accessKey: placeholder_tls_cert_restore_aws_access_key
+  # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_secretKey: placeholder_tls_cert_restore_aws_secret_key
+  backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
 
 glueops_operators:
   waf:
