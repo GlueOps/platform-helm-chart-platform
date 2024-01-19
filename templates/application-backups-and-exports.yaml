@@ -169,6 +169,9 @@ spec:
                   sizeLimit: 20G # Set the desired size limit
             tls-cert-backup:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
+              serviceAccount:
+                enabled: true
+                name: tls-cert-backup
               schedule: "{{ .Values.glueops_backups.tls_cert_backup.cron_expression }}"
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
