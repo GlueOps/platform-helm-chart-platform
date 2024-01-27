@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-cert-manager
-    targetRevision: 0.9.2
+    targetRevision: 0.9.3
     helm:
       skipCrds: true
       parameters:
@@ -48,6 +48,18 @@ spec:
           value: "{{ .Values.host_network.enabled }}"
         - name: cert-manager.webhook.securePort
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
+        - name: cert-restore.aws_accessKey
+          value: "{{ .Values.tls_cert_restore.aws_accessKey }}"
+        - name: cert-restore.aws_secretKey
+          value: "{{ .Values.tls_cert_restore.aws_secretKey }}"
+        - name: cert-restore.aws_default_region
+          value: "{{ .Values.tls_cert_restore.aws_region }}"
+        - name: cert-restore.bucket_name 
+          value: "{{ .Values.glueops_backups.s3_bucket_name }}"
+        - name: cert-restore.captain_domain
+          value: "{{ .Values.captain_domain }}"
+        - name: cert-restore.backup_prefix 
+          value: "{{ .Values.tls_cert_restore.backup_prefix }}"
       values: |-
         cert-manager:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
