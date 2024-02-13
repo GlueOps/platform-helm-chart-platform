@@ -31,7 +31,7 @@ spec:
       values: |-
         controller:
           image:
-            tag: v1.9.6
+            tag: "v1.9.6"
           admissionWebhooks:
             enabled: false
           replicaCount: {{ .Values.nginx.controller_replica_count }}
