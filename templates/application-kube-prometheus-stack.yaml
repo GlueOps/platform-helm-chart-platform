@@ -100,6 +100,8 @@ spec:
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
             tag: 10.2.2
+          #https://stackoverflow.com/questions/77912105/upgrading-kube-prometheus-stack-via-helm-to-chart-v56-2-1-fails-on-grafana-with
+          assertNoLeakedSecrets: false
           ingress:
             enabled: true
             ingressClassName: public-authenticated
