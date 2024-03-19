@@ -26,9 +26,11 @@ spec:
   source:
     repoURL: 'https://grafana.github.io/helm-charts'
     chart: loki
-    targetRevision: 5.42.2
+    targetRevision: 5.44.1
     helm:
       parameters:
+        - name: loki.image
+          value: '2.9.5'
         - name: loki.auth_enabled
           value: 'false'
         - name: loki.storage.type
