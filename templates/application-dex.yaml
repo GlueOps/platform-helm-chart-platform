@@ -27,12 +27,12 @@ spec:
   source:
     repoURL: https://charts.dexidp.io
     chart: dex
-    targetRevision: 0.15.3
+    targetRevision: 0.16.0
     helm:
       values: |
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         image:
-          tag: v2.37.0
+          tag: v2.38.0
         ingress:
           enabled: true
           className: "public-authenticated"
