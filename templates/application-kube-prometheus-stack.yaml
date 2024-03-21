@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack
-    targetRevision: 56.6.2
+    targetRevision: 57.0.3
     helm:
       skipCrds: true
       values: |-
@@ -46,10 +46,6 @@ spec:
         alertmanager:
           alertmanagerSpec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
-            image:
-              registry: ghcr.io
-              repository: glueops/alertmanager
-              tag: v0.26.2-glueops
             logLevel: debug
             replicas: 2
             # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
@@ -99,7 +95,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
-            tag: 10.2.2
+            tag: 10.2.5
           #https://stackoverflow.com/questions/77912105/upgrading-kube-prometheus-stack-via-helm-to-chart-v56-2-1-fails-on-grafana-with
           assertNoLeakedSecrets: false
           ingress:
@@ -117,6 +113,8 @@ spec:
             type: loki
             url: http://loki-gateway.glueops-core-loki.svc.cluster.local
           grafana.ini:
+            users:
+              viewers_can_edit: true
             server:
               root_url: "https://grafana.{{ .Values.captain_domain }}/"
             auth.generic_oauth:
