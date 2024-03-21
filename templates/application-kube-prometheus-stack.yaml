@@ -113,6 +113,9 @@ spec:
             type: loki
             url: http://loki-gateway.glueops-core-loki.svc.cluster.local
           grafana.ini:
+        grafana.ini:
+            users:
+              viewers_can_edit: true
             server:
               root_url: "https://grafana.{{ .Values.captain_domain }}/"
             auth.generic_oauth:
