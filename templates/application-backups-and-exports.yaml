@@ -176,7 +176,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/certs-backup-restore:main
+              image: ghcr.io/glueops/certs-backup-restore:v0.3.0
               command: ["python", "-u", "/app/cert-backup-restore/main.py","--backup"]
               resources:
                 requests:
