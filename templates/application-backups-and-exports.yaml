@@ -68,9 +68,9 @@ spec:
             apiGroup: rbac.authorization.k8s.io
 
         image:
-          registry: ghcr.io
-          repository: glueops/vault-backup-validator
-          tag: v0.1.3
+          registry: {{ .Values.container_images.backup_and_exports.vault_backup_validator.image.registry }}
+          repository: {{ .Values.container_images.backup_and_exports.vault_backup_validator.image.repository }}
+          tag: {{ .Values.container_images.backup_and_exports.vault_backup_validator.image.tag }}
   
         deployment:
           enabled: true
@@ -97,7 +97,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.10.1
+              image: {{ .Values.container_images.backup_and_exports.backup_tools.image.registry }}/{{ .Values.container_images.backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.backup_and_exports.backup_tools.image.tag }}
               command: ["/bin/bash", "-c"]
               args:
                 - backup-vault
@@ -135,7 +135,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.10.1
+              image: {{ .Values.container_images.backup_and_exports.backup_tools.image.registry }}/{{ .Values.container_images.backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.backup_and_exports.backup_tools.image.tag }}
               command: ["/bin/bash", "-c"]
               args:
                 - backup-loki-logs-as-json
@@ -176,7 +176,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/certs-backup-restore:v0.3.0
+              image: {{ .Values.container_images.backup_and_exports.certs_backup_restore.image.registry }}/{{ .Values.container_images.backup_and_exports.certs_backup_restore.image.repository }}:{{ .Values.container_images.backup_and_exports.certs_backup_restore.image.tag }}
               command: ["python", "-u", "/app/cert-backup-restore/main.py","--backup"]
               resources:
                 requests:
