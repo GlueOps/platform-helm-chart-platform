@@ -29,8 +29,12 @@ spec:
     targetRevision: 5.44.4
     helm:
       parameters:
+        - name: loki.image.registry
+          value: '{{ .Values.container_images.app_loki.loki.image.registry }}'
+        - name: loki.image.repository
+          value: '{{ .Values.container_images.app_loki.loki.image.repository }}'
         - name: loki.image.tag
-          value: '2.9.5'
+          value: '{{ .Values.container_images.app_loki.loki.image.tag }}'
         - name: loki.auth_enabled
           value: 'false'
         - name: loki.storage.type

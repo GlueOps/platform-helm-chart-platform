@@ -288,6 +288,14 @@ container_images:
         registry: ghcr.io
         repository: glueops/metacontroller-operator-loki-rule-group
         tag: v0.2.8
+  app_loki:
+    loki:
+      image:
+        registry: docker.io
+        repository: grafana/loki
+        tag: 2.9.5
+
+
 
 
 
