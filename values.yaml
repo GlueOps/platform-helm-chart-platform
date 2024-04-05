@@ -224,7 +224,7 @@ glueops_operators:
     aws_secretKey: placeholder_glueops_operators_web_acl_aws_secret_key
 
 container_images:
-  backup_and_exports:
+  app_backup_and_exports:
     vault_backup_validator:
       image:
         registry: ghcr.io
