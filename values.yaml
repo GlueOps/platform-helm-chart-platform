@@ -294,6 +294,12 @@ container_images:
         registry: docker.io
         repository: grafana/loki
         tag: 2.9.5
+  app_network_exporter:
+    network_exporter:
+      image:
+        registry: docker.io # not actually used
+        repository: syepes/network_exporter
+        tag: 1.7.6
 
 
 
