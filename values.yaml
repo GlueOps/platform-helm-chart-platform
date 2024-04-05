@@ -71,6 +71,17 @@ glueops_backups:
     # @ignored
     cron_expression: "0 */6 * * *"
     company_key: placeholder_tenant_key
+  tls_cert_backup:
+    # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+    aws_region: placeholder_aws_region
+    # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+    aws_accessKey: placeholder_tls_cert_backup_aws_access_key
+    # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+    aws_secretKey: placeholder_tls_cert_backup_aws_secret_key
+    backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
+    # @ignored
+    cron_expression: "0 */6 * * *"
+    company_key: placeholder_tenant_key
 
 captain_repo:
   # -- This is a read only deploy key that will be used to read the captain repo. Part of output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -194,6 +205,15 @@ vault_init_controller:
   # -- Enable/Disable restore of an existing backup upon a fresh deployment of vault during cluster bootstrap
   enable_restore: true
 
+tls_cert_restore:
+  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_region: placeholder_aws_region
+  # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_accessKey: placeholder_tls_cert_restore_aws_access_key
+  # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_secretKey: placeholder_tls_cert_restore_aws_secret_key
+  backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
+  exclude_namespaces: placeholder_tls_cert_restore_exclude_namespaces
 
 glueops_operators:
   waf:
