@@ -31,9 +31,9 @@ spec:
       values: |
         appName: 'glueops-operator-shared-redis'
         image:
-          registry: docker.io
-          repository: redis
-          tag: 7.2.4-alpine3.19
+          registry: {{ .Values.container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.registry }}
+          repository: {{ .Values.container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.repository }}
+          tag: {{ .Values.container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.tag }}
           port: 6379
 
         service:

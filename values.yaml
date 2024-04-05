@@ -258,5 +258,13 @@ container_images:
         registry: ghcr.io
         repository: glueops/cluster-monitoring
         tag: v0.3.0
+  app_glueops_operator_redis:
+    glueops_operator_shared_redis:
+      image:
+        registry: docker.io
+        repository: redis
+        tag: 7.2.4-alpine3.19
+
+
 
 
