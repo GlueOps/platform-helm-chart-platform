@@ -312,6 +312,24 @@ container_images:
         registry: ghcr.io
         repository: glueops/pull-request-bot
         tag: v0.13.0
+  app_qr_code_generator:
+    qr_code_generator:
+      image: 
+        registry: ghcr.io
+        repository: glueops/qr-code-generator
+        tag: v0.2.11
+  app_vault_init_controller:
+    vault_init_controller:
+      image:
+        registry: ghcr.io
+        repository: glueops/vault-init-controller
+        tag: v0.3.0
+  app_vault:
+    vault:
+      image:
+        registry: docker.io # not actually used
+        repository: hashicorp/vault
+        tag: 1.14.10
 
 
 
