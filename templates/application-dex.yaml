@@ -32,7 +32,8 @@ spec:
       values: |
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         image:
-          tag: v2.38.0
+          repository: {{ .Values.container_images.app_dex.dex.image.registry }}/{{ .Values.container_images.app_dex.dex.image.repository }}
+          tag: {{ .Values.container_images.app_dex.dex.image.tag }}
         ingress:
           enabled: true
           className: "public-authenticated"
