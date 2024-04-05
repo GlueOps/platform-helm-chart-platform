@@ -300,6 +300,13 @@ container_images:
         registry: docker.io # not actually used
         repository: syepes/network_exporter
         tag: 1.7.6
+  app_promtail:
+    promtail:
+      image:
+        registry: docker.io
+        repository: grafana/promtail
+        tag: 2.9.5
+
 
 
 
