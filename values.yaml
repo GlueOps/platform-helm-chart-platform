@@ -264,6 +264,19 @@ container_images:
         registry: docker.io
         repository: redis
         tag: 7.2.4-alpine3.19
+  app_glueops_operator_waf_web_acl:
+    glueops_operator_waf_web_acl:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-waf-web-acl
+        tag: v0.3.2
+  app_glueops_operator_waf:
+    glueops_operator_waf:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-waf
+        tag: v0.6.1
+
 
 
 

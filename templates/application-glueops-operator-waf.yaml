@@ -31,9 +31,9 @@ spec:
       values: |
         appName: 'glueops-operator-waf'
         image:
-          registry: ghcr.io
-          repository: glueops/metacontroller-operator-waf
-          tag: v0.6.1
+          registry: {{ .Values.container_images.app_glueops_operator_waf.glueops_operator_waf.image.registry }}
+          repository: {{ .Values.container_images.app_glueops_operator_waf.glueops_operator_waf.image.repository }}
+          tag: {{ .Values.container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag }}
           port: 8000
 
         service:
