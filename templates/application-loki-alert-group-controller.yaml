@@ -31,9 +31,9 @@ spec:
       values: |
         appName: '{{ .Release.Name }}'
         image:
-          registry: ghcr.io
-          repository: glueops/metacontroller-operator-loki-rule-group
-          tag: v0.2.8
+          registry: {{ .Values.container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry }}
+          repository: {{ .Values.container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository }}
+          tag: {{ .Values.container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag }}
           pullPolicy: IfNotPresent
           port: 80
 
