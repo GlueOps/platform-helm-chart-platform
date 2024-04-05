@@ -95,7 +95,9 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
-            tag: 10.2.5
+            registry: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.registry }}
+            repository: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.repository }}
+            tag: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.tag }}
           #https://stackoverflow.com/questions/77912105/upgrading-kube-prometheus-stack-via-helm-to-chart-v56-2-1-fails-on-grafana-with
           assertNoLeakedSecrets: false
           ingress:
