@@ -252,4 +252,11 @@ container_images:
         registry: ghcr.io
         repository: dexidp/dex
         tag: v2.38.0
+  app_glueops_alerts:
+    cluster_monitoring:
+      image:
+        registry: ghcr.io
+        repository: glueops/cluster-monitoring
+        tag: v0.3.0
+
 
