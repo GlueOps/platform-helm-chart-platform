@@ -306,6 +306,14 @@ container_images:
         registry: docker.io
         repository: grafana/promtail
         tag: 2.9.5
+  app_pull_request_bot:
+    pull_request_bot:
+      image:
+        registry: ghcr.io
+        repository: glueops/pull-request-bot
+        tag: v0.13.0
+
+
 
 
 
