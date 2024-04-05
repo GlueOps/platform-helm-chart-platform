@@ -241,11 +241,9 @@ container_images:
         repository: glueops/certs-backup-restore
         tag: v0.3.0
   app_cluster_info_page:
-      cluster_information_help_page_html:
-        image:
-          registry: ghcr.io
-          repository: glueops/cluster-information-help-page-html
-          tag: v0.1.2
-
-
+    cluster_information_help_page_html:
+      image:
+        registry: ghcr.io
+        repository: glueops/cluster-information-help-page-html
+        tag: v0.1.2
 
