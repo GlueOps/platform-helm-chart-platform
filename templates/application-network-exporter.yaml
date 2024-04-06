@@ -32,4 +32,6 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 10 }}
 
         image:
-          tag: "1.7.6"
+          registry: {{ .Values.container_images.app_network_exporter.network_exporter.image.registry }}
+          repository: {{ .Values.container_images.app_network_exporter.network_exporter.image.repository }}
+          tag: {{ .Values.container_images.app_network_exporter.network_exporter.image.tag }}
