@@ -229,107 +229,107 @@ container_images:
       image:
         registry: ghcr.io
         repository: glueops/vault-backup-validator
-        tag: v0.1.3
+        tag: v0.1.3@sha256:ebf6c5a4784aa392748acba9b83dc47f6c6b53781fda9429fe3c20890dd0a880
     backup_tools:
       image:
         registry: ghcr.io
         repository: glueops/backup-tools
-        tag: v0.10.1
+        tag: v0.10.1@sha256:04153df00a52cd3feb58e7a6b4c5c12c80a21bc72360693233cb811787d6fd15
     certs_backup_restore:
       image:
         registry: ghcr.io
         repository: glueops/certs-backup-restore
-        tag: v0.3.0
+        tag: v0.3.0@sha256:5aa2c4930bcdd7d35b61872d2d82cf3db92586e9ea1036c8194f2b75b10946a1
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:
         registry: ghcr.io
         repository: glueops/cluster-information-help-page-html
-        tag: v0.1.2
+        tag: v0.1.2@sha256:f82bce8a783a8d04f4f0c9f1b5a3302afac5a28e7ab0d9696e82ba6f9ef62595
   app_dex:
     dex:
       image:
         registry: ghcr.io
         repository: dexidp/dex
-        tag: v2.38.0
+        tag: v2.38.0@sha256:b1d793440a98d7ecde7fa5dbc8cee1204ef0e8918d9e51ef6201f50d12d55925
   app_glueops_alerts:
     cluster_monitoring:
       image:
         registry: ghcr.io
         repository: glueops/cluster-monitoring
-        tag: v0.3.0
+        tag: v0.3.0@sha256:b47f1ba267b7d85aa302945b362590757c4baf16dc9bee1794649b7f678117c6
   app_glueops_operator_redis:
     glueops_operator_shared_redis:
       image:
         registry: docker.io
         repository: redis
-        tag: 7.2.4-alpine3.19
+        tag: 7.2.4-alpine3.19@sha256:7635b0bfdd7dd8552b4b31d6541fef07b734614045b45a52fd5cc27c9dada9e2
   app_glueops_operator_waf_web_acl:
     glueops_operator_waf_web_acl:
       image:
         registry: ghcr.io
         repository: glueops/metacontroller-operator-waf-web-acl
-        tag: v0.3.2
+        tag: v0.3.2@sha256:1ac2a0f3c2ed4864f21538349c88aa3d7ebc54f457083fe7ff80fa10b043a3be
   app_glueops_operator_waf:
     glueops_operator_waf:
       image:
         registry: ghcr.io
         repository: glueops/metacontroller-operator-waf
-        tag: v0.6.1
+        tag: v0.6.1@sha256:0bc8804b654d851ca85ed23a885fec71049708e645bfba4bb809a5120a0ea4b0
   app_kube_prometheus_stack:
     grafana:
       image:
         registry: docker.io
         repository: grafana/grafana
-        tag: 10.2.5
+        tag: 10.2.5@sha256:33df8202cfe40b8959c4b7237bc309af9ec8637f860fbccff111399dc7c46c32
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
         registry: ghcr.io
         repository: glueops/metacontroller-operator-loki-rule-group
-        tag: v0.2.8
+        tag: v0.2.8@sha256:f1c0c41558c686838951fe0b6050329655e148ce411f21c9ffa42172bea398ce
   app_loki:
     loki:
       image:
         registry: docker.io
         repository: grafana/loki
-        tag: 2.9.5
+        tag: 2.9.5@sha256:55561cf48b19e03d982e1f959efc0d8842b7be141eb5eaaa4b8a8eeb5a2dfc58
   app_network_exporter:
     network_exporter:
       image:
         registry: docker.io # not actually used
         repository: syepes/network_exporter
-        tag: 1.7.6
+        tag: 1.7.6@sha256:376c3c80026e79d76eec3a3a1f22621ad6846525c458bb7f1423f3da6398482f
   app_promtail:
     promtail:
       image:
         registry: docker.io
         repository: grafana/promtail
-        tag: 2.9.5
+        tag: 2.9.5@sha256:7de69cdd6ec9e85a05069b846db5fa4c744fe8dd384ea415bf0b753da430ff1e
   app_pull_request_bot:
     pull_request_bot:
       image:
         registry: ghcr.io
         repository: glueops/pull-request-bot
-        tag: v0.13.0
+        tag: v0.13.0@sha256:676156cecf378b72f89ee0ab560b38e6f6f6603bc782aa2382a8dc4bfc7ea2cb
   app_qr_code_generator:
     qr_code_generator:
       image: 
         registry: ghcr.io
         repository: glueops/qr-code-generator
-        tag: v0.2.11
+        tag: v0.2.11@sha256:75553071cec02520d1c664a03bbac0612139683a92dabf1496dce9603987e76c
   app_vault_init_controller:
     vault_init_controller:
       image:
         registry: ghcr.io
         repository: glueops/vault-init-controller
-        tag: v0.3.0
+        tag: v0.3.0@sha256:c089e78ae19820f459cd1b098e672281c82155806304159842cff639a926e86d
   app_vault:
     vault:
       image:
         registry: docker.io # not actually used
         repository: hashicorp/vault
-        tag: 1.14.10
+        tag: 1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1
 
 
 
