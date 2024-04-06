@@ -30,10 +30,10 @@ spec:
       values: |-
         appName: 'qr-code-generator'
         replicaCount: '2'
-        image: 
-          registry: ghcr.io
-          repository: glueops/qr-code-generator
-          tag: v0.2.11
+        image:
+          registry: {{ .Values.container_images.app_qr_code_generator.qr_code_generator.image.registry }}
+          repository: {{ .Values.container_images.app_qr_code_generator.qr_code_generator.image.repository }}
+          tag: {{ .Values.container_images.app_qr_code_generator.qr_code_generator.image.tag }}
           pullPolicy: IfNotPresent
           port: 8000
                 

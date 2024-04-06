@@ -222,3 +222,120 @@ glueops_operators:
   web_acl:
     aws_accessKey: placeholder_glueops_operators_web_acl_aws_access_key
     aws_secretKey: placeholder_glueops_operators_web_acl_aws_secret_key
+
+container_images:
+  app_backup_and_exports:
+    vault_backup_validator:
+      image:
+        registry: ghcr.io
+        repository: glueops/vault-backup-validator
+        tag: v0.1.3
+    backup_tools:
+      image:
+        registry: ghcr.io
+        repository: glueops/backup-tools
+        tag: v0.10.1
+    certs_backup_restore:
+      image:
+        registry: ghcr.io
+        repository: glueops/certs-backup-restore
+        tag: v0.3.0
+  app_cluster_info_page:
+    cluster_information_help_page_html:
+      image:
+        registry: ghcr.io
+        repository: glueops/cluster-information-help-page-html
+        tag: v0.1.2
+  app_dex:
+    dex:
+      image:
+        registry: ghcr.io
+        repository: dexidp/dex
+        tag: v2.38.0
+  app_glueops_alerts:
+    cluster_monitoring:
+      image:
+        registry: ghcr.io
+        repository: glueops/cluster-monitoring
+        tag: v0.3.0
+  app_glueops_operator_redis:
+    glueops_operator_shared_redis:
+      image:
+        registry: docker.io
+        repository: redis
+        tag: 7.2.4-alpine3.19
+  app_glueops_operator_waf_web_acl:
+    glueops_operator_waf_web_acl:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-waf-web-acl
+        tag: v0.3.2
+  app_glueops_operator_waf:
+    glueops_operator_waf:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-waf
+        tag: v0.6.1
+  app_kube_prometheus_stack:
+    grafana:
+      image:
+        registry: docker.io
+        repository: grafana/grafana
+        tag: 10.2.5
+  app_loki_alert_group_controller:
+    loki_alert_group_controller:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-loki-rule-group
+        tag: v0.2.8
+  app_loki:
+    loki:
+      image:
+        registry: docker.io
+        repository: grafana/loki
+        tag: 2.9.5
+  app_network_exporter:
+    network_exporter:
+      image:
+        registry: docker.io # not actually used
+        repository: syepes/network_exporter
+        tag: 1.7.6
+  app_promtail:
+    promtail:
+      image:
+        registry: docker.io
+        repository: grafana/promtail
+        tag: 2.9.5
+  app_pull_request_bot:
+    pull_request_bot:
+      image:
+        registry: ghcr.io
+        repository: glueops/pull-request-bot
+        tag: v0.13.0
+  app_qr_code_generator:
+    qr_code_generator:
+      image: 
+        registry: ghcr.io
+        repository: glueops/qr-code-generator
+        tag: v0.2.11
+  app_vault_init_controller:
+    vault_init_controller:
+      image:
+        registry: ghcr.io
+        repository: glueops/vault-init-controller
+        tag: v0.3.0
+  app_vault:
+    vault:
+      image:
+        registry: docker.io # not actually used
+        repository: hashicorp/vault
+        tag: 1.14.10
+
+
+
+
+
+
+
+
+
