@@ -335,7 +335,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: metacontroller/metacontroller
-        tag: 4.11.11@sha256:0fa3ae495bae010616f55814e785f12ac7346fce801df1afd3ec162ec5159470 #this might need to be updated manually because of renovatebot errors
+        tag: v4.11.11@sha256:0fa3ae495bae010616f55814e785f12ac7346fce801df1afd3ec162ec5159470 #this might need to be updated manually because of renovatebot errors
 
 
 
