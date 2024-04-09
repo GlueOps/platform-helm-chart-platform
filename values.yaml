@@ -251,7 +251,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: dexidp/dex
-        tag: v2.39.0@sha256:935ef4c1ae6537bcbdec79f5a799cf2e2a123808d45c3af7e41b77767cd3ff6f
+        tag: v2.39.1@sha256:2c07866020c0058589456850a516785adba5992caf4efa02f96ec0a92593f940
   app_glueops_alerts:
     cluster_monitoring:
       image:
