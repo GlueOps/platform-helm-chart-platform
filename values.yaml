@@ -330,12 +330,7 @@ container_images:
         registry: docker.io # not actually used
         repository: hashicorp/vault
         tag: 1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1
-  app_metacontroller:
-    metacontroller:
-      image:
-        registry: ghcr.io
-        repository: metacontroller/metacontroller
-        tag: 4.11.11
+
 
 
 
