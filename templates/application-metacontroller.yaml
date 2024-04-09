@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: 'ghcr.io/metacontroller'
     chart: metacontroller-helm
-    targetRevision: 4.11.8
+    targetRevision: 4.11.11
     helm:
       parameters:
         - name: replicas
