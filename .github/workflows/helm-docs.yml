@@ -1,4 +1,4 @@
-name: Publish Production Helm Charts
+name: Update Docs
 on:
   push:
 
