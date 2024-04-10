@@ -45,5 +45,5 @@ spec:
           - --workers=100
 
         image:
-          repository: {{ .Values.container_images.app_metacontroller.metacontroller.image.registry }}:{{ .Values.container_images.app_metacontroller.metacontroller.image.repository }}
+          repository: {{ .Values.container_images.app_metacontroller.metacontroller.image.registry }}/{{ .Values.container_images.app_metacontroller.metacontroller.image.repository }}
           tag: {{ .Values.container_images.app_metacontroller.metacontroller.image.tag }}
