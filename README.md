@@ -19,7 +19,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.11.1@sha256:f8a2a64d0ad04d5cb54db877cc92273eb726aa904e22497354d8b9aa440be810"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.5.0@sha256:189ea547536c25ae2537d06e8844ac7227713463ad453de84344d8ecbf9c0556"` |  |
+| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.5.1@sha256:0bea2b654f6c83d4e6de99c726b4004002731b1afd2a3f09db68e90124598872"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v0.1.3@sha256:ebf6c5a4784aa392748acba9b83dc47f6c6b53781fda9429fe3c20890dd0a880"` |  |
