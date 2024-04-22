@@ -64,7 +64,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.17.0@sha256:20eeaacf9a988925a125e64a5439607afa6092bed2fa1403d9d39cf9f26a2aaf"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
-| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.4.0@sha256:b7842be8cdea41b5d6c2a9a6f338bc73c6e53cd8ffc99922a8380e30fa40b419"` |  |
+| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.4.1@sha256:d12bff0b8ffa3995a77e3b49abc6967085f4a5d922d1aca42f4bdadc5a4f172a"` |  |
 | container_images.app_vault.vault.image.registry | string | `"docker.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
 | container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
