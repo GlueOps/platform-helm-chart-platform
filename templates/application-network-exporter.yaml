@@ -23,15 +23,158 @@ spec:
         factor: 2
       limit: 2
   source:
-    repoURL: 'https://helm.gpkg.io/platform'
-    chart: glueops-network-exporter
-    targetRevision: 0.2.1
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.4.0
     helm:
-      values: |-
-        tolerations:
-          {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 10 }}
+      values: |
+        appName: 'glueops-network-exporter'
 
-        image:
-          registry: {{ .Values.container_images.app_network_exporter.network_exporter.image.registry }}
-          repository: {{ .Values.container_images.app_network_exporter.network_exporter.image.repository }}
-          tag: {{ .Values.container_images.app_network_exporter.network_exporter.image.tag }}
+        customResources:
+          - |-
+            apiVersion: apps/v1
+            kind: DaemonSet
+            metadata:
+              labels:
+              name: glueops-network-exporter
+              namespace: glueops-core-network-exporter
+            spec:
+              selector:
+                matchLabels:
+                  app.kubernetes.io/instance: glueops-network-exporter
+                  app.kubernetes.io/name: glueops-network-exporter
+              template:
+                metadata:
+                  labels:
+                    app.kubernetes.io/instance: glueops-network-exporter
+                    app.kubernetes.io/name: glueops-network-exporter
+                spec:
+                  containers:
+                  - args:
+                    - --config.file=/config/config.yml
+                    command:
+                    - /app/network_exporter
+                    image: {{ .Values.container_images.app_network_exporter.network_exporter.image.registry }}/{{ .Values.container_images.app_network_exporter.network_exporter.image.repository }}:{{ .Values.container_images.app_network_exporter.network_exporter.image.tag }}
+                    imagePullPolicy: IfNotPresent
+                    livenessProbe:
+                      failureThreshold: 3
+                      httpGet:
+                        path: /
+                        port: http
+                        scheme: HTTP
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 1
+                    name: glueops-network-exporter
+                    ports:
+                    - containerPort: 9427
+                      name: http
+                      protocol: TCP
+                    readinessProbe:
+                      failureThreshold: 3
+                      httpGet:
+                        path: /
+                        port: http
+                        scheme: HTTP
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 1
+                    resources: {}
+                    securityContext:
+                      capabilities:
+                        add:
+                        - CAP_NET_RAW
+                        - CAP_NET_ADMIN
+                      privileged: true
+                    terminationMessagePath: /dev/termination-log
+                    terminationMessagePolicy: File
+                    volumeMounts:
+                    - mountPath: /config
+                      name: config
+                  dnsPolicy: ClusterFirst
+                  restartPolicy: Always
+                  schedulerName: default-scheduler
+                  securityContext: {}
+                  terminationGracePeriodSeconds: 30
+                  tolerations:
+                  {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 18 }}
+                  volumes:
+                  - configMap:
+                      defaultMode: 420
+                      name: glueops-network-exporter
+                    name: config
+              updateStrategy:
+                rollingUpdate:
+                  maxSurge: 0
+                  maxUnavailable: 1
+                type: RollingUpdate
+
+          - |-
+            apiVersion: v1
+            kind: Service
+            metadata:
+              annotations:
+                prometheus.io/port: "9427"
+                prometheus.io/scrape: "true"
+              labels:
+                app.kubernetes.io/instance: glueops-network-exporter
+                app.kubernetes.io/name: glueops-network-exporter
+              name: glueops-network-exporter
+              namespace: glueops-core-network-exporter
+            spec:
+              clusterIP: None
+              ports:
+              - name: http
+                port: 9427
+                protocol: TCP
+                targetPort: http
+              selector:
+                app.kubernetes.io/instance: glueops-network-exporter
+                app.kubernetes.io/name: glueops-network-exporter
+              type: ClusterIP
+
+          - |-
+            apiVersion: v1
+            data:
+              config.yml: |
+                conf:
+                  nameserver_timeout: 250ms
+                  refresh: 2m
+                http_get:
+                  interval: 15m
+                  timeout: 5s
+                icmp:
+                  count: 6
+                  interval: 3s
+                  timeout: 1s
+                mtr:
+                  count: 6
+                  interval: 3s
+                  max-hops: 30
+                  timeout: 500ms
+                targets:
+                - host: 8.8.8.8
+                  name: google-dns
+                  type: ICMP+MTR
+                - host: 1.1.1.1
+                  name: cloudflare-dns
+                  type: ICMP+MTR
+                - host: glueops-network-exporter.glueops-core-network-exporter.svc.cluster.local
+                  name: glueops-network-exporter
+                  type: ICMP+MTR
+                - host: http://public-ingress-nginx-controller.glueops-core-public-ingress-nginx.svc.cluster.local
+                  name: nginx
+                  type: HTTPGet
+                - host: public-ingress-nginx-controller.glueops-core-public-ingress-nginx.svc.cluster.local:80
+                  name: nginx
+                  type: TCP
+                tcp:
+                  interval: 3s
+                  timeout: 1s
+            kind: ConfigMap
+            metadata:
+              labels:
+                app.kubernetes.io/instance: glueops-network-exporter
+                app.kubernetes.io/name: glueops-network-exporter
+              name: glueops-network-exporter
+              namespace: glueops-core-network-exporter
