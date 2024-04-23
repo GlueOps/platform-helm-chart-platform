@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: 'https://github.com/GlueOps/cert-manager-crds'
     path: v1.13.5/
-    targetRevision: HEAD
+    targetRevision: v0.2.0
   syncPolicy:
     syncOptions:
       - Replace=true
