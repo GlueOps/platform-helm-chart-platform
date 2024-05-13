@@ -25,9 +25,9 @@ spec:
       - Replace=true
       - CreateNamespace=true
   source:
-    repoURL: 'https://helm.gpkg.io/platform'
-    chart: metacontroller-helm
-    targetRevision: v4.11.7
+    repoURL: https://github.com/metacontroller/metacontroller.git
+    path: deploy/helm/metacontroller
+    targetRevision: v4.11.11
     helm:
       parameters:
         - name: replicas
@@ -43,3 +43,7 @@ spec:
           - --client-go-qps=600
           - --client-go-burst=600
           - --workers=100
+
+        image:
+          repository: {{ .Values.container_images.app_metacontroller.metacontroller.image.registry }}/{{ .Values.container_images.app_metacontroller.metacontroller.image.repository }}
+          tag: {{ .Values.container_images.app_metacontroller.metacontroller.image.tag }}

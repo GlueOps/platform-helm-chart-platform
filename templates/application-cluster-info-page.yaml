@@ -31,9 +31,9 @@ spec:
 
       
         image:
-          registry: ghcr.io
-          repository: glueops/cluster-information-help-page-html
-          tag: v0.1.1
+          registry: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry }}
+          repository: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository }}
+          tag: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag }}
           pullPolicy: IfNotPresent
           port: 80
         

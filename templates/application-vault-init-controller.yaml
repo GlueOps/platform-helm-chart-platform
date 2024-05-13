@@ -29,9 +29,9 @@ spec:
       values: |
         appName: 'vault-init-controller'
         image:
-          registry: ghcr.io
-          repository: glueops/vault-init-controller
-          tag: v0.2.3
+          registry: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.registry }}
+          repository: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.repository }}
+          tag: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.tag }}
         serviceAccount:
           create: true
           name: vault-init-controller

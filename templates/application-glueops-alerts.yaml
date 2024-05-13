@@ -33,9 +33,9 @@ spec:
         appName: 'glueops-core-alerts'
 
         image:
-          registry: ghcr.io
-          tag: v0.2.2
-          repository: glueops/cluster-monitoring
+          registry: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.registry }}
+          repository: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.repository }}
+          tag: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.tag }}
           pullPolicy: IfNotPresent
         deployment:
           replicas: 1
@@ -92,11 +92,13 @@ spec:
                 rules:
                 - alert: glueops-pod-in-bad-state
                   expr: |
-                    (kube_pod_status_phase{namespace=~"^(kube-system|glueops-core-.*|glueops-core)$", pod!~"^(captain-redis-ha-configmap-test|captain-redis-ha-service-test)$", phase=~"^(Failed|Unknown|ContainerCreating|CrashLoopBackOff|ImagePullBackOff|ErrImageNeverPull|Pending)$"} == 1)
+                    (kube_pod_status_phase{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$", pod!~"^(captain-redis-ha-configmap-test|captain-redis-ha-service-test)$", phase=~"^(Failed|Unknown|ContainerCreating|CrashLoopBackOff|ImagePullBackOff|ErrImageNeverPull|Pending)$"} == 1)
                     or
-                    (kube_pod_status_ready{namespace=~"^(kube-system|glueops-core-.*|glueops-core)$", pod!~"^(captain-redis-ha-configmap-test|captain-redis-ha-service-test|glueops-backup-and-exports-.*)$", condition="false"} == 1)
+                    (kube_pod_status_ready{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$", pod!~"^(captain-redis-ha-configmap-test|captain-redis-ha-service-test|glueops-backup-and-exports-.*|.*-presync-.*|pomerium-gen-secrets-.*)$", condition="false"} == 1)
                     or
-                    (kube_pod_status_restarts_total{namespace=~"^(kube-system|glueops-core-.*|glueops-core)$"} > 3)
+                    (kube_pod_status_restarts_total{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$"} > 3)
+                    or
+                    (kube_job_status_failed{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$"} > 0)
                   for: 1m
                   annotations:
                     description: A GlueOps pod is in a bad state.

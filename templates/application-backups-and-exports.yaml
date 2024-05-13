@@ -33,11 +33,44 @@ spec:
         serviceAccount:
           create: true
           name: vault-backup
+        
+        customResources:
+        - |-
+          apiVersion: v1
+          kind: ServiceAccount
+          metadata:
+            name: tls-cert-backup
+            namespace: glueops-core-backup
+        - |-
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: ClusterRole
+          metadata:
+            name: tls-cert-backup
+          rules:
+          - apiGroups: [""]
+            resources: ["secrets"]
+            verbs: ["get", "list", "create", "update", "patch"]
+          - apiGroups: [""]
+            resources: ["namespaces"]
+            verbs: ["get", "list"]
+        - |-
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: ClusterRoleBinding
+          metadata:
+            name: tls-cert-backup
+          subjects:
+          - kind: ServiceAccount
+            name: tls-cert-backup
+            namespace: glueops-core-backup
+          roleRef:
+            kind: ClusterRole
+            name: tls-cert-backup
+            apiGroup: rbac.authorization.k8s.io
 
         image:
-          registry: ghcr.io
-          repository: glueops/vault-backup-validator
-          tag: v0.1.3
+          registry: {{ .Values.container_images.app_backup_and_exports.vault_backup_validator.image.registry }}
+          repository: {{ .Values.container_images.app_backup_and_exports.vault_backup_validator.image.repository }}
+          tag: {{ .Values.container_images.app_backup_and_exports.vault_backup_validator.image.tag }}
   
         deployment:
           enabled: true
@@ -64,7 +97,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.9.4
+              image: {{ .Values.container_images.app_backup_and_exports.backup_tools.image.registry }}/{{ .Values.container_images.app_backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.app_backup_and_exports.backup_tools.image.tag }}
               command: ["/bin/bash", "-c"]
               args:
                 - backup-vault
@@ -102,7 +135,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: ghcr.io/glueops/backup-tools:v0.9.4
+              image: {{ .Values.container_images.app_backup_and_exports.backup_tools.image.registry }}/{{ .Values.container_images.app_backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.app_backup_and_exports.backup_tools.image.tag }}
               command: ["/bin/bash", "-c"]
               args:
                 - backup-loki-logs-as-json
@@ -134,3 +167,34 @@ spec:
                 emptyDir:
                   medium: "" # Set to "Memory" for tmpfs (RAM-backed filesystem), or leave empty for node's filesystem
                   sizeLimit: 20G # Set the desired size limit
+            tls-cert-backup:
+              {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
+              serviceAccount:
+                enabled: true
+                name: tls-cert-backup
+              schedule: "{{ .Values.glueops_backups.tls_cert_backup.cron_expression }}"
+              concurrencyPolicy: Forbid
+              successfulJobsHistoryLimit: 10
+              failedJobsHistoryLimit: 3
+              image: {{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.registry }}/{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.repository }}:{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.tag }}
+              command: ["python", "-u", "/app/cert-backup-restore/main.py","--backup"]
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
+              envVariables:
+                - name: AWS_ACCESS_KEY_ID
+                  value: "{{ .Values.glueops_backups.tls_cert_backup.aws_accessKey }}"
+                - name: AWS_SECRET_ACCESS_KEY
+                  value: "{{ .Values.glueops_backups.tls_cert_backup.aws_secretKey }}"
+                - name: AWS_DEFAULT_REGION
+                  value: "{{ .Values.glueops_backups.tls_cert_backup.aws_region }}"
+                - name: CAPTAIN_DOMAIN
+                  value: "{{ .Values.captain_domain }}"
+                - name: BUCKET_NAME
+                  value: "{{ .Values.glueops_backups.s3_bucket_name }}"
+                - name: BACKUP_PREFIX
+                  value: "{{ .Values.glueops_backups.tls_cert_backup.backup_prefix }}"

@@ -78,6 +78,17 @@ glueops_backups:
     aws_accessKey: placeholder_fluentbit_exporter_aws_access_key
     # -- Part of `fluentbit_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
     aws_secretKey: placeholder_fluentbit_exporter_aws_secret_key
+  tls_cert_backup:
+    # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+    aws_region: placeholder_aws_region
+    # -- Part of `tls_cert_backup_s3` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+    aws_accessKey: placeholder_tls_cert_backup_aws_access_key
+    # -- Part of `tls_cert_backup_s3` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+    aws_secretKey: placeholder_tls_cert_backup_aws_secret_key
+    backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
+    # @ignored
+    cron_expression: "0 */6 * * *"
+    company_key: placeholder_tenant_key
 
 captain_repo:
   # -- This is a read only deploy key that will be used to read the captain repo. Part of output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -201,6 +212,15 @@ vault_init_controller:
   # -- Enable/Disable restore of an existing backup upon a fresh deployment of vault during cluster bootstrap
   enable_restore: true
 
+tls_cert_restore:
+  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_region: placeholder_aws_region
+  # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_accessKey: placeholder_tls_cert_restore_aws_access_key
+  # -- Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_secretKey: placeholder_tls_cert_restore_aws_secret_key
+  backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
+  exclude_namespaces: placeholder_tls_cert_restore_exclude_namespaces
 
 glueops_operators:
   waf:
@@ -209,3 +229,117 @@ glueops_operators:
   web_acl:
     aws_accessKey: placeholder_glueops_operators_web_acl_aws_access_key
     aws_secretKey: placeholder_glueops_operators_web_acl_aws_secret_key
+
+container_images:
+  app_backup_and_exports:
+    vault_backup_validator:
+      image:
+        registry: ghcr.io
+        repository: glueops/vault-backup-validator
+        tag: v0.1.3@sha256:ebf6c5a4784aa392748acba9b83dc47f6c6b53781fda9429fe3c20890dd0a880
+    backup_tools:
+      image:
+        registry: ghcr.io
+        repository: glueops/backup-tools
+        tag: v0.11.2@sha256:6f163a1bba8ddbd7cb9ea7f28baf7cd170ca24fa33d267ff7afc7b1a621c349d
+    certs_backup_restore:
+      image:
+        registry: ghcr.io
+        repository: glueops/certs-backup-restore
+        tag: v0.5.1@sha256:0bea2b654f6c83d4e6de99c726b4004002731b1afd2a3f09db68e90124598872
+  app_cluster_info_page:
+    cluster_information_help_page_html:
+      image:
+        registry: ghcr.io
+        repository: glueops/cluster-information-help-page-html
+        tag: v0.3.1@sha256:6a66c53a6443d137e6346d1431aef0368ca2e7a4a35be4da4786d7338b004c02
+  app_dex:
+    dex:
+      image:
+        registry: ghcr.io
+        repository: dexidp/dex
+        tag: v2.39.1@sha256:2c07866020c0058589456850a516785adba5992caf4efa02f96ec0a92593f940
+  app_glueops_alerts:
+    cluster_monitoring:
+      image:
+        registry: ghcr.io
+        repository: glueops/cluster-monitoring
+        tag: v0.5.0@sha256:5a51c82b954c9b533439ec82776f8102b2d861059d8c4cc20b4b911d3fa34ef6
+  app_glueops_operator_redis:
+    glueops_operator_shared_redis:
+      image:
+        registry: docker.io
+        repository: redis
+        tag: 7.2.4-alpine3.19@sha256:a40e29800d387e3cf9431902e1e7a362e4d819233d68ae39380532c3310091ac
+  app_glueops_operator_waf_web_acl:
+    glueops_operator_waf_web_acl:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-waf-web-acl
+        tag: v0.5.1@sha256:696ff30a9b333b8f4e5a0552b889af642dbf873eba3a4d4c32619aac9670d8ea
+  app_glueops_operator_waf:
+    glueops_operator_waf:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-waf
+        tag: v0.8.1@sha256:7eb27cf2af062e8df68f88c093167ef11bdaa99173ed05ed05743439127d5ac2
+  app_kube_prometheus_stack:
+    grafana:
+      image:
+        registry: docker.io
+        repository: grafana/grafana
+        tag: 10.2.6@sha256:f125dff7da87b61c70622c7cf473232388ef37c3dd2481df3fb75d23e2bd9ee5
+  app_loki_alert_group_controller:
+    loki_alert_group_controller:
+      image:
+        registry: ghcr.io
+        repository: glueops/metacontroller-operator-loki-rule-group
+        tag: v0.4.0@sha256:c9f4957e290021ad87ca9a20c787ab38dbea2472b2e12c446e4a39c8cd359d21
+  app_loki:
+    loki:
+      image:
+        registry: docker.io
+        repository: grafana/loki
+        tag: 2.9.7@sha256:792a791d9e52fdff6a4e21be57b5fd9e5868218156e175bb8dde0fa258c76e20
+  app_network_exporter:
+    network_exporter:
+      image:
+        registry: docker.io # not actually used
+        repository: syepes/network_exporter
+        tag: 1.7.6@sha256:376c3c80026e79d76eec3a3a1f22621ad6846525c458bb7f1423f3da6398482f
+  app_promtail:
+    promtail:
+      image:
+        registry: docker.io
+        repository: grafana/promtail
+        tag: 2.9.7@sha256:ba5f128849f51db31459a8ecd63d3f50e443af8585cf088ec11cb22248c6ae23
+  app_pull_request_bot:
+    pull_request_bot:
+      image:
+        registry: ghcr.io
+        repository: glueops/pull-request-bot
+        tag: v0.17.0@sha256:20eeaacf9a988925a125e64a5439607afa6092bed2fa1403d9d39cf9f26a2aaf
+  app_qr_code_generator:
+    qr_code_generator:
+      image: 
+        registry: ghcr.io
+        repository: glueops/qr-code-generator
+        tag: v0.4.1@sha256:d12bff0b8ffa3995a77e3b49abc6967085f4a5d922d1aca42f4bdadc5a4f172a
+  app_vault_init_controller:
+    vault_init_controller:
+      image:
+        registry: ghcr.io
+        repository: glueops/vault-init-controller
+        tag: v0.6.1@sha256:08bc8b4e981700fe2ce238efe088a2ed25650f36381010c08da9427bf0cd2adb
+  app_vault:
+    vault:
+      image:
+        registry: docker.io # not actually used
+        repository: hashicorp/vault
+        tag: 1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1
+  app_metacontroller:
+    metacontroller:
+      image:
+        registry: ghcr.io
+        repository: metacontroller/metacontroller
+        tag: v4.11.11@sha256:0fa3ae495bae010616f55814e785f12ac7346fce801df1afd3ec162ec5159470 #this might need to be updated manually because of renovatebot errors

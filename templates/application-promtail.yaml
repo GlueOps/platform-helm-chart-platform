@@ -26,14 +26,16 @@ spec:
   source:
     repoURL: 'https://grafana.github.io/helm-charts'
     chart: promtail
-    targetRevision: 6.15.1
+    targetRevision: 6.15.5
     helm:
       parameters:
         - name: config.clients[0].url
           value: http://loki-write.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push
       values: |-
         image:
-          tag: 2.9.4
+          registry: {{ .Values.container_images.app_promtail.promtail.image.registry }}
+          repository: {{ .Values.container_images.app_promtail.promtail.image.repository }}
+          tag: {{ .Values.container_images.app_promtail.promtail.image.tag }}
         tolerations:
           {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 10 }}
         config:
