@@ -29,6 +29,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_dex.dex.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.39.1@sha256:2c07866020c0058589456850a516785adba5992caf4efa02f96ec0a92593f940"` |  |
+| container_images.app_fluent_operator.fluenbit.image.registry | string | `"docker.io"` |  |
+| container_images.app_fluent_operator.fluenbit.image.repository | string | `"fluent/fluent-bit"` |  |
+| container_images.app_fluent_operator.fluenbit.image.tag | string | `"2.2.2"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.5.0@sha256:5a51c82b954c9b533439ec82776f8102b2d861059d8c4cc20b4b911d3fa34ef6"` |  |
@@ -87,14 +90,17 @@ This chart deploys the GlueOps Platform
 | gitHub.tenant_github_org | string | `"placeholder_tenant_github_org_name"` |  |
 | gitHub.tenant_github_org_and_team | string | `"placeholder_tenant_github_org_name:developers"` | The format is: <github-org-name>:<github-team-name> (The team should include the developers) |
 | glueops_alerts.opsgenie_apikey | string | `"placeholder_opsgenie_api_key"` | Found at `opsgenie_credentials` in the json output that is part of `opsgenie_prometheus_api_keys` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.fluentbit_exporter_to_s3.aws_accessKey | string | `"placeholder_fluentbit_exporter_aws_access_key"` | Part of `fluentbit_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.fluentbit_exporter_to_s3.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.fluentbit_exporter_to_s3.aws_secretKey | string | `"placeholder_fluentbit_exporter_aws_secret_key"` | Part of `fluentbit_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.aws_accessKey | string | `"placeholder_loki_exporter_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.aws_secretKey | string | `"placeholder_loki_exporter_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.company_key | string | `"placeholder_tenant_key"` |  |
 | glueops_backups.s3_bucket_name | string | `"glueops-tenant-placeholder_tenant_key-primary"` |  |
-| glueops_backups.tls_cert_backup.aws_accessKey | string | `"placeholder_tls_cert_backup_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.tls_cert_backup.aws_accessKey | string | `"placeholder_tls_cert_backup_aws_access_key"` | Part of `tls_cert_backup_s3` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.tls_cert_backup.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| glueops_backups.tls_cert_backup.aws_secretKey | string | `"placeholder_tls_cert_backup_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.tls_cert_backup.aws_secretKey | string | `"placeholder_tls_cert_backup_aws_secret_key"` | Part of `tls_cert_backup_s3` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.tls_cert_backup.backup_prefix | string | `"placeholder_tls_cert_backup_s3_key_prefix"` |  |
 | glueops_backups.tls_cert_backup.company_key | string | `"placeholder_tenant_key"` |  |
 | glueops_backups.vault.aws_accessKey | string | `"placeholder_vault_aws_access_key"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
