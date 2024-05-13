@@ -259,6 +259,12 @@ container_images:
         registry: ghcr.io
         repository: dexidp/dex
         tag: v2.39.1@sha256:2c07866020c0058589456850a516785adba5992caf4efa02f96ec0a92593f940
+  app_fluent_operator:
+    fluenbit:
+      image:
+        registry: docker.io
+        repository: fluent/fluent-bit
+        tag: 2.2.2
   app_glueops_alerts:
     cluster_monitoring:
       image:
