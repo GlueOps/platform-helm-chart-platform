@@ -34,7 +34,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.5.0@sha256:5a51c82b954c9b533439ec82776f8102b2d861059d8c4cc20b4b911d3fa34ef6"` |  |
 | container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.registry | string | `"docker.io"` |  |
 | container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.repository | string | `"redis"` |  |
-| container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.tag | string | `"7.2.4-alpine3.19@sha256:a40e29800d387e3cf9431902e1e7a362e4d819233d68ae39380532c3310091ac"` |  |
+| container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.tag | string | `"7.2.4-alpine3.19@sha256:c8bb255c3559b3e458766db810aa7b3c7af1235b204cfdb304e79ff388fe1a5a"` |  |
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.repository | string | `"glueops/metacontroller-operator-waf"` |  |
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag | string | `"v0.8.1@sha256:7eb27cf2af062e8df68f88c093167ef11bdaa99173ed05ed05743439127d5ac2"` |  |
