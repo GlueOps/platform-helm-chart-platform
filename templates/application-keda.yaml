@@ -29,7 +29,7 @@ spec:
       limit: 5
   source:
     repoURL: 'https://kedacore.github.io/charts'
-    targetRevision: 2.13.2
+    targetRevision: 2.14.2
     chart: keda
     helm:
       values: |-
