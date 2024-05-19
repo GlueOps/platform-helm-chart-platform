@@ -58,7 +58,7 @@ spec:
                 value: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_secretKey }}"
               ports:
                 - containerPort: 51114
-                  name: "glueops-core-fluentbit-primary"
+                  name: "glueops-fluentbit-primary"
               image: "{{ .Values.container_images.app_fluentbit.image.registry }}/{{ .Values.container_images.app_fluentbit.image.repository }}:{{ .Values.container_images.app_fluentbit.image.tag }}"
               positionDB:
                 hostPath:
