@@ -50,15 +50,15 @@ spec:
               dnsPolicy: ClusterFirstWithHostNet
               fluentBitConfigName: glueops-core-fluent-bit-config-primary
               hostNetwork: true
-              metricsPort: {{ .Values.host_network.fluentbit.primary_daemonset_port }}
+              metricsPort: {{ .Values.host_network.fluentbit.metrics_port }}
               envVars:
               - name: AWS_ACCESS_KEY_ID
                 value: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_accessKey }}"
               - name: AWS_SECRET_ACCESS_KEY
                 value: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_secretKey }}"
               ports:
-                - containerPort: 51114
-                  name: "glueops-fluentbit-primary"
+                - containerPort: {{ .Values.host_network.fluentbit.app_port }}
+                  name: "fluentbit"
               image: "{{ .Values.container_images.app_fluentbit.image.registry }}/{{ .Values.container_images.app_fluentbit.image.repository }}:{{ .Values.container_images.app_fluentbit.image.tag }}"
               positionDB:
                 hostPath:
