@@ -50,7 +50,7 @@ spec:
               dnsPolicy: ClusterFirstWithHostNet
               fluentBitConfigName: glueops-core-fluent-bit-config-primary
               hostNetwork: true
-              metricsPort: 51115
+              metricsPort: {{ .Values.host_network.fluentbit.primary_daemonset_port }}
               envVars:
               - name: AWS_ACCESS_KEY_ID
                 value: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_accessKey }}"

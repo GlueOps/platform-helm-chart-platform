@@ -35,6 +35,8 @@ host_network:
         port: 45055
       metricServer:
         port: 45056
+  fluentbit:
+    primary_daemonset_port: 45070
 
 
 
@@ -354,11 +356,3 @@ container_images:
       repository: kubesphere/fluent-bit
       tag: v2.2.0
       
-
-
-
-
-
-
-
-
