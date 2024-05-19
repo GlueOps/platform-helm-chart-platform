@@ -201,6 +201,4 @@ spec:
               s3: #add more labels
                 Bucket: "{{ .Values.glueops_backups.s3_bucket_name }}"
                 Region: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_region }}"
-                S3KeyFormat: "/{{ .Values.captain_domain }}/fluentbit_exported_logs/$TAG/%Y/%m/%d/%H/%M/%S/$UUID.gz"
-                Compression: gzip
-                ContentType: application/gzip
+                S3KeyFormat: "/{{ .Values.captain_domain }}/fluentbit_exported_logs/$TAG/%Y/%m/%d/%H/%M/%S/$UUID"
