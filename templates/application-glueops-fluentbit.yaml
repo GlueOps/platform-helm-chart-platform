@@ -1,0 +1,206 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-fluentbit
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-fluent-operator
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.4.0
+    helm:
+      values: |
+        appName: 'glueops-core-fluentbit'
+        customResources:
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            apiVersion: fluentbit.fluent.io/v1alpha2
+            kind: FluentBit
+            metadata:
+              name: glueops-core-primary
+              labels:
+                logging.glueops.dev: 'glueops-core-primary'
+              namespace: glueops-core-fluent-operator
+            spec:
+              affinity:
+                nodeAffinity:
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                    nodeSelectorTerms:
+                      - matchExpressions:
+                          - key: node-role.kubernetes.io/edge
+                            operator: DoesNotExist
+              dnsPolicy: ClusterFirstWithHostNet
+              fluentBitConfigName: glueops-core-fluent-bit-config-primary
+              hostNetwork: true
+              metricsPort: 51115
+              envVars:
+              - name: AWS_ACCESS_KEY_ID
+                value: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_accessKey }}"
+              - name: AWS_SECRET_ACCESS_KEY
+                value: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_secretKey }}"
+              ports:
+                - containerPort: 51114
+                  name: "glueops-core-fluentbit-primary"
+              image: "{{ .Values.container_images.app_fluentbit.image.registry }}/{{ .Values.container_images.app_fluentbit.image.repository }}:{{ .Values.container_images.app_fluentbit.image.tag }}"
+              positionDB:
+                hostPath:
+                  path: /var/lib/fluent-bit/
+              resources:
+                limits:
+                  cpu: 500mq
+                  memory: 200Mi
+                requests:
+                  cpu: 10m
+                  memory: 25Mi
+              tolerations:
+                - operator: Exists
+          - |-
+            apiVersion: fluentbit.fluent.io/v1alpha2
+            kind: ClusterInput
+            metadata:
+              labels:
+                logging.glueops.dev: 'glueops-core-primary'
+              name: glueops-core-platform-primary
+              namespace: glueops-core-fluent-operator
+            spec:
+              tail:
+                db: /fluent-bit/tail/pos.db
+                dbSync: Normal
+                memBufLimit: 100MB
+                parser: cri
+                path: /var/log/containers/*glueops-core*.log,/var/log/containers/*calico-*.log,/var/log/containers/*kube-*.log,/var/log/containers/*pomerium_*.log,/var/log/containers/*tigera-operator_*.log
+                readFromHead: false
+                refreshIntervalSeconds: 10
+                skipLongLines: true
+                storageType: memory
+                tag: kube.*
+          - |-
+            apiVersion: fluentbit.fluent.io/v1alpha2
+            kind: ClusterFilter
+            metadata:
+              labels:
+                logging.glueops.dev: 'glueops-core-primary'
+              name: glueops-core-filter-primary
+              namespace: glueops-core-fluent-operator
+            spec:
+              filters:
+                - lua:
+                    call: containerd
+                    script:
+                      key: containerd.lua
+                      name: glueops-core-containerd-lua-script-primary
+                    timeAsTable: true
+                - parser:
+                    alias: parsedata
+                    keyName: log
+                    parser: json
+                    reserveData: true
+                - kubernetes:
+                    annotations: true
+                    kubeCAFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                    kubeTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+                    kubeURL: 'https://kubernetes.default.svc:443'
+                    labels: true
+                    mergeLogTrim: true
+                - nest:
+                    addPrefix: kubernetes_
+                    nestedUnder: kubernetes
+                    operation: lift
+                - modify:
+                    rules:
+                      - remove: stream
+                      - remove: kubernetes_pod_id
+                - nest:
+                    nestUnder: kubernetes
+                    operation: nest
+                    removePrefix: kubernetes_
+                    wildcard:
+                      - kubernetes_*
+              match: kube.*
+          - |-
+            apiVersion: fluentbit.fluent.io/v1alpha2
+            kind: ClusterFluentBitConfig
+            metadata:
+              labels:
+                logging.glueops.dev: 'glueops-core-primary'
+              name: glueops-core-fluent-bit-config-primary
+              namespace: glueops-core-fluent-operator
+            spec:
+              filterSelector:
+                matchLabels:
+                  logging.glueops.dev: 'glueops-core-primary'
+              inputSelector:
+                matchLabels:
+                  logging.glueops.dev: 'glueops-core-primary'
+              # This was from 2.8.0 and not supported in 2.7.0
+              # multilineParserSelector:
+              #   matchLabels:
+              #     logging.glueops.dev: 'glueops-core-primary'
+              outputSelector:
+                matchLabels:
+                  logging.glueops.dev: 'glueops-core-primary'
+              parserSelector:
+                matchLabels:
+                  logging.glueops.dev: 'glueops-core-primary'
+              service:
+                httpServer: true
+                parsersFile: parsers.conf
+          - |-
+            apiVersion: v1
+            data:
+              containerd.lua: |
+                function containerd( tag, timestamp, record)
+                       if(record["logtag"]~=nil)
+                       then
+                       timeStr = os.date("!*t",  timestamp["sec"])
+                        t = string.format("%4d-%02d-%02dT%02d:%02d:%02d.%sZ",
+                        timeStr["year"], timeStr["month"], timeStr["day"],
+                        timeStr["hour"], timeStr["min"], timeStr["sec"],
+                        timestamp["nsec"]);
+                        record["time"] = t;
+                        record["log"] = record["message"];
+                        record["message"] =  nil;
+                        return 1, timestamp, record
+                        else
+                        return 0,timestamp,record
+                       end
+                end
+            kind: ConfigMap
+            metadata:
+              name: glueops-core-containerd-lua-script-primary
+              namespace: glueops-core-fluent-operator
+              labels:
+                logging.glueops.dev: 'glueops-core-primary'
+          - |-
+            apiVersion: fluentbit.fluent.io/v1alpha2
+            kind: ClusterOutput
+            metadata:
+              name: fluent-bit-s3-output-primary
+              labels:
+                logging.glueops.dev: 'glueops-core-primary'
+            spec:
+              matchRegex: (?:kube|service)\.(.*)
+              s3: #add more labels
+                Bucket: "{{ .Values.glueops_backups.s3_bucket_name }}"
+                Region: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_region }}"
+                S3KeyFormat: "/{{ .Values.captain_domain }}/fluentbit_exported_logs/$TAG/%Y/%m/%d/%H/%M/%S/$UUID.gz"
+                Compression gzip
+                ContentType application/gzip

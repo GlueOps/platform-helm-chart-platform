@@ -33,9 +33,9 @@ spec:
             tolerations:
               {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 12 }}
             container:
-              registry: {{ .Values.container_images.fluent_operator.image.registry }}
-              repository: {{ .Values.container_images.fluent_operator.image.repository }}
-              tag: {{ .Values.container_images.fluent_operator.image.tag }}
+              registry: {{ .Values.container_images.app_fluent_operator.image.registry }}
+              repository: {{ .Values.container_images.app_fluent_operator.image.repository }}
+              tag: {{ .Values.container_images.app_fluent_operator.image.tag }}
           fluentbit:
             hostNetwork: true
             enable: false
