@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-fluentbit
+  name: glueops-platform-fluentbit
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -28,7 +28,7 @@ spec:
     targetRevision: 0.4.0
     helm:
       values: |
-        appName: 'glueops-core-fluentbit'
+        appName: 'glueops-platform-fluentbit'
         customResources:
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
@@ -202,5 +202,5 @@ spec:
                 Bucket: "{{ .Values.glueops_backups.s3_bucket_name }}"
                 Region: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_region }}"
                 S3KeyFormat: "/{{ .Values.captain_domain }}/fluentbit_exported_logs/$TAG/%Y/%m/%d/%H/%M/%S/$UUID.gz"
-                Compression gzip
-                ContentType application/gzip
+                Compression: gzip
+                ContentType: application/gzip
