@@ -65,7 +65,7 @@ spec:
                   path: /var/lib/fluent-bit/
               resources:
                 limits:
-                  cpu: 500mq
+                  cpu: 500m
                   memory: 200Mi
                 requests:
                   cpu: 10m
