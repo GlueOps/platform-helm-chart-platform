@@ -336,6 +336,12 @@ container_images:
         registry: ghcr.io
         repository: metacontroller/metacontroller
         tag: v4.11.12@sha256:210a3280bfed95010e0f08608f4d26206305a2042eab9f950ca3f6615e29b691 #this might need to be updated manually because of renovatebot errors
+  fluent_operator:
+    image:
+      registry: docker.io
+      repository: kubesphere/fluent-operator
+      tag: v2.7.0
+      
 
 
 
