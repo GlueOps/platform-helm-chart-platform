@@ -60,6 +60,7 @@ spec:
             portHttpsTarget: {{ .Values.host_network.keda.service.portHttpsTarget }}
         metricsServer:
             useHostNetwork: {{ .Values.host_network.enabled }}
+            dnsPolicy: ClusterFirstWithHostNet
         webhooks:
             enabled: true
             port:  {{ .Values.host_network.keda.webhooks.port }}
