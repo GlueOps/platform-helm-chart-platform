@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.42.0](https://img.shields.io/badge/Version-0.42.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.43.0-rc10](https://img.shields.io/badge/Version-0.43.0--rc10-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -29,6 +29,12 @@ This chart deploys the GlueOps Platform
 | container_images.app_dex.dex.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.39.1@sha256:2c07866020c0058589456850a516785adba5992caf4efa02f96ec0a92593f940"` |  |
+| container_images.app_fluent_operator.image.registry | string | `"docker.io"` |  |
+| container_images.app_fluent_operator.image.repository | string | `"kubesphere/fluent-operator"` |  |
+| container_images.app_fluent_operator.image.tag | string | `"v2.7.0"` |  |
+| container_images.app_fluentbit.image.registry | string | `"docker.io"` |  |
+| container_images.app_fluentbit.image.repository | string | `"kubesphere/fluent-bit"` |  |
+| container_images.app_fluentbit.image.tag | string | `"v2.2.0"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.5.0@sha256:5a51c82b954c9b533439ec82776f8102b2d861059d8c4cc20b4b911d3fa34ef6"` |  |
@@ -87,6 +93,9 @@ This chart deploys the GlueOps Platform
 | gitHub.tenant_github_org | string | `"placeholder_tenant_github_org_name"` |  |
 | gitHub.tenant_github_org_and_team | string | `"placeholder_tenant_github_org_name:developers"` | The format is: <github-org-name>:<github-team-name> (The team should include the developers) |
 | glueops_alerts.opsgenie_apikey | string | `"placeholder_opsgenie_api_key"` | Found at `opsgenie_credentials` in the json output that is part of `opsgenie_prometheus_api_keys` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.fluentbit_exporter_to_s3.aws_accessKey | string | `"placeholder_fluentbit_exporter_aws_access_key"` | Part of `fluentbit_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.fluentbit_exporter_to_s3.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.fluentbit_exporter_to_s3.aws_secretKey | string | `"placeholder_fluentbit_exporter_aws_secret_key"` | Part of `fluentbit_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.aws_accessKey | string | `"placeholder_loki_exporter_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.loki_exporter_to_s3.aws_secretKey | string | `"placeholder_loki_exporter_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
@@ -115,6 +124,8 @@ This chart deploys the GlueOps Platform
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
 | host_network.enabled | string | `"placeholder_enable_host_network"` |  |
 | host_network.external_secrets.webhook_port | int | `45010` |  |
+| host_network.fluentbit.app_port | int | `45070` |  |
+| host_network.fluentbit.metrics_port | int | `45071` |  |
 | host_network.keda.prometheus.metricServer.port | int | `45056` |  |
 | host_network.keda.prometheus.operator.port | int | `45055` |  |
 | host_network.keda.prometheus.webhooks.port | int | `45054` |  |

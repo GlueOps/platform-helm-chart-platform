@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fluent-operator
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-fluent-operator
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://fluent.github.io/helm-charts'
+    chart: fluent-operator
+    targetRevision: v2.7.0
+    helm:
+      values: |-
+          operator:
+            tolerations:
+              {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 12 }}
+            container:
+              registry: {{ .Values.container_images.app_fluent_operator.image.registry }}
+              repository: {{ .Values.container_images.app_fluent_operator.image.repository }}
+              tag: {{ .Values.container_images.app_fluent_operator.image.tag }}
+          fluentbit:
+            hostNetwork: true
+            enable: false
