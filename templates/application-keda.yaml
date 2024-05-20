@@ -34,7 +34,7 @@ spec:
     helm:
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
-        watchNamespace: "''"
+        watchNamespace: ""
         resources:
             operator:
                 requests:
