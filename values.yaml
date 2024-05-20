@@ -35,9 +35,6 @@ host_network:
         port: 45055
       metricServer:
         port: 45056
-  fluentbit:
-    app_port: 45070
-    metrics_port: 45071
 
 
 
