@@ -32,9 +32,6 @@ This chart deploys the GlueOps Platform
 | container_images.app_fluent_operator.image.registry | string | `"docker.io"` |  |
 | container_images.app_fluent_operator.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.image.tag | string | `"v2.7.0"` |  |
-| container_images.app_fluentbit.image.registry | string | `"docker.io"` |  |
-| container_images.app_fluentbit.image.repository | string | `"kubesphere/fluent-bit"` |  |
-| container_images.app_fluentbit.image.tag | string | `"v2.2.0"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.5.0@sha256:5a51c82b954c9b533439ec82776f8102b2d861059d8c4cc20b4b911d3fa34ef6"` |  |
