@@ -241,7 +241,7 @@ variable "glueops_operators_web_acl_aws_secret_key" {
 
 output "helm_values" {
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
-    replace(replace(replace(replace(replace(replace(replace(replace(replace(
+    replace(replace(replace(replace(replace(replace(replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
     "placeholder_captain_repo_b64enc_private_deploy_key", var.captain_repo_b64encoded_private_deploy_key),
@@ -256,8 +256,6 @@ output "helm_values" {
     "placeholder_vault_aws_secret_key", var.vault_aws_secret_key),
     "placeholder_loki_exporter_aws_access_key", var.loki_exporter_aws_access_key),
     "placeholder_loki_exporter_aws_secret_key", var.loki_exporter_aws_secret_key),
-    "placeholder_fluentbit_exporter_aws_access_key", var.fluentbit_exporter_aws_access_key),
-    "placeholder_fluentbit_exporter_aws_secret_key", var.fluentbit_exporter_aws_secret_key),
     "placeholder_externaldns_aws_access_key", var.externaldns_aws_access_key),
     "placeholder_externaldns_aws_secret_key", var.externaldns_aws_secret_key),
     "placeholder_certmanager_aws_access_key", var.certmanager_aws_access_key),
