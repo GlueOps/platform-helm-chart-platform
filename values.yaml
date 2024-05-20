@@ -351,9 +351,5 @@ container_images:
       registry: docker.io
       repository: kubesphere/fluent-operator
       tag: v2.7.0
-  app_fluentbit:
-    image:
-      registry: docker.io
-      repository: kubesphere/fluent-bit
-      tag: v2.2.0
+
       
