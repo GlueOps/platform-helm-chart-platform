@@ -202,5 +202,4 @@ spec:
                 Bucket: "{{ .Values.glueops_backups.s3_bucket_name }}"
                 Region: "{{ .Values.glueops_backups.fluentbit_exporter_to_s3.aws_region }}"
                 S3KeyFormat: "/{{ .Values.captain_domain }}/fluentbit_exported_logs/$TAG/%Y/%m/%d/%H/%M/%S/$UUID.ndjson"
-                UploadTimeout: "1m"
                 ContentType: "application/x-ndjson"
