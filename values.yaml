@@ -61,13 +61,6 @@ glueops_backups:
     # @ignored
     cron_expression: "0 */6 * * *"
     company_key: placeholder_tenant_key
-  fluentbit_exporter_to_s3:
-    # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-    aws_region: placeholder_aws_region
-    # -- Part of `fluentbit_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-    aws_accessKey: placeholder_fluentbit_exporter_aws_access_key
-    # -- Part of `fluentbit_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-    aws_secretKey: placeholder_fluentbit_exporter_aws_secret_key
   loki_exporter_to_s3:
     # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
     aws_region: placeholder_aws_region
