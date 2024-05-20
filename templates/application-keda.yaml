@@ -34,7 +34,7 @@ spec:
     helm:
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
-        watchNamespace: "''"
+        watchNamespace: ""
         resources:
             operator:
                 requests:
@@ -60,6 +60,7 @@ spec:
             portHttpsTarget: {{ .Values.host_network.keda.service.portHttpsTarget }}
         metricsServer:
             useHostNetwork: {{ .Values.host_network.enabled }}
+            dnsPolicy: ClusterFirstWithHostNet
         webhooks:
             enabled: true
             port:  {{ .Values.host_network.keda.webhooks.port }}
