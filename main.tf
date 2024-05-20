@@ -33,14 +33,6 @@ variable "loki_exporter_aws_secret_key" {
   description = "AWS secret key for Loki exporter"
 }
 
-variable "fluentbit_exporter_aws_access_key" {
-  description = "AWS access key for FluentBit exporter"
-}
-
-variable "fluentbit_exporter_aws_secret_key" {
-  description = "AWS secret key for FluentBit exporter"
-}
-
 variable "externaldns_aws_access_key" {
   description = "AWS access key for external DNS"
 }
