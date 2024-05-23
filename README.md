@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.43.0](https://img.shields.io/badge/Version-0.43.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.43.1](https://img.shields.io/badge/Version-0.43.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -74,6 +74,29 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.6.1@sha256:08bc8b4e981700fe2ce238efe088a2ed25650f36381010c08da9427bf0cd2adb"` |  |
+| daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[0].operator | string | `"Exists"` |  |
+| daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
+| daemonset_tolerations[1].key | string | `"node.kubernetes.io/not-ready"` |  |
+| daemonset_tolerations[1].operator | string | `"Exists"` |  |
+| daemonset_tolerations[2].effect | string | `"NoExecute"` |  |
+| daemonset_tolerations[2].key | string | `"node.kubernetes.io/unreachable"` |  |
+| daemonset_tolerations[2].operator | string | `"Exists"` |  |
+| daemonset_tolerations[3].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[3].key | string | `"node.kubernetes.io/disk-pressure"` |  |
+| daemonset_tolerations[3].operator | string | `"Exists"` |  |
+| daemonset_tolerations[4].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[4].key | string | `"node.kubernetes.io/memory-pressure"` |  |
+| daemonset_tolerations[4].operator | string | `"Exists"` |  |
+| daemonset_tolerations[5].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[5].key | string | `"node.kubernetes.io/pid-pressure"` |  |
+| daemonset_tolerations[5].operator | string | `"Exists"` |  |
+| daemonset_tolerations[6].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[6].key | string | `"node.kubernetes.io/unschedulable"` |  |
+| daemonset_tolerations[6].operator | string | `"Exists"` |  |
+| daemonset_tolerations[7].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[7].key | string | `"node.kubernetes.io/network-unavailable"` |  |
+| daemonset_tolerations[7].operator | string | `"Exists"` |  |
 | dex.argocd.client_secret | string | `"placeholder_dex_argocd_client_secret"` | Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32` |
 | dex.github.client_id | string | `"placeholder_dex_github_client_id"` | To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1 |
 | dex.github.client_secret | string | `"placeholder_dex_github_client_secret"` | To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1 |
