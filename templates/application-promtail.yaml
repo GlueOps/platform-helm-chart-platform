@@ -37,7 +37,7 @@ spec:
           repository: {{ .Values.container_images.app_promtail.promtail.image.repository }}
           tag: {{ .Values.container_images.app_promtail.promtail.image.tag }}
         tolerations:
-          {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 10 }}
+          {{- toYaml .Values.glueops_node_and_tolerations.daemonset_tolerations | nindent 10 }}
         config:
           snippets:
             extraScrapeConfigs: |
