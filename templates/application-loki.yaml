@@ -81,7 +81,7 @@ spec:
               installOperator: false
           lokiCanary:
             tolerations:
-              {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 14 }}
+              {{- toYaml .Values.glueops_node_and_tolerations.daemonset_tolerations | nindent 14 }}
         write:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         tableManager:
