@@ -185,6 +185,15 @@ glueops_node_and_tolerations:
       operator: "Equal"
       value: "glueops-platform"
       effect: "NoSchedule"
+  daemonset_tolerations:
+  - key: "glueops.dev/role"
+    operator: "Equal"
+    value: "glueops-platform"
+    effect: "NoSchedule"
+  - key: "glueops.dev/role"
+    operator: "Equal"
+    value: "glueops-platform-argocd-app-controller"
+    effect: "NoSchedule"
 
 
 vault_init_controller:
