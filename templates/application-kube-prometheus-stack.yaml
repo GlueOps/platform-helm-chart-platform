@@ -96,7 +96,7 @@ spec:
             prometheusExternalLabelName: cluster
             remoteWriteDashboards: true
             additionalRemoteWrite: 
-            - url: http://cortex-metrics.apps.nonprod.proximacentaurib.onglueops.rocks/api/v1/push
+            - url: https://cortex-metrics.apps.prod.glueops.onglueops.rocks/api/v1/push
               writeRelabelConfigs:
               - sourceLabels: [__name__]
                 regex: '.*'
