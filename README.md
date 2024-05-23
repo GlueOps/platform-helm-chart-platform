@@ -74,6 +74,29 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.6.1@sha256:08bc8b4e981700fe2ce238efe088a2ed25650f36381010c08da9427bf0cd2adb"` |  |
+| daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[0].operator | string | `"Exists"` |  |
+| daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
+| daemonset_tolerations[1].key | string | `"node.kubernetes.io/not-ready"` |  |
+| daemonset_tolerations[1].operator | string | `"Exists"` |  |
+| daemonset_tolerations[2].effect | string | `"NoExecute"` |  |
+| daemonset_tolerations[2].key | string | `"node.kubernetes.io/unreachable"` |  |
+| daemonset_tolerations[2].operator | string | `"Exists"` |  |
+| daemonset_tolerations[3].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[3].key | string | `"node.kubernetes.io/disk-pressure"` |  |
+| daemonset_tolerations[3].operator | string | `"Exists"` |  |
+| daemonset_tolerations[4].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[4].key | string | `"node.kubernetes.io/memory-pressure"` |  |
+| daemonset_tolerations[4].operator | string | `"Exists"` |  |
+| daemonset_tolerations[5].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[5].key | string | `"node.kubernetes.io/pid-pressure"` |  |
+| daemonset_tolerations[5].operator | string | `"Exists"` |  |
+| daemonset_tolerations[6].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[6].key | string | `"node.kubernetes.io/unschedulable"` |  |
+| daemonset_tolerations[6].operator | string | `"Exists"` |  |
+| daemonset_tolerations[7].effect | string | `"NoSchedule"` |  |
+| daemonset_tolerations[7].key | string | `"node.kubernetes.io/network-unavailable"` |  |
+| daemonset_tolerations[7].operator | string | `"Exists"` |  |
 | dex.argocd.client_secret | string | `"placeholder_dex_argocd_client_secret"` | Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32` |
 | dex.github.client_id | string | `"placeholder_dex_github_client_id"` | To create a clientID please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1 |
 | dex.github.client_secret | string | `"placeholder_dex_github_client_secret"` | To create a clientSecret please reference: https://github.com/GlueOps/github-oauth-apps/tree/v0.0.1 |
@@ -104,29 +127,6 @@ This chart deploys the GlueOps Platform
 | glueops_backups.vault.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_secretKey | string | `"placeholder_vault_aws_secret_key"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.company_key | string | `"placeholder_tenant_key"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[0].operator | string | `"Exists"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[1].key | string | `"node.kubernetes.io/not-ready"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[1].operator | string | `"Exists"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[2].effect | string | `"NoExecute"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[2].key | string | `"node.kubernetes.io/unreachable"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[2].operator | string | `"Exists"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[3].effect | string | `"NoSchedule"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[3].key | string | `"node.kubernetes.io/disk-pressure"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[3].operator | string | `"Exists"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[4].effect | string | `"NoSchedule"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[4].key | string | `"node.kubernetes.io/memory-pressure"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[4].operator | string | `"Exists"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[5].effect | string | `"NoSchedule"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[5].key | string | `"node.kubernetes.io/pid-pressure"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[5].operator | string | `"Exists"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[6].effect | string | `"NoSchedule"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[6].key | string | `"node.kubernetes.io/unschedulable"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[6].operator | string | `"Exists"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[7].effect | string | `"NoSchedule"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[7].key | string | `"node.kubernetes.io/network-unavailable"` |  |
-| glueops_node_and_tolerations.daemonset_tolerations[7].operator | string | `"Exists"` |  |
 | glueops_node_and_tolerations.nodeSelector."glueops.dev/role" | string | `"glueops-platform"` |  |
 | glueops_node_and_tolerations.tolerations[0].effect | string | `"NoSchedule"` |  |
 | glueops_node_and_tolerations.tolerations[0].key | string | `"glueops.dev/role"` |  |
