@@ -69,6 +69,7 @@ spec:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         prometheus: 
+          enabled: true
           prometheusSpec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             replicas: 2
@@ -91,6 +92,22 @@ spec:
                     requests:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
+            replicaExternalLabelName: __replica__
+            prometheusExternalLabelName: cluster
+            remoteWriteDashboards: true
+            additionalRemoteWrite: 
+            - url: http://cortex-metrics.apps.nonprod.proximacentaurib.onglueops.rocks/api/v1/push
+              writeRelabelConfigs:
+              - sourceLabels: [__name__]
+                regex: '.*'
+                action: 'replace'
+                targetLabel: 'captain_domain'
+                replacement: {{ .Values.captain_domain }}
+              - sourceLabels: [__name__]
+                regex: '.*'
+                action: 'replace'
+                targetLabel: 'glueops_platform_version'
+                replacement: {{ .Chart.Version }}
         grafana:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
