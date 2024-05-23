@@ -104,6 +104,14 @@ This chart deploys the GlueOps Platform
 | glueops_backups.vault.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_secretKey | string | `"placeholder_vault_aws_secret_key"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.company_key | string | `"placeholder_tenant_key"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[0].key | string | `"glueops.dev/role"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[0].operator | string | `"Equal"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[0].value | string | `"glueops-platform"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[1].effect | string | `"NoSchedule"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[1].key | string | `"glueops.dev/role"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[1].operator | string | `"Equal"` |  |
+| glueops_node_and_tolerations.daemonset_tolerations[1].value | string | `"glueops-platform-argocd-app-controller"` |  |
 | glueops_node_and_tolerations.nodeSelector."glueops.dev/role" | string | `"glueops-platform"` |  |
 | glueops_node_and_tolerations.tolerations[0].effect | string | `"NoSchedule"` |  |
 | glueops_node_and_tolerations.tolerations[0].key | string | `"glueops.dev/role"` |  |
