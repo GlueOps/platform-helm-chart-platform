@@ -92,11 +92,9 @@ spec:
                     requests:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
-            replicaExternalLabelName: __replica__
-            prometheusExternalLabelName: cluster
             remoteWriteDashboards: true
             additionalRemoteWrite: 
-            - url: https://cortex-metrics.apps.prod.glueops.onglueops.rocks/api/v1/push
+            - url: http://ingest.onglueopshosted.com/api/v1/push
               writeRelabelConfigs:
               - sourceLabels: [__name__]
                 regex: '.*'
