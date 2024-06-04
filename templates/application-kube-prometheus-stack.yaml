@@ -94,7 +94,7 @@ spec:
             hostNetwork: {{ .Values.host_network.enabled }}
             remoteWriteDashboards: true
             additionalRemoteWrite: 
-            - url: http://ingest.onglueopshosted.com/prometheus/api/v1/push
+            - url: http://ingest.glueopshosted.com/prometheus/api/v1/push
               writeRelabelConfigs:
               - sourceLabels: [__name__]
                 regex: '.*'
