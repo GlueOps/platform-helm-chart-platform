@@ -55,7 +55,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.0@sha256:c9f4957e290021ad87ca9a20c787ab38dbea2472b2e12c446e4a39c8cd359d21"` |  |
 | container_images.app_metacontroller.metacontroller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
-| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.11.12@sha256:210a3280bfed95010e0f08608f4d26206305a2042eab9f950ca3f6615e29b691"` |  |
+| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.11.14@sha256:579b627b0a158bf5d746ebb692632e68f3cee2be82610244c3cf8b0da75b6452"` |  |
 | container_images.app_network_exporter.network_exporter.image.registry | string | `"docker.io"` |  |
 | container_images.app_network_exporter.network_exporter.image.repository | string | `"syepes/network_exporter"` |  |
 | container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.6@sha256:376c3c80026e79d76eec3a3a1f22621ad6846525c458bb7f1423f3da6398482f"` |  |
