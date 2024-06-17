@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.44.0](https://img.shields.io/badge/Version-0.44.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.45.0-rc1](https://img.shields.io/badge/Version-0.45.0--rc1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -40,10 +40,10 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.tag | string | `"7.2.4-alpine3.19@sha256:c8bb255c3559b3e458766db810aa7b3c7af1235b204cfdb304e79ff388fe1a5a"` |  |
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.repository | string | `"glueops/metacontroller-operator-waf"` |  |
-| container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag | string | `"v0.9.0@sha256:7b5f2b5b909a52c6da84208da1895de92dac80d6e6aaa7018ddda8c16876f518"` |  |
+| container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag | string | `"v0.8.1@sha256:7eb27cf2af062e8df68f88c093167ef11bdaa99173ed05ed05743439127d5ac2"` |  |
 | container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.repository | string | `"glueops/metacontroller-operator-waf-web-acl"` |  |
-| container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.tag | string | `"v0.6.0@sha256:d6b74e6d1cd3f1580e73ae2192c04fedb8979b5d790891741217972f043ea0d1"` |  |
+| container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.tag | string | `"v0.5.1@sha256:696ff30a9b333b8f4e5a0552b889af642dbf873eba3a4d4c32619aac9670d8ea"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.3@sha256:b7fcb534f7b3512801bb3f4e658238846435804deb479d105b5cdc680847c272"` |  |
