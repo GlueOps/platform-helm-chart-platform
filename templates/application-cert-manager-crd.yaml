@@ -13,8 +13,8 @@ spec:
   project: glueops-core
   source:
     repoURL: 'https://github.com/GlueOps/cert-manager-crds'
-    path: v1.13.5/
-    targetRevision: v0.2.0
+    path: crds/
+    targetRevision: v1.14.7
   syncPolicy:
     syncOptions:
       - Replace=true
