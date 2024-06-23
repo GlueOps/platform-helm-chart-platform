@@ -299,7 +299,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: glueops/metacontroller-operator-waf
-        tag: v0.8.1@sha256:7eb27cf2af062e8df68f88c093167ef11bdaa99173ed05ed05743439127d5ac2
+        tag: v0.9.0@sha256:7b5f2b5b909a52c6da84208da1895de92dac80d6e6aaa7018ddda8c16876f518
   app_kube_prometheus_stack:
     grafana:
       image:
