@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-cert-manager
-    targetRevision: 0.13.0
+    targetRevision: 0.13.1
     helm:
       skipCrds: true
       parameters:
