@@ -353,7 +353,7 @@ container_images:
       image:
         registry: docker.io # not actually used
         repository: hashicorp/vault
-        tag: 1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1
+        tag: 1.16.3@sha256:c5e04689611cb864b8b6247a6a845e0bdc059998f39b5c8a659562287379525c
   app_metacontroller:
     metacontroller:
       image:
