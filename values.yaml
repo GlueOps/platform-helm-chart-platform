@@ -341,7 +341,7 @@ container_images:
       image: 
         registry: ghcr.io
         repository: glueops/qr-code-generator
-        tag: v0.5.0@sha256:27defb49cc28e437a151af71c8d72c3856504346edf12e6210c618ea1107f84b
+        tag: v0.5.1@sha256:7e66a9f36e1535dea492b9354137ddae99f2d0bc63e99f67f1bd845711b5cb34
   app_vault_init_controller:
     vault_init_controller:
       image:
