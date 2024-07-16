@@ -31,7 +31,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_dex.dex.image.tag | string | `"v2.40.0@sha256:3e35d5d0f7dbd33fbadc36a71ff58cf4097ab98d73d22f6cb9a6471a32e028af"` |  |
 | container_images.app_fluent_operator.image.registry | string | `"docker.io"` |  |
 | container_images.app_fluent_operator.image.repository | string | `"kubesphere/fluent-operator"` |  |
-| container_images.app_fluent_operator.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
+| container_images.app_fluent_operator.image.tag | string | `"v3.0.0@sha256:f8ed8b344fd953eeb485815f0a0f71db3c8b7a492f53c8451934813fa3ecc02f"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.5.2@sha256:5e772114da9e1e4bacfb6884a7aca4d8ee94677840fbaf6898703f9eca4a68bc"` |  |
