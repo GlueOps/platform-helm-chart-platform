@@ -49,7 +49,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.5@sha256:c2f484c66179ddd2acae789ecaf8f283359a5ebc597e28253c794a229eb2d3f6"` |  |
 | container_images.app_loki.loki.image.registry | string | `"docker.io"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
-| container_images.app_loki.loki.image.tag | string | `"2.9.8@sha256:8b5bd7748d0e4da66cd741ac276e485517514af0bea32167e27c0e1a95bcf8aa"` |  |
+| container_images.app_loki.loki.image.tag | string | `"2.9.9@sha256:22caa5cdd21d227145acf3cca49db63898152ba470744e2b6962eed7c3469f9e"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.2@sha256:b3a85f541c1670a8de6301722e831f5143e3b042b1215d88ee4bbb42437b0b86"` |  |
