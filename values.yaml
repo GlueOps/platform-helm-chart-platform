@@ -311,7 +311,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: glueops/metacontroller-operator-loki-rule-group
-        tag: v0.4.2@sha256:b3a85f541c1670a8de6301722e831f5143e3b042b1215d88ee4bbb42437b0b86
+        tag: v0.4.3@sha256:95c16e7d88aa9a145209670d563222b812d2eb8d4ed6d9ab6337c08bc0787f67
   app_loki:
     loki:
       image:
