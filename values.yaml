@@ -349,7 +349,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: metacontroller/metacontroller
-        tag: v4.11.15@sha256:859798ce0fd73841213b573cc9b08f5204755f2a4d4afbbcd039f9a80d1126ac #this might need to be updated manually because of renovatebot errors
+        tag: v4.11.17@sha256:b5e3c6045355aa4b2102a151b7edcd1de22ab9f552b244f2c9475103d7558634 #this might need to be updated manually because of renovatebot errors
   app_fluent_operator:
     image:
       registry: docker.io
