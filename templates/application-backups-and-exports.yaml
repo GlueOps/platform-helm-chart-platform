@@ -129,44 +129,6 @@ spec:
                 emptyDir:
                   medium: "" # Set to "Memory" for tmpfs (RAM-backed filesystem), or leave empty for node's filesystem
                   sizeLimit: 20G # Set the desired size limit
-            loki-log-exporter-to-s3:
-              {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
-              schedule: "{{ .Values.glueops_backups.loki_exporter_to_s3.cron_expression }}"
-              concurrencyPolicy: Forbid
-              successfulJobsHistoryLimit: 10
-              failedJobsHistoryLimit: 3
-              image: {{ .Values.container_images.app_backup_and_exports.backup_tools.image.registry }}/{{ .Values.container_images.app_backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.app_backup_and_exports.backup_tools.image.tag }}
-              command: ["/bin/bash", "-c"]
-              args:
-                - backup-loki-logs-as-json
-              resources:
-                requests:
-                  cpu: 100m
-                  memory: 128Mi
-                limits:
-                  cpu: 100m
-                  memory: 128Mi
-              envVariables:
-                - name: AWS_ACCESS_KEY_ID
-                  value: "{{ .Values.glueops_backups.loki_exporter_to_s3.aws_accessKey }}"
-                - name: AWS_SECRET_ACCESS_KEY
-                  value: "{{ .Values.glueops_backups.loki_exporter_to_s3.aws_secretKey }}"
-                - name: AWS_DEFAULT_REGION
-                  value: "{{ .Values.glueops_backups.loki_exporter_to_s3.aws_region }}"
-                - name: CAPTAIN_DOMAIN
-                  value: "{{ .Values.captain_domain }}"
-                - name: S3_BUCKET_NAME
-                  value: "{{ .Values.glueops_backups.s3_bucket_name }}"
-                - name: LOKI_ADDR
-                  value: "http://loki-gateway.glueops-core-loki.svc.cluster.local"
-              volumeMounts:
-                - mountPath: /app
-                  name: loki-log-exports
-              volumes:
-              - name: loki-log-exports
-                emptyDir:
-                  medium: "" # Set to "Memory" for tmpfs (RAM-backed filesystem), or leave empty for node's filesystem
-                  sizeLimit: 20G # Set the desired size limit
             tls-cert-backup:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
               serviceAccount:
