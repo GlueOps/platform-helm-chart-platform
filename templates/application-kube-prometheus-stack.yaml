@@ -109,6 +109,7 @@ spec:
               ingress.pomerium.io/pass_identity_headers: 'true'
               ingress.pomerium.io/allow_websockets: 'true'
               ingress.pomerium.io/idle_timeout: 0s
+              ingress.pomerium.io/preserve_host_header: 'true'
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
           additionalDataSources:
