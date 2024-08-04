@@ -92,6 +92,20 @@ spec:
                     requests:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
+            remoteWriteDashboards: true
+            additionalRemoteWrite: 
+            - url: http://ingest.onglueopshosted.com/metrics/v1/push
+              writeRelabelConfigs:
+              - sourceLabels: [__name__]
+                regex: '.*'
+                action: 'replace'
+                targetLabel: 'captain_domain'
+                replacement: {{ .Values.captain_domain }}
+              - sourceLabels: [__name__]
+                regex: '.*'
+                action: 'replace'
+                targetLabel: 'glueops_platform_version'
+                replacement: {{ .Chart.Version }}
         grafana:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
