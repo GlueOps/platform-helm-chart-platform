@@ -58,7 +58,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.11.17@sha256:b5e3c6045355aa4b2102a151b7edcd1de22ab9f552b244f2c9475103d7558634"` |  |
 | container_images.app_network_exporter.network_exporter.image.registry | string | `"docker.io"` |  |
 | container_images.app_network_exporter.network_exporter.image.repository | string | `"syepes/network_exporter"` |  |
-| container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.7@sha256:e7a4c071acf615d460be7e1d3869777837a40ddaa017eef54a3334147de8c4cc"` |  |
+| container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.8@sha256:1105eb54a801b1e6af43ca7e6464fef19189ef8319fe1399b61f5da51a88bb93"` |  |
 | container_images.app_promtail.promtail.image.registry | string | `"docker.io"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.9@sha256:1f471ceccc87375fbe9d6593a3ebff247f492985270770076d6ef9728cfcc6a8"` |  |
