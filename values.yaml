@@ -325,7 +325,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: glueops/pull-request-bot
-        tag: v0.18.1@sha256:546457b837dfc7570827b3610209592fd3e48b187c3a2e17f1afcd1f6cc4c9e5
+        tag: v0.19.0@sha256:4bf8aeb9bebcc5d5a3f2fe1ffff43f1265476633efd7fbacc22788e906923ccf
   app_qr_code_generator:
     qr_code_generator:
       image: 
