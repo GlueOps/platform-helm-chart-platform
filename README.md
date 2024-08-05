@@ -16,7 +16,7 @@ This chart deploys the GlueOps Platform
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | container_images.app_backup_and_exports.backup_tools.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
-| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.14.1@sha256:b4137e66848293d440d786e7998484b9752fee14283f8d80272439998b02f104"` |  |
+| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.15.0@sha256:35fe273831444ea0a0cf38f3be60e892d2d409d0c287eba24f277cc722773d18"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.6.0@sha256:5ff78d25c35ca4b3bf2622411e236744a393431da34fe01512ddfff177105ecc"` |  |
