@@ -34,7 +34,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_fluent_operator.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.5.3@sha256:c2ccac90667fe947fc756eb76f635fab9328433f29017aabdc760c901d323c7e"` |  |
+| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.6.0@sha256:17cf1fd2f0fce866dee84682b2b47a06ddd05fc650c7c2218b610893189bc4ba"` |  |
 | container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.registry | string | `"docker.io"` |  |
 | container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.repository | string | `"redis"` |  |
 | container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.tag | string | `"7.2.5-alpine3.19@sha256:8f157725f8eee31e65a8d4765f1f986d76aedc1a0503345dfb63a2b1b5a441ee"` |  |
