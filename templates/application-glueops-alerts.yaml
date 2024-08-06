@@ -94,7 +94,7 @@ spec:
                   expr: |
                     (kube_pod_status_phase{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$", pod!~"^(captain-redis-ha-configmap-test|captain-redis-ha-service-test)$", phase=~"^(Failed|Unknown|ContainerCreating|CrashLoopBackOff|ImagePullBackOff|ErrImageNeverPull|Pending)$"} == 1)
                     or
-                    (kube_pod_status_ready{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$", pod!~"^(captain-redis-ha-configmap-test|captain-redis-ha-service-test|glueops-backup-and-exports-.*|.*-presync-.*|pomerium-gen-secrets-.*)$", condition="false"} == 1)
+                    (kube_pod_status_ready{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$", pod!~"^(captain-redis-ha-configmap-test|captain-redis-ha-service-test|glueops-backup-and-exports-.*|.*-presync-.*|pomerium-gen-secrets-.*|argocd-redis-secret-.*)$", condition="false"} == 1)
                     or
                     (kube_pod_status_restarts_total{namespace=~"^(kube-system|glueops-core-.*|glueops-core|pomerium|chisel-operator-system)$"} > 3)
                     or
