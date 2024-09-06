@@ -271,7 +271,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: glueops/cluster-monitoring
-        tag: v0.6.0@sha256:17cf1fd2f0fce866dee84682b2b47a06ddd05fc650c7c2218b610893189bc4ba
+        tag: v0.6.1@sha256:c1ead8704c135a501bf3f5f80f9f5b34d3db33ca8dfb8711b2cb8c845b86de7e
   app_glueops_operator_redis:
     glueops_operator_shared_redis:
       image:
