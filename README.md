@@ -40,7 +40,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.tag | string | `"7.2.5-alpine3.19@sha256:8f157725f8eee31e65a8d4765f1f986d76aedc1a0503345dfb63a2b1b5a441ee"` |  |
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.repository | string | `"glueops/metacontroller-operator-waf"` |  |
-| container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag | string | `"v0.11.0@sha256:72c14e6f889574ae566de9051939e6d2c64ade61f7e0d0e2fdf22aed49864c06"` |  |
+| container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag | string | `"v0.12.0@sha256:0c708f08e020c8f1fd0046f4c26d97ec364c8994c5479ca48f115277fbbdcc0a"` |  |
 | container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.repository | string | `"glueops/metacontroller-operator-waf-web-acl"` |  |
 | container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.tag | string | `"v0.8.0@sha256:d3c4973ed9638c30c7f7494d2b1f0c209241bf2fcb01aa0c9b7ce7247bdeb69c"` |  |
