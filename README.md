@@ -43,7 +43,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag | string | `"v0.12.0@sha256:0c708f08e020c8f1fd0046f4c26d97ec364c8994c5479ca48f115277fbbdcc0a"` |  |
 | container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.repository | string | `"glueops/metacontroller-operator-waf-web-acl"` |  |
-| container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.tag | string | `"v0.8.0@sha256:d3c4973ed9638c30c7f7494d2b1f0c209241bf2fcb01aa0c9b7ce7247bdeb69c"` |  |
+| container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.tag | string | `"v0.9.0@sha256:9b678473f4a0c7b4e27ecf9c25a6c73a72b291b117a89367a7412b5b5223ec9b"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.8@sha256:c88e62a727bbb54b1ce1a420fb81b8b116c10a60d666de92ae74f3481aef1499"` |  |
