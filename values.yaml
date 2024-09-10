@@ -283,7 +283,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: glueops/metacontroller-operator-waf-web-acl
-        tag: v0.8.0@sha256:d3c4973ed9638c30c7f7494d2b1f0c209241bf2fcb01aa0c9b7ce7247bdeb69c
+        tag: v0.9.0@sha256:9b678473f4a0c7b4e27ecf9c25a6c73a72b291b117a89367a7412b5b5223ec9b
   app_glueops_operator_waf:
     glueops_operator_waf:
       image:
