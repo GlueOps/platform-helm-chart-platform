@@ -35,15 +35,6 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.6.1@sha256:c1ead8704c135a501bf3f5f80f9f5b34d3db33ca8dfb8711b2cb8c845b86de7e"` |  |
-| container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.registry | string | `"docker.io"` |  |
-| container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.repository | string | `"redis"` |  |
-| container_images.app_glueops_operator_redis.glueops_operator_shared_redis.image.tag | string | `"7.2.5-alpine3.19@sha256:8f157725f8eee31e65a8d4765f1f986d76aedc1a0503345dfb63a2b1b5a441ee"` |  |
-| container_images.app_glueops_operator_waf.glueops_operator_waf.image.registry | string | `"ghcr.io"` |  |
-| container_images.app_glueops_operator_waf.glueops_operator_waf.image.repository | string | `"glueops/metacontroller-operator-waf"` |  |
-| container_images.app_glueops_operator_waf.glueops_operator_waf.image.tag | string | `"v0.12.0@sha256:0c708f08e020c8f1fd0046f4c26d97ec364c8994c5479ca48f115277fbbdcc0a"` |  |
-| container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.registry | string | `"ghcr.io"` |  |
-| container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.repository | string | `"glueops/metacontroller-operator-waf-web-acl"` |  |
-| container_images.app_glueops_operator_waf_web_acl.glueops_operator_waf_web_acl.image.tag | string | `"v0.9.0@sha256:9b678473f4a0c7b4e27ecf9c25a6c73a72b291b117a89367a7412b5b5223ec9b"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.8@sha256:c88e62a727bbb54b1ce1a420fb81b8b116c10a60d666de92ae74f3481aef1499"` |  |
@@ -128,10 +119,6 @@ This chart deploys the GlueOps Platform
 | glueops_node_and_tolerations.tolerations[0].key | string | `"glueops.dev/role"` |  |
 | glueops_node_and_tolerations.tolerations[0].operator | string | `"Equal"` |  |
 | glueops_node_and_tolerations.tolerations[0].value | string | `"glueops-platform"` |  |
-| glueops_operators.waf.aws_accessKey | string | `"placeholder_glueops_operators_waf_aws_access_key"` |  |
-| glueops_operators.waf.aws_secretKey | string | `"placeholder_glueops_operators_waf_aws_secret_key"` |  |
-| glueops_operators.web_acl.aws_accessKey | string | `"placeholder_glueops_operators_web_acl_aws_access_key"` |  |
-| glueops_operators.web_acl.aws_secretKey | string | `"placeholder_glueops_operators_web_acl_aws_secret_key"` |  |
 | grafana.admin_password | string | `"placeholder_grafana_admin_password"` | Default admin password. CHANGE THIS!!!! |
 | grafana.github_other_org_names | string | `"placeholder_tenant_github_org_name"` |  |
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
