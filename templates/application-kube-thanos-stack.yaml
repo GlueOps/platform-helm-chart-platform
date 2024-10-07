@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-thanos-stack
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-kube-prometheus-stack
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://charts.bitnami.com/bitnami'
+    chart: thanos
+    targetRevision: 15.7.25
+    helm:
+      skipCrds: true
+      values: |-
+        objstoreConfig: |-
+          type: s3
+          config:
+            bucket: grafana-traces-data-runtimez1
+            endpoint: s3.us-east-2.amazonaws.com
+            access_key: 'XXX'
+            secret_key: 'XXXX'
+          prefix: 'metrics'
+        query:
+          dnsDiscovery:
+            enabled: true
+            logLevel: debug
+            sidecarsService: "kps-thanos-discovery"
+            sidecarsNamespace: "glueops-core-kube-prometheus-stack"
+        bucketweb:
+          enabled: true
+        compactor:
+          enabled: true
+        storegateway:
+          enabled: true    

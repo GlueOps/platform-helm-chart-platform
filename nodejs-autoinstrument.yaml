@@ -1,0 +1,13 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: glueops-instrumentation
+  namespace: glueops-core
+spec:
+  propagators:
+    - tracecontext
+    - baggage
+    - b3
+  sampler:
+    type: parentbased_always_on
+   
