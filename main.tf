@@ -25,14 +25,6 @@ variable "vault_aws_secret_key" {
   description = "AWS secret key for Vault"
 }
 
-variable "loki_exporter_aws_access_key" {
-  description = "AWS access key for Loki exporter"
-}
-
-variable "loki_exporter_aws_secret_key" {
-  description = "AWS secret key for Loki exporter"
-}
-
 variable "externaldns_aws_access_key" {
   description = "AWS access key for external DNS"
 }
@@ -206,30 +198,6 @@ variable "vault_init_controller_aws_access_secret" {
   nullable    = false
 }
 
-variable "glueops_operators_waf_aws_access_key" {
-  description = "GlueOps Metacontroller Operator AWS WAF Credentials"
-  type        = string
-  nullable    = false
-}
-
-variable "glueops_operators_waf_aws_secret_key" {
-  description = "GlueOps Metacontroller Operator AWS WAF Credentials"
-  type        = string
-  nullable    = false
-}
-
-variable "glueops_operators_web_acl_aws_access_key" {
-  description = "GlueOps Metacontroller Operator AWS WebACL Credentials"
-  type        = string
-  nullable    = false
-}
-variable "glueops_operators_web_acl_aws_secret_key" {
-  description = "GlueOps Metacontroller Operator AWS WebACL Credentials"
-  type        = string
-  nullable    = false
-}
-
-
 
 output "helm_values" {
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
@@ -246,8 +214,6 @@ output "helm_values" {
     "placeholder_aws_region", var.aws_region),
     "placeholder_vault_aws_access_key", var.vault_aws_access_key),
     "placeholder_vault_aws_secret_key", var.vault_aws_secret_key),
-    "placeholder_loki_exporter_aws_access_key", var.loki_exporter_aws_access_key),
-    "placeholder_loki_exporter_aws_secret_key", var.loki_exporter_aws_secret_key),
     "placeholder_externaldns_aws_access_key", var.externaldns_aws_access_key),
     "placeholder_externaldns_aws_secret_key", var.externaldns_aws_secret_key),
     "placeholder_certmanager_aws_access_key", var.certmanager_aws_access_key),
@@ -274,10 +240,6 @@ output "helm_values" {
     "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
     "placeholder_vault_init_controller_s3_key", var.vault_init_controller_s3_key),
     "placeholder_vault_init_controller_aws_access_key", var.vault_init_controller_aws_access_key),
-    "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret),
-    "placeholder_glueops_operators_waf_aws_access_key", var.glueops_operators_waf_aws_access_key),
-    "placeholder_glueops_operators_waf_aws_secret_key", var.glueops_operators_waf_aws_secret_key),
-    "placeholder_glueops_operators_web_acl_aws_access_key", var.glueops_operators_web_acl_aws_access_key),
-    "placeholder_glueops_operators_web_acl_aws_secret_key", var.glueops_operators_web_acl_aws_secret_key)
+    "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
 
 }
