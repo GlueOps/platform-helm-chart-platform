@@ -8,6 +8,8 @@ changelog:
       - 'ignore'
     authors:
       - 'glueops-terraform-svc-account'
+      - 'glueops-svc-account'
+      - 'glueops-renovatebot'
   categories:
     - title: Breaking Changes 🛠
       labels:
