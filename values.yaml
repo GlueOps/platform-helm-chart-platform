@@ -287,7 +287,7 @@ container_images:
       image:
         registry: docker.io # not actually used
         repository: syepes/network_exporter
-        tag: 1.7.8@sha256:1105eb54a801b1e6af43ca7e6464fef19189ef8319fe1399b61f5da51a88bb93
+        tag: 1.7.9@sha256:fd2db3650c28f99362c2886db223daac956957cf9aadcdd70ce3f2a1a330d198
   app_promtail:
     promtail:
       image:
