@@ -1,0 +1,81 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-tempo
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-tempo
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://grafana.github.io/helm-charts'
+    chart: tempo-distributed
+    targetRevision: 1.16.2
+    helm:
+      skipCrds: true
+      values: |-
+        gateway:
+          enabled: true
+        ingester:  
+          config:
+            flush_check_period: 10s
+            flush_all_on_shutdown: true
+            complete_block_timeout: 1m
+            max_block_bytes: 524288000
+            trace_idle_period: 10s
+        server:
+            grpc_server_max_recv_msg_size: 81194305
+            grpc_server_max_send_msg_size: 81194305
+        storage:
+          trace: 
+            backend: s3
+            s3:
+              access_key: 'XXX'
+              secret_key: 'XXX'
+              bucket:  'grafana-traces-data-runtimez1'
+              endpoint: 's3.us-east-2.amazonaws.com'
+              prefix: 'traces'
+              insecure: true
+        traces:
+          otlp:
+            http:
+              enabled: true
+            grpc:
+              enabled: true
+              max_recv_msg_size_mib: 8194305
+        metricsGenerator:
+          enabled: true
+          level: debug
+          processor:
+            overrides:
+              "single-tenant":
+                metrics_generator_processors:
+                  - span-metrics
+                  - service-graphs
+          config:
+            storage:
+              remote_write: 
+              - url: http://kps-prometheus.glueops-core-kube-prometheus-stack:9090/api/v1/write
+        global_overrides:
+          defaults:
+            metrics_generator:
+              processors:
+                - service-graphs
+                - span-metrics     
+        

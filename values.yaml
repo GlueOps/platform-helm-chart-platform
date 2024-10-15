@@ -119,17 +119,85 @@ grafana:
 
 loki:
   # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
-  bucket: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
+  bucket: grafana-traces-data-runtimez1 #glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
   # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_region: placeholder_aws_region
+  aws_region: us-east-2
   # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_accessKey: placeholder_loki_aws_access_key
+  aws_accessKey: XXXX
   # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_secretKey: placeholder_loki_aws_secret_key
+  aws_secretKey: XXXX
 
-prometheus:
-  # -- Volume of storage requested for each Prometheus PVC, in Gi
-  volume_claim_storage_request: "50"
+thanos:
+  # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
+  bucket: grafana-traces-data-runtimez1 #glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
+  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_region: us-east-2
+  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_accessKey: XXXX
+  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_secretKey: XXXX  
+
+tempo:
+  # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
+  bucket: grafana-traces-data-runtimez1 #glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
+  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_region: us-east-2
+  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_accessKey: XXXX
+  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_secretKey: XXXX  
+
+
+
+otel:
+  replicas: 1
+  name_override: "glueops-otel"
+  config:
+  
+  manager:
+    image:
+      repository: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator
+      tag: ""
+    collectorImage:
+      repository: "otel/opentelemetry-collector"
+      tag: 0.109.0
+    opampBridgeImage:
+      repository: ""
+      tag: ""
+    targetAllocatorImage:
+      repository: ""
+      tag: ""
+    autoInstrumentationImage:
+      java:
+        repository: "ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java"
+        tag: "2.7.0"
+      nodejs:
+        repository: "ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-nodejs"
+        tag: "0.52.1"
+      python:
+        repository: "ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python"
+        tag: "0.47b0"
+      dotnet:
+        repository: ""
+        tag: ""
+      apacheHttpd:
+        repository: ""
+        tag: ""
+      # The Go instrumentation support in the operator is disabled by default.
+      # To enable it, use the operator.autoinstrumentation.go feature gate.
+      go:
+        repository: ""
+        tag: ""
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+
+tempo:
+  remote_url: ["http://localhost:9090/api/v1/write"]
 
 vault:
   # -- Volume of storage requested for each Vault Data PVC, in Gi
@@ -281,7 +349,7 @@ container_images:
       image:
         registry: docker.io
         repository: grafana/loki
-        tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
+        tag: 3.1.1@sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986
   app_network_exporter:
     network_exporter:
       image:
