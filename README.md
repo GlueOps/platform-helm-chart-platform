@@ -40,7 +40,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.8@sha256:c88e62a727bbb54b1ce1a420fb81b8b116c10a60d666de92ae74f3481aef1499"` |  |
 | container_images.app_loki.loki.image.registry | string | `"docker.io"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
-| container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
+| container_images.app_loki.loki.image.tag | string | `"3.1.1@sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.4@sha256:4ac33ae690ce9569a0bde88c2d3c6109b8cb50a36e3992a6e39e1b1d5fa8c3fc"` |  |
@@ -135,13 +135,48 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| loki.aws_accessKey | string | `"placeholder_loki_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| loki.aws_accessKey | string | `"XXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| loki.aws_region | string | `"us-east-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| loki.aws_secretKey | string | `"XXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| loki.bucket | string | `"grafana-traces-data-runtimez1"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
-| prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
+| otel.config | string | `nil` |  |
+| otel.manager.autoInstrumentationImage.apacheHttpd.repository | string | `""` |  |
+| otel.manager.autoInstrumentationImage.apacheHttpd.tag | string | `""` |  |
+| otel.manager.autoInstrumentationImage.dotnet.repository | string | `""` |  |
+| otel.manager.autoInstrumentationImage.dotnet.tag | string | `""` |  |
+| otel.manager.autoInstrumentationImage.go.repository | string | `""` |  |
+| otel.manager.autoInstrumentationImage.go.tag | string | `""` |  |
+| otel.manager.autoInstrumentationImage.java.repository | string | `"ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java"` |  |
+| otel.manager.autoInstrumentationImage.java.tag | string | `"2.7.0"` |  |
+| otel.manager.autoInstrumentationImage.nodejs.repository | string | `"ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-nodejs"` |  |
+| otel.manager.autoInstrumentationImage.nodejs.tag | string | `"0.52.1"` |  |
+| otel.manager.autoInstrumentationImage.python.repository | string | `"ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python"` |  |
+| otel.manager.autoInstrumentationImage.python.tag | string | `"0.47b0"` |  |
+| otel.manager.collectorImage.repository | string | `"otel/opentelemetry-collector"` |  |
+| otel.manager.collectorImage.tag | string | `"0.109.0"` |  |
+| otel.manager.image.repository | string | `"ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator"` |  |
+| otel.manager.image.tag | string | `""` |  |
+| otel.manager.opampBridgeImage.repository | string | `""` |  |
+| otel.manager.opampBridgeImage.tag | string | `""` |  |
+| otel.manager.resources.limits.cpu | string | `"100m"` |  |
+| otel.manager.resources.limits.memory | string | `"128Mi"` |  |
+| otel.manager.resources.requests.cpu | string | `"100m"` |  |
+| otel.manager.resources.requests.memory | string | `"64Mi"` |  |
+| otel.manager.targetAllocatorImage.repository | string | `""` |  |
+| otel.manager.targetAllocatorImage.tag | string | `""` |  |
+| otel.name_override | string | `"glueops-otel"` |  |
+| otel.replicas | int | `1` |  |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
+| tempo.aws_accessKey | string | `"XXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| tempo.aws_region | string | `"us-east-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| tempo.aws_secretKey | string | `"XXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| tempo.bucket | string | `"grafana-traces-data-runtimez1"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| tempo.remote_url[0] | string | `"http://localhost:9090/api/v1/write"` |  |
+| thanos.aws_accessKey | string | `"XXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| thanos.aws_region | string | `"us-east-2"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| thanos.aws_secretKey | string | `"XXXX"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| thanos.bucket | string | `"grafana-traces-data-runtimez1"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_secretKey | string | `"placeholder_tls_cert_restore_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
