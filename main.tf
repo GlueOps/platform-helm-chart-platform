@@ -73,6 +73,23 @@ variable "loki_aws_secret_key" {
   description = "AWS secret key for Loki"
 }
 
+variable "thanos_aws_access_key" {
+   description = "AWS access key for Thanos"
+}
+
+variable "thanos_aws_secret_key" {
+   description = "AWS secret key for Thanos"
+}
+
+#
+variable "tempo_aws_access_key" {
+   description = "AWS access key for Tempo"
+}
+
+variable "tempo_aws_secret_key" {
+   description = "AWS secret key for Tempo"
+}
+
 variable "dex_github_client_id" {
   description = "Dex GitHub client ID"
 }
@@ -201,7 +218,7 @@ variable "vault_init_controller_aws_access_secret" {
 
 output "helm_values" {
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
-    replace(
+    replace(replace(replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
     "placeholder_captain_repo_b64enc_private_deploy_key", var.captain_repo_b64encoded_private_deploy_key),
@@ -226,6 +243,10 @@ output "helm_values" {
     "placeholder_tls_cert_restore_exclude_namespaces", var.tls_cert_restore_exclude_namespaces),
     "placeholder_loki_aws_access_key", var.loki_aws_access_key),
     "placeholder_loki_aws_secret_key", var.loki_aws_secret_key),
+    "placeholder_thanos_aws_access_key", var.thanos_aws_access_key),
+    "placeholder_thanos_aws_secret_key", var.thanos_aws_secret_key),
+    "placeholder_tempo_aws_access_key", var.tempo_aws_access_key),
+    "placeholder_tempo_aws_secret_key", var.tempo_aws_secret_key),
     "placeholder_dex_github_client_id", var.dex_github_client_id),
     "placeholder_dex_github_client_secret", var.dex_github_client_secret),
     "placeholder_dex_argocd_client_secret", var.dex_argocd_client_secret),
