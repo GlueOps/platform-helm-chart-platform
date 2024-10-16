@@ -245,7 +245,7 @@ output "helm_values" {
     "placeholder_loki_aws_secret_key", var.loki_aws_secret_key),
     "placeholder_thanos_aws_access_key", var.thanos_aws_access_key),
     "placeholder_thanos_aws_secret_key", var.thanos_aws_secret_key),
-    "placeholder_tempo_aws_secret_key", var.tempo_aws_access_key),
+    "placeholder_tempo_aws_access_key", var.tempo_aws_access_key),
     "placeholder_tempo_aws_secret_key", var.tempo_aws_secret_key),
     "placeholder_dex_github_client_id", var.dex_github_client_id),
     "placeholder_dex_github_client_secret", var.dex_github_client_secret),
