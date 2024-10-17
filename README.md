@@ -139,6 +139,7 @@ This chart deploys the GlueOps Platform
 | loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| loki.prefix | string | `"nonprod.gliese581d.onglueops.rocks/loki/logs"` |  |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
 | otel.config | string | `nil` |  |
 | otel.manager.autoInstrumentationImage.apacheHttpd.repository | string | `""` |  |
@@ -166,17 +167,32 @@ This chart deploys the GlueOps Platform
 | otel.manager.targetAllocatorImage.repository | string | `""` |  |
 | otel.manager.targetAllocatorImage.tag | string | `""` |  |
 | otel.name_override | string | `"glueops-otel"` |  |
+| otel.remote_url[0] | string | `"http://localhost:9090/api/v1/write"` |  |
 | otel.replicas | int | `1` |  |
+| prometheus.alertmanager_log_level | string | `"info"` |  |
+| prometheus.kube_api_server | bool | `true` |  |
+| prometheus.kube_controller_manager | bool | `false` |  |
+| prometheus.kube_proxy | bool | `false` |  |
+| prometheus.kube_scheduler | bool | `false` |  |
+| prometheus.kube_state_metric | bool | `true` |  |
+| prometheus.kubelet | bool | `true` |  |
+| prometheus.node_exporter | bool | `true` |  |
+| prometheus.retention | string | `"12h"` |  |
+| prometheus.retentionSize | string | `"10GB"` |  |
+| prometheus.service_monitor | bool | `false` |  |
+| prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tempo.aws_accessKey | string | `"placeholder_tempo_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tempo.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tempo.aws_secretKey | string | `"placeholder_tempo_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| tempo.bucket | string | `"glueops-tenant-placeholder_tenant_key-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| tempo.bucket | string | `"glueops-tenant-placeholder_tenant_key-primary"` | Format: glueops-tenant-gliese581d-nonprod-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| tempo.prefix | string | `"nonprod.gliese581d.onglueops.rocks/tempo/traces"` |  |
 | tempo.remote_url[0] | string | `"http://localhost:9090/api/v1/write"` |  |
 | thanos.aws_accessKey | string | `"placeholder_thanos_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | thanos.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | thanos.aws_secretKey | string | `"placeholder_thanos_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | thanos.bucket | string | `"glueops-tenant-placeholder_tenant_key-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| thanos.prefix | string | `"nonprod.gliese581d.onglueops.rocks/thanos/metrics"` |  |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_secretKey | string | `"placeholder_tls_cert_restore_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
