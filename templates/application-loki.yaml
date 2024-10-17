@@ -57,7 +57,7 @@ spec:
         loki:
           auth_enabled: false
           storage_config:
-           object_prefix: loki-logs
+           object_prefix:  {{ .Values.loki.prefix }}
           schemaConfig:
            configs:
             - from: 2024-04-01

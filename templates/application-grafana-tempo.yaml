@@ -46,11 +46,11 @@ spec:
           trace: 
             backend: s3
             s3:
-              access_key: 'XXX'
-              secret_key: 'XXX'
-              bucket:  'grafana-traces-data-runtimez1'
-              endpoint: 's3.us-east-2.amazonaws.com'
-              prefix: 'traces'
+              access_key: {{ .Values.tempo.aws_accessKey }}
+              secret_key: {{ .Values.tempo.aws_secretKey }}
+              bucket:  {{ .Values.tempo.bucket}}
+              endpoint: s3.{{ .Values.tempo.aws_region }}.amazonaws.com
+              prefix: {{ .Values.tempo.prefix }}
               insecure: true
         traces:
           otlp:

@@ -36,17 +36,27 @@ spec:
         # https://github.com/prometheus-community/helm-charts/issues/1033
         fullnameOverride: "kps"
         kubeControllerManager:
-          enabled: false
+          enabled: {{ .Values.prometheus.kube_controller_manager }}
         kubeScheduler:
-          enabled: false
+          enabled: {{ .Values.prometheus.kube_scheduler }}
         kubeProxy:
-          enabled: false
-        kube-state-metrics:
-          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          enabled: {{ .Values.prometheus.kube_proxy }}
+        kubeApiServer:
+          enabled: {{ .Values.prometheus.kube_api_server }}
+        kubelet:
+          enabled: {{ .Values.prometheus.kubelet }}
+        serviceMonitor:
+          enabled: {{ .Values.prometheus.service_monitor }}
+        serviceMonitor:
+          enabled: {{ .Values.prometheus.service_monitor }}  
+        kubeStateMetrics:
+          enabled: {{ .Values.prometheus.kube_state_metric }}    
+        nodeExporter:
+          enabled: {{ .Values.prometheus.node_exporter }}    
         alertmanager:
           alertmanagerSpec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
-            logLevel: debug
+            logLevel: {{ .Values.prometheus.alertmanager_log_level }}
             replicas: 2
             # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
             # Example when alert manager renders my hack: 
@@ -70,6 +80,10 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         prometheus: 
           enabled: true
+          thanosService:
+            enabled: true
+          thanosServiceMonitor:
+            enabled: true
           prometheusSpec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             replicas: 2
@@ -82,7 +96,27 @@ spec:
             podMonitorSelector: {}
             podMonitorNamespaceSelector: {}
             podMonitorSelectorNilUsesHelmValues: false
-            logLevel: debug
+            enableRemoteWriteReceiver: true
+            disableCompaction: false
+            retention: {{ .Values.prometheus.retention }}
+            retentionSize: {{ .Values.prometheus.retentionSize }}
+            thanos:
+              baseImage: quay.io/thanos/thanos
+              version: v0.36.1
+              objectStorageConfig:
+                secret: 
+                  type: s3
+                  config:
+                    bucket: {{ .Values.thanos.bucket}}
+                    endpoint: s3.{{ .Values.thanos.aws_region }}.amazonaws.com
+                    access_key: '{{ .Values.thanos.aws_accessKey }}'
+                    secret_key: '{{ .Values.thanos.aws_secretKey }}'
+                    trace:
+                      enable: true
+                  prefix: '{{ .Values.thanos.prefix }}'    
+                  
+            enableFeatures:
+               - remote-write-receiver
             storageSpec:
               volumeClaimTemplate:
                 spec:
@@ -112,10 +146,21 @@ spec:
               ingress.pomerium.io/preserve_host_header: 'true'
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
+          sidecar:
+            datasources:
+              enabled: true
+              defaultDatasourceEnabled: true
+              isDefaultDatasource: true
+              url: http://kube-thanos-stack-query.glueops-core-kube-prometheus-stack:9090/
+              name: Prometheus
+              uid: prometheus    
           additionalDataSources:
           - name: Loki
             type: loki
             url: http://loki-gateway.glueops-core-loki.svc.cluster.local
+         - name: Tempo
+           type: tempo
+           url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
           grafana.ini:
             users:
               viewers_can_edit: true

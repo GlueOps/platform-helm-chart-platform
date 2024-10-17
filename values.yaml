@@ -127,6 +127,8 @@ loki:
   # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_secretKey: placeholder_loki_aws_secret_key
 
+  prefix: "nonprod.gliese581d.onglueops.rocks/loki/logs"
+
 thanos:
   # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
   bucket: glueops-tenant-placeholder_tenant_key-primary #glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
@@ -137,17 +139,36 @@ thanos:
   # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_secretKey: placeholder_thanos_aws_secret_key  
 
+  prefix: "nonprod.gliese581d.onglueops.rocks/thanos/metrics"
+
 tempo:
-  # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
-  bucket: glueops-tenant-placeholder_tenant_key-primary #glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
+  # -- Format: glueops-tenant-gliese581d-nonprod-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
+  bucket: glueops-tenant-placeholder_tenant_key-primary #glueops-tenant-gliese581d-nonprod-loki-primary
   # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_region: placeholder_aws_region
   # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
   aws_accessKey: placeholder_tempo_aws_access_key
   # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_secretKey: placeholder_tempo_aws_secret_key  
+  aws_secretKey: placeholder_tempo_aws_secret_key
 
+  prefix: "nonprod.gliese581d.onglueops.rocks/tempo/traces"
 
+  remote_url: ["http://localhost:9090/api/v1/write"]
+
+prometheus:
+  # -- Volume of storage requested for each Prometheus PVC, in Gi
+  volume_claim_storage_request: "50"
+  kube_controller_manager: false
+  kube_scheduler: false
+  kube_proxy: false
+  kube_api_server: true
+  kubelet: true
+  service_monitor: false
+  kube_state_metric: true
+  node_exporter: true
+  alertmanager_log_level: info
+  retentionSize: "10GB"
+  retention: 12h
 
 otel:
   replicas: 1
@@ -196,7 +217,7 @@ otel:
         cpu: 100m
         memory: 64Mi
 
-tempo:
+
   remote_url: ["http://localhost:9090/api/v1/write"]
 
 vault:
