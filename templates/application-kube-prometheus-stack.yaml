@@ -158,9 +158,6 @@ spec:
           - name: Loki
             type: loki
             url: http://loki-gateway.glueops-core-loki.svc.cluster.local
-         - name: Tempo
-           type: tempo
-           url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
           grafana.ini:
             users:
               viewers_can_edit: true
