@@ -281,7 +281,7 @@ container_images:
       image:
         registry: docker.io
         repository: grafana/loki
-        tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
+        tag: 3.2.1@sha256:09a53b4a4ff81ffcd8f13886df19d33fac7a8d3aaf952e3c7e66cbade5b2fc31
   app_network_exporter:
     network_exporter:
       image:
