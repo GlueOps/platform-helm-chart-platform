@@ -34,7 +34,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_fluent_operator.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.6.1@sha256:c1ead8704c135a501bf3f5f80f9f5b34d3db33ca8dfb8711b2cb8c845b86de7e"` |  |
+| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.7.0@sha256:1251bc27411647297d0867c13c56c2347a00dd44b6a06b1fdd6fd08f094e2934"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.8@sha256:c88e62a727bbb54b1ce1a420fb81b8b116c10a60d666de92ae74f3481aef1499"` |  |
