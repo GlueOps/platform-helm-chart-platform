@@ -61,7 +61,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.5.5@sha256:197f9a24753f6e26a1bf1b3982dca4ad87fda3ff3c626c379e2cb476405f72f1"` |  |
 | container_images.app_vault.vault.image.registry | string | `"docker.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
-| container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
+| container_images.app_vault.vault.image.tag | string | `"1.18.0@sha256:e2da7099950443e234ed699940fabcdc44b5babe33adfb459e189a63b7bb50d7"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.7.0@sha256:4b217fd3961e02a704394fb02380d2b77983bab82a1d3b4082e436c9f175f583"` |  |
