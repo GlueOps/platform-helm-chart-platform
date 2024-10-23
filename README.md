@@ -55,7 +55,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
-| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.20.0@sha256:787a4d646fb017bdc9d68e2c8d14bb670cf4adfd076a7abb89f2c9dc01d36718"` |  |
+| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.21.0@sha256:bb58a912192bc5bd531320d60a099fbe0906cf64bd31fd374b5404c748d427ee"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.6.0@sha256:820af4855a897de73d39bdcfb8c5eef69a25bcfb6561048aac235b0db9615a66"` |  |
