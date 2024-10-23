@@ -37,7 +37,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.7.0@sha256:1251bc27411647297d0867c13c56c2347a00dd44b6a06b1fdd6fd08f094e2934"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.8@sha256:c88e62a727bbb54b1ce1a420fb81b8b116c10a60d666de92ae74f3481aef1499"` |  |
+| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.11@sha256:594013a7e4bbc9271def30b8cc89f32b8f979cc2fd152d107bf6c8c340d52117"` |  |
 | container_images.app_loki.loki.image.registry | string | `"docker.io"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
 | container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
