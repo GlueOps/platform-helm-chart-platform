@@ -328,6 +328,6 @@ container_images:
     image:
       registry: docker.io
       repository: kubesphere/fluent-operator
-      tag: v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947
+      tag: v3.2.0@sha256:c778ec6ebc44c4142c6533e020e4cb1fd958faaa502c5ebd3e9bc5716a7e47ea
 
       
