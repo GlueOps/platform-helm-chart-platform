@@ -25,7 +25,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v0.3.2@sha256:e4a020fa1666fdcd800185b65eacae79a206fd179b829140bd38cec4d93f28fb"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
-| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.2@sha256:0a60e6175cf998ed53a3a624f1f2fa67f31bb63f69ad2545b5ad1683d19a26eb"` |  |
+| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.3@sha256:9b54b36baf64108bdd9d7e8003bf8e4b5ac7237d06b049cbb23f825fa856471f"` |  |
 | container_images.app_dex.dex.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.41.1@sha256:bc7cfce7c17f52864e2bb2a4dc1d2f86a41e3019f6d42e81d92a301fad0c8a1d"` |  |
