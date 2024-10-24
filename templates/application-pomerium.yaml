@@ -26,4 +26,4 @@ spec:
   source:
     repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
     path: .
-    targetRevision: v0.7.1
+    targetRevision: v0.8.0
