@@ -186,6 +186,7 @@ This chart deploys the GlueOps Platform
 | tempo.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tempo.aws_secretKey | string | `"placeholder_tempo_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tempo.bucket | string | `"glueops-tenant-placeholder_tenant_key-primary"` | Format: glueops-tenant-gliese581d-nonprod-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| tempo.compaction_block_retention | string | `"168h"` |  |
 | tempo.prefix | string | `"placeholder_cluster_environment.placeholder_tenant_key.placeholder_glueops_root_domain/tempo/traces"` |  |
 | tempo.remote_url[0] | string | `"http://localhost:9090/api/v1/write"` |  |
 | thanos.aws_accessKey | string | `"placeholder_thanos_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
