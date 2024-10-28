@@ -30,6 +30,10 @@ spec:
     helm:
       skipCrds: true
       values: |-
+        compactor:
+          config:
+            compaction:
+             block_retention: {{ .Values.tempo.compaction_block_retention}}
         gateway:
           enabled: true
         ingester:  

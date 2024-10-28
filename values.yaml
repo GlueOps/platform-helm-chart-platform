@@ -155,6 +155,8 @@ tempo:
 
   remote_url: ["http://localhost:9090/api/v1/write"]
 
+  compaction_block_retention: "168h"
+
 prometheus:
   # -- Volume of storage requested for each Prometheus PVC, in Gi
   volume_claim_storage_request: "50"
