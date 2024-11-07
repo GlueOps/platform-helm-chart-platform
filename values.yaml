@@ -118,41 +118,49 @@ grafana:
   admin_password: placeholder_grafana_admin_password
 
 loki:
-  # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
-  bucket: glueops-tenant-placeholder_tenant_key-primary #glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
-  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_region: placeholder_aws_region
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_accessKey: placeholder_loki_aws_access_key
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_secretKey: placeholder_loki_aws_secret_key
-
-  prefix: "placeholder_cluster_environment.placeholder_tenant_key.placeholder_glueops_root_domain/loki/logs"
+  storage:
+    # Loki requires a bucket for chunks and the ruler. GEL requires a third bucket for the admin API.
+    # Please provide these values if you are using object storage.
+    bucketNames:
+       chunks: glueops-loki
+       ruler: glueops-loki
+       admin: glueops-loki
+    type: s3
+    s3:
+      s3: glueops-loki
+      endpoint: https://fsn1.your-objectstorage.com
+      region: us-east-1
+      secretAccessKey: DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb
+      accessKeyId: PLCNA21FYIW2GLHI7PN8
+      #signatureVersion: null
+      s3ForcePathStyle: false
+      insecure: false
+      #http_config: {}
+      # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
+      #backoff_config: {}
+      #disable_dualstack: false
 
 thanos:
   # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
-  bucket: glueops-tenant-placeholder_tenant_key-primary #glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
-  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_region: placeholder_aws_region
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_accessKey: placeholder_thanos_aws_access_key
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_secretKey: placeholder_thanos_aws_secret_key  
-
-  prefix: "placeholder_cluster_environment.placeholder_tenant_key.placeholder_glueops_root_domain/thanos/metrics"
+  storage:
+   type: s3
+   config:
+    bucket: glueops-thanos
+    endpoint: fsn1.your-objectstorage.com
+    access_key: PLCNA21FYIW2GLHI7PN8
+    secret_key: DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb
+   
 
 tempo:
-  # -- Format: glueops-tenant-gliese581d-nonprod-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
-  bucket: glueops-tenant-placeholder_tenant_key-primary #glueops-tenant-gliese581d-nonprod-loki-primary
-  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_region: placeholder_aws_region
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_accessKey: placeholder_tempo_aws_access_key
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_secretKey: placeholder_tempo_aws_secret_key
-
-  prefix: "placeholder_cluster_environment.placeholder_tenant_key.placeholder_glueops_root_domain/tempo/traces"
-
+  storage:
+    backend: s3
+    s3:
+     access_key: PLCNA21FYIW2GLHI7PN8
+     secret_key: DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb
+     bucket:  glueops-metrics1
+     endpoint: fsn1.your-objectstorage.com
+     insecure: false
+ 
   remote_url: ["http://localhost:9090/api/v1/write"]
 
   compaction_block_retention: "168h"

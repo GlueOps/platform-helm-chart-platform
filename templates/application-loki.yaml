@@ -31,33 +31,12 @@ spec:
       parameters:
         - name: loki.auth_enabled
           value: 'false'
-        - name: loki.storage.type
-          value: s3
-        - name: loki.storage.bucketNames.chunks
-          value: {{ .Values.loki.bucket }}
-        - name: loki.storage.bucketNames.ruler
-          value: {{ .Values.loki.bucket }}
-        - name: loki.storage.bucketNames.admin
-          value: {{ .Values.loki.bucket }}
-        - name: loki.storage.s3.s3
-          value: s3://{{ .Values.loki.bucket }}
-        - name: loki.storage.s3.endpoint
-          value: s3.{{ .Values.loki.aws_region }}.amazonaws.com
-        - name: loki.storage.s3.region
-          value: {{ .Values.loki.aws_region }}
-        - name: loki.storage.s3.accessKeyId
-          value: {{ .Values.loki.aws_accessKey }}
-        - name: loki.storage.s3.secretAccessKey
-          value: {{ .Values.loki.aws_secretKey }}
-        - name: loki.storage.s3.s3ForcePathStyle
-          value: 'false'
-        - name: loki.storage.s3.insecure
-          value: 'false'
+       
       values: |-
         loki:
           auth_enabled: false
-          storage_config:
-           object_prefix:  {{ .Values.loki.prefix }}
+          storage:
+          {{- toYaml .Values.loki.storage | nindent 12 }}
           schemaConfig:
            configs:
             - from: 2024-04-01
@@ -104,4 +83,11 @@ spec:
         bloomCompactor:
           replicas: 0
         bloomGateway:
-          replicas: 0        
+          replicas: 0  
+        ruler:
+          extraVolumes:
+            - name: fake
+              emptyDir: {}
+          extraVolumeMounts:
+            - name: fake
+              mountPath: /tmp/loki/rules/fake       

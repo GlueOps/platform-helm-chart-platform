@@ -135,8 +135,8 @@ spec:
               hooks:
                 sync:
                   webhook:
-                    url: http://{{ .Release.Name }}.glueops-core-loki-alert-group-controller.svc.cluster.local
+                    url: https://8g5b77jr-8000.uks1.devtunnels.ms/sync
                 finalize:
                   webhook:
-                    url: http://{{ .Release.Name }}.glueops-core-loki-alert-group-controller.svc.cluster.local/finalize
+                    url: https://8g5b77jr-8000.uks1.devtunnels.ms/finalize
         

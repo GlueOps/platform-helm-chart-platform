@@ -30,14 +30,8 @@ spec:
     helm:
       skipCrds: true
       values: |-
-        objstoreConfig: |-
-          type: s3
-          config:
-            bucket: {{ .Values.thanos.bucket}}
-            endpoint: s3.{{ .Values.thanos.aws_region }}.amazonaws.com
-            access_key: '{{ .Values.thanos.aws_accessKey }}'
-            secret_key: '{{ .Values.thanos.aws_secretKey }}'
-          prefix: '{{ .Values.thanos.prefix }}'    
+        objstoreConfig:
+        {{- toYaml .Values.thanos.storage | nindent 12 }}
         query:
           dnsDiscovery:
             enabled: true

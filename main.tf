@@ -261,6 +261,6 @@ output "helm_values" {
     "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
     "placeholder_vault_init_controller_s3_key", var.vault_init_controller_s3_key),
     "placeholder_vault_init_controller_aws_access_key", var.vault_init_controller_aws_access_key),
-  "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
+    "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
 
 }

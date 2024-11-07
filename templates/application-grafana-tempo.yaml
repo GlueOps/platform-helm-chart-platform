@@ -48,14 +48,7 @@ spec:
             grpc_server_max_send_msg_size: 81194305
         storage:
           trace: 
-            backend: s3
-            s3:
-              access_key: {{ .Values.tempo.aws_accessKey }}
-              secret_key: {{ .Values.tempo.aws_secretKey }}
-              bucket:  {{ .Values.tempo.bucket}}
-              endpoint: s3.{{ .Values.tempo.aws_region }}.amazonaws.com
-              prefix: {{ .Values.tempo.prefix }}
-              insecure: true
+          {{- toYaml .Values.tempo.storage | nindent 12 }}
         traces:
           otlp:
             http:

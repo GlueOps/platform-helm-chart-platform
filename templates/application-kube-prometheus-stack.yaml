@@ -47,8 +47,6 @@ spec:
           enabled: {{ .Values.prometheus.kubelet }}
         serviceMonitor:
           enabled: {{ .Values.prometheus.service_monitor }}
-        serviceMonitor:
-          enabled: {{ .Values.prometheus.service_monitor }}  
         kubeStateMetrics:
           enabled: {{ .Values.prometheus.kube_state_metric }}    
         nodeExporter:
@@ -105,15 +103,7 @@ spec:
               version: v0.36.1
               objectStorageConfig:
                 secret: 
-                  type: s3
-                  config:
-                    bucket: {{ .Values.thanos.bucket}}
-                    endpoint: s3.{{ .Values.thanos.aws_region }}.amazonaws.com
-                    access_key: '{{ .Values.thanos.aws_accessKey }}'
-                    secret_key: '{{ .Values.thanos.aws_secretKey }}'
-                    trace:
-                      enable: true
-                  prefix: '{{ .Values.thanos.prefix }}'    
+                {{- toYaml .Values.thanos.storage | nindent 18 }}
                   
             enableFeatures:
                - remote-write-receiver
