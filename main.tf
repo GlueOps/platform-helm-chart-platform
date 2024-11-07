@@ -65,30 +65,8 @@ variable "tls_cert_restore_aws_secret_key" {
   description = "AWS secret key for cert manager"
 }
 
-variable "loki_aws_access_key" {
-  description = "AWS access key for Loki"
-}
 
-variable "loki_aws_secret_key" {
-  description = "AWS secret key for Loki"
-}
 
-variable "thanos_aws_access_key" {
-  description = "AWS access key for Thanos"
-}
-
-variable "thanos_aws_secret_key" {
-  description = "AWS secret key for Thanos"
-}
-
-#
-variable "tempo_aws_access_key" {
-  description = "AWS access key for Tempo"
-}
-
-variable "tempo_aws_secret_key" {
-  description = "AWS secret key for Tempo"
-}
 
 variable "dex_github_client_id" {
   description = "Dex GitHub client ID"
@@ -214,10 +192,27 @@ variable "vault_init_controller_aws_access_secret" {
   type        = string
   nullable    = false
 }
+variable "loki_storage" {
+  description = "Loki storage config"
+  type        = string
+  nullable    = false
+}
+
+variable "tempo_storage" {
+  description = "Tempo storage config"
+  type        = string
+  nullable    = false
+}
+
+variable "thanos_storage" {
+  description = "Thanos storage config"
+  type        = string
+  nullable    = false
+}
 
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(replace(replace(replace(replace(
       data.local_file.platform_values_template.content,
       "placeholder_tenant_key", var.tenant_key),
@@ -241,12 +236,10 @@ output "helm_values" {
     "placeholder_tls_cert_restore_aws_secret_key", var.tls_cert_restore_aws_secret_key),
     "placeholder_tls_cert_backup_s3_key_prefix", var.tls_cert_backup_s3_key_prefix),
     "placeholder_tls_cert_restore_exclude_namespaces", var.tls_cert_restore_exclude_namespaces),
-    "placeholder_loki_aws_access_key", var.loki_aws_access_key),
-    "placeholder_loki_aws_secret_key", var.loki_aws_secret_key),
-    "placeholder_thanos_aws_access_key", var.thanos_aws_access_key),
-    "placeholder_thanos_aws_secret_key", var.thanos_aws_secret_key),
-    "placeholder_tempo_aws_access_key", var.tempo_aws_access_key),
-    "placeholder_tempo_aws_secret_key", var.tempo_aws_secret_key),
+    "placeholder_loki_storage", var.loki_storage),
+    "placeholder_tempo_storage", var.tempo_storage),
+    "placeholder_thanos_storage", var.thanos_storage),
+
     "placeholder_dex_github_client_id", var.dex_github_client_id),
     "placeholder_dex_github_client_secret", var.dex_github_client_secret),
     "placeholder_dex_argocd_client_secret", var.dex_argocd_client_secret),
@@ -261,6 +254,6 @@ output "helm_values" {
     "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
     "placeholder_vault_init_controller_s3_key", var.vault_init_controller_s3_key),
     "placeholder_vault_init_controller_aws_access_key", var.vault_init_controller_aws_access_key),
-    "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
+  "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
 
 }
