@@ -119,22 +119,7 @@ grafana:
 
 loki:
   storage:
-    # Loki requires a bucket for chunks and the ruler. GEL requires a third bucket for the admin API.
-    # Please provide these values if you are using object storage.
-    bucketNames:
-       chunks: glueops-loki
-       ruler: glueops-loki
-       admin: glueops-loki
-    type: s3
-    s3:
-      s3: glueops-loki
-      endpoint: https://fsn1.your-objectstorage.com
-      region: us-east-1
-      secretAccessKey: DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb
-      accessKeyId: PLCNA21FYIW2GLHI7PN8
-      #signatureVersion: null
-      s3ForcePathStyle: false
-      insecure: false
+   placeholder_loki_storage
       #http_config: {}
       # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
       #backoff_config: {}
@@ -143,24 +128,11 @@ loki:
 thanos:
   # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
   storage:
-   type: s3
-   config:
-    bucket: glueops-thanos
-    endpoint: fsn1.your-objectstorage.com
-    access_key: PLCNA21FYIW2GLHI7PN8
-    secret_key: DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb
-   
+   placeholder_thanos_storage
 
 tempo:
   storage:
-    backend: s3
-    s3:
-     access_key: PLCNA21FYIW2GLHI7PN8
-     secret_key: DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb
-     bucket:  glueops-metrics1
-     endpoint: fsn1.your-objectstorage.com
-     insecure: false
- 
+    placeholder_tempo_storage
   remote_url: ["http://localhost:9090/api/v1/write"]
 
   compaction_block_retention: "168h"
