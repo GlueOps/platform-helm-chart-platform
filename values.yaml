@@ -118,8 +118,7 @@ grafana:
   admin_password: placeholder_grafana_admin_password
 
 loki:
-  storage:
-   placeholder_loki_storage
+  storage: placeholder_loki_storage
       #http_config: {}
       # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
       #backoff_config: {}
@@ -127,12 +126,10 @@ loki:
 
 thanos:
   # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
-  storage:
-   placeholder_thanos_storage
+  storage: placeholder_thanos_storage
 
 tempo:
-  storage:
-    placeholder_tempo_storage
+  storage: placeholder_tempo_storage
   remote_url: ["http://localhost:9090/api/v1/write"]
 
   compaction_block_retention: "168h"
