@@ -135,17 +135,7 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| loki.storage.bucketNames.admin | string | `"glueops-loki"` |  |
-| loki.storage.bucketNames.chunks | string | `"glueops-loki"` |  |
-| loki.storage.bucketNames.ruler | string | `"glueops-loki"` |  |
-| loki.storage.s3.accessKeyId | string | `"PLCNA21FYIW2GLHI7PN8"` |  |
-| loki.storage.s3.endpoint | string | `"https://fsn1.your-objectstorage.com"` |  |
-| loki.storage.s3.insecure | bool | `false` |  |
-| loki.storage.s3.region | string | `"us-east-1"` |  |
-| loki.storage.s3.s3 | string | `"glueops-loki"` |  |
-| loki.storage.s3.s3ForcePathStyle | bool | `false` |  |
-| loki.storage.s3.secretAccessKey | string | `"DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb"` |  |
-| loki.storage.type | string | `"s3"` |  |
+| loki.storage | string | `"placeholder_loki_storage"` |  |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
 | otel.config | string | `nil` |  |
 | otel.manager.autoInstrumentationImage.apacheHttpd.repository | string | `""` |  |
@@ -190,13 +180,8 @@ This chart deploys the GlueOps Platform
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tempo.compaction_block_retention | string | `"168h"` |  |
 | tempo.remote_url[0] | string | `"http://localhost:9090/api/v1/write"` |  |
-| tempo.storage.backend | string | `"s3"` |  |
-| tempo.storage.s3.access_key | string | `"PLCNA21FYIW2GLHI7PN8"` |  |
-| tempo.storage.s3.bucket | string | `"glueops-metrics1"` |  |
-| tempo.storage.s3.endpoint | string | `"fsn1.your-objectstorage.com"` |  |
-| tempo.storage.s3.insecure | bool | `false` |  |
-| tempo.storage.s3.secret_key | string | `"DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb"` |  |
-| thanos.storage | object | `{"config":{"access_key":"PLCNA21FYIW2GLHI7PN8","bucket":"glueops-thanos","endpoint":"fsn1.your-objectstorage.com","secret_key":"DqQv00ikb20q9RGL6ZpB9xsjYE2ircYP1Xm9Qaqb"},"type":"s3"}` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
+| tempo.storage | string | `"placeholder_tempo_storage"` |  |
+| thanos.storage | string | `"placeholder_thanos_storage"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_secretKey | string | `"placeholder_tls_cert_restore_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
