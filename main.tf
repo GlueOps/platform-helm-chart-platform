@@ -194,26 +194,26 @@ variable "vault_init_controller_aws_access_secret" {
 }
 variable "loki_storage" {
   description = "Loki storage config"
-  type        = string
+  type        = any
   nullable    = false
 }
 
 variable "tempo_storage" {
   description = "Tempo storage config"
-  type        = string
+  type        = any
   nullable    = false
 }
 
 variable "thanos_storage" {
   description = "Thanos storage config"
-  type        = string
+  type        = any
   nullable    = false
 }
 
 
 output "helm_values" {
   value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
-    replace(replace(replace(replace(replace(
+    replace(replace(replace(replace(replace(replace(
       data.local_file.platform_values_template.content,
       "placeholder_tenant_key", var.tenant_key),
       "placeholder_captain_repo_b64enc_private_deploy_key", var.captain_repo_b64encoded_private_deploy_key),
@@ -254,6 +254,7 @@ output "helm_values" {
     "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
     "placeholder_vault_init_controller_s3_key", var.vault_init_controller_s3_key),
     "placeholder_vault_init_controller_aws_access_key", var.vault_init_controller_aws_access_key),
-  "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
+    "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret),
+    ": {}","")
 
 }
