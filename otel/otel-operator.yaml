@@ -1,10 +1,9 @@
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
-  name: backendapi
+  name: otel-collector
   namespace: glueops-core-otel
 spec:
-  mode: sidecar
   config: |
       receivers:
         otlp:

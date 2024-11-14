@@ -4,10 +4,14 @@ metadata:
   name: glueops-instrumentation
   namespace: glueops-core
 spec:
+  exporter:
+    endpoint: http://otel-collector-collector.glueops-core-otel.svc.cluster.local:4317
   propagators:
     - tracecontext
     - baggage
     - b3
   sampler:
     type: parentbased_always_on
+
+
    
