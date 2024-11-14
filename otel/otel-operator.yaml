@@ -6,36 +6,40 @@ metadata:
 spec:
   mode: sidecar
   config: |
-    receivers:
-      otlp:
-        protocols:
-          grpc:
-            endpoint: 0.0.0.0:4317
-          http:
-            endpoint: 0.0.0.0:4318
-    processors:
-      memory_limiter:
-        check_interval: 1s
-        limit_percentage: 75
-        spike_limit_percentage: 15
-      batch:
-        send_batch_size: 10000
-        timeout: 10s
-
-    exporters:
-      otlphttp:
-       traces_endpoint: http://grafana-tempo-distributor.glueops-core-tempo:4318/v1/traces
-       logs_endpoint: http://loki-write-headless.glueops-core-loki:3100/otlp/v1/logs
-      
-
-    service:
-      pipelines:
-        traces:
-          receivers: [otlp]
-          processors: [memory_limiter, batch]
-          exporters: [otlphttp]
-        logs:
-          receivers: [otlp]
-          processors: [memory_limiter, batch]
-          exporters: [otlphttp]  
-        
+      receivers:
+        otlp:
+          protocols:
+            grpc:
+              endpoint: 0.0.0.0:4317
+            http:
+              endpoint: 0.0.0.0:4318
+      exporters:
+        otlphttp:
+          logs_endpoint: http://loki-write-headless.glueops-core-loki:3100/otlp/v1/logs
+          traces_endpoint: http://grafana-tempo-distributor.glueops-core-tempo:4318/v1/traces
+      processors:
+        batch:
+          send_batch_size: 10000
+          timeout: 10s
+        memory_limiter:
+          check_interval: 1s
+          limit_percentage: 75
+          spike_limit_percentage: 15
+      service:
+        pipelines:
+          logs:
+            exporters:
+              - otlphttp
+            processors:
+              - memory_limiter
+              - batch
+            receivers:
+              - otlp
+          traces:
+            exporters:
+              - otlphttp
+            processors:
+              - memory_limiter
+              - batch
+            receivers:
+              - otlp
