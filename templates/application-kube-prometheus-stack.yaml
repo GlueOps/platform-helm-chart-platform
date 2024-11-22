@@ -85,6 +85,8 @@ spec:
           prometheusSpec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             replicas: 2
+            replicaExternalLabelName: "__replica__"
+            externalLabels: {cluster: "test"}
             ruleSelector: {}
             ruleNamespaceSelector: {}
             ruleSelectorNilUsesHelmValues: false
@@ -125,6 +127,8 @@ spec:
             tag: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.tag }}
           #https://stackoverflow.com/questions/77912105/upgrading-kube-prometheus-stack-via-helm-to-chart-v56-2-1-fails-on-grafana-with
           assertNoLeakedSecrets: false
+          plugins:
+           - yesoreyeram-infinity-datasource
           ingress:
             enabled: true
             ingressClassName: public-authenticated

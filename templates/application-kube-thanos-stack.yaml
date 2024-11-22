@@ -33,6 +33,7 @@ spec:
         objstoreConfig:
         {{- toYaml .Values.thanos.storage | nindent 12 }}
         query:
+          replicaLabel: ["__replica__"]
           dnsDiscovery:
             enabled: true
             logLevel: debug
