@@ -43,5 +43,12 @@ spec:
           enabled: true
         compactor:
           enabled: true
+          resources:
+            requests:
+              cpu: 2
+              memory: 512Mi
+            limits:
+               cpu: 3
+               memory: 2024Mi
         storegateway:
           enabled: true    
