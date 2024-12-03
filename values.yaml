@@ -334,6 +334,6 @@ container_images:
       image:
         registry: registry.k8s.io
         repository: ingress-nginx/controller
-        tag: v1.11.3
+        tag: v1.11.3@sha256:d56f135b6462cfc476447cfe564b83a45e8bb7da2774963b00d12161112270b7
 
       
