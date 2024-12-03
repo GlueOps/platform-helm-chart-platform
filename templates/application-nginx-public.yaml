@@ -34,6 +34,7 @@ spec:
             registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
             image: {{ .Values.container_images.app_ingress_nginx.controller.image.repository }}
             tag: {{ .Values.container_images.app_ingress_nginx.controller.image.tag }}
+            digest: ""
           admissionWebhooks:
             enabled: false
           replicaCount: {{ .Values.nginx.controller_replica_count }}
