@@ -31,7 +31,9 @@ spec:
       values: |-
         controller:
           image:
-            tag: "v1.11.3"
+            registry: {{ .Values.app_ingress_nginx.controller.registry }}
+            image: {{ .Values.app_ingress_nginx.controller.image }}
+            tag: {{ .Values.app_ingress_nginx.controller.tag }}
           admissionWebhooks:
             enabled: false
           replicaCount: {{ .Values.nginx.controller_replica_count }}
