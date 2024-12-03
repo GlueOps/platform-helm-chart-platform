@@ -65,6 +65,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.7.0@sha256:4b217fd3961e02a704394fb02380d2b77983bab82a1d3b4082e436c9f175f583"` |  |
+| container_images.ingress_nginx.controller.image.registry | string | `"registry.k8s.io"` |  |
+| container_images.ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
+| container_images.ingress_nginx.controller.image.tag | string | `"v1.11.3"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
