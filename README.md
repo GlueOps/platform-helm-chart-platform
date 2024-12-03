@@ -35,6 +35,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.7.0@sha256:1251bc27411647297d0867c13c56c2347a00dd44b6a06b1fdd6fd08f094e2934"` |  |
+| container_images.app_ingress_nginx.controller.image.registry | string | `"registry.k8s.io"` |  |
+| container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
+| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.11.3"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.13@sha256:c8644d0d41757dd444bd1aabc23740be71f0a34549128454a2b37f57a0c496b0"` |  |
@@ -65,9 +68,6 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.7.0@sha256:4b217fd3961e02a704394fb02380d2b77983bab82a1d3b4082e436c9f175f583"` |  |
-| container_images.ingress_nginx.controller.image.registry | string | `"registry.k8s.io"` |  |
-| container_images.ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
-| container_images.ingress_nginx.controller.image.tag | string | `"v1.11.3"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
