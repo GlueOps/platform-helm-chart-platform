@@ -32,7 +32,7 @@ spec:
         controller:
           image:
             registry: {{ .Values.app_ingress_nginx.controller.image.registry }}
-            image: {{ .Values.app_ingress_nginx.controller.image.image }}
+            image: {{ .Values.app_ingress_nginx.controller.image.repository }}
             tag: {{ .Values.app_ingress_nginx.controller.image.tag }}
           admissionWebhooks:
             enabled: false
