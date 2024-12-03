@@ -46,7 +46,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
-| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.5@sha256:44b60d68a836eb91475d12385f1ac97e4d329abcefe2c915da9774db46f4cbdf"` |  |
+| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c"` |  |
 | container_images.app_metacontroller.metacontroller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
 | container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.11.21@sha256:4cbf35c1c725b2c83b926d9ade1e282bf789bf4453f23fe2f1b055b781a6798c"` |  |
