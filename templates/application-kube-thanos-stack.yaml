@@ -42,7 +42,7 @@ spec:
         bucketweb:
           enabled: true
         compactor:
-          enabled: true
+          enabled: false
           resources:
             requests:
               cpu: 2
@@ -51,4 +51,5 @@ spec:
                cpu: 3
                memory: 2024Mi
         storegateway:
-          enabled: true    
+          enabled: true
+          useEndpointGroup: true

@@ -64,6 +64,9 @@ spec:
         defaultRules:
           disabled:
             KubePodNotReady: true
+        kube-state-metrics:
+          metricLabelsAllowlist: 
+            - pods=[*]  
         prometheusOperator:
           hostNetwork: {{ .Values.host_network.enabled }}
           tls:
@@ -148,7 +151,7 @@ spec:
               isDefaultDatasource: true
               url: http://kube-thanos-stack-query.glueops-core-kube-prometheus-stack:9090/
               name: Prometheus
-              uid: prometheus    
+              uid: prometheus  
           additionalDataSources:
           - name: Loki
             type: loki
