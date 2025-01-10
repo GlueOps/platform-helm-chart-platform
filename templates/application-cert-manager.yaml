@@ -26,9 +26,8 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-cert-manager
-    targetRevision: 0.15.2
+    targetRevision: 0.16.6-rc5
     helm:
-      skipCrds: true
       parameters:
         - name: cert-manager.aws_region
           value: {{ .Values.certManager.aws_region }}
