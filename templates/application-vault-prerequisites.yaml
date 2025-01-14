@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/platform
     chart: glueops-vault-prerequisites
-    targetRevision: 0.2.0
+    targetRevision: 0.4.0-rc6
     helm:
       parameters:
       - name: UNUSED_VALUE
