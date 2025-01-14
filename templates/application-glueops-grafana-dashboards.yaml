@@ -18,7 +18,7 @@ spec:
       prune: true
       selfHeal: true
     retry:
-      backoff:
+      backoff:  
         duration: 10s
         factor: 2
         maxDuration: 3m0s
@@ -26,4 +26,10 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-grafana-dashboards
-    targetRevision: 0.12.1
+    targetRevision: 0.13.2-rc6
+    helm:
+      skipCrds: true
+      parameters:
+        - name: captain_domain
+          value: {{ .Values.captain_domain }}
+        
