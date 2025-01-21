@@ -89,7 +89,7 @@ spec:
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
               external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
-            type: "LoadBalancer"
+            type: "NodePort"
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1788923154

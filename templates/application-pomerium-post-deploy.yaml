@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-pomerium-post-deploy
-    targetRevision: 0.1.0
+    targetRevision: v0.3.0-rc3
     helm:
       skipCrds: true
       parameters:

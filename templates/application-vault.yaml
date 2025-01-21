@@ -59,6 +59,7 @@ spec:
                 ingress.pomerium.io/secure_upstream: 'true'
                 ingress.pomerium.io/tls_skip_verify: 'true'
                 ingress.pomerium.io/idle_timeout: 0s
+                external-dns.alpha.kubernetes.io/target: "159.69.100.65"
               enabled: true
               hosts: 
                 - host: vault.{{ .Values.captain_domain }}
