@@ -27,3 +27,70 @@ spec:
     repoURL: 'https://openbao.github.io/openbao-helm'
     chart: openbao
     targetRevision: 0.4.0
+    helm:
+      values: |-
+          global:
+            enabled: true
+            tlsDisable: true
+          ui:
+            enabled: true
+          injector:
+            enabled: false
+          server:
+            updateStrategyType: "RollingUpdate"
+            dataStorage:
+              size: 10Gi
+              mountPath: "/openbao/data"
+            ingress:
+              activeService: false
+              ingressClassName: public-authenticated
+              annotations: 
+                cert-manager.io/cluster-issuer: letsencrypt
+                ingress.pomerium.io/allow_any_authenticated_user: 'true'
+                ingress.pomerium.io/pass_identity_headers: 'true'
+                ingress.pomerium.io/secure_upstream: 'true'
+                ingress.pomerium.io/tls_skip_verify: 'true'
+                ingress.pomerium.io/idle_timeout: 0s
+              enabled: true
+              hosts: 
+                - host: openbao.nonprod.proximacentaurib.onglueops.rocks
+                
+            # extraEnvironmentVars:
+            #   VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
+            #   VAULT_TLSCERT: /vault/userconfig/vault-tls/tls.crt
+            #   VAULT_TLSKEY: /vault/userconfig/vault-tls/tls.key
+
+            # extraVolumes is a list of extra volumes to mount. These will be exposed
+            # to Vault in the path `/vault/userconfig/<name>/`.
+            # extraVolumes:
+            #   - type: secret
+            #     name: vault-tls
+
+            # Run Vault in "HA" mode.
+            ha:
+              enabled: true
+              replicas: 2
+              raft:
+                enabled: true
+                setNodeId: true
+                config: |
+                  ui = true
+
+                  listener "tcp" {
+                    tls_disable = 1
+                    address = "[::]:8200"
+                    cluster_address = "[::]:8201"
+                    # Enable unauthenticated metrics access (necessary for Prometheus Operator)
+                    #telemetry {
+                    #  unauthenticated_metrics_access = "true"
+                    #}
+                  }
+
+                  storage "raft" {
+                    path = "/openbao/data"
+                    retry_join {
+                      auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=openbao\" namespace=\"glueops-core-openbao\" "
+                      auto_join_scheme="http"
+                    }
+                  }
+                  service_registration "kubernetes" {}
