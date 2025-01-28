@@ -31,7 +31,7 @@ spec:
       values: |-
           global:
             enabled: true
-            tlsDisable: true
+            tlsDisable: false
           ui:
             enabled: true
           injector:
@@ -55,18 +55,18 @@ spec:
               hosts: 
                 - host: openbao.nonprod.proximacentaurib.onglueops.rocks
                 
-            # extraEnvironmentVars:
-            #   VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
-            #   VAULT_TLSCERT: /vault/userconfig/vault-tls/tls.crt
-            #   VAULT_TLSKEY: /vault/userconfig/vault-tls/tls.key
+            extraEnvironmentVars:
+              VAULT_CACERT: /openbao/userconfig/openbao-tls/ca.crt
+              VAULT_TLSCERT: /openbao/userconfig/openbao-tls/tls.crt
+              VAULT_TLSKEY: /openbao/userconfig/openbao-tls/tls.key
 
             # extraVolumes is a list of extra volumes to mount. These will be exposed
-            # to Vault in the path `/vault/userconfig/<name>/`.
-            # extraVolumes:
-            #   - type: secret
-            #     name: vault-tls
+            # to Openbao in the path `/openbao/userconfig/<name>/`.
+            extraVolumes:
+              - type: secret
+                name: openbao-tls
 
-            # Run Vault in "HA" mode.
+            # Run Openbao in "HA" mode.
             ha:
               enabled: true
               replicas: 2
@@ -77,20 +77,42 @@ spec:
                   ui = true
 
                   listener "tcp" {
-                    tls_disable = 1
                     address = "[::]:8200"
                     cluster_address = "[::]:8201"
-                    # Enable unauthenticated metrics access (necessary for Prometheus Operator)
-                    #telemetry {
-                    #  unauthenticated_metrics_access = "true"
-                    #}
+                    tls_cert_file = "/openbao/userconfig/openbao-tls/tls.crt"
+                    tls_key_file  = "/openbao/userconfig/openbao-tls/tls.key"
+                    tls_client_ca_file = "/openbao/userconfig/openbao-tls/ca.crt"
+                    tls_min_version = "tls12"
+                    telemetry {
+                      unauthenticated_metrics_access = true
+                    }
                   }
 
                   storage "raft" {
                     path = "/openbao/data"
                     retry_join {
                       auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=openbao\" namespace=\"glueops-core-openbao\" "
-                      auto_join_scheme="http"
-                    }
+                      leader_tls_servername = "openbao-active.glueops-core-openbao.svc.cluster.local"
+                      leader_client_cert_file = "/openbao/userconfig/openbao-tls/tls.crt"
+                      leader_client_key_file = "/openbao/userconfig/openbao-tls/tls.key"
+                      leader_ca_cert_file = "/openbao/userconfig/openbao-tls/ca.crt"
                   }
+
+                  autopilot {
+                      cleanup_dead_servers = "true"
+                      last_contact_threshold = "200ms"
+                      last_contact_failure_threshold = "10m"
+                      max_trailing_logs = 250000
+                      min_quorum = 5
+                      server_stabilization_time = "10s"
+                    }
+
+                  }
+
+                  telemetry {
+                      disable_hostname = true
+                      prometheus_retention_time = "30s"
+                      enable_hostname_label = true
+                  }
+
                   service_registration "kubernetes" {}
