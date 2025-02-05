@@ -34,11 +34,29 @@ spec:
         - name: chunksCache.replicas
           value: '2'
         - name: chunksCache.maxItemMemory
-          value: '3'
+          value: '2'
         - name: chunksCache.allocatedMemory
           value: '4192'
+        - name: chunksCache.batchSize
+          value: '4'
+        - name: chunksCache.parallelism
+          value: '2'  
+        - name: chunksCache.writebackParallelism
+          value: '1'
+        - name: chunksCache.writebackBuffer
+          value: '1000'  
+        - name: chunksCache.writebackSizeLimit
+          value: '500MB'   
+
        
       values: |-
+        #ext_threads=10,ext_max_sleep=10000,slab_automove_freeratio=0.10,ext_recache_rate=0
+        memcached:
+          extraArgs:
+            ext_threads: 10
+            ext_max_sleep: 10000
+            slab_automove_freeratio: 0.10
+            ext_recache_rate: 0
         loki:
           auth_enabled: false
           frontend:
