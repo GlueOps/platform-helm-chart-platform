@@ -32,31 +32,31 @@ spec:
         - name: loki.auth_enabled
           value: 'false'
         - name: chunksCache.replicas
-          value: '2'
+          value: '{{ .Values.loki.chunkConfig.replicas }}'
         - name: chunksCache.maxItemMemory
-          value: '2'
+          value: '{{ .Values.loki.chunkConfig.maxItemMemory }}'
         - name: chunksCache.allocatedMemory
-          value: '4192'
+          value: '{{ .Values.loki.chunkConfig.allocatedMemory }}'
         - name: chunksCache.batchSize
-          value: '4'
+          value: '{{ .Values.loki.chunkConfig.batchSize }}'
         - name: chunksCache.parallelism
-          value: '2'  
+          value: '{{ .Values.loki.chunkConfig.parallelism }}'
         - name: chunksCache.writebackParallelism
-          value: '1'
+          value: '{{ .Values.loki.chunkConfig.writebackParallelism }}'
         - name: chunksCache.writebackBuffer
-          value: '1000'  
+          value: '{{ .Values.loki.chunkConfig.writebackBuffer }}'
         - name: chunksCache.writebackSizeLimit
-          value: '500MB'   
+          value: '{{ .Values.loki.chunkConfig.writebackSizeLimit }}'
 
        
       values: |-
         #ext_threads=10,ext_max_sleep=10000,slab_automove_freeratio=0.10,ext_recache_rate=0
-        memcached:
-          extraArgs:
-            ext_threads: 10
-            ext_max_sleep: 10000
-            slab_automove_freeratio: 0.10
-            ext_recache_rate: 0
+        #chunksCache:
+        #  extraArgs:
+        #    ext_threads: 10
+        #    ext_max_sleep: 10000
+        #    slab_automove_freeratio: 0.10
+        #    ext_recache_rate: 0
         loki:
           auth_enabled: false
           frontend:

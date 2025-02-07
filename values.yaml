@@ -124,6 +124,15 @@ loki:
       # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
       #backoff_config: {}
       #disable_dualstack: false
+  chunkConfig:
+    replicas: 2
+    maxItemMemory: 2
+    allocatedMemory: 2024
+    batchSize: 2
+    parallelism: 2
+    writebackParallelism: 1
+    writebackBuffer: 1000
+    writebackSizeLimit: 500MB    
 
 thanos:
   # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
