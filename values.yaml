@@ -124,6 +124,8 @@ loki:
       # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
       #backoff_config: {}
       #disable_dualstack: false
+  #https://docs.memcached.org/advisories/grafanaloki/
+  #https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/    
   chunkConfig:
     replicas: 2
     maxItemMemory: 2
