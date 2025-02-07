@@ -135,7 +135,7 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| loki.chunkConfig | object | `{"allocatedMemory":2024,"batchSize":2,"maxItemMemory":2,"parallelism":2,"replicas":2,"writebackBuffer":1000,"writebackParallelism":1,"writebackSizeLimit":"500MB"}` | Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config backoff_config: {} disable_dualstack: false |
+| loki.chunkConfig | object | `{"allocatedMemory":2024,"batchSize":2,"maxItemMemory":2,"parallelism":2,"replicas":2,"writebackBuffer":1000,"writebackParallelism":1,"writebackSizeLimit":"500MB"}` | Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config backoff_config: {} disable_dualstack: false https://docs.memcached.org/advisories/grafanaloki/ https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/     |
 | loki.storage | string | `nil` |  |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
 | otel.config | string | `nil` |  |
