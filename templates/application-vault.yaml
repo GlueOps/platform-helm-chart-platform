@@ -29,7 +29,7 @@ spec:
     - group: networking.k8s.io
       kind: Ingress
       jsonPointers:
-        - /metadata/annotations/xternal-dns.alpha.kubernetes.io~1target
+        - /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
     chart: vault

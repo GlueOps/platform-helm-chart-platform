@@ -13,7 +13,7 @@ spec:
     - group: networking.k8s.io
       kind: Ingress
       jsonPointers:
-        - /metadata/annotations/xternal-dns.alpha.kubernetes.io~1target
+        - /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

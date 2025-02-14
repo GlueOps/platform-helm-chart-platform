@@ -11,6 +11,11 @@ spec:
     name: "in-cluster"
     namespace: pomerium
   project: glueops-core
+  ignoreDifferences:
+    - group: networking.k8s.io
+      kind: Ingress
+      jsonPointers:
+      - /metadata/annotations/external-dns.alpha.kubernetes.io~1target
   syncPolicy:
     syncOptions:
       - CreateNamespace=true  
