@@ -9,6 +9,11 @@ spec:
     name: "in-cluster"
     namespace: glueops-core-cluster-info-page
   project: glueops-core
+  ignoreDifferences:
+    - group: networking.k8s.io
+      kind: Ingress
+      jsonPointers:
+        - /metadata/annotations/xternal-dns.alpha.kubernetes.io~1target
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

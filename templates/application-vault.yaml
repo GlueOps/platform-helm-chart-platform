@@ -26,6 +26,10 @@ spec:
       jqPathExpressions:
         - '.webhooks[0].clientConfig.caBundle'
       kind: MutatingWebhookConfiguration
+    - group: networking.k8s.io
+      kind: Ingress
+      jsonPointers:
+        - /metadata/annotations/xternal-dns.alpha.kubernetes.io~1target
   source:
     repoURL: 'https://helm.releases.hashicorp.com'
     chart: vault
@@ -59,7 +63,6 @@ spec:
                 ingress.pomerium.io/secure_upstream: 'true'
                 ingress.pomerium.io/tls_skip_verify: 'true'
                 ingress.pomerium.io/idle_timeout: 0s
-                external-dns.alpha.kubernetes.io/target: "159.69.100.65"
               enabled: true
               hosts: 
                 - host: vault.{{ .Values.captain_domain }}
