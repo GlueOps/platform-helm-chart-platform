@@ -34,6 +34,13 @@ spec:
         {{- toYaml .Values.thanos.storage | nindent 12 }}
         query:
           replicaLabel: ["__replica__"]
+          resources: 
+            requests:
+              cpu: 2
+              memory: 1024Mi
+            limits:
+               cpu: 3
+               memory: 2024Mi
           dnsDiscovery:
             enabled: true
             logLevel: debug

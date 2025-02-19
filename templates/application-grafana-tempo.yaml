@@ -58,6 +58,14 @@ spec:
               max_recv_msg_size_mib: 8194305
         metricsGenerator:
           enabled: true
+          replicas: 2
+          resources: 
+            requests:
+                cpu: 250m
+                memory: 512Mi  # Minimum request
+            limits:
+                cpu: 1024m
+                memory: 2Gi 
           processor:
             overrides:
               "single-tenant":
@@ -65,15 +73,19 @@ spec:
                   - span-metrics
                   - service-graphs
           config:
+            metric_generator:
+              batch_size: 1000
+              concurrent_workers: 4
+              window_size: 5m
             processor:
               service_graphs:
-                dimensions: ["http.method","http.host","http.scheme","http.status_code","http.target","net.peer.ip","net.peer.port","service.name"]
+                dimensions: ["http.method","http.status_code","http.target","service.name"]
                 histogram_buckets: [0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4, 12.8]
-                max_items: 10000
+                max_items: 1000
                 wait: 10s
-                workers: 10
+                workers: 4
               span_metrics:
-                dimensions: ["http.method","http.host","http.scheme","http.status_code","http.target","net.peer.ip","net.peer.port","service.name"]
+                dimensions: ["http.method","http.status_code","http.target","service.name"]
                 histogram_buckets: [0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128, 0.256, 0.512, 1.02, 2.05, 4.10]
 
             storage:

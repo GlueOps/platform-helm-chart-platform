@@ -89,6 +89,11 @@ spec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             replicas: 2
             replicaExternalLabelName: "__replica__"
+            resources:
+              requests:
+                memory: 2Gi  # Minimum request
+              limits:
+                memory: 4Gi 
             externalLabels:
               captain_domain: {{ .Values.captain_domain }}
             ruleSelector: {}

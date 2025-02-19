@@ -161,7 +161,7 @@ prometheus:
   node_exporter: true
   alertmanager_log_level: info
   retentionSize: "10GB"
-  retention: 2d
+  retention: 1d
 
 otel:
   replicas: 1
