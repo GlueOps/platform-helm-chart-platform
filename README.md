@@ -174,7 +174,7 @@ This chart deploys the GlueOps Platform
 | prometheus.kube_state_metric | bool | `true` |  |
 | prometheus.kubelet | bool | `true` |  |
 | prometheus.node_exporter | bool | `true` |  |
-| prometheus.retention | string | `"2d"` |  |
+| prometheus.retention | string | `"1d"` |  |
 | prometheus.retentionSize | string | `"10GB"` |  |
 | prometheus.service_monitor | bool | `false` |  |
 | prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
