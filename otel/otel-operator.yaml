@@ -25,6 +25,9 @@ spec:
           limit_percentage: 75
           spike_limit_percentage: 15
       service:
+        telemetry:
+          metrics:
+            address: 0.0.0.0:8888
         pipelines:
           logs:
             exporters:
