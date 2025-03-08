@@ -37,6 +37,10 @@ spec:
           injector:
             enabled: false
           server:
+            image:
+              registry: docker.io
+              repository: openbao/openbao
+              tag: 2.2.0
             updateStrategyType: "RollingUpdate"
             dataStorage:
               size: 10Gi
