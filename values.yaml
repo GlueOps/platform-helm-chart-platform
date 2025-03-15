@@ -325,10 +325,11 @@ container_images:
         repository: metacontroller/metacontroller
         tag: v4.11.22@sha256:eaa81a295876608f9098f08bd722e86ce4598a455b44f1d318a89866606dac85 #this might need to be updated manually because of renovatebot errors
   app_fluent_operator:
-    image:
-      registry: docker.io
-      repository: kubesphere/fluent-operator
-      tag: v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947
+    kubesphere:
+      image:
+        registry: docker.io
+        repository: kubesphere/fluent-operator
+        tag: v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947
   app_ingress_nginx:
     controller:
       image:
