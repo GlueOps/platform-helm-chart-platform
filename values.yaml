@@ -329,7 +329,7 @@ container_images:
       image:
         registry: docker.io
         repository: kubesphere/fluent-operator
-        tag: v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947
+        tag: v3.3.0@sha256:af0c78073f6819859efc04271260703424f1e1a6dd5124aa65c5627d90aa5dbd
   app_ingress_nginx:
     controller:
       image:
