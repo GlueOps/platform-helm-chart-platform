@@ -267,7 +267,7 @@ container_images:
   app_kube_prometheus_stack:
     grafana:
       image:
-        registry: docker.io
+        registry: ghcr.io
         repository: grafana/grafana
         tag: 10.4.13@sha256:c8644d0d41757dd444bd1aabc23740be71f0a34549128454a2b37f57a0c496b0
   app_loki_alert_group_controller:
@@ -279,19 +279,19 @@ container_images:
   app_loki:
     loki:
       image:
-        registry: docker.io
+        registry: ghcr.io
         repository: grafana/loki
         tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
   app_network_exporter:
     network_exporter:
       image:
-        registry: docker.io # not actually used
+        registry: ghcr.io # not actually used
         repository: syepes/network_exporter
         tag: 1.7.9@sha256:36cd647c80c30e3f5b78f9d2ca60f38e1d024fb3b9588a845cac2dc3f4fb75e1
   app_promtail:
     promtail:
       image:
-        registry: docker.io
+        registry: ghcr.io
         repository: grafana/promtail
         tag: 2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf
   app_pull_request_bot:
@@ -315,7 +315,7 @@ container_images:
   app_vault:
     vault:
       image:
-        registry: docker.io # not actually used
+        registry: ghcr.io # not actually used
         repository: hashicorp/vault
         tag: 1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1
   app_metacontroller:
@@ -327,7 +327,7 @@ container_images:
   app_fluent_operator:
     kubesphere:
       image:
-        registry: docker.io
+        registry: ghcr.io
         repository: kubesphere/fluent-operator
         tag: v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947
   app_ingress_nginx:
