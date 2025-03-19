@@ -269,7 +269,7 @@ container_images:
       image:
         registry: docker.io
         repository: grafana/grafana
-        tag: 10.4.13@sha256:c8644d0d41757dd444bd1aabc23740be71f0a34549128454a2b37f57a0c496b0
+        tag: 11.5.2@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
