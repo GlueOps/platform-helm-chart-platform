@@ -293,7 +293,7 @@ container_images:
       image:
         registry: docker.io
         repository: grafana/promtail
-        tag: 2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf
+        tag: 2.9.13@sha256:ffefce0d970265ad7414caa7c9d06da5aa221fcee32b15befda7588fc0666d65
   app_pull_request_bot:
     pull_request_bot:
       image:
