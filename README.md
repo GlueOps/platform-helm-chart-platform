@@ -55,7 +55,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.9@sha256:36cd647c80c30e3f5b78f9d2ca60f38e1d024fb3b9588a845cac2dc3f4fb75e1"` |  |
 | container_images.app_promtail.promtail.image.registry | string | `"docker.io"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
-| container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
+| container_images.app_promtail.promtail.image.tag | string | `"3.4.2@sha256:c6e9a987ca086cbfef945b8ebd708eb09f98b5e78bfb659e4e5a8b3bd604d11b"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.22.2@sha256:e9217e3f5451a577c6df9583d70b05d08d7222941587d243486436ffba638c7f"` |  |
