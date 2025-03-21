@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: https://charts.dexidp.io
     chart: dex
-    targetRevision: 0.21.1
+    targetRevision: 0.23.0
     helm:
       values: |
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
