@@ -33,7 +33,7 @@ spec:
             tolerations:
               {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 12 }}
             container:
-              registry: {{ .Values.container_images.app_fluent_operator.kubeshpere.image.registry }}
+              registry: {{ .Values.base_registry }}
               repository: {{ .Values.container_images.app_fluent_operator.kubeshpere.image.repository }}
               tag: {{ .Values.container_images.app_fluent_operator.kubeshpere.image.tag }}
           fluentbit:
