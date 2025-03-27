@@ -323,7 +323,7 @@ container_images:
       image:
         registry: ghcr.io
         repository: metacontroller/metacontroller
-        tag: v4.11.22@sha256:eaa81a295876608f9098f08bd722e86ce4598a455b44f1d318a89866606dac85 #this might need to be updated manually because of renovatebot errors
+        tag: v4.12.0@sha256:a5e40334ea32b9f15a5d21f644ea86fc2bd8688e4e7cb74fff9fb30936e738f3 #this might need to be updated manually because of renovatebot errors
   app_fluent_operator:
     kubesphere:
       image:
