@@ -66,3 +66,6 @@ spec:
             port:  {{ .Values.host_network.keda.webhooks.port }}
             healthProbePort: {{ .Values.host_network.keda.webhooks.healthProbePort }}
             useHostNetwork: {{ .Values.host_network.enabled }}
+        global:
+          image:
+            registry: {{ .Values.base_registry }}

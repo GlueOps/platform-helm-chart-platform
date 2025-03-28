@@ -61,6 +61,16 @@ spec:
           value: "{{ .Values.tls_cert_restore.backup_prefix }}"
         - name: cert-restore.exclude_namespaces
           value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
+        - name: cert-manager.image.repository
+          value: {{ .Values.base_registry }}/jetstack/cert-manager-controller
+        - name: cert-manager.webhook.image.repository
+          value: {{ .Values.base_registry }}/jetstack/cert-manager-webhook
+        - name: cert-manager.cainjector.image.repository
+          value: {{ .Values.base_registry }}/jetstack/cert-manager-cainjector
+        - name: cert-manager.acmesolver.image.repository
+          value: {{ .Values.base_registry }}/jetstack/cert-manager-acmesolver
+        - name: cert-manager.startupapicheck.image.repository
+          value: {{ .Values.base_registry }}/jetstack/cert-manager-startupapicheck
       values: |-
         cert-manager:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
