@@ -1,0 +1,122 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openbao
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-openbao
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://openbao.github.io/openbao-helm'
+    chart: openbao
+    targetRevision: 0.4.0
+    helm:
+      values: |-
+          global:
+            enabled: true
+            tlsDisable: false
+          ui:
+            enabled: true
+          injector:
+            enabled: false
+          server:
+            image:
+              registry: docker.io
+              repository: openbao/openbao
+              tag: 2.2.0
+            updateStrategyType: "RollingUpdate"
+            dataStorage:
+              size: 10Gi
+              mountPath: "/openbao/data"
+            ingress:
+              activeService: false
+              ingressClassName: public-authenticated
+              annotations: 
+                cert-manager.io/cluster-issuer: letsencrypt
+                ingress.pomerium.io/allow_any_authenticated_user: 'true'
+                ingress.pomerium.io/pass_identity_headers: 'true'
+                ingress.pomerium.io/secure_upstream: 'true'
+                ingress.pomerium.io/tls_skip_verify: 'true'
+                ingress.pomerium.io/idle_timeout: 0s
+              enabled: true
+              hosts: 
+                - host: openbao.nonprod.proximacentaurib.onglueops.rocks
+                
+            extraEnvironmentVars:
+              VAULT_CACERT: /openbao/userconfig/openbao-tls/ca.crt
+              VAULT_TLSCERT: /openbao/userconfig/openbao-tls/tls.crt
+              VAULT_TLSKEY: /openbao/userconfig/openbao-tls/tls.key
+
+            # extraVolumes is a list of extra volumes to mount. These will be exposed
+            # to Openbao in the path `/openbao/userconfig/<name>/`.
+            extraVolumes:
+              - type: secret
+                name: openbao-tls
+
+            # Run Openbao in "HA" mode.
+            ha:
+              enabled: true
+              replicas: 2
+              raft:
+                enabled: true
+                setNodeId: true
+                config: |
+                  ui = true
+
+                  listener "tcp" {
+                    address = "[::]:8200"
+                    cluster_address = "[::]:8201"
+                    tls_cert_file = "/openbao/userconfig/openbao-tls/tls.crt"
+                    tls_key_file  = "/openbao/userconfig/openbao-tls/tls.key"
+                    tls_client_ca_file = "/openbao/userconfig/openbao-tls/ca.crt"
+                    tls_min_version = "tls12"
+                    telemetry {
+                      unauthenticated_metrics_access = true
+                    }
+                  }
+
+                  storage "raft" {
+                    path = "/openbao/data"
+                    retry_join {
+                      auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=openbao\" namespace=\"glueops-core-openbao\" "
+                      leader_tls_servername = "openbao-active.glueops-core-openbao.svc.cluster.local"
+                      leader_client_cert_file = "/openbao/userconfig/openbao-tls/tls.crt"
+                      leader_client_key_file = "/openbao/userconfig/openbao-tls/tls.key"
+                      leader_ca_cert_file = "/openbao/userconfig/openbao-tls/ca.crt"
+                  }
+
+                  autopilot {
+                      cleanup_dead_servers = "true"
+                      last_contact_threshold = "200ms"
+                      last_contact_failure_threshold = "10m"
+                      max_trailing_logs = 250000
+                      min_quorum = 5
+                      server_stabilization_time = "10s"
+                    }
+
+                  }
+
+                  telemetry {
+                      disable_hostname = true
+                      prometheus_retention_time = "30s"
+                      enable_hostname_label = true
+                  }
+
+                  service_registration "kubernetes" {}

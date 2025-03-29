@@ -120,7 +120,7 @@ spec:
                 - name: S3_BUCKET_NAME
                   value: "{{ .Values.glueops_backups.s3_bucket_name }}"
                 - name: VAULT_ADDR
-                  value: "https://vault-active.glueops-core-vault.svc.cluster.local:8200"
+                  value: "https://openbao.glueops-core-openbao.svc.cluster.local:8200"
               volumeMounts:
                 - mountPath: /app
                   name: vault-backups
