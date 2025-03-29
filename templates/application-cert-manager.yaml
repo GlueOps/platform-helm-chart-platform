@@ -24,20 +24,20 @@ spec:
         maxDuration: 3m0s
       limit: 10
   source:
-    repoURL: 'https://helm.gpkg.io/platform'
-    chart: glueops-cert-manager
-    targetRevision: v0.16.6
+    repoURL: 'https://github.com/GlueOps/platform-helm-chart-cert-manager'
+    path: .
+    targetRevision: v0.17.1
     helm:
       parameters:
-        - name: cert-manager.aws_region
+        - name: cert_manager_glueops_specifics.aws_region
           value: {{ .Values.certManager.aws_region }}
-        - name: cert-manager.aws_accessKey
+        - name: cert_manager_glueops_specifics.aws_accessKey
           value: {{ .Values.certManager.aws_accessKey }}
-        - name: cert-manager.aws_secretKey
+        - name: cert_manager_glueops_specifics.aws_secretKey
           value: {{ .Values.certManager.aws_secretKey }}
-        - name: cert-manager.name_of_default_certificate
+        - name: cert_manager_glueops_specifics.name_of_default_certificate
           value: {{ .Values.certManager.name_of_default_certificate }}
-        - name: cert-manager.captain_domain
+        - name: cert_manager_glueops_specifics.captain_domain
           value: {{ .Values.captain_domain }}
         - name: cert-manager.prometheus.enabled
           value: "true"
@@ -47,20 +47,22 @@ spec:
           value: "{{ .Values.host_network.enabled }}"
         - name: cert-manager.webhook.securePort
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
-        - name: cert-restore.aws_accessKey
+        - name: cert_restore.aws_accessKey
           value: "{{ .Values.tls_cert_restore.aws_accessKey }}"
-        - name: cert-restore.aws_secretKey
+        - name: cert_restore.aws_secretKey
           value: "{{ .Values.tls_cert_restore.aws_secretKey }}"
-        - name: cert-restore.aws_default_region
+        - name: cert_restore.aws_default_region
           value: "{{ .Values.tls_cert_restore.aws_region }}"
-        - name: cert-restore.bucket_name 
+        - name: cert_restore.bucket_name 
           value: "{{ .Values.glueops_backups.s3_bucket_name }}"
-        - name: cert-restore.captain_domain
+        - name: cert_restore.captain_domain
           value: "{{ .Values.captain_domain }}"
-        - name: cert-restore.backup_prefix 
+        - name: cert_restore.backup_prefix 
           value: "{{ .Values.tls_cert_restore.backup_prefix }}"
-        - name: cert-restore.exclude_namespaces
+        - name: cert_restore.exclude_namespaces
           value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
+        - name: cert_restore.image
+          value: "{{ .Values.base_registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
         - name: cert-manager.image.repository
           value: {{ .Values.base_registry }}/jetstack/cert-manager-controller
         - name: cert-manager.webhook.image.repository

@@ -324,5 +324,9 @@ container_images:
       image:
         repository: ingress-nginx/controller
         tag: v1.11.4@sha256:981a97d78bee3109c0b149946c07989f8f1478a9265031d2d23dea839ba05b52
+  app_cert_manager:
+    cert_restore:
+      image:
+        repository: glueops/certs-backup-restore
+        tag: v0.10.1@sha256:71c22ce97be9daddbfab90a26a59a900c00c18daec361c806918e52903513238
 
-      
