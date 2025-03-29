@@ -39,6 +39,10 @@ spec:
           value: {{ .Values.captain_domain }}
         - name: policy
           value: sync
+        - name: global.imageRegistry
+          value: {{ .Values.base_registry }}
+        - name: global.security.allowInsecureImages
+          value: "true"
         - name: provider
           value: aws
         - name: aws.preferCNAME

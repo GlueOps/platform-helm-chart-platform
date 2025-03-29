@@ -31,7 +31,7 @@ spec:
 
       
         image:
-          registry: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry }}
+          registry: {{ .Values.base_registry }}
           repository: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository }}
           tag: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag }}
           pullPolicy: IfNotPresent
