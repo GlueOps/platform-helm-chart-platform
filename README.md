@@ -48,7 +48,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
-| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.22.2@sha256:e9217e3f5451a577c6df9583d70b05d08d7222941587d243486436ffba638c7f"` |  |
+| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.22.3@sha256:b03549d0302622a9e672d7d502e5d5bba8c234a668ff5bc6fdb21c88abb34363"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.7.1@sha256:884d67d4e17f3c4567dcb79eb3491099c448b58dc0c81ae848b50cd8cf314d22"` |  |
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
