@@ -29,9 +29,19 @@ spec:
     targetRevision: 4.11.4
     helm:
       values: |-
-        controller:
+        defaultBackend:
           image:
-            registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
+            registry: {{ .Values.base_registry }}
+        controller:
+          admissionWebhooks:
+            patch:
+              image:
+                registry: {{ .Values.base_registry }}
+          opentelemetry:
+            image:
+              registry: {{ .Values.base_registry }}
+          image:
+            registry: {{ .Values.base_registry }}
             image: {{ .Values.container_images.app_ingress_nginx.controller.image.repository }}
             tag: {{ .Values.container_images.app_ingress_nginx.controller.image.tag }}
             digest: ""
