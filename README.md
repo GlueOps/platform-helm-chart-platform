@@ -16,7 +16,7 @@ This chart deploys the GlueOps Platform
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
-| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.18.1@sha256:1167387e74ad4be14b77abfb122d91a018ea284152c9c0da822027cdde482ea0"` |  |
+| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.18.2@sha256:394c0035ae440eba53a5184b065e8595dbf37180050a41881ea56929997d84e2"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.10.2@sha256:6d402e2a7a39d8dcf1e93da3fb305f4756cf5fa9ea2b2ae639655c5f8e8963a9"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
