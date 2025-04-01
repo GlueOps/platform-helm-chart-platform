@@ -28,7 +28,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.41.1@sha256:bc7cfce7c17f52864e2bb2a4dc1d2f86a41e3019f6d42e81d92a301fad0c8a1d"` |  |
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
-| container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.10.7@sha256:937c550ff84dded588324be89df42b2fa7d2cb2981271343c956b5348ae64011"` |  |
+| container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.13.0@sha256:4a8873c2c5988c69c34fcf73faf7b3a7166e9bde672cfd92cc839afb8af8db20"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
