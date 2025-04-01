@@ -8,64 +8,51 @@ This chart deploys the GlueOps Platform
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| base_registry | string | `"ghcr.io/glueops/mirror"` |  |
 | captain_domain | string | `"placeholder_cluster_environment.placeholder_tenant_key.placeholder_glueops_root_domain"` | The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you. This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | captain_repo.private_b64enc_deploy_key | string | `"placeholder_captain_repo_b64enc_private_deploy_key"` | This is a read only deploy key that will be used to read the captain repo. Part of output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | captain_repo.ssh_clone_url | string | `"placeholder_captain_repo_ssh_clone_url"` | This is the github url of the captain repo https://github.com/glueops/development-captains/tenant . Part of output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_accessKey | string | `"placeholder_certmanager_aws_access_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| container_images.app_backup_and_exports.backup_tools.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.18.1@sha256:1167387e74ad4be14b77abfb122d91a018ea284152c9c0da822027cdde482ea0"` |  |
-| container_images.app_backup_and_exports.certs_backup_restore.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.10.2@sha256:6d402e2a7a39d8dcf1e93da3fb305f4756cf5fa9ea2b2ae639655c5f8e8963a9"` |  |
-| container_images.app_backup_and_exports.vault_backup_validator.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v0.3.5@sha256:6a309b82a56edf90995c4ace14fbbbf992d8017a0188f610726d403f2699bea7"` |  |
-| container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"ghcr.io"` |  |
+| container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
+| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.10.1@sha256:71c22ce97be9daddbfab90a26a59a900c00c18daec361c806918e52903513238"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.5@sha256:5f1843dfa2f76eea0a5e9a792867305d50b6f2d27e010d003a9ce79eb4188d16"` |  |
-| container_images.app_dex.dex.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.41.1@sha256:bc7cfce7c17f52864e2bb2a4dc1d2f86a41e3019f6d42e81d92a301fad0c8a1d"` |  |
-| container_images.app_fluent_operator.kubesphere.image.registry | string | `"docker.io"` |  |
+| container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
+| container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.9.20"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.1@sha256:aa12c39244682d61a48fc374f97f318943c42c36347bf333105c5f4802721419"` |  |
-| container_images.app_ingress_nginx.controller.image.registry | string | `"registry.k8s.io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.11.4@sha256:981a97d78bee3109c0b149946c07989f8f1478a9265031d2d23dea839ba05b52"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.13@sha256:c8644d0d41757dd444bd1aabc23740be71f0a34549128454a2b37f57a0c496b0"` |  |
-| container_images.app_loki.loki.image.registry | string | `"docker.io"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
 | container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
-| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c"` |  |
-| container_images.app_metacontroller.metacontroller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
 | container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.11.22@sha256:eaa81a295876608f9098f08bd722e86ce4598a455b44f1d318a89866606dac85"` |  |
-| container_images.app_network_exporter.network_exporter.image.registry | string | `"docker.io"` |  |
 | container_images.app_network_exporter.network_exporter.image.repository | string | `"syepes/network_exporter"` |  |
 | container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.9@sha256:36cd647c80c30e3f5b78f9d2ca60f38e1d024fb3b9588a845cac2dc3f4fb75e1"` |  |
-| container_images.app_promtail.promtail.image.registry | string | `"docker.io"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
-| container_images.app_pull_request_bot.pull_request_bot.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.22.2@sha256:e9217e3f5451a577c6df9583d70b05d08d7222941587d243486436ffba638c7f"` |  |
-| container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.7.1@sha256:884d67d4e17f3c4567dcb79eb3491099c448b58dc0c81ae848b50cd8cf314d22"` |  |
-| container_images.app_vault.vault.image.registry | string | `"docker.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
 | container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
-| container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.8.1@sha256:9390672242268a812022cc736f0cc7e3506ddb94856c56eab0eb7f59a2b12b6e"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
