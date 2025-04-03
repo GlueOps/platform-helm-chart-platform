@@ -34,5 +34,5 @@ spec:
             name: pomerium-proxy
           patch: |-
             - op: add
-              path: /metadata/annotations/chisel-operator.io/proxy-protocol
+              path: /metadata/annotations/chisel-operator.io~1proxy-protocol
               value: "true"
