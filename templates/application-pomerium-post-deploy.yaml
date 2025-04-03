@@ -22,9 +22,9 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: 'https://helm.gpkg.io/platform'
-    chart: glueops-pomerium-post-deploy
-    targetRevision: 0.1.0
+    repoURL: 'https://github.com/GlueOps/platform-helm-chart-pomerium-post-deploy'
+    path: .
+    targetRevision: v0.4.1
     helm:
       skipCrds: true
       parameters:
@@ -38,3 +38,5 @@ spec:
           value: pomerium
         - name: client_secret
           value: {{ .Values.dex.pomerium.client_secret }}
+        - name: enable_proxy_protocol
+          value: "{{ .Values.enable_chisel_proxy_protocol }}"

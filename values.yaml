@@ -330,3 +330,6 @@ container_images:
         repository: glueops/certs-backup-restore
         tag: v0.10.1@sha256:71c22ce97be9daddbfab90a26a59a900c00c18daec361c806918e52903513238
 
+
+
+enable_chisel_proxy_protocol: true
