@@ -25,7 +25,7 @@ spec:
       limit: 5
   source:
     repoURL: https://github.com/pomerium/ingress-controller.git
-    path: .
+    path: config/default
     targetRevision: v0.27.2
     kustomize:
       patches:
