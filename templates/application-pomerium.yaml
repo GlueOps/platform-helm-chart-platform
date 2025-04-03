@@ -27,3 +27,12 @@ spec:
     repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
     path: .
     targetRevision: v0.9.1
+    kustomize:
+      patches:
+        - target:
+            kind: Service
+            name: pomerium-proxy
+          patch: |-
+            - op: add
+              path: /metadata/annotations/chisel-operator.io/proxy-protocol
+              value: "true"
