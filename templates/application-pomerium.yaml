@@ -24,9 +24,9 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
+    repoURL: https://github.com/pomerium/ingress-controller.git
     path: .
-    targetRevision: v0.9.1
+    targetRevision: v0.27.2
     kustomize:
       patches:
         - target:
@@ -36,3 +36,48 @@ spec:
             - op: add
               path: /metadata/annotations/chisel-operator.io~1proxy-protocol
               value: "true"
+        - target:
+            kind: Deployment
+            name: pomerium
+          patch: |-
+            - op: replace
+              path: /spec/template/spec/containers/0/imagePullPolicy
+              value: "IfNotPresent"
+
+            - op: replace
+              path: /spec/template/spec/containers/0/image
+              value: "pomerium/ingress-controller:v0.27.2@sha256:ffdfd3be0f37ea1c04ba8ec46d215f7ff7ddd22d0b30a950a17256eaac1dd982"
+
+            - op: replace
+              path: /spec/template/spec/containers/0/resources
+              value:
+                limits:
+                  cpu: 5
+                  memory: 4Gi
+                requests:
+                  cpu: 300m
+                  memory: 200Mi
+
+            - op: replace
+              path: /spec/template/spec/nodeSelector
+              value:
+                glueops.dev/role: "glueops-platform"
+
+            - op: replace
+              path: /spec/template/spec/tolerations
+              value:
+                - key: "glueops.dev/role"
+                  operator: "Equal"
+                  value: "glueops-platform"
+                  effect: "NoSchedule"
+        - target:
+            kind: Job
+            name: pomerium-gen-secrets
+          patch: |-
+            - op: replace
+              path: /spec/template/spec/containers/0/image
+              value: "pomerium/ingress-controller:sha-dd49d67@sha256:025570a41e4c67146f6801d99404edac8677434308b259406af49f16bd3e4e25"
+
+            - op: replace
+              path: /spec/template/spec/containers/0/imagePullPolicy
+              value: "IfNotPresent"
