@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://helm.gpkg.io/platform'
     chart: glueops-grafana-dashboards
-    targetRevision: 0.13.2-rc34
+    targetRevision: 0.13.2-rc43
     helm:
       skipCrds: true
       parameters:

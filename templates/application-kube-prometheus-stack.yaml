@@ -161,10 +161,18 @@ spec:
           - name: Loki
             type: loki
             url: http://loki-gateway.glueops-core-loki.svc.cluster.local
+            jsonData:
+              httpHeaderName1: "X-Scope-OrgID"
+            secureJsonData:
+              httpHeaderValue1: "{{ .Values.captain_domain }}"
           - name: Tempo
             type: tempo
             uid: de7lydl3hl9fkd
-            url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100  
+            url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
+            jsonData:
+              httpHeaderName1: "X-Scope-OrgID"
+            secureJsonData:
+              httpHeaderValue1: "{{ .Values.captain_domain }}"
           grafana.ini:
             users:
               viewers_can_edit: true

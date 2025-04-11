@@ -31,6 +31,8 @@ spec:
       parameters:
         - name: config.clients[0].url
           value: http://loki-write.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push
+        - name: config.clients[0].tenant_id
+          value: "{{ .Values.captain_domain }}"
       values: |-
         image:
           registry: {{ .Values.container_images.app_promtail.promtail.image.registry }}

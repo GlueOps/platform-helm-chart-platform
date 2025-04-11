@@ -30,7 +30,7 @@ spec:
     helm:
       parameters:
         - name: loki.auth_enabled
-          value: 'false'
+          value: 'true'
         - name: chunksCache.replicas
           value: '{{ .Values.loki.chunkConfig.replicas }}'
         - name: chunksCache.maxItemMemory
@@ -58,7 +58,8 @@ spec:
         #    slab_automove_freeratio: 0.10
         #    ext_recache_rate: 0
         loki:
-          auth_enabled: false
+          auth_enabled: true
+          multi_tenant_mode: true
           frontend:
             log_queries_longer_than: 5s
             compress_responses: true
