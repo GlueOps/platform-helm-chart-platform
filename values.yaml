@@ -340,4 +340,4 @@ container_images:
         repository: glueops/pomerium/ingress-controller
         tag: v0.27.2@sha256:ffdfd3be0f37ea1c04ba8ec46d215f7ff7ddd22d0b30a950a17256eaac1dd982
 
-enable_chisel_proxy_protocol: true
+enable_chisel_proxy_protocol: false

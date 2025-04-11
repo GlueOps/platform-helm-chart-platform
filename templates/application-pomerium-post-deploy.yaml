@@ -38,5 +38,4 @@ spec:
           value: pomerium
         - name: client_secret
           value: {{ .Values.dex.pomerium.client_secret }}
-        - name: enable_proxy_protocol
-          value: "false"
+        
