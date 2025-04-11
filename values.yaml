@@ -329,7 +329,15 @@ container_images:
       image:
         repository: glueops/certs-backup-restore
         tag: v0.10.1@sha256:71c22ce97be9daddbfab90a26a59a900c00c18daec361c806918e52903513238
-
-
+  
+  app_pomerium:
+    pomerium_job:
+      image:
+        repository: glueops/pomerium/ingress-controller
+        tag: sha-dd49d67@sha256:025570a41e4c67146f6801d99404edac8677434308b259406af49f16bd3e4e25
+    pomerium_deployment:
+      image:
+        repository: glueops/pomerium/ingress-controller
+        tag: v0.27.2@sha256:ffdfd3be0f37ea1c04ba8ec46d215f7ff7ddd22d0b30a950a17256eaac1dd982
 
 enable_chisel_proxy_protocol: true

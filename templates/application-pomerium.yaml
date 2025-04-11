@@ -46,7 +46,8 @@ spec:
 
             - op: replace
               path: /spec/template/spec/containers/0/image
-              value: "pomerium/ingress-controller:v0.27.2@sha256:ffdfd3be0f37ea1c04ba8ec46d215f7ff7ddd22d0b30a950a17256eaac1dd982"
+              value: {{ .Values.base_registry }}/{{ .Values.container_images.app_pomerium.pomerium_deployment.image.repository }}:{{ .Values.container_images.app_pomerium.pomerium_deployment.image.tag }}
+              
 
             - op: replace
               path: /spec/template/spec/containers/0/resources
@@ -76,7 +77,7 @@ spec:
           patch: |-
             - op: replace
               path: /spec/template/spec/containers/0/image
-              value: "pomerium/ingress-controller:sha-dd49d67@sha256:025570a41e4c67146f6801d99404edac8677434308b259406af49f16bd3e4e25"
+              value: {{ .Values.base_registry }}/{{ .Values.container_images.app_pomerium.pomerium_job.image.repository }}:{{ .Values.container_images.app_pomerium.pomerium_job.image.tag }}
 
             - op: replace
               path: /spec/template/spec/containers/0/imagePullPolicy
