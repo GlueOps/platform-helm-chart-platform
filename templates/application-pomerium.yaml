@@ -29,13 +29,13 @@ spec:
     targetRevision: v0.27.2
     kustomize:
       patches:
-        # - target:
-        #     kind: Service
-        #     name: pomerium-proxy
-        #   patch: |-
-        #     - op: add
-        #       path: /metadata/annotations/chisel-operator.io~1proxy-protocol
-        #       value: "true"
+        - target:
+            kind: Service
+            name: pomerium-proxy
+          patch: |-
+            - op: add
+              path: /metadata/annotations/chisel-operator.io~1proxy-protocol
+              value: "false"
         - target:
             kind: Deployment
             name: pomerium

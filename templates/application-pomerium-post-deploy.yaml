@@ -39,4 +39,4 @@ spec:
         - name: client_secret
           value: {{ .Values.dex.pomerium.client_secret }}
         - name: enable_proxy_protocol
-          value: "{{ .Values.enable_chisel_proxy_protocol }}"
+          value: "false"
