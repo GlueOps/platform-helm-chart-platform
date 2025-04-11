@@ -24,6 +24,61 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: https://github.com/GlueOps/platform-kustomize-pomerium.git
-    path: .
-    targetRevision: v0.9.1
+    repoURL: https://github.com/pomerium/ingress-controller.git
+    path: config/default
+    targetRevision: v0.27.2
+    kustomize:
+      patches:
+        - target:
+            kind: Service
+            name: pomerium-proxy
+          patch: |-
+            - op: add
+              path: /metadata/annotations/chisel-operator.io~1proxy-protocol
+              value: "false"
+        - target:
+            kind: Deployment
+            name: pomerium
+          patch: |-
+            - op: replace
+              path: /spec/template/spec/containers/0/imagePullPolicy
+              value: "IfNotPresent"
+
+            - op: replace
+              path: /spec/template/spec/containers/0/image
+              value: {{ .Values.base_registry }}/{{ .Values.container_images.app_pomerium.pomerium_deployment.image.repository }}:{{ .Values.container_images.app_pomerium.pomerium_deployment.image.tag }}
+              
+
+            - op: replace
+              path: /spec/template/spec/containers/0/resources
+              value:
+                limits:
+                  cpu: 5
+                  memory: 4Gi
+                requests:
+                  cpu: 300m
+                  memory: 200Mi
+
+            - op: replace
+              path: /spec/template/spec/nodeSelector
+              value:
+                glueops.dev/role: "glueops-platform"
+
+            - op: replace
+              path: /spec/template/spec/tolerations
+              value:
+                - key: "glueops.dev/role"
+                  operator: "Equal"
+                  value: "glueops-platform"
+                  effect: "NoSchedule"
+        - target:
+            kind: Job
+            name: pomerium-gen-secrets
+          patch: |-
+            - op: replace
+              path: /spec/template/spec/containers/0/image
+              value: {{ .Values.base_registry }}/{{ .Values.container_images.app_pomerium.pomerium_job.image.repository }}:{{ .Values.container_images.app_pomerium.pomerium_job.image.tag }}
+
+            - op: replace
+              path: /spec/template/spec/containers/0/imagePullPolicy
+              value: "IfNotPresent"
