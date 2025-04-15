@@ -39,14 +39,13 @@ spec:
             configFile: |-
               cookie_secret="{{ .Values.dex.oauth2.cookie_secret }}"
               cookie_domains=".{{ .Values.captain_domain }}"
-              whitelist_domains=["*"]
+              whitelist_domains=[".{{ .Values.captain_domain }}"]
               client_id="oauth2-proxy"
               client_secret="{{ .Values.dex.oauth2.client_secret }}"
-              cookie_secure="false"
+              cookie_secure=false
               email_domains=[ "*" ]
               redirect_url="https://oauth2.{{ .Values.captain_domain }}/oauth2/callback"
-              upstreams=[ "file:///dev/null" ]
+              upstreams=[ "static://204" ]
               oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
               provider="oidc"
               set_xauthrequest=true
-              pass_access_token=true
