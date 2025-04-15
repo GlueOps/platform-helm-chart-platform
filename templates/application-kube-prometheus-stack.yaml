@@ -103,13 +103,7 @@ spec:
           assertNoLeakedSecrets: false
           ingress:
             enabled: true
-            ingressClassName: public-authenticated
-            annotations:
-              ingress.pomerium.io/allow_any_authenticated_user: 'true'
-              ingress.pomerium.io/pass_identity_headers: 'true'
-              ingress.pomerium.io/allow_websockets: 'true'
-              ingress.pomerium.io/idle_timeout: 0s
-              ingress.pomerium.io/preserve_host_header: 'true'
+            ingressClassName: public
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
           additionalDataSources:

@@ -52,10 +52,8 @@ spec:
         
         ingress:
           enabled: true
-          ingressClassName: public-authenticated
-          annotations:
-            ingress.pomerium.io/allow_any_authenticated_user: 'true'
+          ingressClassName: public
           entries:
-            - name: public-authenticated
+            - name: public
               hosts:
                 - hostname: cluster-info.{{ .Values.captain_domain }}
