@@ -1,0 +1,132 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: public-ingress-nginx-oauth2
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-public-ingress-nginx-oauth2
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://kubernetes.github.io/ingress-nginx'
+    chart: ingress-nginx
+    targetRevision: 4.11.5
+    helm:
+      values: |-
+        defaultBackend:
+          image:
+            registry: {{ .Values.base_registry }}
+        controller:
+          admissionWebhooks:
+            patch:
+              image:
+                registry: {{ .Values.base_registry }}
+          opentelemetry:
+            image:
+              registry: {{ .Values.base_registry }}
+          image:
+            registry: {{ .Values.base_registry }}
+            image: {{ .Values.container_images.app_ingress_nginx.controller.image.repository }}
+            tag: {{ .Values.container_images.app_ingress_nginx.controller.image.tag }}
+            digest: ""
+          admissionWebhooks:
+            enabled: false
+          replicaCount: {{ .Values.nginx.controller_replica_count }}
+          maxUnavailable: 1
+          config:
+            use-forwarded-headers: true
+            ssl-reject-handshake: true
+            # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/log-format.md
+            # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
+            log-format-upstream: '{
+                                   "time_iso8601": "$time_iso8601", 
+                                   "msec": "$msec",
+                                   "remote_addr": "$remote_addr", 
+                                   "request": "$request",
+                                   "proxy_protocol_addr": "$proxy_protocol_addr", 
+                                   "x_forwarded_for": "$proxy_add_x_forwarded_for", 
+                                   "req_id": "$req_id",
+                                   "remote_user": "$remote_user",
+                                   "bytes_sent": $bytes_sent,
+                                   "request_time": $request_time,
+                                   "status": $status, 
+                                   "body_bytes_sent": "$body_bytes_sent",
+                                   "host": "$host",
+                                   "server_protocol": "$server_protocol",
+                                   "uri": "$uri",
+                                   "args": "$args",
+                                   "request_length": $request_length,
+                                   "proxy_upstream_name": "$proxy_upstream_name", 
+                                   "proxy_alternative_upstream_name": "$proxy_alternative_upstream_name",
+                                   "upstream_addr": "$upstream_addr",
+                                   "upstream_response_length": "$upstream_response_length",
+                                   "upstream_response_time": "$upstream_response_time", 
+                                   "upstream_status":"$upstream_status",
+                                   "request_method": "$request_method",
+                                   "http_referer": "$http_referer",
+                                   "namespace": "$namespace",
+                                   "ingress_name": "$ingress_name", 
+                                   "service_name": "$service_name", 
+                                   "service_port": "$service_port",
+                                   "http_host": "$http_host",
+                                   "scheme": "$scheme",
+                                   "server_name": "$server_name",
+                                   "upstream_cache_status": "$upstream_cache_status",
+                                   "request_id": "$request_id",
+                                   "ssl_protocol": "$ssl_protocol",
+                                   "ssl_cipher": "$ssl_cipher",
+                                   "http_user_agent": "$http_user_agent"
+                                   }' 
+          extraArgs:
+            default-ssl-certificate: glueops-core-cert-manager/{{ .Values.certManager.name_of_default_certificate }}
+          service:
+            annotations:
+              service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+              external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
+            type: "LoadBalancer"
+            externalTrafficPolicy: "Local"
+          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
+          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1788923154
+          updateStrategy:
+            rollingUpdate:
+              maxSurge: 1
+              maxUnavailable: 0
+          # Add a pause to make time for the pod to be registered in the AWS NLB target group before proceeding with the next
+          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1834#issuecomment-781530724
+          # https://alexklibisz.com/2021/07/20/speed-limits-for-rolling-restarts-in-kubernetes#round-3-set-minreadyseconds-maxunavailable-to-0-and-maxsurge-to-1
+          minReadySeconds: 180
+          # Add sleep on preStop to allow for graceful shutdown with AWS NLB
+          # https://github.com/kubernetes/ingress-nginx/issues/6928
+          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1118312709
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 240; /wait-shutdown"]
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
+          electionID: public-ingress-nginx-leader
+          ingressClassByName: true
+          ingressClass: public-authenticated
+          ingressClassResource:
+            name: public-authenticated
+            enabled: true
+            default: false
+            controllerValue: "k8s.io/public-ingress-nginx"
