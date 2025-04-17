@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: public-ingress-nginx-oauth2
+  name: glueops-platform-ingress-nginx-oauth2
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   finalizers:
@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-public-ingress-nginx-oauth2
+    namespace: glueops-core-glueops-platform-ingress-nginx-oauth2
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -98,7 +98,7 @@ spec:
           service:
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-              external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
+              external-dns.alpha.kubernetes.io/hostname: glueops-platform-ingress.{{ .Values.captain_domain }}
             type: "LoadBalancer"
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
@@ -122,11 +122,11 @@ spec:
             enabled: true
             serviceMonitor:
               enabled: true
-          electionID: public-ingress-nginx-leader
+          electionID: glueops-platform-ingress-nginx-leader
           ingressClassByName: true
-          ingressClass: public-authenticated
+          ingressClass: glueops-platform
           ingressClassResource:
-            name: public-authenticated
+            name: glueops-platform
             enabled: true
             default: false
-            controllerValue: "k8s.io/public-ingress-nginx"
+            controllerValue: "k8s.io/glueops-platform-ingress-nginx"

@@ -32,7 +32,7 @@ spec:
           proxyVarsAsSecrets: false
           ingress:
             enabled: true
-            className: public
+            className: glueops-platform
             hosts:
               - oauth2.{{ .Values.captain_domain }}
           config:

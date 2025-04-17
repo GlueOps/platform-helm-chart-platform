@@ -103,7 +103,7 @@ spec:
           assertNoLeakedSecrets: false
           ingress:
             enabled: true
-            ingressClassName: public
+            ingressClassName: glueops-platform
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
           additionalDataSources:

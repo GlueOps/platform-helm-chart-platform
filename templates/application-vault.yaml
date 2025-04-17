@@ -50,7 +50,7 @@ spec:
             size: {{ .Values.vault.data_storage }}Gi
           ingress:
               activeService: false
-              ingressClassName: public
+              ingressClassName: glueops-platform
               annotations: 
                 cert-manager.io/cluster-issuer: letsencrypt
                 nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=$escaped_request_uri"
