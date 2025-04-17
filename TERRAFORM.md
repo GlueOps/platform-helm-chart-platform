@@ -8,7 +8,6 @@ module "glueops_platform_helm_values" {
   dex_argocd_client_secret     = "Zsbui/29YEqoGOzuI8snlqGcdaRYPSLocwLXDB5GhZY="
   dex_grafana_client_secret    = "AyYzghXw/qn/zfO6j9tN4H/7yLSYFPqnKOeoXOSi5U0="
   dex_vault_client_secret      = "aLCZg513OvIA0vY5c24KLU2PrRXmBdhLGLUBrpkhBmE="
-  dex_pomerium_client_secret   = "5yon23Cwa83fscaq/CPTZ8UdhYIJ7gfHnl+gQO+FfPk="
   vault_aws_access_key         = "AKIAU5Q3HAEIVOZFADIL"
   vault_aws_secret_key         = "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"
   loki_aws_access_key          = "AKIAA5QFHEEIFO6FYDE7"

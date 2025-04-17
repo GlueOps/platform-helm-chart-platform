@@ -103,13 +103,11 @@ spec:
           assertNoLeakedSecrets: false
           ingress:
             enabled: true
-            ingressClassName: public-authenticated
+            ingressClassName: glueops-platform
             annotations:
-              ingress.pomerium.io/allow_any_authenticated_user: 'true'
-              ingress.pomerium.io/pass_identity_headers: 'true'
-              ingress.pomerium.io/allow_websockets: 'true'
-              ingress.pomerium.io/idle_timeout: 0s
-              ingress.pomerium.io/preserve_host_header: 'true'
+              nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=$escaped_request_uri"
+              nginx.ingress.kubernetes.io/auth-url: "http://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+              nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
           additionalDataSources:

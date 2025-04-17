@@ -36,7 +36,6 @@ spec:
         global:
           enabled: true
           tlsDisable: false
-
         ui:
           enabled: true
         injector:
@@ -51,14 +50,13 @@ spec:
             size: {{ .Values.vault.data_storage }}Gi
           ingress:
               activeService: false
-              ingressClassName: public-authenticated
+              ingressClassName: glueops-platform
               annotations: 
                 cert-manager.io/cluster-issuer: letsencrypt
-                ingress.pomerium.io/allow_any_authenticated_user: 'true'
-                ingress.pomerium.io/pass_identity_headers: 'true'
-                ingress.pomerium.io/secure_upstream: 'true'
-                ingress.pomerium.io/tls_skip_verify: 'true'
-                ingress.pomerium.io/idle_timeout: 0s
+                nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=$escaped_request_uri"
+                nginx.ingress.kubernetes.io/auth-url: "http://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+                nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
+                nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
               enabled: true
               hosts: 
                 - host: vault.{{ .Values.captain_domain }}
