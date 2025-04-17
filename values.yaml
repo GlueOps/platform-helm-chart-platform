@@ -160,12 +160,11 @@ dex:
   grafana:
     # -- Specify a unique password here. This will be used to connect grafana via OAuth to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
     client_secret: placeholder_dex_grafana_client_secret
-  pomerium:
-    # -- Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
-    client_secret: placeholder_dex_pomerium_client_secret
-    # -- Specify a unique password here. This will be used to connect argocd via OIDC to the Dex IDP. You can create one with in bash `openssl rand -base64 32`
   vault:
     client_secret: placeholder_dex_vault_client_secret
+  oauth2:
+    client_secret: placeholder_dex_oauth2_client_secret
+    cookie_secret: placeholder_dex_oauth2_cookie_secret
 
 glueops_node_and_tolerations:
   nodeSelector:
