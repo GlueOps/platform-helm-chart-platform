@@ -162,6 +162,9 @@ dex:
     client_secret: placeholder_dex_grafana_client_secret
   vault:
     client_secret: placeholder_dex_vault_client_secret
+  oauth2:
+    client_secret: placeholder_dex_oauth2_client_secret
+    cookie_secret: placeholder_dex_oauth2_cookie_secret
 
 glueops_node_and_tolerations:
   nodeSelector:
