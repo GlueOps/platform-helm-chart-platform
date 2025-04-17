@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-platform-ingress-nginx-oauth2
+  name: glueops-platform-ingress-nginx
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   finalizers:
@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-glueops-platform-ingress-nginx-oauth2
+    namespace: glueops-core-glueops-platform-ingress-nginx
   project: glueops-core
   syncPolicy:
     syncOptions:

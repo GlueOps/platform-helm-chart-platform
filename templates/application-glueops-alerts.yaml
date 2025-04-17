@@ -203,6 +203,29 @@ spec:
             apiVersion: metacontroller.glueops.dev/v1alpha1
             kind: LokiAlertRuleGroup
             metadata:
+              name: glueops-services-high-5xx-rate-glueops-platform-nginx
+            spec:
+              name: glueops-services-high-5xx-rate-glueops-platform-nginx
+              rules:
+                - alert: glueops-services-high-5xx-rate-glueops-platform-nginx
+                  expr: |
+                    sum(
+                      count_over_time({namespace="glueops-core-glueops-platform-ingress-nginx"} | json | (status=~"5\\d{2}" or upstream_status=~"5\\d{2}")[5m])
+                    )
+                    /
+                    sum(
+                      count_over_time({namespace="glueops-core-glueops-platform-ingress-nginx"} | json | response_code=~"\\d{3}"[5m])
+                    ) > 0.01
+                  for: 1m
+                  annotations:
+                    description: GlueOps services are returning a high rate of 5xx responses via nginx.
+                  labels:
+                    alertname: glueops-core-alerts
+                    namespace: glueops-core-alerts
+          - |-
+            apiVersion: metacontroller.glueops.dev/v1alpha1
+            kind: LokiAlertRuleGroup
+            metadata:
               name: glueops-service-external-secrets-secret-store-not-ready
             spec:
               name: glueops-service-external-secrets-secret-store-not-ready
