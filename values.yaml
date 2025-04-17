@@ -297,7 +297,7 @@ container_images:
     qr_code_generator:
       image: 
         repository: glueops/qr-code-generator
-        tag: v0.7.1@sha256:884d67d4e17f3c4567dcb79eb3491099c448b58dc0c81ae848b50cd8cf314d22
+        tag: v0.8.0@sha256:3109aa443cb9cafaeae486604776c4286c5598c9eab20802094b7a3419eb4313
   app_vault_init_controller:
     vault_init_controller:
       image:
