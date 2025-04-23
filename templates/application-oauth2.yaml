@@ -36,6 +36,7 @@ spec:
             hosts:
               - oauth2.{{ .Values.captain_domain }}
           config:
+            #https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview/
             configFile: |-
               cookie_secret="{{ .Values.dex.oauth2.cookie_secret }}"
               cookie_domains=".{{ .Values.captain_domain }}"
@@ -49,3 +50,5 @@ spec:
               oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
               provider="oidc"
               set_xauthrequest=true
+              cookie_csrf_per_request=true
+              prompt="select_account"
