@@ -33,6 +33,7 @@ spec:
           image:
             registry: {{ .Values.base_registry }}
         controller:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           admissionWebhooks:
             patch:
               image:
