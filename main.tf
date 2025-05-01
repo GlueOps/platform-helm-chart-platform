@@ -9,6 +9,7 @@ terraform {
   }
 }
 
+
 variable "opsgenie_api_key" {
   description = "Opsgenie API key"
 }
@@ -89,12 +90,16 @@ variable "dex_grafana_client_secret" {
   description = "Dex Grafana client secret"
 }
 
-variable "dex_pomerium_client_secret" {
-  description = "Dex Pomerium client secret"
-}
 
 variable "dex_vault_client_secret" {
   description = "Dex Vault client secret"
+}
+
+variable "dex_oauth2_client_secret" {
+  description = "Dex Oauth2 client secret"
+}
+variable "dex_oauth2_cookie_secret" {
+  description = "Dex Oauth2 cookie secret"
 }
 
 variable "tenant_key" {
@@ -200,7 +205,7 @@ variable "vault_init_controller_aws_access_secret" {
 
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
@@ -230,8 +235,9 @@ output "helm_values" {
     "placeholder_dex_github_client_secret", var.dex_github_client_secret),
     "placeholder_dex_argocd_client_secret", var.dex_argocd_client_secret),
     "placeholder_dex_grafana_client_secret", var.dex_grafana_client_secret),
-    "placeholder_dex_pomerium_client_secret", var.dex_pomerium_client_secret),
     "placeholder_dex_vault_client_secret", var.dex_vault_client_secret),
+    "placeholder_dex_oauth2_client_secret", var.dex_oauth2_client_secret),
+    "placeholder_dex_oauth2_cookie_secret", var.dex_oauth2_cookie_secret),
     "placeholder_admin_github_org_name", var.admin_github_org_name),
     "placeholder_tenant_github_org_name", var.tenant_github_org_name),
     "placeholder_grafana_admin_password", var.grafana_admin_password),

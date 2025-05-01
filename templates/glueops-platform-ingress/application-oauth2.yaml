@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oauth2-proxy
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-oauth2-proxy
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://oauth2-proxy.github.io/manifests'
+    chart: oauth2-proxy
+    targetRevision: 7.12.9
+    helm:
+      values: |-
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          proxyVarsAsSecrets: false
+          ingress:
+            enabled: true
+            className: glueops-platform
+            hosts:
+              - oauth2.{{ .Values.captain_domain }}
+          config:
+            #https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview/
+            configFile: |-
+              cookie_secret="{{ .Values.dex.oauth2.cookie_secret }}"
+              cookie_domains=".{{ .Values.captain_domain }}"
+              whitelist_domains=[".{{ .Values.captain_domain }}"]
+              client_id="oauth2-proxy"
+              client_secret="{{ .Values.dex.oauth2.client_secret }}"
+              cookie_secure=false
+              email_domains=[ "*" ]
+              redirect_url="https://oauth2.{{ .Values.captain_domain }}/oauth2/callback"
+              upstreams=[ "static://204" ]
+              oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
+              provider="oidc"
+              set_xauthrequest=true
+              cookie_csrf_per_request=true
+              prompt="select_account"

@@ -52,10 +52,12 @@ spec:
         
         ingress:
           enabled: true
-          ingressClassName: public-authenticated
+          ingressClassName: glueops-platform
           annotations:
-            ingress.pomerium.io/allow_any_authenticated_user: 'true'
+            nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
+            nginx.ingress.kubernetes.io/auth-url: "http://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+            nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
           entries:
-            - name: public-authenticated
+            - name: glueops-platform
               hosts:
                 - hostname: cluster-info.{{ .Values.captain_domain }}

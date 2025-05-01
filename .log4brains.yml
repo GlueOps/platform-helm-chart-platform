@@ -1,0 +1,8 @@
+project:
+  name: GlueOps Platform
+  tz: Africa/Abidjan
+  adrFolder: ./docs/adr
+  packages:
+    - name: glueops-platform-ingress
+      path: ./templates/glueops-platform-ingress
+      adrFolder: ./templates/glueops-platform-ingress/docs/adr
