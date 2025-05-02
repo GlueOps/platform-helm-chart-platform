@@ -86,6 +86,7 @@ This chart deploys the GlueOps Platform
 | dex.oauth2.client_secret | string | `"placeholder_dex_oauth2_client_secret"` |  |
 | dex.oauth2.cookie_secret | string | `"placeholder_dex_oauth2_cookie_secret"` |  |
 | dex.vault.client_secret | string | `"placeholder_dex_vault_client_secret"` |  |
+| enable_chisel_proxy_protocol | bool | `false` |  |
 | externalDns.aws_accessKey | string | `"placeholder_externaldns_aws_access_key"` | Part of `externaldns_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | externalDns.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | externalDns.aws_secretKey | string | `"placeholder_externaldns_aws_secret_key"` | Part of `externaldns_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
