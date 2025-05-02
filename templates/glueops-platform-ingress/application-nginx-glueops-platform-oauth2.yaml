@@ -53,6 +53,9 @@ spec:
           config:
             use-forwarded-headers: true
             ssl-reject-handshake: true
+            {{- if .Values.enable_chisel_proxy_protocol }}
+            use-proxy-protocol: "true"
+            {{- end }}
             # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/log-format.md
             # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
             log-format-upstream: '{
@@ -100,6 +103,9 @@ spec:
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
               external-dns.alpha.kubernetes.io/hostname: glueops-platform-ingress.{{ .Values.captain_domain }}
+              {{- if .Values.enable_chisel_proxy_protocol }}
+              chisel-operator.io/proxy-protocol: "true"
+              {{- end }}
             type: "LoadBalancer"
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
