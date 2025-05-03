@@ -203,9 +203,15 @@ variable "vault_init_controller_aws_access_secret" {
   nullable    = false
 }
 
+variable "tenant_s3_multi_region_access_point" {
+  description = "S3 multi region access point get used for backups and other configurations"
+  type        = string
+  nullable    = false
+}
+
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
@@ -221,6 +227,7 @@ output "helm_values" {
     "placeholder_vault_aws_secret_key", var.vault_aws_secret_key),
     "placeholder_externaldns_aws_access_key", var.externaldns_aws_access_key),
     "placeholder_externaldns_aws_secret_key", var.externaldns_aws_secret_key),
+    "placeholder_tenant_s3_multi_region_access_point", var.tenant_s3_multi_region_access_point),
     "placeholder_certmanager_aws_access_key", var.certmanager_aws_access_key),
     "placeholder_certmanager_aws_secret_key", var.certmanager_aws_secret_key),
     "placeholder_tls_cert_backup_aws_access_key", var.tls_cert_backup_aws_access_key),
@@ -246,6 +253,6 @@ output "helm_values" {
     "placeholder_github_tenant_app_b64enc_private_key", var.github_tenant_app_b64enc_private_key),
     "placeholder_vault_init_controller_s3_key", var.vault_init_controller_s3_key),
     "placeholder_vault_init_controller_aws_access_key", var.vault_init_controller_aws_access_key),
-    "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
+  "placeholder_vault_init_controller_aws_access_secret", var.vault_init_controller_aws_access_secret)
 
 }
