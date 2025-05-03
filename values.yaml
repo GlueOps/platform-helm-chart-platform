@@ -302,7 +302,7 @@ container_images:
     vault_init_controller:
       image:
         repository: glueops/vault-init-controller
-        tag: v0.9.0@sha256:b761bcbe551a3d42428f58f44e6e2c348dac203c4f0e85cc140c99a2f76d47c5
+        tag: v0.10.0@sha256:476414ffe2bf4c728ffd3a46dbdb623ce9f20e4778b1efeb41932e11a03933d9
   app_vault:
     vault:
       image:
