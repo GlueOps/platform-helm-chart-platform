@@ -18,11 +18,11 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.18.2@sha256:394c0035ae440eba53a5184b065e8595dbf37180050a41881ea56929997d84e2"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.10.2@sha256:6d402e2a7a39d8dcf1e93da3fb305f4756cf5fa9ea2b2ae639655c5f8e8963a9"` |  |
+| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.11.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v0.3.6@sha256:b0b48ae02bdfa60a590312c0dbeb905261053ef46512c326b78eab9701d9b31b"` |  |
 | container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.10.1@sha256:71c22ce97be9daddbfab90a26a59a900c00c18daec361c806918e52903513238"` |  |
+| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.11.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.5@sha256:5f1843dfa2f76eea0a5e9a792867305d50b6f2d27e010d003a9ce79eb4188d16"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
