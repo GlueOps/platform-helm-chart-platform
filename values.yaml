@@ -61,6 +61,8 @@ glueops_backups:
     # @ignored
     cron_expression: "0 */6 * * *"
     company_key: placeholder_tenant_key
+    backup_prefix: placeholder_vault_backup_s3_key_prefix
+    
   tls_cert_backup:
     # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
     aws_region: placeholder_aws_region
