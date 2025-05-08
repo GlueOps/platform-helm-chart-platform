@@ -105,6 +105,7 @@ This chart deploys the GlueOps Platform
 | glueops_backups.vault.aws_accessKey | string | `"placeholder_vault_aws_access_key"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.vault.aws_secretKey | string | `"placeholder_vault_aws_secret_key"` | Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| glueops_backups.vault.backup_prefix | string | `"placeholder_vault_backup_s3_key_prefix"` |  |
 | glueops_backups.vault.company_key | string | `"placeholder_tenant_key"` |  |
 | glueops_node_and_tolerations.nodeSelector."glueops.dev/role" | string | `"glueops-platform"` |  |
 | glueops_node_and_tolerations.tolerations[0].effect | string | `"NoSchedule"` |  |
