@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.58.0](https://img.shields.io/badge/Version-0.58.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.59.0](https://img.shields.io/badge/Version-0.59.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -16,13 +16,13 @@ This chart deploys the GlueOps Platform
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
-| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.18.2@sha256:394c0035ae440eba53a5184b065e8595dbf37180050a41881ea56929997d84e2"` |  |
+| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.19.0@sha256:394c0035ae440eba53a5184b065e8595dbf37180050a41881ea56929997d84e2"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.11.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1"` |  |
+| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.12.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v0.3.6@sha256:b0b48ae02bdfa60a590312c0dbeb905261053ef46512c326b78eab9701d9b31b"` |  |
 | container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.11.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1"` |  |
+| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.5@sha256:5f1843dfa2f76eea0a5e9a792867305d50b6f2d27e010d003a9ce79eb4188d16"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
@@ -54,7 +54,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
 | container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
-| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.10.0@sha256:476414ffe2bf4c728ffd3a46dbdb623ce9f20e4778b1efeb41932e11a03933d9"` |  |
+| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.11.0@sha256:476414ffe2bf4c728ffd3a46dbdb623ce9f20e4778b1efeb41932e11a03933d9"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
