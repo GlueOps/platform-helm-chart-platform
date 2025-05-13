@@ -66,6 +66,8 @@ spec:
           value: "{{ .Values.captain_domain }}"
         - name: cert_restore.backup_prefix 
           value: "{{ .Values.tls_cert_restore.backup_prefix }}"
+        - name: cert_restore.restore_this_backup 
+          value: ""
         - name: cert_restore.exclude_namespaces
           value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
         - name: cert_restore.image
