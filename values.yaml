@@ -245,11 +245,11 @@ container_images:
     backup_tools:
       image:
         repository: glueops/backup-tools
-        tag: v0.19.0@sha256:394c0035ae440eba53a5184b065e8595dbf37180050a41881ea56929997d84e2
+        tag: v0.19.0@sha256:b885eb2144e40231977b8b670117f5cd26572fdb78e8db2c04b53daab0b57e95
     certs_backup_restore:
       image:
         repository: glueops/certs-backup-restore
-        tag: v0.12.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1
+        tag: v0.12.0@sha256:f4d492863b4cdafe71605251a47116da9df98d3042af022ab0aec5c89f730cc8
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:
@@ -304,7 +304,7 @@ container_images:
     vault_init_controller:
       image:
         repository: glueops/vault-init-controller
-        tag: v0.11.0@sha256:476414ffe2bf4c728ffd3a46dbdb623ce9f20e4778b1efeb41932e11a03933d9
+        tag: v0.11.0@sha256:b3dcce15644d03eb77b011945f4390873ab493f0102e6158c1d6a69ed99e66ab
   app_vault:
     vault:
       image:
@@ -329,6 +329,11 @@ container_images:
     cert_restore:
       image:
         repository: glueops/certs-backup-restore
-        tag: v0.12.0@sha256:4d14e5fdb91d819e49fe64af9cef6dd65ce3a6a2dfa4bf6ff4a085f013dee6c1
+        tag: v0.12.0@sha256:f4d492863b4cdafe71605251a47116da9df98d3042af022ab0aec5c89f730cc8
+  app_oauth2-proxy:
+    oauth2-proxy:
+      image:
+        repository: oauth2-proxy/oauth2-proxy
+        tag: v7.9.0@sha256:cb93cfc897860ddf4f7fef7d587a0e5038e00dd63d724e169ef7875205640c5e
   
 enable_chisel_proxy_protocol: false

@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: 'https://github.com/GlueOps/platform-helm-chart-cert-manager'
     path: .
-    targetRevision: v0.17.2
+    targetRevision: v0.18.0
     helm:
       parameters:
         - name: cert_manager_glueops_specifics.aws_region
