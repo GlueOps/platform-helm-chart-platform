@@ -91,6 +91,6 @@ spec:
           - name: CAPTAIN_DOMAIN
             value: "{{ .Values.captain_domain }}"
           - name: BACKUP_PREFIX
-            value: "hashicorp-vault-backups"
+            value: "backups_with_expiration_enabled/hashicorp-vault-backups"
           - name: RESTORE_THIS_BACKUP
             value: ""
