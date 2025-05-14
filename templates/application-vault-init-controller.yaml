@@ -21,6 +21,11 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 5
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jqPathExpressions:
+        - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
@@ -87,3 +92,5 @@ spec:
             value: "{{ .Values.captain_domain }}"
           - name: BACKUP_PREFIX
             value: "hashicorp-vault-backups"
+          - name: RESTORE_THIS_BACKUP
+            value: ""
