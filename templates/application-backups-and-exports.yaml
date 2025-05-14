@@ -121,6 +121,9 @@ spec:
                   value: "{{ .Values.glueops_backups.s3_bucket_name }}"
                 - name: VAULT_ADDR
                   value: "https://vault-active.glueops-core-vault.svc.cluster.local:8200"
+                - name: BACKUP_PREFIX
+                  value: "{{ .Values.glueops_backups.vault.backup_prefix }}"
+
               volumeMounts:
                 - mountPath: /app
                   name: vault-backups

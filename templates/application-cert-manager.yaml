@@ -23,10 +23,16 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 10
+  ignoreDifferences:
+    - group: apps
+      kind: Job
+      name: glueops-tls-cert-restore
+      jqPathExpressions:
+        - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
   source:
     repoURL: 'https://github.com/GlueOps/platform-helm-chart-cert-manager'
     path: .
-    targetRevision: v0.17.1
+    targetRevision: v0.18.0
     helm:
       parameters:
         - name: cert_manager_glueops_specifics.aws_region
@@ -59,6 +65,8 @@ spec:
           value: "{{ .Values.captain_domain }}"
         - name: cert_restore.backup_prefix 
           value: "{{ .Values.tls_cert_restore.backup_prefix }}"
+        - name: cert_restore.restore_this_backup 
+          value: ""
         - name: cert_restore.exclude_namespaces
           value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
         - name: cert_restore.image

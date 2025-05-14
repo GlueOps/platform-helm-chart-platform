@@ -50,8 +50,12 @@ variable "tls_cert_backup_aws_secret_key" {
   description = "AWS secret key for cert manager"
 }
 
+variable "vault_backup_s3_key_prefix" {
+  description = "S3 bucket backup folder prefix for vault"
+}
+
 variable "tls_cert_backup_s3_key_prefix" {
-  description = "S3 bucket backup folder prefix"
+  description = "S3 bucket backup folder prefix for tls"
 }
 
 variable "tls_cert_restore_exclude_namespaces" {
@@ -211,7 +215,7 @@ variable "tenant_s3_multi_region_access_point" {
 
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
@@ -234,6 +238,7 @@ output "helm_values" {
     "placeholder_tls_cert_backup_aws_secret_key", var.tls_cert_backup_aws_secret_key),
     "placeholder_tls_cert_restore_aws_access_key", var.tls_cert_restore_aws_access_key),
     "placeholder_tls_cert_restore_aws_secret_key", var.tls_cert_restore_aws_secret_key),
+    "placeholder_vault_backup_s3_key_prefix", var.vault_backup_s3_key_prefix),
     "placeholder_tls_cert_backup_s3_key_prefix", var.tls_cert_backup_s3_key_prefix),
     "placeholder_tls_cert_restore_exclude_namespaces", var.tls_cert_restore_exclude_namespaces),
     "placeholder_loki_aws_access_key", var.loki_aws_access_key),
