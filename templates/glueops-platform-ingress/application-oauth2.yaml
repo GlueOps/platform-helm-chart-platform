@@ -32,8 +32,8 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           proxyVarsAsSecrets: false
           image:
-            repository: {{ .Values.base_registry }}/{{ .Values.container_images.app_oauth2-proxy.oauth2-proxy.image.repository }}
-            tag: {{ .Values.container_images.app_oauth2-proxy.oauth2-proxy.image.tag }}
+            repository: {{ .Values.base_registry }}/{{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.repository }}
+            tag: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.tag }}
           ingress:
             enabled: true
             className: glueops-platform
