@@ -289,7 +289,7 @@ container_images:
     promtail:
       image:
         repository: grafana/promtail
-        tag: 2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf
+        tag: 3.5.0@sha256:507dfecd2f0949475d071c124bea1c26fc4f8c1cff0372eee57478d5b1c5fbff
   app_pull_request_bot:
     pull_request_bot:
       image:
