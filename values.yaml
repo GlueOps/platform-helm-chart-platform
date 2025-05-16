@@ -269,7 +269,7 @@ container_images:
     grafana:
       image:
         repository: grafana/grafana
-        tag: 10.4.13@sha256:c8644d0d41757dd444bd1aabc23740be71f0a34549128454a2b37f57a0c496b0
+        tag: 10.4.18@sha256:5f06f19d2a20c27a442b9bc1d57ec6730cb7be11d721f889369e823a2741ba1f
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
