@@ -309,7 +309,7 @@ container_images:
     vault:
       image:
         repository: hashicorp/vault
-        tag: 1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1
+        tag: 1.19.4@sha256:b5f675b0bf681568cd7354c697fe4ce953024312d6d23ee7216deda60c192bad
   app_metacontroller:
     metacontroller:
       image:
