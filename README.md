@@ -37,7 +37,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.6.1@sha256:c1ead8704c135a501bf3f5f80f9f5b34d3db33ca8dfb8711b2cb8c845b86de7e"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"docker.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.8@sha256:c88e62a727bbb54b1ce1a420fb81b8b116c10a60d666de92ae74f3481aef1499"` |  |
+| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"11.4.3@sha256:95eb8900c1e40e89b3e907094383b1c76c0c166ad5ec85e635de86f114aa7184"` |  |
 | container_images.app_loki.loki.image.registry | string | `"docker.io"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
 | container_images.app_loki.loki.image.tag | string | `"3.1.1@sha256:e689cc634841c937de4d7ea6157f17e29cf257d6a320f1c293ab18d46cfea986"` |  |
@@ -151,8 +151,8 @@ This chart deploys the GlueOps Platform
 | otel.manager.autoInstrumentationImage.nodejs.tag | string | `"0.52.1"` |  |
 | otel.manager.autoInstrumentationImage.python.repository | string | `"ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-python"` |  |
 | otel.manager.autoInstrumentationImage.python.tag | string | `"0.47b0"` |  |
-| otel.manager.collectorImage.repository | string | `"otel/opentelemetry-collector"` |  |
-| otel.manager.collectorImage.tag | string | `"0.109.0"` |  |
+| otel.manager.collectorImage.repository | string | `"otel/opentelemetry-collector-contrib"` |  |
+| otel.manager.collectorImage.tag | string | `"0.123.0"` |  |
 | otel.manager.image.repository | string | `"ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator"` |  |
 | otel.manager.image.tag | string | `""` |  |
 | otel.manager.opampBridgeImage.repository | string | `""` |  |
