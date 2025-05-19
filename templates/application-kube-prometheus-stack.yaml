@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://prometheus-community.github.io/helm-charts'
     chart: kube-prometheus-stack
-    targetRevision: 59.1.0
+    targetRevision: 70.7.0
     helm:
       skipCrds: true
       values: |-
@@ -111,7 +111,7 @@ spec:
             retentionSize: {{ .Values.prometheus.retentionSize }}
             thanos:
               baseImage: quay.io/thanos/thanos
-              version: v0.36.1
+              version: v0.38.0
               objectStorageConfig:
                 secret: 
                 {{- toYaml .Values.thanos.storage | nindent 18 }}

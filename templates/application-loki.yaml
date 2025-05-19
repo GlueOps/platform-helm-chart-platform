@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://grafana.github.io/helm-charts'
     chart: loki
-    targetRevision: 6.12.0
+    targetRevision: 6.29.0
     helm:
       parameters:
         - name: loki.auth_enabled
@@ -60,6 +60,8 @@ spec:
         loki:
           auth_enabled: true
           multi_tenant_mode: true
+          pattern_ingester:
+            enabled: true
           frontend:
             log_queries_longer_than: 5s
             compress_responses: true

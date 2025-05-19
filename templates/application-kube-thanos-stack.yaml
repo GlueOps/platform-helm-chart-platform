@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://charts.bitnami.com/bitnami'
     chart: thanos
-    targetRevision: 15.7.25
+    targetRevision: 16.0.3
     helm:
       skipCrds: true
       values: |-

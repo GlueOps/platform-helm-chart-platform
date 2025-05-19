@@ -24,9 +24,9 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: 'https://helm.gpkg.io/platform'
-    chart: glueops-grafana-dashboards
-    targetRevision: 0.13.2-rc48
+    repoURL: 'https://github.com/GlueOps/platform-helm-chart-grafana-dashboards'
+    path: .
+    targetRevision: 
     helm:
       skipCrds: true
       parameters:

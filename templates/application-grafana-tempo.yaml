@@ -26,10 +26,13 @@ spec:
   source:
     repoURL: 'https://grafana.github.io/helm-charts'
     chart: tempo-distributed
-    targetRevision: 1.16.2
+    targetRevision: 1.37.0
     helm:
       skipCrds: true
       values: |-
+        tempo:
+          image:
+            tag: 2.7.2
         compactor:
           config:
             compaction:
@@ -57,41 +60,9 @@ spec:
             grpc:
               enabled: true
               max_recv_msg_size_mib: 8194305
-        metricsGenerator:
-          enabled: true
-          replicas: 2
-          resources: 
-            requests:
-                cpu: 250m
-                memory: 512Mi  # Minimum request
-            limits:
-                cpu: 1024m
-                memory: 2Gi 
-          processor:
-            overrides:
-              "{{ .Values.captain_domain }}":
-                metrics_generator_processors:
-                  - span-metrics
-                  - service-graphs
-          config:
-            metric_generator:
-              batch_size: 1000
-              concurrent_workers: 4
-              window_size: 5m
-            processor:
-              service_graphs:
-                dimensions: ["http.method","http.status_code","http.target","service.name","net.peer.ip"]
-                histogram_buckets: [0.1, 0.2, 0.4, 0.8, 1.6, 3.2, 6.4, 12.8]
-                max_items: 1000
-                wait: 10s
-                workers: 4
-              span_metrics:
-                dimensions: ["http.method","http.status_code","http.target","service.name","net.peer.ip"]
-                histogram_buckets: [0.002, 0.004, 0.008, 0.016, 0.032, 0.064, 0.128, 0.256, 0.512, 1.02, 2.05, 4.10]
-
-            storage:
-              remote_write: 
-              - url: http://kps-prometheus.glueops-core-kube-prometheus-stack:9090/api/v1/write
+        
+          
+           
         global_overrides:
           defaults:
             metrics_generator:

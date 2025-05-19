@@ -173,8 +173,8 @@ otel:
       repository: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator
       tag: ""
     collectorImage:
-      repository: "otel/opentelemetry-collector"
-      tag: 0.109.0
+      repository: "otel/opentelemetry-collector-contrib"
+      tag: 0.123.0
     opampBridgeImage:
       repository: ""
       tag: ""
@@ -351,7 +351,7 @@ container_images:
       image:
         registry: docker.io
         repository: grafana/grafana
-        tag: 10.4.8@sha256:c88e62a727bbb54b1ce1a420fb81b8b116c10a60d666de92ae74f3481aef1499
+        tag: 11.4.3@sha256:95eb8900c1e40e89b3e907094383b1c76c0c166ad5ec85e635de86f114aa7184
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
