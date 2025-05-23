@@ -279,7 +279,7 @@ container_images:
     loki:
       image:
         repository: grafana/loki
-        tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
+        tag: 3.5.1@sha256:a74594532eec4cc313401beedc4dd2708c43674c032084b1aeb87c14a5be1745
   app_network_exporter:
     network_exporter:
       image:
