@@ -36,7 +36,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.11.5@sha256:a1cbad75b0a7098bf9325132794dddf9eef917e8a7fe246749a4cea7ff6f01eb"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.13@sha256:c8644d0d41757dd444bd1aabc23740be71f0a34549128454a2b37f57a0c496b0"` |  |
+| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19@sha256:a9043254ba16fb10945cc27333963dfd08eccbb43b51f1222d831cc564e3a1f4"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
 | container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
