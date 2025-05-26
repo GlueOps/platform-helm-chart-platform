@@ -349,3 +349,11 @@ nodePorts:
     ports:
       http: 31995
       https: 30154
+
+kubeEtcd:
+  enabled: true
+  serviceMonitor:
+    caFile: /etc/prometheus/secrets/etcd-client/ca.crt
+    certFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt
+    keyFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key
+  
