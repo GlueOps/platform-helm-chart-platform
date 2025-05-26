@@ -135,6 +135,12 @@ This chart deploys the GlueOps Platform
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
+| nodePorts.nginx.enabled | bool | `true` |  |
+| nodePorts.nginx.ports.http | int | `31995` |  |
+| nodePorts.nginx.ports.https | int | `30154` |  |
+| nodePorts.oauth2_proxy.enabled | bool | `true` |  |
+| nodePorts.oauth2_proxy.ports.http | int | `30803` |  |
+| nodePorts.oauth2_proxy.ports.https | int | `30801` |  |
 | prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
