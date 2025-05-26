@@ -339,7 +339,7 @@ container_images:
 enable_chisel_proxy_protocol: false
 
 nodePorts:
-  enbaled: true
+  enabled: true
   # the chosen http/https values are the same with Loadbalancers values 
   oauth2_proxy:
     ports:
