@@ -105,10 +105,12 @@ spec:
               {{- if .Values.enable_chisel_proxy_protocol }}
               chisel-operator.io/proxy-protocol: "true"
               {{- end }}
+            {{- if .Values.nodePorts.enabled }}
             type: "NodePort"
             nodePorts: 
               http: {{ .Values.nodePorts.nginx.ports.http }}
               https: {{ .Values.nodePorts.nginx.ports.https }}
+            {{- end }}
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1788923154
