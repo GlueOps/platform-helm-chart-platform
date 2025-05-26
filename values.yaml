@@ -337,3 +337,15 @@ container_images:
         tag: v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7
   
 enable_chisel_proxy_protocol: false
+
+nodePorts:
+  oauth2_proxy:
+    enabled: true
+    ports:
+      http: 30803
+      https: 30801
+  nginx:
+    enabled: true
+    ports:
+      http: 31995
+      https: 30154
