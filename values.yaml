@@ -338,20 +338,20 @@ container_images:
   
 enable_chisel_proxy_protocol: false
 
-nodePorts:
-  enabled: true
+node_ports:
+  enabled: false
   # the chosen http/https values are the same with Loadbalancers values 
   oauth2_proxy:
     ports:
-      http: 30803
-      https: 30801
+      http: 46010
+      https: 46011
   nginx:
     ports:
-      http: 31995
-      https: 30154
+      http: 46020
+      https: 46021
 
-kubeEtcd:
-  enabled: true
+kube_etcd:
+  enabled: false
   serviceMonitor:
     caFile: /etc/prometheus/secrets/etcd-client/ca.crt
     certFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt

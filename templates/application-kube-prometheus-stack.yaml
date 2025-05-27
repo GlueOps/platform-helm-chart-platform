@@ -68,12 +68,12 @@ spec:
             patch:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
-        {{- if .Values.kubeEtcd.enabled }}
-        kubeEtcd:
+        {{- if .Values.kube_etcd.enabled }}
+        kube_etcd:
           serviceMonitor:
-            caFile: {{ .Values.kubeEtcd.serviceMonitor.caFile }}
-            certFile: {{ .Values.kubeEtcd.serviceMonitor.certFile }}
-            keyFile: {{ .Values.kubeEtcd.serviceMonitor.keyFile }}
+            caFile: {{ .Values.kube_etcd.serviceMonitor.caFile }}
+            certFile: {{ .Values.kube_etcd.serviceMonitor.certFile }}
+            keyFile: {{ .Values.kube_etcd.serviceMonitor.keyFile }}
             scheme: https
           service:
             port: 2379
@@ -103,7 +103,7 @@ spec:
                     requests:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
-            {{- if .Values.kubeEtcd.enabled }}
+            {{- if .Values.kube_etcd.enabled }}
             secrets:
               - etcd-client
             {{- end }}
