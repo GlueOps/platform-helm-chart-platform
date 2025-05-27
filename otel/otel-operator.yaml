@@ -14,14 +14,13 @@ spec:
               endpoint: 0.0.0.0:4318
       exporters:
         otlphttp/loki:
+          headers:
+            X-Scope-OrgID: nonprod.gliese667cc.onglueops.rocks
           logs_endpoint: http://loki-write-headless.glueops-core-loki:3100/otlp/v1/logs
-          headers:
-            "X-Scope-OrgID": "nonprod.gliese667cc.onglueops.rocks"
         otlphttp/trace:
-          traces_endpoint: http://grafana-tempo-distributor.glueops-core-tempo:4318/v1/traces
           headers:
-            "X-Scope-OrgID": "nonprod.gliese667cc.onglueops.rocks"
-          
+            X-Scope-OrgID: nonprod.gliese667cc.onglueops.rocks
+          traces_endpoint: http://grafana-tempo-distributor.glueops-core-tempo:4318/v1/traces
       processors:
         batch:
           send_batch_size: 10000
@@ -37,7 +36,7 @@ spec:
         pipelines:
           logs:
             exporters:
-              -  otlphttp/loki
+              - otlphttp/loki
             processors:
               - memory_limiter
               - batch
