@@ -107,7 +107,7 @@ spec:
               {{- end }}
             type: {{- if .Values.node_ports.enabled }} "NodePort" {{- else }} "LoadBalancer" {{- end }}  
             {{- if .Values.node_ports.enabled }}  
-            node_ports: 
+            nodePorts:
               http: {{ .Values.node_ports.nginx.ports.http }}
               https: {{ .Values.node_ports.nginx.ports.https }}
             {{- end }}
