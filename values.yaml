@@ -340,7 +340,7 @@ enable_chisel_proxy_protocol: false
 
 node_ports:
   enabled: false
-  # the chosen http/https values are the same with Loadbalancers values 
+  # the chosen http/https values are the same with LoadBalancer values 
   oauth2_proxy:
     ports:
       http: 46010
