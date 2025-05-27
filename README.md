@@ -130,7 +130,7 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| kube_etcd.enabled | bool | `false` |  |
+| kube_etcd.enabled | bool | `true` |  |
 | kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client/ca.crt"` |  |
 | kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt"` |  |
 | kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key"` |  |
@@ -139,11 +139,11 @@ This chart deploys the GlueOps Platform
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
-| node_ports.enabled | bool | `false` |  |
-| node_ports.nginx.ports.http | int | `46020` |  |
-| node_ports.nginx.ports.https | int | `46021` |  |
-| node_ports.oauth2_proxy.ports.http | int | `46010` |  |
-| node_ports.oauth2_proxy.ports.https | int | `46011` |  |
+| node_ports.enabled | bool | `true` |  |
+| node_ports.nginx.ports.http | int | `30020` |  |
+| node_ports.nginx.ports.https | int | `30021` |  |
+| node_ports.oauth2_proxy.ports.http | int | `30010` |  |
+| node_ports.oauth2_proxy.ports.https | int | `30011` |  |
 | prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
