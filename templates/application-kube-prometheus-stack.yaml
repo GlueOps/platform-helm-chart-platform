@@ -69,7 +69,7 @@ spec:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         {{- if .Values.kube_etcd.enabled }}
-        kube_etcd:
+        kubeEtcd:
           serviceMonitor:
             caFile: {{ .Values.kube_etcd.serviceMonitor.caFile }}
             certFile: {{ .Values.kube_etcd.serviceMonitor.certFile }}
