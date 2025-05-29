@@ -40,6 +40,9 @@ spec:
         multitenancyEnabled: true
         gateway:
           enabled: true
+        metaMonitoring:
+          serviceMonitor:
+            enabled: true  
         ingester:  
           config:
             flush_check_period: 10s
@@ -63,12 +66,7 @@ spec:
         
           
            
-        global_overrides:
-          defaults:
-            metrics_generator:
-              processors:
-                - service-graphs
-                - span-metrics
+        
                     
 
         

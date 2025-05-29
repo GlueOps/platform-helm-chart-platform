@@ -32,6 +32,10 @@ spec:
       values: |-
         objstoreConfig:
         {{- toYaml .Values.thanos.storage | nindent 12 }}
+        metrics:
+          enabled: true
+          serviceMonitor:
+            enabled: true
         query:
           replicaLabel: ["__replica__"]
           resources: 

@@ -47,6 +47,10 @@ spec:
           value: '{{ .Values.loki.chunkConfig.writebackBuffer }}'
         - name: chunksCache.writebackSizeLimit
           value: '{{ .Values.loki.chunkConfig.writebackSizeLimit }}'
+        - name: monitoring.serviceMonitor.enabled
+          value: 'true'  
+        - name: monitoring.serviceMonitor.scheme
+          value: 'http'  
 
        
       values: |-
