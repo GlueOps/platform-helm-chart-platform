@@ -131,6 +131,10 @@ variable "host_network_enabled" {
   description = "Determines whether or not to use hostNetwork mode."
 }
 
+variable "kubeadm_cluster" {
+  type        = bool
+  description = "Determines whether or not to deploy kubeadm_cluster."
+}
 
 
 data "local_file" "platform_values_template" {
@@ -215,7 +219,7 @@ variable "tenant_s3_multi_region_access_point" {
 
 
 output "helm_values" {
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
     replace(
       data.local_file.platform_values_template.content,
     "placeholder_tenant_key", var.tenant_key),
@@ -223,6 +227,7 @@ output "helm_values" {
     "placeholder_captain_repo_ssh_clone_url", var.captain_repo_ssh_clone_url),
     "placeholder_this_is_development", var.this_is_development),
     "placeholder_enable_host_network", var.host_network_enabled),
+    "placeholder_enable_kubeadm_cluster", var.kubeadm_cluster),
     "placeholder_cluster_environment", var.cluster_environment),
     "placeholder_glueops_root_domain", var.glueops_root_domain),
     "placeholder_opsgenie_api_key", var.opsgenie_api_key),
