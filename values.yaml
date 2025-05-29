@@ -37,7 +37,7 @@ host_network:
         port: 45056
 
 node_ports:
-  enabled: false
+  enabled: placeholder_enable_kubeadm_cluster
   # the chosen http/https values are the same with LoadBalancer values 
   oauth2_proxy:
     ports:
@@ -351,7 +351,7 @@ enable_chisel_proxy_protocol: false
 
 
 kube_etcd:
-  enabled: false
+  enabled: placeholder_enable_kubeadm_cluster
   serviceMonitor:
     caFile: /etc/prometheus/secrets/etcd-client/ca.crt
     certFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt
