@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://github.com/GlueOps/platform-helm-chart-grafana-dashboards'
     path: .
-    targetRevision: 
+    targetRevision: v0.13.2-rc65
     helm:
       skipCrds: true
       parameters:
