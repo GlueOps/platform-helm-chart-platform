@@ -14,54 +14,54 @@ spec:
               endpoint: 0.0.0.0:4318
       exporters:
         otlphttp/loki:
+          headers:
+            X-Scope-OrgID: nonprod.gliese667cc.onglueops.rocks
           logs_endpoint: http://loki-write-headless.glueops-core-loki:3100/otlp/v1/logs
-          headers:
-            "X-Scope-OrgID": "nonprod.gliese667cc.onglueops.rocks"
         otlphttp/trace:
-          traces_endpoint: http://grafana-tempo-distributor.glueops-core-tempo:4318/v1/traces
           headers:
-            "X-Scope-OrgID": "nonprod.gliese667cc.onglueops.rocks"
+            X-Scope-OrgID: nonprod.gliese667cc.onglueops.rocks
+          traces_endpoint: http://grafana-tempo-distributor.glueops-core-tempo:4318/v1/traces
         prometheusremotewrite:
           endpoint: http://kps-prometheus.glueops-core-kube-prometheus-stack:9090/api/v1/write
           target_info:
-            enabled: true 
+            enabled: true
       connectors:
         spanmetrics:
-          namespace: span.metrics    
+          aggregation_temporality: AGGREGATION_TEMPORALITY_CUMULATIVE
           dimensions:
-            - name: http.method
-              default: GET
+            - default: GET
+              name: http.method
             - name: http.status_code
             - name: http.target
             - name: net.peer.ip
+          dimensions_cache_size: 1000
           exemplars:
             enabled: true
-          dimensions_cache_size: 1000
-          aggregation_temporality: "AGGREGATION_TEMPORALITY_CUMULATIVE"    
+          metrics_expiration: 5m
           metrics_flush_interval: 15s
-          metrics_expiration: 5m 
+          namespace: span.metrics
           resource_metrics_key_attributes:
             - service.name
             - telemetry.sdk.language
-            - telemetry.sdk.name 
-         
+            - telemetry.sdk.name
       service:
         telemetry:
           metrics:
             address: 0.0.0.0:8888
         pipelines:
-          traces:
-            receivers: [otlp]
-            processors: []
-            exporters: [otlphttp/trace, spanmetrics]
-          metrics:
-            receivers: [spanmetrics]   #otlp -> spanmetrics. # Connector 'spanmetrics' should be used as an exporter and receiver in the pipeline.
-            processors: []
-            exporters: [prometheusremotewrite]
           logs:
-            receivers: [otlp]
-            processors: []
-            exporters: [otlphttp/loki]
-          
-              
-
+            exporters:
+              - otlphttp/loki
+            receivers:
+              - otlp
+          metrics:
+            exporters:
+              - prometheusremotewrite
+            receivers:
+              - spanmetrics
+          traces:
+            exporters:
+              - otlphttp/trace
+              - spanmetrics
+            receivers:
+              - otlp
