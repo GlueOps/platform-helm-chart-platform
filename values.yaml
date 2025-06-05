@@ -324,7 +324,7 @@ container_images:
     controller:
       image:
         repository: ingress-nginx/controller
-        tag: v1.11.5@sha256:a1cbad75b0a7098bf9325132794dddf9eef917e8a7fe246749a4cea7ff6f01eb
+        tag: v1.12.3@sha256:ac444cd9515af325ba577b596fe4f27a34be1aa330538e8b317ad9d6c8fb94ee
   app_cert_manager:
     cert_restore:
       image:
