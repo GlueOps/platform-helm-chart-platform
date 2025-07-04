@@ -329,7 +329,7 @@ container_images:
     cert_restore:
       image:
         repository: glueops/certs-backup-restore
-        tag: v0.12.4
+        tag: v0.12.5
   app_oauth2_proxy:
     oauth2_proxy:
       image:
