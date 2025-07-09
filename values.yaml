@@ -5,6 +5,7 @@ host_network:
   enabled: placeholder_enable_host_network
   external_secrets:
     webhook_port: 45010
+    webhook_metrics_port: 45011
   cert_manager:
     webhook_secure_port: 45020
   nginx_public:
