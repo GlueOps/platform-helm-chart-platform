@@ -22,13 +22,14 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: 'https://kubernetes-sigs.github.io/descheduler'
-    chart: descheduler
-    targetRevision: 0.33.0
+    repoURL: 'https://github.com/kubernetes-sigs/descheduler.git'
+    path: charts/descheduler
+    targetRevision: v0.33.0
     helm:
       parameters:
         - name: kind
           value: "Deployment"
         - name: replicas
           value: "1"
-
+      values: |-
+         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
