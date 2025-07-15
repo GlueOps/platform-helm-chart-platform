@@ -1,0 +1,126 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-dev
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-kube-prometheus-stack
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://grafana.github.io/helm-charts'
+    chart: grafana
+    targetRevision: 8.13.0
+    helm:
+      skipCrds: true
+      values: |-
+        sidecar:
+          datasources:
+            enabled: true
+            defaultDatasourceEnabled: false
+            isDefaultDatasource: true
+            url: http://kube-thanos-stack-query.glueops-core-kube-prometheus-stack:9090/
+            name: Prometheus
+            uid: prometheus
+        adminPassword: "{{ .Values.grafana.admin_password }}"
+        sidecar:
+         dashboards:
+          enabled: true
+          label: grafana_developer_dashboard
+        datasources:
+          datasources.yaml:
+            apiVersion: 1
+            datasources:
+              - name: Prometheus
+                type: prometheus
+                uid: prometheus
+                url:  http://kube-thanos-stack-query.glueops-core-kube-prometheus-stack:9090/
+                isDefault: true
+              - name: Loki
+                type: loki
+                url: http://loki-gateway.glueops-core-loki.svc.cluster.local
+                jsonData:
+                  httpHeaderName1: "X-Scope-OrgID"
+                secureJsonData:
+                  httpHeaderValue1: "{{ .Values.captain_domain }}"
+              - name: Tempo
+                type: tempo
+                uid: de7lydl3hl9fkd
+                url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
+                jsonData:
+                  httpHeaderName1: "X-Scope-OrgID"
+                secureJsonData:
+                  httpHeaderValue1: "{{ .Values.captain_domain }}"    
+          
+        image:
+          registry: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.registry }}
+          repository: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.repository }}
+          tag: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.tag }}
+        plugins:
+          - yesoreyeram-infinity-datasource
+        assertNoLeakedSecrets: false
+        ingress:
+          enabled: true
+          ingressClassName: public-authenticated
+          annotations:
+            ingress.pomerium.io/allow_any_authenticated_user: 'true'
+            ingress.pomerium.io/pass_identity_headers: 'true'
+            ingress.pomerium.io/allow_websockets: 'true'
+            ingress.pomerium.io/idle_timeout: 0s
+            ingress.pomerium.io/preserve_host_header: 'true'
+          hosts:
+            - grafana.{{ .Values.captain_domain }}
+          path: "/"
+        additionalDataSources:
+        - name: Loki
+          type: loki
+          url: http://loki-gateway.glueops-core-loki.svc.cluster.local
+          jsonData:
+            httpHeaderName1: "X-Scope-OrgID"
+          secureJsonData:
+            httpHeaderValue1: "{{ .Values.captain_domain }}"
+        - name: Tempo
+          type: tempo
+          uid: de7lydl3hl9fkd
+          url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
+          jsonData:
+            httpHeaderName1: "X-Scope-OrgID"
+          secureJsonData:
+            httpHeaderValue1: "{{ .Values.captain_domain }}"
+        grafana.ini:
+          users:
+            viewers_can_edit: true
+          server:
+            root_url: "https://grafana.{{ .Values.captain_domain }}/"
+          auth.generic_oauth:
+            enabled: true
+            allow_sign_up: true
+            name: GitHub SSO
+            client_id: grafana
+            client_secret: "{{ .Values.dex.grafana.client_secret }}"
+            scopes: "openid profile email groups"
+            auth_url: https://dex.{{ .Values.captain_domain }}/auth
+            token_url: https://dex.{{ .Values.captain_domain }}/token
+            api_url: https://dex.{{ .Values.captain_domain }}/userinfo
+            ssl_verify: false
+            org_attribute_path:   
+            role_attribute_path: contains(groups[*], '{{ .Values.grafana.github_admin_org_name }}:{{ .Values.grafana.github_admin_team_name }}') && 'Admin' || 'Viewer'
+
+      
+

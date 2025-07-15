@@ -76,6 +76,11 @@ spec:
               redirectURIs:
                 - 'https://grafana.{{ .Values.captain_domain }}/login/generic_oauth'
               secret: {{ .Values.dex.grafana.client_secret }}
+            - id: grafana-admin
+              name: Grafana
+              redirectURIs:
+                - 'https://grafana-admin.{{ .Values.captain_domain }}/login/generic_oauth'
+              secret: {{ .Values.dex.grafana.client_secret }}  
             - id: pomerium
               name: Pomerium
               redirectURIs:

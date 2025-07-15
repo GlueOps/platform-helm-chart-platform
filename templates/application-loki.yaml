@@ -70,11 +70,16 @@ spec:
             log_queries_longer_than: 5s
             compress_responses: true
             #cache_results: true
-          #rontend_worker:
-          #  parallelism: 4  
+          runtimeConfig:
+            overrides:
+              {{ .Values.captain_domain }}:
+                ingestion_rate_mb: 24
+                ingestion_burst_size_mb: 36
+                max_streams_per_user: 100000
+                max_chunks_per_query: 100000
           limits_config:
-            ingestion_rate_mb: 5       # Prevent high ingestion rates
-            ingestion_burst_size_mb: 10
+            ingestion_rate_mb: 24      # Prevent high ingestion rates
+            ingestion_burst_size_mb: 36
             max_query_parallelism: 4    # Limit concurrent queries
             max_query_series: 10000     # Prevent large query memory spikes
             max_streams_per_user: 1000  # Restrict high memory-consuming logs

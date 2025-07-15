@@ -128,6 +128,7 @@ spec:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
         grafana:
+          enabled: false
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
@@ -189,4 +190,5 @@ spec:
               token_url: https://dex.{{ .Values.captain_domain }}/token
               api_url: https://dex.{{ .Values.captain_domain }}/userinfo
               ssl_verify: false
+              org_attribute_path:   
               role_attribute_path: contains(groups[*], '{{ .Values.grafana.github_admin_org_name }}:{{ .Values.grafana.github_admin_team_name }}') && 'Admin' || 'Viewer'
