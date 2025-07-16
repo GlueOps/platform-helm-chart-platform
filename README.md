@@ -22,7 +22,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v0.3.6@sha256:b0b48ae02bdfa60a590312c0dbeb905261053ef46512c326b78eab9701d9b31b"` |  |
 | container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.1@sha256:7ab9949f1b283a805262921c0d9b0044276df8414379b9e134d3c3ec484e44ec"` |  |
+| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.5"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.5@sha256:5f1843dfa2f76eea0a5e9a792867305d50b6f2d27e010d003a9ce79eb4188d16"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
