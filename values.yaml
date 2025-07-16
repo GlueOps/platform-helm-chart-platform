@@ -260,7 +260,7 @@ container_images:
     dex:
       image:
         repository: dexidp/dex
-        tag: v2.42.0@sha256:1b4a6eee8550240b0faedad04d984ca939513650e1d9bd423502c67355e3822f
+        tag: v2.43.1@sha256:0881d3c9359b436d585b2061736ce271c100331e073be9178ef405ce5bf09557
   app_glueops_alerts:
     cluster_monitoring:
       image:
