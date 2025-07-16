@@ -237,7 +237,7 @@ container_images:
     external_secrets:
       image:
         repository: external-secrets/external-secrets
-        tag: v0.14.4@sha256:7e4eb415516a2755aab6e4722ea0cc5ad39832f8b4bc51b82aa4fabe19aacbdf
+        tag: v0.15.1@sha256:fd2d7659ab662ee77e9571a8a4bd1a48c3ddfe5aa25a927b75380ae50eb354cb
   app_backup_and_exports:
     vault_backup_validator:
       image:
