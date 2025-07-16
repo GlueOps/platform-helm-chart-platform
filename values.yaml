@@ -315,7 +315,7 @@ container_images:
     metacontroller:
       image:
         repository: metacontroller/metacontroller
-        tag: v4.11.25@sha256:02ba252a4ffff7f6d24d9342bd54ca055e6e4a10be1945ff5afbea31515c8ce7 #this might need to be updated manually because of renovatebot errors
+        tag: v4.12.3@sha256:12b3bd93a86487db2db5b631748d1b8a3f32819b2749b18aff169342546ecd4a #this might need to be updated manually because of renovatebot errors
   app_fluent_operator:
     kubesphere:
       image:
