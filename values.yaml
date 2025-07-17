@@ -246,7 +246,7 @@ container_images:
     backup_tools:
       image:
         repository: glueops/backup-tools
-        tag: v0.19.0@sha256:b885eb2144e40231977b8b670117f5cd26572fdb78e8db2c04b53daab0b57e95
+        tag: v0.19.1@sha256:be93e21c0751d91e3c0aa0ba45d839e067401a90d5722c5c61cdd327af9b13d1
     certs_backup_restore:
       image:
         repository: glueops/certs-backup-restore
