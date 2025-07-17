@@ -143,3 +143,23 @@ spec:
             enabled: true
             default: false
             controllerValue: "k8s.io/public-ingress-nginx"
+          affinity: 
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                      - ingress-nginx
+                    - key: app.kubernetes.io/instance
+                      operator: In
+                      values:
+                      - public-ingress-nginx
+                    - key: app.kubernetes.io/component
+                      operator: In
+                      values:
+                      - controller
+                  topologyKey: kubernetes.io/hostname
