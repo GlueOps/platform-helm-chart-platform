@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: descheduler
+  name: glueops-descheduler
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,8 +10,6 @@ spec:
     namespace: kube-system
   project: glueops-core
   syncPolicy:
-    syncOptions:
-      - CreateNamespace=true  
     automated:
       prune: true
       selfHeal: true

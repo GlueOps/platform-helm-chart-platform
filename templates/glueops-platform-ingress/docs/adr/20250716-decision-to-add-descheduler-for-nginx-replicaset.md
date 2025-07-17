@@ -3,13 +3,13 @@
 - Status: [draft]
 - Deciders: Hamza Bouissa, Venkata Mutyala
 - Date: 2025-07-16
-- Tags: nginx,kube-schedular,descheduler,replicaset
+- Tags: nginx,kube-scheduler,descheduler,replicaset
 
 Technical Story: The current scheduling behavior of Nginx replicasets does not ensure even distribution across nodes, leading to potential availability issues in case of node failures.
 
 ## Context and Problem Statement
 
-During a recent incident, a node failure in the tha-prod node pool resulted in two Nginx replicas running on a single node. By default, Nginx replicas should be spread across as many nodes as possible to ensure high availability. However, when capacity is limited, the scheduler should distribute pods across available nodes and re-balance them when new nodes are added.
+During a recent incident, a node failure in the customer production node pool resulted in two Nginx replicas running on a single node. By default, Nginx replicas should be spread across as many nodes as possible to ensure high availability. However, when capacity is limited, the scheduler should distribute pods across available nodes and re-balance them when new nodes are added.
 
 ## Decision Drivers 
 
