@@ -68,6 +68,17 @@ spec:
             patch:
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+        {{- if .Values.kube_etcd.enabled }}
+        kubeEtcd:
+          serviceMonitor:
+            caFile: {{ .Values.kube_etcd.serviceMonitor.caFile }}
+            certFile: {{ .Values.kube_etcd.serviceMonitor.certFile }}
+            keyFile: {{ .Values.kube_etcd.serviceMonitor.keyFile }}
+            scheme: https
+          service:
+            port: 2379
+            targetPort: 2379
+        {{- end }}
         prometheus: 
           enabled: true
           prometheusSpec:
@@ -92,6 +103,10 @@ spec:
                     requests:
                       storage: {{ .Values.prometheus.volume_claim_storage_request}}Gi
             hostNetwork: {{ .Values.host_network.enabled }}
+            {{- if .Values.kube_etcd.enabled }}
+            secrets:
+              - etcd-client
+            {{- end }}
         grafana:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
