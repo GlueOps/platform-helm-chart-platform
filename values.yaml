@@ -37,7 +37,17 @@ host_network:
       metricServer:
         port: 45056
 
-
+node_ports:
+  enabled: placeholder_enable_kubeadm_cluster
+  # the chosen http/https values are the same with LoadBalancer values 
+  oauth2_proxy:
+    ports:
+      http: 30010
+      https: 30011
+  nginx:
+    ports:
+      http: 30020
+      https: 30021
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
 # This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -338,3 +348,11 @@ container_images:
         tag: v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7
   
 enable_chisel_proxy_protocol: false
+
+kube_etcd:
+  enabled: placeholder_enable_kubeadm_cluster
+  serviceMonitor:
+    caFile: /etc/prometheus/secrets/etcd-client/ca.crt
+    certFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt
+    keyFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key
+
