@@ -265,7 +265,7 @@ container_images:
     cluster_information_help_page_html:
       image:
         repository: glueops/cluster-information-help-page-html
-        tag: v0.4.5@sha256:5f1843dfa2f76eea0a5e9a792867305d50b6f2d27e010d003a9ce79eb4188d16
+        tag: v0.4.6@sha256:264f9def0b0be249b8806a87be9c369ea3dc4a8f68ddeb38c7d9c4062b5b2047
   app_dex:
     dex:
       image:
