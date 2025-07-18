@@ -275,7 +275,7 @@ container_images:
     cluster_monitoring:
       image:
         repository: glueops/cluster-monitoring
-        tag: v0.8.1@sha256:aa12c39244682d61a48fc374f97f318943c42c36347bf333105c5f4802721419
+        tag: v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d
   app_kube_prometheus_stack:
     grafana:
       image:
