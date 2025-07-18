@@ -295,7 +295,7 @@ container_images:
     network_exporter:
       image:
         repository: syepes/network_exporter
-        tag: 1.7.9@sha256:36cd647c80c30e3f5b78f9d2ca60f38e1d024fb3b9588a845cac2dc3f4fb75e1
+        tag: 1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69
   app_promtail:
     promtail:
       image:

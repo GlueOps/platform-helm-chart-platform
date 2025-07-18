@@ -44,7 +44,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
 | container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.13.0@sha256:3e7d43ae4c14c7a0eb26ebfffa23bda1f5ccd293ef13deaf448df2f336feff94"` |  |
 | container_images.app_network_exporter.network_exporter.image.repository | string | `"syepes/network_exporter"` |  |
-| container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.9@sha256:36cd647c80c30e3f5b78f9d2ca60f38e1d024fb3b9588a845cac2dc3f4fb75e1"` |  |
+| container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.repository | string | `"oauth2-proxy/oauth2-proxy"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
