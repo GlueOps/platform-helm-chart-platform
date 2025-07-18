@@ -305,7 +305,7 @@ container_images:
     pull_request_bot:
       image:
         repository: glueops/pull-request-bot
-        tag: v0.22.3@sha256:b03549d0302622a9e672d7d502e5d5bba8c234a668ff5bc6fdb21c88abb34363
+        tag: v0.22.4@sha256:dcbac7fa330b4ce169abe7f91a95c31bdb7f357405a1487355cf3afd099abf74
   app_qr_code_generator:
     qr_code_generator:
       image: 
