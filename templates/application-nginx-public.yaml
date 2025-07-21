@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
     chart: ingress-nginx
-    targetRevision: 4.13.0
+    targetRevision: 4.11.8
     helm:
       values: |-
         defaultBackend:
@@ -105,7 +105,14 @@ spec:
               {{- if .Values.enable_chisel_proxy_protocol }}
               chisel-operator.io/proxy-protocol: "true"
               {{- end }}
-            type: "LoadBalancer"
+
+            type: {{- if .Values.node_ports.enabled }} "NodePort" {{- else }} "LoadBalancer" {{- end }}  
+            {{- if .Values.node_ports.enabled }}  
+            nodePorts:
+              http: {{ .Values.node_ports.nginx.ports.http }}
+              https: {{ .Values.node_ports.nginx.ports.https }}
+            {{- end }}
+
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1788923154
@@ -136,3 +143,23 @@ spec:
             enabled: true
             default: false
             controllerValue: "k8s.io/public-ingress-nginx"
+          affinity: 
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                      - ingress-nginx
+                    - key: app.kubernetes.io/instance
+                      operator: In
+                      values:
+                      - public-ingress-nginx
+                    - key: app.kubernetes.io/component
+                      operator: In
+                      values:
+                      - controller
+                  topologyKey: kubernetes.io/hostname
