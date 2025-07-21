@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.59.2](https://img.shields.io/badge/Version-0.59.2-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.60.1](https://img.shields.io/badge/Version-0.60.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -16,25 +16,25 @@ This chart deploys the GlueOps Platform
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
-| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.19.0@sha256:b885eb2144e40231977b8b670117f5cd26572fdb78e8db2c04b53daab0b57e95"` |  |
+| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.19.1@sha256:be93e21c0751d91e3c0aa0ba45d839e067401a90d5722c5c61cdd327af9b13d1"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.12.1@sha256:7ab9949f1b283a805262921c0d9b0044276df8414379b9e134d3c3ec484e44ec"` |  |
+| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.12.7@sha256:1ac7bfc7afd5af16af2728371d2845d7941dcab2658779e34b25e50fc7bb2ded"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v0.3.6@sha256:b0b48ae02bdfa60a590312c0dbeb905261053ef46512c326b78eab9701d9b31b"` |  |
 | container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.1@sha256:7ab9949f1b283a805262921c0d9b0044276df8414379b9e134d3c3ec484e44ec"` |  |
+| container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.7@sha256:1ac7bfc7afd5af16af2728371d2845d7941dcab2658779e34b25e50fc7bb2ded"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
-| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.5@sha256:5f1843dfa2f76eea0a5e9a792867305d50b6f2d27e010d003a9ce79eb4188d16"` |  |
+| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.4.6@sha256:264f9def0b0be249b8806a87be9c369ea3dc4a8f68ddeb38c7d9c4062b5b2047"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
-| container_images.app_dex.dex.image.tag | string | `"v2.42.0@sha256:1b4a6eee8550240b0faedad04d984ca939513650e1d9bd423502c67355e3822f"` |  |
+| container_images.app_dex.dex.image.tag | string | `"v2.43.1@sha256:0881d3c9359b436d585b2061736ce271c100331e073be9178ef405ce5bf09557"` |  |
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
-| container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.14.4@sha256:7e4eb415516a2755aab6e4722ea0cc5ad39832f8b4bc51b82aa4fabe19aacbdf"` |  |
+| container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.1@sha256:aa12c39244682d61a48fc374f97f318943c42c36347bf333105c5f4802721419"` |  |
+| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
-| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.11.5@sha256:a1cbad75b0a7098bf9325132794dddf9eef917e8a7fe246749a4cea7ff6f01eb"` |  |
+| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.0@sha256:dc75a7baec7a3b827a5d7ab0acd10ab507904c7dad692365b3e3b596eca1afd2"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
@@ -42,17 +42,17 @@ This chart deploys the GlueOps Platform
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
-| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.11.25@sha256:02ba252a4ffff7f6d24d9342bd54ca055e6e4a10be1945ff5afbea31515c8ce7"` |  |
+| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.13.0@sha256:3e7d43ae4c14c7a0eb26ebfffa23bda1f5ccd293ef13deaf448df2f336feff94"` |  |
 | container_images.app_network_exporter.network_exporter.image.repository | string | `"syepes/network_exporter"` |  |
-| container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.9@sha256:36cd647c80c30e3f5b78f9d2ca60f38e1d024fb3b9588a845cac2dc3f4fb75e1"` |  |
+| container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.repository | string | `"oauth2-proxy/oauth2-proxy"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
-| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.22.3@sha256:b03549d0302622a9e672d7d502e5d5bba8c234a668ff5bc6fdb21c88abb34363"` |  |
+| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.22.4@sha256:dcbac7fa330b4ce169abe7f91a95c31bdb7f357405a1487355cf3afd099abf74"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
-| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.7.1@sha256:884d67d4e17f3c4567dcb79eb3491099c448b58dc0c81ae848b50cd8cf314d22"` |  |
+| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.7.2@sha256:799f1b33abe1485bf7e072a36a377f5db1aea908c0570eb98f162707018c5422"` |  |
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
 | container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
@@ -118,6 +118,7 @@ This chart deploys the GlueOps Platform
 | grafana.github_other_org_names | string | `"placeholder_tenant_github_org_name"` |  |
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
 | host_network.enabled | string | `"placeholder_enable_host_network"` |  |
+| host_network.external_secrets.webhook_metrics_port | int | `45011` |  |
 | host_network.external_secrets.webhook_port | int | `45010` |  |
 | host_network.keda.prometheus.metricServer.port | int | `45056` |  |
 | host_network.keda.prometheus.operator.port | int | `45055` |  |
@@ -130,11 +131,20 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
+| kube_etcd.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
+| kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client/ca.crt"` |  |
+| kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt"` |  |
+| kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key"` |  |
 | loki.aws_accessKey | string | `"placeholder_loki_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
+| node_ports.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
+| node_ports.nginx.ports.http | int | `30020` |  |
+| node_ports.nginx.ports.https | int | `30021` |  |
+| node_ports.oauth2_proxy.ports.http | int | `30010` |  |
+| node_ports.oauth2_proxy.ports.https | int | `30011` |  |
 | prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |

@@ -5,6 +5,7 @@ host_network:
   enabled: placeholder_enable_host_network
   external_secrets:
     webhook_port: 45010
+    webhook_metrics_port: 45011
   cert_manager:
     webhook_secure_port: 45020
   nginx_public:
@@ -36,7 +37,17 @@ host_network:
       metricServer:
         port: 45056
 
-
+node_ports:
+  enabled: placeholder_enable_kubeadm_cluster
+  # the chosen http/https values are the same with LoadBalancer values 
+  oauth2_proxy:
+    ports:
+      http: 30010
+      https: 30011
+  nginx:
+    ports:
+      http: 30020
+      https: 30021
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
 # This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -236,7 +247,7 @@ container_images:
     external_secrets:
       image:
         repository: external-secrets/external-secrets
-        tag: v0.14.4@sha256:7e4eb415516a2755aab6e4722ea0cc5ad39832f8b4bc51b82aa4fabe19aacbdf
+        tag: v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649
   app_backup_and_exports:
     vault_backup_validator:
       image:
@@ -245,26 +256,26 @@ container_images:
     backup_tools:
       image:
         repository: glueops/backup-tools
-        tag: v0.19.0@sha256:b885eb2144e40231977b8b670117f5cd26572fdb78e8db2c04b53daab0b57e95
+        tag: v0.19.1@sha256:be93e21c0751d91e3c0aa0ba45d839e067401a90d5722c5c61cdd327af9b13d1
     certs_backup_restore:
       image:
         repository: glueops/certs-backup-restore
-        tag: v0.12.1@sha256:7ab9949f1b283a805262921c0d9b0044276df8414379b9e134d3c3ec484e44ec
+        tag: v0.12.7@sha256:1ac7bfc7afd5af16af2728371d2845d7941dcab2658779e34b25e50fc7bb2ded
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:
         repository: glueops/cluster-information-help-page-html
-        tag: v0.4.5@sha256:5f1843dfa2f76eea0a5e9a792867305d50b6f2d27e010d003a9ce79eb4188d16
+        tag: v0.4.6@sha256:264f9def0b0be249b8806a87be9c369ea3dc4a8f68ddeb38c7d9c4062b5b2047
   app_dex:
     dex:
       image:
         repository: dexidp/dex
-        tag: v2.42.0@sha256:1b4a6eee8550240b0faedad04d984ca939513650e1d9bd423502c67355e3822f
+        tag: v2.43.1@sha256:0881d3c9359b436d585b2061736ce271c100331e073be9178ef405ce5bf09557
   app_glueops_alerts:
     cluster_monitoring:
       image:
         repository: glueops/cluster-monitoring
-        tag: v0.8.1@sha256:aa12c39244682d61a48fc374f97f318943c42c36347bf333105c5f4802721419
+        tag: v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d
   app_kube_prometheus_stack:
     grafana:
       image:
@@ -284,7 +295,7 @@ container_images:
     network_exporter:
       image:
         repository: syepes/network_exporter
-        tag: 1.7.9@sha256:36cd647c80c30e3f5b78f9d2ca60f38e1d024fb3b9588a845cac2dc3f4fb75e1
+        tag: 1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69
   app_promtail:
     promtail:
       image:
@@ -294,12 +305,12 @@ container_images:
     pull_request_bot:
       image:
         repository: glueops/pull-request-bot
-        tag: v0.22.3@sha256:b03549d0302622a9e672d7d502e5d5bba8c234a668ff5bc6fdb21c88abb34363
+        tag: v0.22.4@sha256:dcbac7fa330b4ce169abe7f91a95c31bdb7f357405a1487355cf3afd099abf74
   app_qr_code_generator:
     qr_code_generator:
       image: 
         repository: glueops/qr-code-generator
-        tag: v0.7.1@sha256:884d67d4e17f3c4567dcb79eb3491099c448b58dc0c81ae848b50cd8cf314d22
+        tag: v0.7.2@sha256:799f1b33abe1485bf7e072a36a377f5db1aea908c0570eb98f162707018c5422
   app_vault_init_controller:
     vault_init_controller:
       image:
@@ -314,7 +325,7 @@ container_images:
     metacontroller:
       image:
         repository: metacontroller/metacontroller
-        tag: v4.11.25@sha256:02ba252a4ffff7f6d24d9342bd54ca055e6e4a10be1945ff5afbea31515c8ce7 #this might need to be updated manually because of renovatebot errors
+        tag: v4.13.0@sha256:3e7d43ae4c14c7a0eb26ebfffa23bda1f5ccd293ef13deaf448df2f336feff94 #this might need to be updated manually because of renovatebot errors
   app_fluent_operator:
     kubesphere:
       image:
@@ -324,12 +335,12 @@ container_images:
     controller:
       image:
         repository: ingress-nginx/controller
-        tag: v1.11.5@sha256:a1cbad75b0a7098bf9325132794dddf9eef917e8a7fe246749a4cea7ff6f01eb
+        tag: v1.13.0@sha256:dc75a7baec7a3b827a5d7ab0acd10ab507904c7dad692365b3e3b596eca1afd2
   app_cert_manager:
     cert_restore:
       image:
         repository: glueops/certs-backup-restore
-        tag: v0.12.1@sha256:7ab9949f1b283a805262921c0d9b0044276df8414379b9e134d3c3ec484e44ec
+        tag: v0.12.7@sha256:1ac7bfc7afd5af16af2728371d2845d7941dcab2658779e34b25e50fc7bb2ded
   app_oauth2_proxy:
     oauth2_proxy:
       image:
@@ -337,3 +348,11 @@ container_images:
         tag: v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7
   
 enable_chisel_proxy_protocol: false
+
+kube_etcd:
+  enabled: placeholder_enable_kubeadm_cluster
+  serviceMonitor:
+    caFile: /etc/prometheus/secrets/etcd-client/ca.crt
+    certFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt
+    keyFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key
+
