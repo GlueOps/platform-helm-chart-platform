@@ -51,7 +51,7 @@ spec:
               memory: 15Mi
           envVariables:
             - name: CAPTAIN_DOMAIN
-              value: {{ .Values.captain_domain }}
+              value: "{{ .Values.captain_domain }}"
         
         ingress:
           enabled: true
