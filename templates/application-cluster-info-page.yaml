@@ -49,6 +49,9 @@ spec:
             requests:
               cpu: 10m
               memory: 15Mi
+          envVariables:
+            - name: CAPTAIN_DOMAIN
+              value: {{ .Values.captain_domain }}
         
         ingress:
           enabled: true
