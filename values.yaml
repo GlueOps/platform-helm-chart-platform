@@ -260,7 +260,7 @@ container_images:
     certs_backup_restore:
       image:
         repository: glueops/certs-backup-restore
-        tag: v0.12.7@sha256:1ac7bfc7afd5af16af2728371d2845d7941dcab2658779e34b25e50fc7bb2ded
+        tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:
@@ -340,7 +340,7 @@ container_images:
     cert_restore:
       image:
         repository: glueops/certs-backup-restore
-        tag: v0.12.7@sha256:1ac7bfc7afd5af16af2728371d2845d7941dcab2658779e34b25e50fc7bb2ded
+        tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
   app_oauth2_proxy:
     oauth2_proxy:
       image:
