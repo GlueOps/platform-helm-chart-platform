@@ -80,6 +80,8 @@ spec:
             grafanaAgent:
               installOperator: false
           lokiCanary:
+            image:
+              registry: '{{ .Values.base_registry }}'
             tolerations:
               {{- toYaml .Values.daemonset_tolerations | nindent 14 }}
         write:
