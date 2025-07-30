@@ -43,6 +43,10 @@ spec:
           value: info
         - name: serviceAccount.name
           value: external-dns
+        - name: image.repository
+          value: "{{ .Values.base_registry }}/{{ .Values.container_images.app_external_dns.external_dns.image.repository }}"
+        - name: image.tag
+          value: "{{ .Values.base_registry }}/{{ .Values.container_images.app_external_dns.external_dns.image.tag }}"
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         env:
@@ -55,12 +59,14 @@ spec:
         sources:
           - ingress
           - service
+          - crd
         managedRecordTypes: ["A", "CNAME", "NS", "TXT"]
-        extraArgs: [--aws-prefer-cname]
+        extraArgs: 
+          - "--aws-prefer-cname"
+          - "--aws-api-retries=3"
         rbac:
           additionalPermissions:
             - apiGroups: [""]
-              # Ensure "endpoints" is in this list of resources
               resources: ["services", "endpoints", "pods", "nodes"]
               verbs: ["get", "watch", "list"]
             - apiGroups: ["extensions", "networking.k8s.io"]
