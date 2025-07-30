@@ -41,8 +41,6 @@ spec:
           value: "true"
         - name: logLevel
           value: info
-        - name: serviceAccount.name
-          value: external-dns
         - name: image.repository
           value: "{{ .Values.base_registry }}/{{ .Values.container_images.app_external_dns.external_dns.image.repository }}"
         - name: image.tag
