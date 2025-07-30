@@ -60,19 +60,8 @@ spec:
           - ingress
           - service
           - crd
-        managedRecordTypes: ["A", "CNAME", "NS", "TXT"]
         extraArgs: 
           - "--aws-prefer-cname"
           - "--aws-api-retries=3"
-        rbac:
-          additionalPermissions:
-            - apiGroups: [""]
-              resources: ["services", "endpoints", "pods", "nodes"]
-              verbs: ["get", "watch", "list"]
-            - apiGroups: ["extensions", "networking.k8s.io"]
-              resources: ["ingresses"]
-              verbs: ["get", "watch", "list"]
-            - apiGroups: ["discovery.k8s.io"]
-              resources: ["endpointslices"]
-              verbs: ["get", "watch", "list"]
+        
 
