@@ -55,8 +55,8 @@ spec:
         sources:
           - ingress
           - service
-        managedRecordTypes: [A, CNAME, NS, TXT]
-        extraArgs: [--aws-prefer-cname,]
+        managedRecordTypes: ["A", "CNAME", "NS", "TXT"]
+        extraArgs: [--aws-prefer-cname]
         rbac:
           additionalPermissions:
             - apiGroups: [""]
