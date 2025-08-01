@@ -248,6 +248,12 @@ container_images:
       image:
         repository: external-secrets/external-secrets
         tag: v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649
+  app_external_dns:
+    external_dns:
+      image:
+        repository: external-dns/external-dns
+        tag: v0.15.1@sha256:4f3ba4c2bd28030caad05bb7b47fbf47549a46d5e8443b74f0be463550b4fc2b
+
   app_backup_and_exports:
     vault_backup_validator:
       image:
