@@ -24,40 +24,42 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: 'registry-1.docker.io/bitnamicharts'
-    chart: external-dns
-    targetRevision: 8.7.5
+    repoURL: 'https://github.com/kubernetes-sigs/external-dns'
+    path: charts/external-dns
+    targetRevision: external-dns-helm-chart-1.15.2
     helm:
       parameters:
-        - name: aws.credentials.secretKey
-          value: {{ .Values.externalDns.aws_secretKey }}
-        - name: aws.credentials.accessKey
-          value: {{ .Values.externalDns.aws_accessKey }}
-        - name: aws.region
-          value: {{ .Values.externalDns.aws_region }}
         - name: domainFilters[0]
           value: {{ .Values.captain_domain }}
         - name: policy
           value: sync
-        - name: global.imageRegistry
-          value: {{ .Values.base_registry }}
-        - name: global.security.allowInsecureImages
-          value: "true"
         - name: provider
           value: aws
-        - name: aws.preferCNAME
-          value: "true"
         - name: txtPrefix
           value: "extdns-"
-        - name: metrics.enabled
-          value: "true"
         - name: metrics.serviceMonitor.enabled
           value: "true"
-        - name: crd.create
-          value: "true"
-      values: |
+        - name: logLevel
+          value: info
+        - name: image.repository
+          value: "{{ .Values.base_registry }}/{{ .Values.container_images.app_external_dns.external_dns.image.repository }}"
+        - name: image.tag
+          value: "{{ .Values.container_images.app_external_dns.external_dns.image.tag }}"
+      values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+        env:
+          - name: AWS_DEFAULT_REGION
+            value: {{ .Values.externalDns.aws_region }}
+          - name: AWS_SECRET_ACCESS_KEY
+            value: {{ .Values.externalDns.aws_secretKey }}
+          - name: AWS_ACCESS_KEY_ID
+            value: {{ .Values.externalDns.aws_accessKey }}
         sources:
-          - crd
-          - service
           - ingress
+          - service
+          - crd
+        extraArgs: 
+          - "--aws-prefer-cname"
+          - "--aws-api-retries=3"
+        
+
