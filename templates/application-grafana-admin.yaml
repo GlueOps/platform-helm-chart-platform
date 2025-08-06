@@ -101,8 +101,17 @@ spec:
           url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
           jsonData:
             httpHeaderName1: "X-Scope-OrgID"
+            nodeGraph:
+              enabled: true
+            serviceMap:
+              datasourceUid: prometheus
+            tracesToMetrics:
+              datasourceUid: prometheus  
           secureJsonData:
             httpHeaderValue1: "{{ .Values.captain_domain }}"
+          
+
+
         grafana.ini:
           users:
             viewers_can_edit: true

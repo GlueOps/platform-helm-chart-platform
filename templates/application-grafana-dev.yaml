@@ -30,19 +30,16 @@ spec:
     helm:
       skipCrds: true
       values: |-
-        sidecar:
-          datasources:
-            enabled: true
-            defaultDatasourceEnabled: false
-            isDefaultDatasource: true
-            url: http://kube-thanos-stack-query.glueops-core-kube-prometheus-stack:9090/
-            name: Prometheus
-            uid: prometheus
         adminPassword: "{{ .Values.grafana.admin_password }}"
         sidecar:
          dashboards:
           enabled: true
           label: grafana_developer_dashboard
+          defaultDatasourceEnabled: false
+          isDefaultDatasource: true
+          url: http://kube-thanos-stack-query.glueops-core-kube-prometheus-stack:9090/
+          name: Prometheus
+          uid: prometheus
         datasources:
           datasources.yaml:
             apiVersion: 1
@@ -65,6 +62,12 @@ spec:
                 url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
                 jsonData:
                   httpHeaderName1: "X-Scope-OrgID"
+                  nodeGraph:
+                    enabled: true
+                  serviceMap:
+                    datasourceUid: prometheus
+                  tracesToMetrics:
+                    datasourceUid: prometheus  
                 secureJsonData:
                   httpHeaderValue1: "{{ .Values.captain_domain }}"    
           
@@ -101,8 +104,15 @@ spec:
           url: http://grafana-tempo-query-frontend.glueops-core-tempo:3100
           jsonData:
             httpHeaderName1: "X-Scope-OrgID"
+            nodeGraph:
+              enabled: true
+            serviceMap:
+              datasourceUid: prometheus
+            tracesToMetrics:
+              datasourceUid: prometheus 
           secureJsonData:
             httpHeaderValue1: "{{ .Values.captain_domain }}"
+           
         grafana.ini:
           users:
             viewers_can_edit: true
