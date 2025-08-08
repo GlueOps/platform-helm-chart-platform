@@ -252,7 +252,7 @@ container_images:
     external_dns:
       image:
         repository: external-dns/external-dns
-        tag: v0.15.1@sha256:4f3ba4c2bd28030caad05bb7b47fbf47549a46d5e8443b74f0be463550b4fc2b
+        tag: v0.18.0@sha256:f90738b35be265d50141d5c21e6f6049c3da7cd761682c40214117a2951b80bc
 
   app_backup_and_exports:
     vault_backup_validator:
