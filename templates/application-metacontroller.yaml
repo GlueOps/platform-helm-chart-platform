@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: https://github.com/metacontroller/metacontroller.git
     path: deploy/helm/metacontroller
-    targetRevision: v4.12.3
+    targetRevision: v4.12.5
     helm:
       parameters:
         - name: replicas
