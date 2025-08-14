@@ -107,6 +107,7 @@ spec:
             - name: http.status_code
             - name: http.target
             - name: net.peer.ip
+            - name: http.client_ip
           dimensions_cache_size: 1000
           exemplars:
             enabled: true
