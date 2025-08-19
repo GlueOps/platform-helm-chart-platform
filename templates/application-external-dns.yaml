@@ -60,3 +60,6 @@ spec:
         image:
           registry: ghcr.io
           repository: glueops/mirror/bitnami/external-dns
+        global:
+          security:
+            allowInsecureImages: true
