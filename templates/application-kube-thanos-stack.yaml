@@ -32,6 +32,12 @@ spec:
       values: |-
         objstoreConfig:
         {{- toYaml .Values.thanos.storage | nindent 12 }}
+        global:
+          security:
+            allowInsecureImages: true
+        image:
+          registry: ghcr.io
+          repository: glueops/mirror/bitnami/thanos
         metrics:
           enabled: true
           serviceMonitor:
