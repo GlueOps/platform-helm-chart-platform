@@ -48,7 +48,7 @@ spec:
             digest: ""
           admissionWebhooks:
             enabled: false
-          replicaCount: {{ .Values.nginx.controller_replica_count }}
+          replicaCount: 2
           maxUnavailable: 1
           config:
             use-forwarded-headers: true
