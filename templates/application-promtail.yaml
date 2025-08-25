@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://grafana.github.io/helm-charts'
     chart: promtail
-    targetRevision: 6.15.5
+    targetRevision: 6.17.0
     helm:
       parameters:
         - name: config.clients[0].url
