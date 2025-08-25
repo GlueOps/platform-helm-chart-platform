@@ -241,7 +241,7 @@ tls_cert_restore:
   backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
   exclude_namespaces: placeholder_tls_cert_restore_exclude_namespaces
 
-base_registry: ghcr.io/glueops/mirror
+base_registry: public-mirror.gpkg.io/glueops/mirror
 container_images:
   app_external_secrets:
     external_secrets:
