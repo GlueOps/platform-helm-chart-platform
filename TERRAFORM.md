@@ -22,7 +22,6 @@ module "glueops_platform_helm_values" {
   cluster_environment          = "nonprod"
   aws_region                   = "us-west-2"
   tenant_key                   = "antoniostacos"
-  opsgenie_api_key             = "508e9ab8-dbe1-4cef-85f0-f24d1a2633bc"
 }
 
 output "glueops_platform_helm_values" {

@@ -65,13 +65,13 @@ spec:
             spec:
               receivers:
               - name: glueops-alerts
-                opsgenieConfigs:
-                - apiKey:
-                    key: opsgenie_apikey
-                    name: glueops-core-alerts-glueops-alerts
-                  apiURL: https://api.opsgenie.com/
-                  sendResolved: true
-                  updateAlerts: true
+                webhook_configs:
+                - url: 'https://webhooks.rootly.com/webhooks/incoming/alertmanager_webhooks'
+                  send_resolved: true
+                  http_config:
+                    authorization:
+                      type: Bearer
+                      credentials: 4bb5bf5a9c392cebd57ea6375bd2f0e576e7d22a5fdfca90add2045f1284765c
               route:
                 groupBy:
                 - '...'
