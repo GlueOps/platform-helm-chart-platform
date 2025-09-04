@@ -241,7 +241,15 @@ tls_cert_restore:
   backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
   exclude_namespaces: placeholder_tls_cert_restore_exclude_namespaces
 
-base_registry: ghcr.io/glueops/mirror
+base_registries:
+  docker_io: "replicas.mirror.gpkg.io/proxy-docker-io"
+  gcr_io: "replicas.mirror.gpkg.io/proxy-gcr-io"
+  ghcr_io: "replicas.mirror.gpkg.io/proxy-ghcr-io"
+  quay_io: "replicas.mirror.gpkg.io/proxy-quay-io"
+  mcr_microsoft_com: "replicas.mirror.gpkg.io/proxy-mcr-microsoft-com"
+  public_ecr_aws: "replicas.mirror.gpkg.io/proxy-public-ecr-aws"
+  registry_k8s_io: "replicas.mirror.gpkg.io/proxy-registry-k8s-io"
+
 container_images:
   app_external_secrets:
     external_secrets:

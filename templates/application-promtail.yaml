@@ -33,7 +33,7 @@ spec:
           value: http://loki-write.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push
       values: |-
         image:
-          registry: {{ .Values.base_registry }}
+          registry: {{ .Values.base_registries.docker_io }}
           repository: {{ .Values.container_images.app_promtail.promtail.image.repository }}
           tag: {{ .Values.container_images.app_promtail.promtail.image.tag }}
         tolerations:

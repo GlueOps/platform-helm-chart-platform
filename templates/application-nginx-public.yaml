@@ -31,17 +31,17 @@ spec:
       values: |-
         defaultBackend:
           image:
-            registry: {{ .Values.base_registry }}
+            registry: {{ .Values.base_registries.registry_k8s_io }}
         controller:
           admissionWebhooks:
             patch:
               image:
-                registry: {{ .Values.base_registry }}
+                registry: {{ .Values.base_registries.registry_k8s_io }}
           opentelemetry:
             image:
-              registry: {{ .Values.base_registry }}
+              registry: {{ .Values.base_registries.registry_k8s_io }}
           image:
-            registry: {{ .Values.base_registry }}
+            registry: {{ .Values.base_registries.registry_k8s_io }}
             image: {{ .Values.container_images.app_ingress_nginx.controller.image.repository }}
             tag: {{ .Values.container_images.app_ingress_nginx.controller.image.tag }}
             digest: ""

@@ -34,7 +34,7 @@ spec:
       values: |
         appName: 'vault-init-controller'
         image:
-          registry: {{ .Values.base_registry }}
+          registry: {{ .Values.base_registries.ghcr_io }}
           repository: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.repository }}
           tag: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.tag }}
         serviceAccount:

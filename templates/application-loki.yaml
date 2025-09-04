@@ -30,7 +30,7 @@ spec:
     helm:
       parameters:
         - name: loki.image.registry
-          value: '{{ .Values.base_registry }}'
+          value: '{{ .Values.base_registries.docker_io }}'
         - name: loki.image.repository
           value: '{{ .Values.container_images.app_loki.loki.image.repository }}'
         - name: loki.image.tag
@@ -81,7 +81,7 @@ spec:
               installOperator: false
           lokiCanary:
             image:
-              registry: '{{ .Values.base_registry }}'
+              registry: {{ .Values.base_registries.docker_io }}
             tolerations:
               {{- toYaml .Values.daemonset_tolerations | nindent 14 }}
         write:
