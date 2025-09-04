@@ -44,7 +44,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
             repository: {{ .Values.base_registries.docker_io }}/{{ .Values.container_images.app_vault.vault.image.repository }}
-            tag: {{ .Values.container_images.app_vault.vault.image.tag }}q
+            tag: {{ .Values.container_images.app_vault.vault.image.tag }}
           updateStrategyType: "RollingUpdate"
           dataStorage:
             size: {{ .Values.vault.data_storage }}Gi
