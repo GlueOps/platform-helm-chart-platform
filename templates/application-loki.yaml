@@ -96,6 +96,8 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         gateway:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          image:
+            registry: {{ .Values.base_registries.docker_io }}
         loki:
           compactor:
             working_directory: /tmp/compactor
