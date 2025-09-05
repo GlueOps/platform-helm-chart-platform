@@ -56,7 +56,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_oauth2_proxy.oauth2_proxy.image.repository | string | `"oauth2-proxy/oauth2-proxy"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
-| container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
+| container_images.app_promtail.promtail.image.tag | string | `"3.5.4@sha256:11b3ef0bd371bdddd65ed49bc35773412a24de9d022b105eb14a35bd5a827408"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v0.22.4@sha256:dcbac7fa330b4ce169abe7f91a95c31bdb7f357405a1487355cf3afd099abf74"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
