@@ -255,7 +255,7 @@ container_images:
     external_secrets:
       image:
         repository: external-secrets/external-secrets
-        tag: v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649
+        tag: v0.18.2@sha256:87615c878c0528ea994538d2a6ed87931f8389b9e145f4422891b3ba06430cd7
   app_external_dns:
     external_dns:
       image:
