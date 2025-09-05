@@ -38,7 +38,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
 | container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
-| container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
+| container_images.app_fluent_operator.kubesphere.image.tag | string | `"v3.4.0@sha256:d39c04c74d455cbe37f8e8d3152ccd15772ab7bd7e5b94c0e1f1e45efd1cc096"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
