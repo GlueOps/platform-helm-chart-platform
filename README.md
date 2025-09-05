@@ -50,7 +50,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
-| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.12.3@sha256:12b3bd93a86487db2db5b631748d1b8a3f32819b2749b18aff169342546ecd4a"` |  |
+| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.12.5@sha256:8d8f21f3f4e36897b6405f5507fefce209ae805425e556361d93f3ae0ed16ce6"` |  |
 | container_images.app_network_exporter.network_exporter.image.repository | string | `"syepes/network_exporter"` |  |
 | container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.repository | string | `"oauth2-proxy/oauth2-proxy"` |  |
