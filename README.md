@@ -32,7 +32,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.5.0@sha256:5396f0638205a218f40d6c71edeff538b2e44dae63d3ffc34cb0b75f37b3964b"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
-| container_images.app_dex.dex.image.tag | string | `"v2.43.1@sha256:0881d3c9359b436d585b2061736ce271c100331e073be9178ef405ce5bf09557"` |  |
+| container_images.app_dex.dex.image.tag | string | `"v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86"` |  |
 | container_images.app_external_dns.external_dns.image.repository | string | `"external-dns/external-dns"` |  |
 | container_images.app_external_dns.external_dns.image.tag | string | `"v0.15.1@sha256:4f3ba4c2bd28030caad05bb7b47fbf47549a46d5e8443b74f0be463550b4fc2b"` |  |
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
