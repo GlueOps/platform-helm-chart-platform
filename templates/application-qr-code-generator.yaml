@@ -31,7 +31,7 @@ spec:
         appName: 'qr-code-generator'
         replicaCount: '2'
         image:
-          registry: {{ .Values.base_registry }}
+          registry: {{ .Values.base_registries.ghcr_io }}
           repository: {{ .Values.container_images.app_qr_code_generator.qr_code_generator.image.repository }}
           tag: {{ .Values.container_images.app_qr_code_generator.qr_code_generator.image.tag }}
           pullPolicy: IfNotPresent
