@@ -48,6 +48,8 @@ spec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             logLevel: debug
             replicas: 2
+            image:
+              registry: {{ .Values.base_registries.quay_io }}
             # This externalURL is a hack. Alertmanager will reference back to itself per the code here: https://github.com/prometheus/alertmanager/blob/v0.25.0/template/default.tmpl#L2
             # Example when alert manager renders my hack: 
             # https://grafana.{{ .Values.captain_domain }}/alerting/list
@@ -57,15 +59,26 @@ spec:
           disabled:
             KubePodNotReady: true
         prometheusOperator:
+          image:
+            registry: {{ .Values.base_registries.quay_io }}
+          prometheusConfigReloader:
+            image:
+              registry: {{ .Values.base_registries.quay_io }}
+          thanosImage:
+            registry: {{ .Values.base_registries.quay_io }}
           hostNetwork: {{ .Values.host_network.enabled }}
           tls:
             internalPort: {{ .Values.host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port }}
           admissionWebhooks:
             deployment:
+              image:
+                registry: {{ .Values.base_registries.quay_io }}
               tls:
                 internalPort: {{ .Values.host_network.kube_pometheus_stack.prometheusOperator.admissionWebhooks.deployment.tls.internal_port }}
               hostNetwork: {{ .Values.host_network.enabled }}
             patch:
+              image:
+                registry: {{ .Values.base_registries.registry_k8s_io }}
               {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         {{- if .Values.kube_etcd.enabled }}
@@ -84,6 +97,8 @@ spec:
           prometheusSpec:
             {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
             replicas: 2
+            image:
+              registry: {{ .Values.base_registries.quay_io }}
             ruleSelector: {}
             ruleNamespaceSelector: {}
             ruleSelectorNilUsesHelmValues: false
@@ -111,7 +126,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           adminPassword: "{{ .Values.grafana.admin_password }}"
           image:
-            registry: {{ .Values.base_registry }}
+            registry: {{ .Values.base_registries.docker_io }}
             repository: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.repository }}
             tag: {{ .Values.container_images.app_kube_prometheus_stack.grafana.image.tag }}
           #https://stackoverflow.com/questions/77912105/upgrading-kube-prometheus-stack-via-helm-to-chart-v56-2-1-fails-on-grafana-with
@@ -146,3 +161,7 @@ spec:
               api_url: https://dex.{{ .Values.captain_domain }}/userinfo
               ssl_verify: false
               role_attribute_path: contains(groups[*], '{{ .Values.grafana.github_admin_org_name }}:{{ .Values.grafana.github_admin_team_name }}') && 'Admin' || 'Viewer'
+        thanosRuler:
+          thanosRulerSpec:
+            image:
+              registry: {{ .Values.base_registries.quay_io }}

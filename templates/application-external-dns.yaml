@@ -42,7 +42,7 @@ spec:
         - name: logLevel
           value: info
         - name: image.repository
-          value: "{{ .Values.base_registry }}/{{ .Values.container_images.app_external_dns.external_dns.image.repository }}"
+          value: "{{ .Values.base_registries.registry_k8s_io }}/{{ .Values.container_images.app_external_dns.external_dns.image.repository }}"
         - name: image.tag
           value: "{{ .Values.container_images.app_external_dns.external_dns.image.tag }}"
       values: |-

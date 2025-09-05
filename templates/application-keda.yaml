@@ -68,4 +68,4 @@ spec:
             useHostNetwork: {{ .Values.host_network.enabled }}
         global:
           image:
-            registry: {{ .Values.base_registry }}
+            registry: {{ .Values.base_registries.ghcr_io }}
