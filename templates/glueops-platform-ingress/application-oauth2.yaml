@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://oauth2-proxy.github.io/manifests'
     chart: oauth2-proxy
-    targetRevision: 7.12.19
+    targetRevision: 8.2.1
     helm:
       values: |-
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
