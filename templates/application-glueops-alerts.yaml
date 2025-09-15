@@ -30,31 +30,6 @@ spec:
     targetRevision: 0.6.0
     helm:
       values: |
-        appName: 'glueops-core-alerts'
-
-        image:
-          registry: {{ .Values.base_registries.ghcr_io }}
-          repository: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.repository }}
-          tag: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.tag }}
-          pullPolicy: IfNotPresent
-        deployment:
-          replicas: 1
-          enabled: true
-          envVariables:
-            - name: OPSGENIE_API_KEY
-              value: {{ .Values.glueops_alerts.opsgenie_apikey }}
-            - name: OPSGENIE_HEARTBEAT_NAME
-              value: {{ .Values.captain_domain }}
-            - name: OPSGENIE_PING_INTERVAL_MINUTES
-              value: 1
-
-        secret:
-          enabled: true
-          secrets:
-            glueops-alerts:
-              data:
-                opsgenie_apikey: {{ .Values.glueops_alerts.opsgenie_apikey }}
-
         customResources:
           - |-
             apiVersion: monitoring.coreos.com/v1alpha1
