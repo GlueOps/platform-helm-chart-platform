@@ -62,7 +62,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v0.7.2@sha256:799f1b33abe1485bf7e072a36a377f5db1aea908c0570eb98f162707018c5422"` |  |
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
-| container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
+| container_images.app_vault.vault.image.tag | string | `"1.19.5@sha256:c4298db7f9b2ea8cab452cbff5877749087913aa035fcae62026cf16132929f5"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v0.11.1@sha256:6015c7756613a364de039eb5a362df8eb49662df7d83cee2af5befba019b5d99"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
