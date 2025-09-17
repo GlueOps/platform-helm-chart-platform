@@ -30,6 +30,7 @@ spec:
     targetRevision: 0.6.0
     helm:
       values: |
+        appName: 'glueops-core-alerts'
         customResources:
           - |-
             apiVersion: monitoring.coreos.com/v1
