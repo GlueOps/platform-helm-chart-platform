@@ -70,17 +70,17 @@ spec:
         - name: cert_restore.exclude_namespaces
           value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
         - name: cert_restore.image
-          value: "{{ .Values.base_registries.ghcr_io }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
+          value: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
         - name: cert-manager.image.repository
-          value: {{ .Values.base_registries.quay_io }}/jetstack/cert-manager-controller
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-controller
         - name: cert-manager.webhook.image.repository
-          value: {{ .Values.base_registries.quay_io }}/jetstack/cert-manager-webhook
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-webhook
         - name: cert-manager.cainjector.image.repository
-          value: {{ .Values.base_registries.quay_io }}/jetstack/cert-manager-cainjector
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-cainjector
         - name: cert-manager.acmesolver.image.repository
-          value: {{ .Values.base_registries.quay_io }}/jetstack/cert-manager-acmesolver
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-acmesolver
         - name: cert-manager.startupapicheck.image.repository
-          value: {{ .Values.base_registries.quay_io }}/jetstack/cert-manager-startupapicheck
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-startupapicheck
       values: |-
         cert-manager:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}

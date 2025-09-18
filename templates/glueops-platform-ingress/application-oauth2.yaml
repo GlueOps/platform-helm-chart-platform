@@ -32,7 +32,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           proxyVarsAsSecrets: false
           image:
-            repository: {{ .Values.base_registries.quay_io }}/{{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.repository }}
+            repository: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.registry }}/{{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.repository }}
             tag: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.tag }}
           ingress:
             enabled: true

@@ -30,7 +30,7 @@ spec:
       values: |
         appName: 'pull-request-bot'
         image:
-          registry: {{ .Values.base_registries.ghcr_io }}
+          registry: {{ .Values.container_images.app_pull_request_bot.pull_request_bot.image.registry }}
           repository: {{ .Values.container_images.app_pull_request_bot.pull_request_bot.image.repository }}
           tag: {{ .Values.container_images.app_pull_request_bot.pull_request_bot.image.tag }}
           pullPolicy: IfNotPresent
