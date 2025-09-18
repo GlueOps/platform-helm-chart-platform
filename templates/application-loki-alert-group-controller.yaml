@@ -31,7 +31,7 @@ spec:
       values: |
         appName: '{{ .Release.Name }}'
         image:
-          registry: {{ .Values.base_registries.ghcr_io }}
+          registry: {{ .Values.container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry }}
           repository: {{ .Values.container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository }}
           tag: {{ .Values.container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag }}
           pullPolicy: IfNotPresent

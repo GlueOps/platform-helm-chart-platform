@@ -30,7 +30,7 @@ spec:
     helm:
       parameters:
         - name: loki.image.registry
-          value: '{{ .Values.base_registries.docker_io }}'
+          value: '{{ .Values.container_images.app_loki.loki.image.registry }}'
         - name: loki.image.repository
           value: '{{ .Values.container_images.app_loki.loki.image.repository }}'
         - name: loki.image.tag
@@ -81,7 +81,7 @@ spec:
               installOperator: false
           lokiCanary:
             image:
-              registry: {{ .Values.base_registries.docker_io }}
+              registry: {{ .Values.container_images.app_loki.loki.image.registry }}
             tolerations:
               {{- toYaml .Values.daemonset_tolerations | nindent 14 }}
         write:
@@ -97,7 +97,7 @@ spec:
         gateway:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
-            registry: {{ .Values.base_registries.docker_io }}
+            registry: {{ .Values.container_images.app_loki.loki.image.registry }}
         loki:
           compactor:
             working_directory: /tmp/compactor
