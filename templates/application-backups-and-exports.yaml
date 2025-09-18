@@ -68,7 +68,7 @@ spec:
             apiGroup: rbac.authorization.k8s.io
 
         image:
-          registry: {{ .Values.base_registries.ghcr_io }}
+          registry: {{ .Values.container_images.app_backup_and_exports.vault_backup_validator.image.registry }}
           repository: {{ .Values.container_images.app_backup_and_exports.vault_backup_validator.image.repository }}
           tag: {{ .Values.container_images.app_backup_and_exports.vault_backup_validator.image.tag }}
   
@@ -97,7 +97,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: {{ .Values.base_registries.ghcr_io }}/{{ .Values.container_images.app_backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.app_backup_and_exports.backup_tools.image.tag }}
+              image: {{ .Values.container_images.app_backup_and_exports.backup_tools.image.registry }}/{{ .Values.container_images.app_backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.app_backup_and_exports.backup_tools.image.tag }}
               command: ["/bin/bash", "-c"]
               args:
                 - backup-vault
@@ -141,7 +141,7 @@ spec:
               concurrencyPolicy: Forbid
               successfulJobsHistoryLimit: 10
               failedJobsHistoryLimit: 3
-              image: {{ .Values.base_registries.ghcr_io }}/{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.repository }}:{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.tag }}
+              image: {{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.registry }}/{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.repository }}:{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.tag }}
               command: ["python", "-u", "/app/cert-backup-restore/main.py","--backup"]
               resources:
                 requests:

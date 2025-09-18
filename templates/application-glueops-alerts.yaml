@@ -33,7 +33,7 @@ spec:
         appName: 'glueops-core-alerts'
 
         image:
-          registry: {{ .Values.base_registries.ghcr_io }}
+          registry: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.registry }}
           repository: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.repository }}
           tag: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.tag }}
           pullPolicy: IfNotPresent
