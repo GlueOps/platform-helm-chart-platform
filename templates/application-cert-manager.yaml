@@ -72,7 +72,7 @@ spec:
         - name: cert_restore.image
           value: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
         - name: cert-manager.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-controller
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_manager.image.repository }}
         - name: cert-manager.webhook.image.repository
           value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-webhook
         - name: cert-manager.cainjector.image.repository
