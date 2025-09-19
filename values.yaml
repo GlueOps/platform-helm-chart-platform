@@ -350,7 +350,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/pull-request-bot
-        tag: v0.22.4@sha256:dcbac7fa330b4ce169abe7f91a95c31bdb7f357405a1487355cf3afd099abf74
+        tag: v1.0.1@sha256:c9433a1d75eaa7a36a9fc760800340f84d359f244e11a9d2fccc58897ddc5820
   app_qr_code_generator:
     qr_code_generator:
       image: 
