@@ -24,9 +24,9 @@ spec:
     syncOptions:
     - CreateNamespace=true
   source:
-    repoURL: https://helm.gpkg.io/platform
-    chart: glueops-vault-prerequisites
-    targetRevision: 0.4.0
+    repoURL: 'https://github.com/GlueOps/platform-helm-chart-vault-prerequisites'
+    path: .
+    targetRevision: v0.6.0
     helm:
       parameters:
       - name: UNUSED_VALUE
