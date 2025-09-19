@@ -62,7 +62,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.2@sha256:1f7eaeb01933e719c8a9f4acd8181e555e582330c7d50f24484fb64d2ba9b2ef"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111"` |  |
+| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"11.6.3-security-01@sha256:96c2d9a4b50448680051ae97de2d817e97aa4f80dcbee0eb30829f6fa75fca75"` |  |
 | container_images.app_loki.loki.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
 | container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
