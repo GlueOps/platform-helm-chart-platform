@@ -77,7 +77,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_network_exporter.network_exporter.image.tag | string | `"1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.repository | string | `"oauth2-proxy/oauth2-proxy"` |  |
-| container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7"` |  |
+| container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.10.0@sha256:2f1471fc735d50dfb0041aeae12967bae42a8387ce1660f0a76b175e3f9c195c"` |  |
 | container_images.app_promtail.promtail.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
