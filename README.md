@@ -59,7 +59,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
 | container_images.app_ingress_nginx.controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-registry-k8s-io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
-| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.11.8@sha256:695d79381ee6af00c7f5c9fd434f50851d7d32838ad5b2c507e416cf2084fc79"` |  |
+| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.2@sha256:1f7eaeb01933e719c8a9f4acd8181e555e582330c7d50f24484fb64d2ba9b2ef"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111"` |  |
