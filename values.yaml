@@ -374,7 +374,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: metacontroller/metacontroller
-        tag: v4.12.3@sha256:12b3bd93a86487db2db5b631748d1b8a3f32819b2749b18aff169342546ecd4a #this might need to be updated manually because of renovatebot errors
+        tag: v4.12.5@sha256:8d8f21f3f4e36897b6405f5507fefce209ae805425e556361d93f3ae0ed16ce6 #this might need to be updated manually because of renovatebot errors
   app_fluent_operator:
     kubesphere:
       image:
