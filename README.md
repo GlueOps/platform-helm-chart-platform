@@ -38,7 +38,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
-| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.5.0@sha256:5396f0638205a218f40d6c71edeff538b2e44dae63d3ffc34cb0b75f37b3964b"` |  |
+| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v1.3.0@sha256:1571d9f46de30f92970ff020ad23aab47d7e3447a5f28ff2d3911db14cc311f1"` |  |
 | container_images.app_descheduler.descheduler.image.registry | string | `"replicas.mirror.gpkg.io/proxy-registry-k8s-io"` |  |
 | container_images.app_descheduler.descheduler.image.repository | string | `"descheduler/descheduler"` |  |
 | container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0"` |  |
