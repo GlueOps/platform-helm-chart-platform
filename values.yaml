@@ -302,7 +302,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/cluster-information-help-page-html
-        tag: v0.5.0@sha256:5396f0638205a218f40d6c71edeff538b2e44dae63d3ffc34cb0b75f37b3964b
+        tag: v1.3.0@sha256:1571d9f46de30f92970ff020ad23aab47d7e3447a5f28ff2d3911db14cc311f1
   app_dex:
     dex:
       image:
