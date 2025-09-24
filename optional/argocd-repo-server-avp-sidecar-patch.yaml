@@ -1,0 +1,23 @@
+
+# Reference manifest showing what the AVP sidecar and CA volume should look like.
+# Use the JSON patch from the README to mutate your live deployment,
+# or adapt your argocd-repo-server template to include the following:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+  namespace: {{ .Values.argocd.namespace | default "argocd" }}
+spec:
+  template:
+    spec:
+      volumes:
+{{ include "secretsProvider.caVolume" . | indent 8 }}
+      containers:
+      - name: avp
+        image: ghcr.io/argoproj-labs/argocd-vault-plugin:latest
+        args: ["generate","/tmp/app"]
+        env:
+{{ include "secretsProvider.avpEnv" . | indent 10 }}
+        volumeMounts:
+{{ include "secretsProvider.caMount" . | indent 10 }}

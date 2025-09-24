@@ -1,0 +1,28 @@
+
+secretsProvider:
+  # 'vault' or 'openbao'
+  kind: openbao
+
+  # Where your OpenBao (or Vault) API is reachable
+  address: "https://openbao.platform.example:8200"
+
+  auth:
+    # kubernetes | approle | token
+    type: kubernetes
+    kubernetes:
+      role: "argocd"
+      mount: "kubernetes"
+    approle:
+      roleId: ""
+      secretIdRef: ""
+    token:
+      valueFromSecret: ""
+
+  caBundle:
+    inlinePEM: ""   # paste PEM here to render a ConfigMap named sp-ca
+    secretRef: ""   # alternative: name of Secret containing key 'ca.pem'
+
+argocd:
+  namespace: argocd
+  avp:
+    enabled: false   # this bundle doesn't create the sidecar by default
