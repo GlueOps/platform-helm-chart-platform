@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.7.0
+    targetRevision: 0.8.1
     helm:
       values: |+
         appName: "glueops-cluster-info-page"
