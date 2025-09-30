@@ -6,24 +6,26 @@ set -euo pipefail
 # ────────────────────────────────────────────────────────────────────────────────
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" || "${HELP:-}" == "1" ]]; then
   cat <<'USAGE'
-OpenBao Bootstrap (install, init, unseal, ESO + OIDC wiring)
+OpenBao Bootstrap (install, init, unseal, TLS for nodes, ESO + OIDC wiring)
 
 Prereqs:
   - kubectl, helm, jq in PATH
   - Kubernetes access to your cluster
-  - (Optional) Valid Dex client for OIDC: client_id + client_secret
+  - cert-manager installed (your controllers are in glueops-core-cert-manager)
+  - (Optional) Dex client for OIDC: client_id + client_secret
 
-What this script does (high level):
-  1) Uninstalls any existing OpenBao release + cleans PVC/PV finalizers.
-  2) Installs OpenBao via Helm and waits for pods Running.
-  3) Initializes Bao (prints UNSEAL_KEY + ROOT_TOKEN) if not initialized.
-  4) Unseals leader, joins followers to raft, unseals followers.
-  5) (Optional) Configures External Secrets Operator (ESO) Kubernetes auth.
-  6) (Optional) Configures OIDC auth against Dex, binds groups -> policies.
-  7) Prints a ClusterSecretStore snippet (and can apply it).
+What this script does:
+  1) Uninstalls an old Bao release + cleans PVC/PV finalizers.
+  2) (TLS) Creates a self-signed CA + node certificate (or uses your Issuer).
+  3) Installs Bao via Helm with node TLS enabled (pods mount /tls).
+  4) Initializes Bao (prints UNSEAL_KEY + ROOT_TOKEN) if needed.
+  5) Unseals leader, joins followers to raft, unseals followers.
+  6) (Optional) Configures ESO (Kubernetes auth + least-priv policy/role).
+  7) (Optional) Configures OIDC (Dex) + binds groups → editor/reader policies.
+  8) Prints (optionally applies) a ClusterSecretStore pointing at Bao.
+     If TLS is on, it uses https:// and provides the CA bundle to ESO.
 
-Required environment (typical):
-  # OpenBao ingress host (used for OIDC redirect URI)
+Required (typical):
   export BAO_PUBLIC_URL="https://openbao.nonprod.earth.onglueops.rocks"
 
   # OIDC with Dex (if ENABLE_OIDC=1)
@@ -31,21 +33,32 @@ Required environment (typical):
   export OIDC_CLIENT_SECRET="REDACTED"
   export OIDC_DISCOVERY_URL="https://dex.nonprod.earth.onglueops.rocks"
 
-Strongly recommended environment:
-  # bind groups to Bao policies:
-  # - editor (CRUD on kv)
-  # - reader (read-only kv)
-  export OIDC_ADMIN_GROUPS="my-org:platform-editors"
-  export OIDC_READONLY_GROUPS="glueops-rocks:super_admins,development-tenant-earth:developers"
+Strongly recommended:
+  # Bind Dex groups to Bao policies:
+  export OIDC_ADMIN_GROUPS="my-org:platform-editors"                               # → editor policy
+  export OIDC_READONLY_GROUPS="glueops-rocks:super_admins,development-tenant-earth:developers"  # → reader policy
 
-Other useful environment (defaults shown):
-  # Names/versions
-  export NS="glueops-core-boa"                      # OpenBao namespace
+TLS controls (defaults shown):
+  export ENABLE_TLS="1"                       # 1=enable node TLS, 0=off
+  export TLS_INTERNAL_MODE="selfsigned"      # selfsigned | reference
+  export TLS_SECRET_NAME="openbao-tls"       # Secret mounted by Bao pods
+  # If TLS_INTERNAL_MODE=reference, set the issuer to use:
+  # export TLS_ISSUER_KIND="ClusterIssuer"
+  # export TLS_ISSUER_NAME="letsencrypt-prod"
+
+  # Ingress TLS (off by default). If enabled, a cert for BAO_PUBLIC_URL host is issued.
+  export TLS_INGRESS_ENABLE="0"
+  # If enabled and using your issuer:
+  # export TLS_INGRESS_ISSUER_KIND="ClusterIssuer"
+  # export TLS_INGRESS_ISSUER_NAME="letsencrypt-prod"
+  export TLS_INGRESS_SECRET="openbao-ingress-tls"
+
+Other useful env (defaults shown):
+  export NS="glueops-core-boa"                      # Bao namespace
   export REL="openbao"                              # Helm release name
   export VALUES_FILE="values-openbao.yaml"          # Helm values file
   # export CHART_VERSION=""                         # empty = latest repo
 
-  # Init shares/threshold
   export SHARES="1"
   export THRESHOLD="1"
 
@@ -66,25 +79,36 @@ Other useful environment (defaults shown):
   export APPLY_STORE="0"                            # 1 to kubectl apply
   export STORE_NAME="vault-backend"
 
+OIDC toggles (defaults shown):
+  export ENABLE_OIDC="1"
+  export OIDC_DISCOVERY_URL="https://dex.nonprod.earth.onglueops.rocks"
+  export BAO_PUBLIC_URL="https://openbao.nonprod.earth.onglueops.rocks"
+  export OIDC_CLIENT_ID=""           # REQUIRED if ENABLE_OIDC=1
+  export OIDC_CLIENT_SECRET=""       # REQUIRED if ENABLE_OIDC=1
+  export OIDC_ADMIN_GROUPS=""        # csv -> editor policy
+  export OIDC_READONLY_GROUPS=""     # csv -> reader policy
+  # legacy singles (merged into CSV if set)
+  export OIDC_ADMIN_GROUP=""
+  export OIDC_READONLY_GROUP=""
+
 Examples:
 
-  # Basic end-to-end with OIDC groups:
+  # End-to-end with node TLS (selfsigned), OIDC groups and ESO:
   export OIDC_CLIENT_ID=openbao
   export OIDC_CLIENT_SECRET=REDACTED
   export OIDC_ADMIN_GROUPS='my-org:platform-editors'
   export OIDC_READONLY_GROUPS='glueops-rocks:super_admins,development-tenant-earth:developers'
   ./bootstrap-openbao-full.sh
 
-  # Different namespace + auto-apply ClusterSecretStore:
-  NS=glueops-core-boa APPLY_STORE=1 ./bootstrap-openbao-full.sh
-
-  # Disable ESO wiring (just install+init+OIDC):
-  CONFIGURE_ESO=0 ./bootstrap-openbao-full.sh
+  # Use your ClusterIssuer for node TLS and enable ingress TLS:
+  TLS_INTERNAL_MODE=reference TLS_ISSUER_KIND=ClusterIssuer TLS_ISSUER_NAME=letsencrypt-prod \
+  TLS_INGRESS_ENABLE=1 TLS_INGRESS_ISSUER_KIND=ClusterIssuer TLS_INGRESS_ISSUER_NAME=letsencrypt-prod \
+  ./bootstrap-openbao-full.sh
 
 Notes:
   - Script prints UNSEAL_KEY and ROOT_TOKEN on a fresh init. Handle securely.
   - For OIDC CLI login, use: bao login -method=oidc -path=oidc
-  - Dex groups must match the "groups" claim emitted by Dex (often "org:team").
+  - Dex groups must match the "groups" claim (often "org:team").
 USAGE
   exit 0
 fi
@@ -117,6 +141,19 @@ PRINT_STORE_SNIPPET="${PRINT_STORE_SNIPPET:-1}"
 APPLY_STORE="${APPLY_STORE:-0}"
 STORE_NAME="${STORE_NAME:-vault-backend}"
 
+# ----- TLS (cert-manager) -----
+ENABLE_TLS="${ENABLE_TLS:-1}"
+TLS_INTERNAL_MODE="${TLS_INTERNAL_MODE:-selfsigned}"      # selfsigned | reference
+TLS_SECRET_NAME="${TLS_SECRET_NAME:-openbao-tls}"
+
+TLS_ISSUER_KIND="${TLS_ISSUER_KIND:-ClusterIssuer}"       # used if MODE=reference
+TLS_ISSUER_NAME="${TLS_ISSUER_NAME:-}"
+
+TLS_INGRESS_ENABLE="${TLS_INGRESS_ENABLE:-0}"
+TLS_INGRESS_ISSUER_KIND="${TLS_INGRESS_ISSUER_KIND:-${TLS_ISSUER_KIND}}"
+TLS_INGRESS_ISSUER_NAME="${TLS_INGRESS_ISSUER_NAME:-${TLS_ISSUER_NAME}}"
+TLS_INGRESS_SECRET="${TLS_INGRESS_SECRET:-openbao-ingress-tls}"
+
 # ----- OIDC (Dex) -----
 ENABLE_OIDC="${ENABLE_OIDC:-1}"
 OIDC_DISCOVERY_URL="${OIDC_DISCOVERY_URL:-https://dex.nonprod.earth.onglueops.rocks}"
@@ -137,6 +174,9 @@ command -v kubectl >/dev/null || { echo "kubectl not found"; exit 1; }
 command -v jq >/dev/null || { echo "jq not found (please install jq)"; exit 1; }
 
 echo "==> OpenBao full bootstrap: NS=$NS REL=$REL VALUES=$VALUES_FILE"
+
+# Ensure namespace exists early (needed for certs)
+kubectl get ns "$NS" >/dev/null 2>&1 || kubectl create ns "$NS"
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Nuke old install
@@ -162,7 +202,182 @@ for pv in $(kubectl get pv -o name 2>/dev/null | grep "$REL" || true); do
 done
 
 # ────────────────────────────────────────────────────────────────────────────────
-# Fresh install via Helm
+# TLS: issue internal node certificate (and optional ingress cert)
+# ────────────────────────────────────────────────────────────────────────────────
+TLS_VALUES_FILE=""
+BAO_PUBLIC_HOST="$(echo "$BAO_PUBLIC_URL" | sed -E 's~^https?://([^/]+)/?.*$~\1~')"
+
+if [[ "$ENABLE_TLS" == "1" ]]; then
+  echo "==> Preparing cert-manager TLS for nodes (secret: $TLS_SECRET_NAME)…"
+
+  # Internal DNS SANs for Bao services and pods
+  read -r -d '' DNS_JSON <<EOF || true
+[
+  "$REL.$NS.svc",
+  "$REL.$NS.svc.cluster.local",
+  "$REL-active.$NS.svc",
+  "$REL-standby.$NS.svc",
+  "$REL-internal.$NS.svc",
+  "*.$REL-internal.$NS.svc",
+  "$REL"
+]
+EOF
+
+  # Create issuers/certs
+  if [[ "$TLS_INTERNAL_MODE" == "selfsigned" ]]; then
+    # Self-signed CA -> namespaced CA Issuer -> node cert
+    cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: ${REL}-selfsigned
+  namespace: ${NS}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${REL}-ca
+  namespace: ${NS}
+spec:
+  isCA: true
+  commonName: ${REL}-ca
+  secretName: ${REL}-ca
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  issuerRef:
+    name: ${REL}-selfsigned
+    kind: Issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: ${REL}-ca-issuer
+  namespace: ${NS}
+spec:
+  ca:
+    secretName: ${REL}-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${REL}-nodes
+  namespace: ${NS}
+spec:
+  secretName: ${TLS_SECRET_NAME}
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages: ["server auth","client auth"]
+  dnsNames: $(echo "$DNS_JSON")
+  issuerRef:
+    name: ${REL}-ca-issuer
+    kind: Issuer
+EOF
+  else
+    if [[ -z "$TLS_ISSUER_NAME" ]]; then
+      echo "!! TLS_INTERNAL_MODE=reference but TLS_ISSUER_NAME not set"; exit 1
+    fi
+    cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${REL}-nodes
+  namespace: ${NS}
+spec:
+  secretName: ${TLS_SECRET_NAME}
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages: ["server auth","client auth"]
+  dnsNames: $(echo "$DNS_JSON")
+  issuerRef:
+    name: ${TLS_ISSUER_NAME}
+    kind: ${TLS_ISSUER_KIND}
+EOF
+  fi
+
+  echo "==> Waiting for node certificate to be Ready..."
+  kubectl -n "$NS" wait --for=condition=Ready certificate "${REL}-nodes" --timeout=180s
+  kubectl -n "$NS" get secret "$TLS_SECRET_NAME" >/dev/null
+
+  # Optional: ingress TLS
+  if [[ "${TLS_INGRESS_ENABLE}" == "1" && -n "$BAO_PUBLIC_HOST" ]]; then
+    echo "==> Issuing ingress TLS for ${BAO_PUBLIC_HOST} (secret: ${TLS_INGRESS_SECRET})"
+    if [[ -n "$TLS_INGRESS_ISSUER_NAME" ]]; then
+      cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${REL}-ingress
+  namespace: ${NS}
+spec:
+  secretName: ${TLS_INGRESS_SECRET}
+  dnsNames:
+    - ${BAO_PUBLIC_HOST}
+  issuerRef:
+    name: ${TLS_INGRESS_ISSUER_NAME}
+    kind: ${TLS_INGRESS_ISSUER_KIND}
+EOF
+    else
+      # Fall back to internal CA (browser will warn)
+      cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${REL}-ingress
+  namespace: ${NS}
+spec:
+  secretName: ${TLS_INGRESS_SECRET}
+  dnsNames:
+    - ${BAO_PUBLIC_HOST}
+  issuerRef:
+    name: ${REL}-ca-issuer
+    kind: Issuer
+EOF
+    fi
+    kubectl -n "$NS" wait --for=condition=Ready certificate "${REL}-ingress" --timeout=180s
+  fi
+
+  # Create a small values overlay to mount TLS secret + enable TLS listener
+  TLS_VALUES_FILE="$(mktemp)"
+  {
+    echo "server:"
+    echo "  extraVolumes:"
+    echo "    - name: tls"
+    echo "      secret:"
+    echo "        secretName: ${TLS_SECRET_NAME}"
+    echo "  extraVolumeMounts:"
+    echo "    - name: tls"
+    echo "      mountPath: /tls"
+    echo "      readOnly: true"
+    echo "  ha:"
+    echo "    extraConfig: |"
+    echo "      listener \"tcp\" {"
+    echo "        address          = \"0.0.0.0:8200\""
+    echo "        cluster_address  = \"0.0.0.0:8201\""
+    echo "        tls_disable      = 0"
+    echo "        tls_cert_file    = \"/tls/tls.crt\""
+    echo "        tls_key_file     = \"/tls/tls.key\""
+    echo "        tls_client_ca_file = \"/tls/ca.crt\""
+    echo "      }"
+    # Optionally wire ingress TLS if enabled
+    if [[ "${TLS_INGRESS_ENABLE}" == "1" && -n "$BAO_PUBLIC_HOST" ]]; then
+      cat <<EOF2
+  ingress:
+    tls:
+      - secretName: ${TLS_INGRESS_SECRET}
+        hosts:
+          - ${BAO_PUBLIC_HOST}
+EOF2
+    fi
+  } >"$TLS_VALUES_FILE"
+fi
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Fresh install via Helm (after TLS secret exists, so pods come up cleanly)
 # ────────────────────────────────────────────────────────────────────────────────
 echo "==> Adding/updating Helm repo…"
 helm repo add openbao https://openbao.github.io/openbao-helm >/dev/null 2>&1 || true
@@ -173,9 +388,9 @@ set -x
 helm upgrade --install "$REL" openbao/openbao \
   -n "$NS" \
   -f "$VALUES_FILE" \
+  ${TLS_VALUES_FILE:+ -f "$TLS_VALUES_FILE"} \
   ${CHART_VERSION:+--version "$CHART_VERSION"} \
-  --wait --timeout 10m \
-  --create-namespace
+  --wait --timeout 10m
 set +x
 
 # ────────────────────────────────────────────────────────────────────────────────
@@ -239,6 +454,7 @@ fi
 for (( i=1; i<REPLICAS; i++ )); do
   POD="${REL}-${i}"
   echo "==> Ensuring raft join for: $POD"
+  kubectl -n "$NS" exec "$POD" -- bao operator raft join "https://${REL}-0.${REL}-internal:8201" >/dev/null 2>&1 || \
   kubectl -n "$NS" exec "$POD" -- bao operator raft join "http://${REL}-0.${REL}-internal:8200" >/dev/null 2>&1 || true
   if [[ -n "${UNSEAL_KEY:-}" && "$(is_sealed_pod "$POD")" == "true" ]]; then
     echo "==> Unsealing follower: $POD"
@@ -407,6 +623,22 @@ fi
 # ────────────────────────────────────────────────────────────────────────────────
 # Print (and optionally apply) ClusterSecretStore
 # ────────────────────────────────────────────────────────────────────────────────
+# If TLS enabled, use https and provide CA bundle to ESO
+if [[ "${ENABLE_TLS}" == "1" ]]; then
+  CA_PROVIDER_SNIPPET=$(cat <<EOF
+      caProvider:
+        type: Secret
+        name: ${TLS_SECRET_NAME}
+        key: ca.crt
+        namespace: ${NS}
+EOF
+)
+  SERVER_SCHEME="https"
+else
+  CA_PROVIDER_SNIPPET=""
+  SERVER_SCHEME="http"
+fi
+
 STORE_YAML="$(cat <<EOF
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
@@ -415,9 +647,10 @@ metadata:
 spec:
   provider:
     vault:
-      server: http://${REL}.${NS}.svc:8200
+      server: ${SERVER_SCHEME}://${REL}.${NS}.svc:8200
       path: ${KV_PATH}
       version: v2
+${CA_PROVIDER_SNIPPET}
       auth:
         kubernetes:
           mountPath: kubernetes
