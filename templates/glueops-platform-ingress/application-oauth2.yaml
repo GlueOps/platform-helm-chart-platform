@@ -51,8 +51,14 @@ spec:
               email_domains=[ "*" ]
               redirect_url="https://oauth2.{{ .Values.captain_domain }}/oauth2/callback"
               upstreams=[ "static://204" ]
-              oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
               provider="oidc"
               set_xauthrequest=true
               cookie_csrf_per_request=true
               prompt="select_account"
+              #oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
+              # The oidc_issuer_url has been replaced by the 4 lines below to bypass discovery
+              skip_oidc_discovery="true"
+              oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
+              login_url="https://dex.{{ .Values.captain_domain }}/auth"
+              redeem_url="https://dex.{{ .Values.captain_domain }}/token"
+              oidc_jwks_url="https://dex.{{ .Values.captain_domain }}/keys"
