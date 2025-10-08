@@ -26,13 +26,13 @@ spec:
   source:
     repoURL: 'https://oauth2-proxy.github.io/manifests'
     chart: oauth2-proxy
-    targetRevision: 7.12.19
+    targetRevision: 7.18.0
     helm:
       values: |-
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           proxyVarsAsSecrets: false
           image:
-            repository: {{ .Values.base_registries.quay_io }}/{{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.repository }}
+            repository: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.registry }}/{{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.repository }}
             tag: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.tag }}
           ingress:
             enabled: true

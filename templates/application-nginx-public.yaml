@@ -26,22 +26,22 @@ spec:
   source:
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
     chart: ingress-nginx
-    targetRevision: 4.11.8
+    targetRevision: 4.13.2
     helm:
       values: |-
         defaultBackend:
           image:
-            registry: {{ .Values.base_registries.registry_k8s_io }}
+            registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
         controller:
           admissionWebhooks:
             patch:
               image:
-                registry: {{ .Values.base_registries.registry_k8s_io }}
+                registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
           opentelemetry:
             image:
-              registry: {{ .Values.base_registries.registry_k8s_io }}
+              registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
           image:
-            registry: {{ .Values.base_registries.registry_k8s_io }}
+            registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
             image: {{ .Values.container_images.app_ingress_nginx.controller.image.repository }}
             tag: {{ .Values.container_images.app_ingress_nginx.controller.image.tag }}
             digest: ""

@@ -25,7 +25,7 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.6.0
+    targetRevision: 0.8.1
     helm:
       values: |
         appName: 'glueops-network-exporter'
@@ -54,7 +54,7 @@ spec:
                     - --config.file=/config/config.yml
                     command:
                     - /app/network_exporter
-                    image: {{ .Values.base_registries.docker_io }}/{{ .Values.container_images.app_network_exporter.network_exporter.image.repository }}:{{ .Values.container_images.app_network_exporter.network_exporter.image.tag }}
+                    image: {{ .Values.container_images.app_network_exporter.network_exporter.image.registry }}/{{ .Values.container_images.app_network_exporter.network_exporter.image.repository }}:{{ .Values.container_images.app_network_exporter.network_exporter.image.tag }}
                     imagePullPolicy: IfNotPresent
                     livenessProbe:
                       failureThreshold: 3

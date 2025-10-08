@@ -24,14 +24,14 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.6.0
+    targetRevision: 0.8.1
     helm:
       values: |+
         appName: "glueops-cluster-info-page"
 
       
         image:
-          registry: {{ .Values.base_registries.ghcr_io }}
+          registry: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry }}
           repository: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository }}
           tag: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag }}
           pullPolicy: IfNotPresent

@@ -33,7 +33,7 @@ spec:
             tolerations:
               {{- toYaml .Values.glueops_node_and_tolerations.tolerations | nindent 12 }}
             container:
-              repository: {{ .Values.base_registries.docker_io }}/{{ .Values.container_images.app_fluent_operator.kubesphere.image.repository }}
+              repository: {{ .Values.container_images.app_fluent_operator.kubesphere.image.registry }}/{{ .Values.container_images.app_fluent_operator.kubesphere.image.repository }}
               tag: {{ .Values.container_images.app_fluent_operator.kubesphere.image.tag }}
           fluentbit:
             hostNetwork: true

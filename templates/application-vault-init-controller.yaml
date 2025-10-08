@@ -29,12 +29,12 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.6.0
+    targetRevision: 0.8.1
     helm:
       values: |
         appName: 'vault-init-controller'
         image:
-          registry: {{ .Values.base_registries.ghcr_io }}
+          registry: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.registry }}
           repository: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.repository }}
           tag: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.tag }}
         serviceAccount:

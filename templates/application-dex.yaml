@@ -27,12 +27,12 @@ spec:
   source:
     repoURL: https://charts.dexidp.io
     chart: dex
-    targetRevision: 0.23.0
+    targetRevision: 0.24.0
     helm:
       values: |
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         image:
-          repository: {{ .Values.base_registries.ghcr_io }}/{{ .Values.container_images.app_dex.dex.image.repository }}
+          repository: {{ .Values.container_images.app_dex.dex.image.registry }}/{{ .Values.container_images.app_dex.dex.image.repository }}
           tag: {{ .Values.container_images.app_dex.dex.image.tag }}
         ingress:
           enabled: true
