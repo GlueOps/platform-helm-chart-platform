@@ -31,56 +31,7 @@ spec:
     helm:
       values: |
         appName: 'glueops-core-alerts'
-
-        image:
-          registry: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.registry }}
-          repository: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.repository }}
-          tag: {{ .Values.container_images.app_glueops_alerts.cluster_monitoring.image.tag }}
-          pullPolicy: IfNotPresent
-        deployment:
-          replicas: 1
-          enabled: true
-          envVariables:
-            - name: OPSGENIE_API_KEY
-              value: {{ .Values.glueops_alerts.opsgenie_apikey }}
-            - name: OPSGENIE_HEARTBEAT_NAME
-              value: {{ .Values.captain_domain }}
-            - name: OPSGENIE_PING_INTERVAL_MINUTES
-              value: 1
-
-        secret:
-          enabled: true
-          secrets:
-            glueops-alerts:
-              data:
-                opsgenie_apikey: {{ .Values.glueops_alerts.opsgenie_apikey }}
-
         customResources:
-          - |-
-            apiVersion: monitoring.coreos.com/v1alpha1
-            kind: AlertmanagerConfig
-            metadata:
-              name: glueops-alerts
-              namespace: glueops-core-alerts
-            spec:
-              receivers:
-              - name: glueops-alerts
-                opsgenieConfigs:
-                - apiKey:
-                    key: opsgenie_apikey
-                    name: glueops-core-alerts-glueops-alerts
-                  apiURL: https://api.opsgenie.com/
-                  sendResolved: true
-                  updateAlerts: true
-              route:
-                groupBy:
-                - '...'
-                groupInterval: 5m
-                matchers:
-                - name: namespace
-                  value: glueops-core-alerts
-                receiver: glueops-alerts
-                repeatInterval: 5m
           - |-
             apiVersion: monitoring.coreos.com/v1
             kind: PrometheusRule
