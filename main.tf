@@ -10,10 +10,6 @@ terraform {
 }
 
 
-variable "opsgenie_api_key" {
-  description = "Opsgenie API key"
-}
-
 variable "aws_region" {
   description = "AWS region"
 }
@@ -220,7 +216,7 @@ variable "tenant_s3_multi_region_access_point" {
 
 output "helm_values" {
 
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
 
     replace(
       data.local_file.platform_values_template.content,
@@ -232,7 +228,6 @@ output "helm_values" {
     "placeholder_enable_kubeadm_cluster", var.kubeadm_cluster),
     "placeholder_cluster_environment", var.cluster_environment),
     "placeholder_glueops_root_domain", var.glueops_root_domain),
-    "placeholder_opsgenie_api_key", var.opsgenie_api_key),
     "placeholder_aws_region", var.aws_region),
     "placeholder_vault_aws_access_key", var.vault_aws_access_key),
     "placeholder_vault_aws_secret_key", var.vault_aws_secret_key),
