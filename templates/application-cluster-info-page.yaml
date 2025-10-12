@@ -57,8 +57,8 @@ spec:
           enabled: true
           ingressClassName: glueops-platform
           annotations:
-            nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
-            nginx.ingress.kubernetes.io/auth-url: "http://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+            nginx.ingress.kubernetes.io/auth-signin: "http://oauth2-proxy.glueops-core-oauth2-proxy.svc.cluster.local/oauth2/start?rd=https://$host$request_uri"
+            nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.glueops-core-oauth2-proxy.svc.cluster.local/oauth2/auth"
             nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
           entries:
             - name: glueops-platform
