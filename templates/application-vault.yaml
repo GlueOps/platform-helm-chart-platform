@@ -27,19 +27,30 @@ spec:
         - '.webhooks[0].clientConfig.caBundle'
       kind: MutatingWebhookConfiguration
   source:
-    repoURL: 'https://helm.releases.hashicorp.com'
-    chart: vault
-    targetRevision: 0.28.1
+    repoURL: "https://openbao.github.io/openbao-helm"
+    chart: openbao
+    targetRevision: 0.18.2
     helm:
       values: |-
-        # Vault Helm Chart Value Overrides
+        # OpenBao Helm Chart Value Overrides (cutover from Vault)
+
+        # Keep legacy service/DNS names (vault-*, vault-active, etc.)
+        nameOverride: vault
+        fullnameOverride: vault
+
         global:
           enabled: true
           tlsDisable: false
+
+        # OpenBao server image can be overridden by your platform values.
+        # If you manage images via .Values.container_images, keep this block and
+        # ensure those values point to an OpenBao image (e.g., ghcr.io/openbao/openbao).
         ui:
           enabled: true
+
         injector:
           enabled: false
+
         server:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
@@ -48,26 +59,27 @@ spec:
           updateStrategyType: "RollingUpdate"
           dataStorage:
             size: {{ .Values.vault.data_storage }}Gi
-          ingress:
-              activeService: false
-              ingressClassName: glueops-platform
-              annotations: 
-                cert-manager.io/cluster-issuer: letsencrypt
-                nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
-                nginx.ingress.kubernetes.io/auth-url: "http://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
-                nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
-                nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-              enabled: true
-              hosts: 
-                - host: vault.{{ .Values.captain_domain }}
-              
-          extraEnvironmentVars:
-            VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
-            VAULT_TLSCERT: /vault/userconfig/vault-tls/tls.crt
-            VAULT_TLSKEY: /vault/userconfig/vault-tls/tls.key
 
-          # extraVolumes is a list of extra volumes to mount. These will be exposed
-          # to Vault in the path `/vault/userconfig/<name>/`.
+          ingress:
+            activeService: false
+            ingressClassName: glueops-platform
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
+              nginx.ingress.kubernetes.io/auth-url: "http://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+              nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            enabled: true
+            hosts:
+              - host: vault.{{ .Values.captain_domain }}
+
+          # Update paths for OpenBao userconfig mount location
+          extraEnvironmentVars:
+            VAULT_CACERT: /openbao/userconfig/vault-tls/ca.crt
+            VAULT_TLSCERT: /openbao/userconfig/vault-tls/tls.crt
+            VAULT_TLSKEY: /openbao/userconfig/vault-tls/tls.key
+
+          # Extra volumes are mounted under /openbao/userconfig/<name>
           extraVolumes:
             - type: secret
               name: vault-tls
@@ -75,52 +87,54 @@ spec:
           standalone:
             enabled: false
 
-          # Run Vault in "HA" mode.
+          # Run OpenBao in "HA" mode with Raft
           ha:
             enabled: true
             replicas: 3
             raft:
-                enabled: true
-                setNodeId: true
-                config: |
-                  ui = true
-                  listener "tcp" {
-                    address = "0.0.0.0:8200"
-                    cluster_address = "0.0.0.0:8201"
-                    tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
-                    tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
-                    tls_client_ca_file = "/vault/userconfig/vault-tls/ca.crt"
-                    tls_min_version = "tls12"
-                    telemetry {
-                      unauthenticated_metrics_access = true
-                    }
-                  }
+              enabled: true
+              setNodeId: true
+              config: |
+                ui = true
 
-                  storage "raft" {
-                    path = "/vault/data"
-                    retry_join {
-                      auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=vault\" namespace=\"glueops-core-vault\" "
-                      leader_tls_servername = "vault-active.glueops-core-vault.svc.cluster.local"
-                      leader_client_cert_file = "/vault/userconfig/vault-tls/tls.crt"
-                      leader_client_key_file = "/vault/userconfig/vault-tls/tls.key"
-                      leader_ca_cert_file = "/vault/userconfig/vault-tls/ca.crt"
-                    }
-
-                    autopilot {
-                      cleanup_dead_servers = "true"
-                      last_contact_threshold = "200ms"
-                      last_contact_failure_threshold = "10m"
-                      max_trailing_logs = 250000
-                      min_quorum = 5
-                      server_stabilization_time = "10s"
-                    }
-
-                  }
-                  
+                listener "tcp" {
+                  address            = "0.0.0.0:8200"
+                  cluster_address    = "0.0.0.0:8201"
+                  tls_cert_file      = "/openbao/userconfig/vault-tls/tls.crt"
+                  tls_key_file       = "/openbao/userconfig/vault-tls/tls.key"
+                  tls_client_ca_file = "/openbao/userconfig/vault-tls/ca.crt"
+                  tls_min_version    = "tls12"
                   telemetry {
-                      disable_hostname = true
-                      prometheus_retention_time = "30s"
-                      enable_hostname_label = true
+                    unauthenticated_metrics_access = true
+                  }
+                }
+
+                storage "raft" {
+                  path = "/openbao/data"
+
+                  retry_join {
+                    # Keep label selector/DNS stable by using name/fullname override = "vault"
+                    auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=vault\" namespace=\"glueops-core-vault\" "
+                    leader_tls_servername   = "vault-active.glueops-core-vault.svc.cluster.local"
+                    leader_client_cert_file = "/openbao/userconfig/vault-tls/tls.crt"
+                    leader_client_key_file  = "/openbao/userconfig/vault-tls/tls.key"
+                    leader_ca_cert_file     = "/openbao/userconfig/vault-tls/ca.crt"
                   }
 
-                  service_registration "kubernetes" {}
+                  autopilot {
+                    cleanup_dead_servers        = "true"
+                    last_contact_threshold      = "200ms"
+                    last_contact_failure_threshold = "10m"
+                    max_trailing_logs           = 250000
+                    min_quorum                  = 5
+                    server_stabilization_time   = "10s"
+                  }
+                }
+
+                telemetry {
+                  disable_hostname           = true
+                  prometheus_retention_time  = "30s"
+                  enable_hostname_label      = true
+                }
+
+                service_registration "kubernetes" {}
