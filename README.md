@@ -32,7 +32,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v1.0.1@sha256:0885bc98888411a93c6166751a25bbbfee243dc7de1ac806884cb385f203e4f6"` |  |
 | container_images.app_cert_manager.cert_manager.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
 | container_images.app_cert_manager.cert_manager.image.repository | string | `"jetstack/cert-manager-controller"` |  |
-| container_images.app_cert_manager.cert_manager.image.tag | string | `"v1.18.2@sha256:81316365dc0b713eddddfbf9b8907b2939676e6c0e12beec0f9625f202a36d16"` |  |
+| container_images.app_cert_manager.cert_manager.image.tag | string | `"v1.18.2@sha256:eadf7284b949ec807e0f2a57461f80eb79899fd90762eee9df098d5452bbcfde"` |  |
 | container_images.app_cert_manager.cert_restore.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
 | container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d"` |  |
