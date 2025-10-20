@@ -364,7 +364,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-docker-io
         repository: hashicorp/vault
-        tag: 1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1
+        tag: 1.18.5@sha256:750bb37c1638fa194ab37053a81618c61bb0491ddec6fccac87c07a8e6cd8166
   app_metacontroller:
     metacontroller:
       image:
