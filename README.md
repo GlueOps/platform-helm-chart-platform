@@ -167,10 +167,10 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| kube_etcd.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
-| kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client/ca.crt"` |  |
-| kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt"` |  |
-| kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key"` |  |
+| kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
+| kubeadm.kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client/ca.crt"` |  |
+| kubeadm.kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt"` |  |
+| kubeadm.kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key"` |  |
 | loki.aws_accessKey | string | `"placeholder_loki_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
