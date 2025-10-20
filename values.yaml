@@ -340,7 +340,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-docker-io
         repository: grafana/promtail
-        tag: 2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf
+        tag: 2.9.10@sha256:7bcc0185c36cd88ed979dd0493325dc0412addd0da9390063f8d9fd184dd47ea
   app_pull_request_bot:
     pull_request_bot:
       image:
