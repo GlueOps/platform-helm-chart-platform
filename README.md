@@ -89,7 +89,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e"` |  |
 | container_images.app_vault.vault.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
-| container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
+| container_images.app_vault.vault.image.tag | string | `"1.17.6@sha256:74a4ab138ab5d64725e89cd9a9c73f7040c7fe49e98b71697b275ca9a69919df"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v1.0.1@sha256:5be941c0635ba9172f95c76a73ad4eef42ba46e4223e1b544dab5326a9fe2c4b"` |  |
