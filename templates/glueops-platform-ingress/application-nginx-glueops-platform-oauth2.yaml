@@ -107,12 +107,16 @@ spec:
               chisel-operator.io/proxy-protocol: "true"
               {{- end }}
             type: "LoadBalancer"
+            {{- if .Values.kubeadm.enabled }}
             externalIPs: [{{ .Values.private_loadbalancer_ips.public | join ", " }}]
+            {{- end }}
             externalTrafficPolicy: "Local"
             internal:
               enabled: {{ .Values.nginx.internal.enabled }}
               type: "ClusterIP"
+              {{- if .Values.kubeadm.enabled }}
               externalIPs: [{{ .Values.private_loadbalancer_ips.private | join ", " }}]
+              {{- end }}
               externalTrafficPolicy: "Local"
               annotations:
                 service.beta.kubernetes.io/aws-load-balancer-type: nlb
