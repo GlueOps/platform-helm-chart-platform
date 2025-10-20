@@ -37,17 +37,6 @@ host_network:
       metricServer:
         port: 45056
 
-node_ports:
-  enabled: placeholder_enable_kubeadm_cluster
-  # the chosen http/https values are the same with LoadBalancer values 
-  oauth2_proxy:
-    ports:
-      http: 30010
-      https: 30011
-  nginx:
-    ports:
-      http: 30020
-      https: 30021
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
 # This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -151,6 +140,8 @@ vault:
 nginx:
   # -- number of replicas for ingress controller
   controller_replica_count: 2
+  internal:
+    enabled: false
 
 pull_request_bot:
   # -- number of seconds to wait before checking ArgoCD for new applications

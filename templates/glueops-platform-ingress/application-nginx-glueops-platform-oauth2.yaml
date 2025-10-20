@@ -106,32 +106,21 @@ spec:
               {{- if .Values.enable_chisel_proxy_protocol }}
               chisel-operator.io/proxy-protocol: "true"
               {{- end }}
-
-            type: {{- if .Values.node_ports.enabled }} "NodePort" {{- else }} "LoadBalancer" {{- end }}
-            {{- if .Values.node_ports.enabled }}
-            nodePorts:
-              http: {{ .Values.node_ports.oauth2_proxy.ports.http }}
-              https: {{ .Values.node_ports.oauth2_proxy.ports.https }}
-            {{- end }}
-
+            type: "LoadBalancer"
+            externalIPs: [{{ .Values.private_loadbalancer_ips.public | join ", " }}]
             externalTrafficPolicy: "Local"
-          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
-          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1788923154
+            internal:
+              enabled: {{ .Values.nginx.internal.enabled }}
+              type: "ClusterIP"
+              externalIPs: [{{ .Values.private_loadbalancer_ips.private | join ", " }}]
+              externalTrafficPolicy: "Local"
+              annotations:
+                service.beta.kubernetes.io/aws-load-balancer-type: nlb
+
           updateStrategy:
             rollingUpdate:
               maxSurge: 1
               maxUnavailable: 0
-          # Add a pause to make time for the pod to be registered in the AWS NLB target group before proceeding with the next
-          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1834#issuecomment-781530724
-          # https://alexklibisz.com/2021/07/20/speed-limits-for-rolling-restarts-in-kubernetes#round-3-set-minreadyseconds-maxunavailable-to-0-and-maxsurge-to-1
-          minReadySeconds: 180
-          # Add sleep on preStop to allow for graceful shutdown with AWS NLB
-          # https://github.com/kubernetes/ingress-nginx/issues/6928
-          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1118312709
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/bin/sh", "-c", "sleep 240; /wait-shutdown"]
           metrics:
             enabled: true
             serviceMonitor:
@@ -145,6 +134,14 @@ spec:
             default: false
             controllerValue: "k8s.io/glueops-platform-ingress-nginx"
           affinity: 
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: use-as-lb
+                    operator: In
+                    values:
+                      - "true"
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
               - weight: 100
