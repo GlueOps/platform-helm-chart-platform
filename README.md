@@ -23,13 +23,13 @@ This chart deploys the GlueOps Platform
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | container_images.app_backup_and_exports.backup_tools.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
-| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.19.1@sha256:be93e21c0751d91e3c0aa0ba45d839e067401a90d5722c5c61cdd327af9b13d1"` |  |
+| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v2.1.5@sha256:2748babb25059208e7ca15c181a1d39ce6477064b5b805471c1fb3c4e579e6a6"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
-| container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v1.0.1@sha256:0885bc98888411a93c6166751a25bbbfee243dc7de1ac806884cb385f203e4f6"` |  |
+| container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v2.0.1@sha256:8c2b0cb50b08a242b52006995d448b3e86a83df065383bbd24733c967df425a9"` |  |
 | container_images.app_cert_manager.cert_manager.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
 | container_images.app_cert_manager.cert_manager.image.repository | string | `"jetstack/cert-manager-controller"` |  |
 | container_images.app_cert_manager.cert_manager.image.tag | string | `"v1.18.2@sha256:81316365dc0b713eddddfbf9b8907b2939676e6c0e12beec0f9625f202a36d16"` |  |
@@ -87,12 +87,12 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e"` |  |
-| container_images.app_vault.vault.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
-| container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
-| container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
+| container_images.app_vault.vault.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
+| container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
+| container_images.app_vault.vault.image.tag | string | `"2.4.3@sha256:48174d0c98dbb955731c5d54a7e7083987fd25a7fb5d793181db8576ada8ed64"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
-| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v1.0.1@sha256:5be941c0635ba9172f95c76a73ad4eef42ba46e4223e1b544dab5326a9fe2c4b"` |  |
+| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.0.1@sha256:ed23f63142ccaa9d611ef70422aca003797864b3c60581c6d2d8c7aa25702e78"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
