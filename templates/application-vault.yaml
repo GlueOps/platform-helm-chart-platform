@@ -57,8 +57,9 @@ spec:
         server:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
-            repository: openbao/openbao
-            tag: 2.4.1
+            registry: {{ .Values.container_images.app_vault.vault.image.registry }}
+            repository: {{ .Values.container_images.app_vault.vault.image.repository }}
+            tag: {{ .Values.container_images.app_vault.vault.image.tag }}
           updateStrategyType: "RollingUpdate"
           dataStorage:
             size: {{ .Values.vault.data_storage }}Gi
