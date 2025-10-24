@@ -30,7 +30,7 @@ spec:
       jqPathExpressions:
         - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
   source:
-    repoURL: 'https://charts.jetstack.io'
+    repoURL: quay.io/jetstack/charts
     chart: cert-manager
     targetRevision: v1.18.2
     helm:
