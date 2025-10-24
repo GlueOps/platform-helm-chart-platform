@@ -360,3 +360,4 @@ spec:
                       echo "---"
                       echo "All cert-manager services are ready. Sync wave check successful."
                       exit 0
+
