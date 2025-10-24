@@ -62,3 +62,4 @@ spec:
               login_url="https://dex.{{ .Values.captain_domain }}/auth"
               redeem_url="https://dex.{{ .Values.captain_domain }}/token"
               oidc_jwks_url="https://dex.{{ .Values.captain_domain }}/keys"
+
