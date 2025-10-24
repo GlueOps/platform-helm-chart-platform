@@ -203,8 +203,6 @@ spec:
           kind: Application
           metadata:
             name: glueops-vault-init-controller
-            # finalizers:
-            #   - resources-finalizer.argocd.argoproj.io
             namespace: glueops-core
           spec:
             destination:
