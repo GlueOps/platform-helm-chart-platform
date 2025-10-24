@@ -30,9 +30,9 @@ spec:
         - '.webhooks[0].clientConfig.caBundle'
       kind: MutatingWebhookConfiguration
   source:
-    repoURL: "https://openbao.github.io/openbao-helm"
+    repoURL: ghcr.io/openbao/charts
     chart: openbao
-    targetRevision: 0.19.0
+    targetRevision: 0.19.1
     helm:
       values: |-
         # OpenBao Helm Chart Value Overrides (cutover from Vault)
