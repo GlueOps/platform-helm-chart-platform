@@ -316,7 +316,7 @@ spec:
                 restartPolicy: Never
                 containers:
                 - name: health-checker
-                  image: curlimages/curl:8.4.0
+                  image: {{ .Values.container_images.app_curlimages.curl.image.registry }}/{{ .Values.container_images.app_curlimages.curl.image.repository }}:{{ .Values.container_images.app_curlimages.curl.image.tag }}
                   command:
                     - /bin/sh
                     - -c

@@ -389,7 +389,13 @@ container_images:
         registry: replicas.mirror.gpkg.io/proxy-quay-io
         repository: oauth2-proxy/oauth2-proxy
         tag: v7.12.0@sha256:786bed0f000c0f8a7b31619244ebab02406a8856a4faf3f5fb1df61fbd6c30ed
-  
+  app_curlimages:
+    curl:
+      image:
+        registry: replicas.mirror.gpkg.io/proxy-docker-io
+        repository: curlimages/curl
+        tag: 8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6
+
 enable_chisel_proxy_protocol: false
 
 kube_etcd:
