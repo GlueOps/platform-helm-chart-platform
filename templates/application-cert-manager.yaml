@@ -30,63 +30,211 @@ spec:
       jqPathExpressions:
         - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
   source:
-    repoURL: 'https://github.com/GlueOps/platform-helm-chart-cert-manager'
-    path: .
-    targetRevision: v0.19.0
+    repoURL: quay.io/jetstack/charts
+    chart: cert-manager
+    targetRevision: v1.18.2
     helm:
       parameters:
-        - name: cert_manager_glueops_specifics.aws_region
-          value: {{ .Values.certManager.aws_region }}
-        - name: cert_manager_glueops_specifics.aws_accessKey
-          value: {{ .Values.certManager.aws_accessKey }}
-        - name: cert_manager_glueops_specifics.aws_secretKey
-          value: {{ .Values.certManager.aws_secretKey }}
-        - name: cert_manager_glueops_specifics.name_of_default_certificate
-          value: {{ .Values.certManager.name_of_default_certificate }}
-        - name: cert_manager_glueops_specifics.captain_domain
-          value: {{ .Values.captain_domain }}
-        - name: cert-manager.prometheus.enabled
+        - name: crds.enabled
           value: "true"
-        - name: cert-manager.prometheus.servicemonitor.enabled
+        - name: prometheus.enabled
           value: "true"
-        - name: cert-manager.webhook.hostNetwork
+        - name: prometheus.servicemonitor.enabled
+          value: "true"
+        - name: webhook.hostNetwork
           value: "{{ .Values.host_network.enabled }}"
-        - name: cert-manager.webhook.securePort
+        - name: webhook.securePort
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
-        - name: cert_restore.aws_accessKey
-          value: "{{ .Values.tls_cert_restore.aws_accessKey }}"
-        - name: cert_restore.aws_secretKey
-          value: "{{ .Values.tls_cert_restore.aws_secretKey }}"
-        - name: cert_restore.aws_default_region
-          value: "{{ .Values.tls_cert_restore.aws_region }}"
-        - name: cert_restore.bucket_name 
-          value: "{{ .Values.glueops_backups.s3_bucket_name }}"
-        - name: cert_restore.captain_domain
-          value: "{{ .Values.captain_domain }}"
-        - name: cert_restore.backup_prefix 
-          value: "{{ .Values.tls_cert_restore.backup_prefix }}"
-        - name: cert_restore.restore_this_backup 
-          value: ""
-        - name: cert_restore.exclude_namespaces
-          value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
-        - name: cert_restore.image
-          value: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
-        - name: cert-manager.image.repository
+        - name: image.repository
           value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_manager.image.repository }}
-        - name: cert-manager.webhook.image.repository
+        - name: webhook.image.repository
           value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-webhook
-        - name: cert-manager.cainjector.image.repository
+        - name: cainjector.image.repository
           value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-cainjector
-        - name: cert-manager.acmesolver.image.repository
+        - name: acmesolver.image.repository
           value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-acmesolver
-        - name: cert-manager.startupapicheck.image.repository
+        - name: startupapicheck.image.repository
           value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-startupapicheck
       values: |-
-        cert-manager:
+        {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+        webhook:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
-          webhook:
-            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
-          cainjector:
-            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
-          startupapicheck:
-            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
+        cainjector:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+        startupapicheck:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+        extraObjects:
+          - |-
+            apiVersion: batch/v1
+            kind: Job
+            metadata:
+              name: glueops-tls-cert-restore
+              namespace: glueops-core-cert-manager
+              annotations:
+                argocd.argoproj.io/hook: PreSync
+            spec:
+              backoffLimit: 6
+              completionMode: NonIndexed
+              completions: 1
+              parallelism: 1
+              suspend: false
+              template:
+                metadata:
+                  annotations:
+                    helm.sh/chart: app-0.4.0
+                spec:
+                  containers:
+                  - command:
+                    - python
+                    - -u
+                    - /app/cert-backup-restore/main.py
+                    - --restore
+                    env:
+                    - name: AWS_ACCESS_KEY_ID
+                      value: "{{ .Values.tls_cert_restore.aws_accessKey }}"
+                    - name: AWS_SECRET_ACCESS_KEY
+                      value: "{{ .Values.tls_cert_restore.aws_secretKey }}"
+                    - name: AWS_DEFAULT_REGION
+                      value: "{{ .Values.tls_cert_restore.aws_region }}"
+                    - name: CAPTAIN_DOMAIN
+                      value: "{{ .Values.captain_domain }}"
+                    - name: BUCKET_NAME
+                      value: "{{ .Values.glueops_backups.s3_bucket_name }}"
+                    - name: BACKUP_PREFIX
+                      value: "{{ .Values.tls_cert_restore.backup_prefix }}"
+                    - name: RESTORE_THIS_BACKUP
+                      value: ""
+                    - name: EXCLUDE_NAMESPACES
+                      value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
+                    image: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
+                    imagePullPolicy: IfNotPresent
+                    name: glueops-tls-cert-restore
+                    resources:
+                      limits:
+                        cpu: 100m
+                        memory: 128Mi
+                      requests:
+                        cpu: 100m
+                        memory: 128Mi
+                  nodeSelector:
+                    glueops.dev/role: glueops-platform
+                  restartPolicy: Never
+                  schedulerName: default-scheduler
+                  serviceAccount: tls-cert-restore
+                  serviceAccountName: tls-cert-restore
+                  terminationGracePeriodSeconds: 60
+                  tolerations:
+                  - effect: NoSchedule
+                    key: glueops.dev/role
+                    operator: Equal
+                    value: glueops-platform
+          - |-
+            apiVersion: cert-manager.io/v1
+            kind: Certificate
+            metadata:
+              name: "{{ .Values.certManager.name_of_default_certificate }}"
+              annotations:
+                argocd.argoproj.io/sync-wave: "1"
+            spec:
+              dnsNames:
+              - '*.apps.{{ .Values.captain_domain }}'
+              - '*.{{ .Values.captain_domain }}'
+              issuerRef:
+                group: cert-manager.io
+                kind: ClusterIssuer
+                name: letsencrypt
+              secretName: "{{ .Values.certManager.name_of_default_certificate }}"
+          - |-
+            apiVersion: cert-manager.io/v1
+            kind: ClusterIssuer
+            metadata:
+              name: letsencrypt
+              annotations:
+                argocd.argoproj.io/sync-wave: "1"
+            spec:
+              acme:
+                server: https://acme-v02.api.letsencrypt.org/directory
+                privateKeySecretRef:
+                  name: letsencrypt-acme-privatekey
+                solvers:
+                - http01:
+                    ingress:
+                      ingressClassName: "public"
+                - selector:
+                    dnsZones:
+                    - {{ .Values.captain_domain }}
+                  dns01:
+                    # Valid values are None and Follow
+                    route53:
+                      region: "{{ .Values.certManager.aws_region }}"
+                      accessKeyID: "{{ .Values.certManager.aws_accessKey }}"
+                      secretAccessKeySecretRef:
+                        name: route53-credentials-secret
+                        key: secret
+            ---
+            apiVersion: cert-manager.io/v1
+            kind: ClusterIssuer
+            metadata:
+              name: selfsigned
+              annotations:
+                argocd.argoproj.io/sync-wave: "1"
+            spec:
+              selfSigned: {}
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRole
+            metadata:
+              name: tls-cert-restore
+              annotations:
+                argocd.argoproj.io/hook: PreSync
+                argocd.argoproj.io/sync-wave: "-7"
+            rules:
+            - apiGroups:
+              - ""
+              resources:
+              - secrets
+              verbs:
+              - get
+              - list
+              - create
+              - update
+              - patch
+            - apiGroups:
+              - ""
+              resources:
+              - namespaces
+              verbs:
+              - get
+              - list
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              name: tls-cert-restore
+              annotations:
+                argocd.argoproj.io/sync-wave: "-1"
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: tls-cert-restore
+            subjects:
+            - kind: ServiceAccount
+              name: tls-cert-restore
+              namespace: glueops-core-cert-manager
+          - |-
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: route53-credentials-secret
+            stringData:
+              secret: "{{ .Values.certManager.aws_secretKey }}"
+          - |-
+            apiVersion: v1
+            kind: ServiceAccount
+            metadata:
+              name: tls-cert-restore
+              namespace: glueops-core-cert-manager
+              annotations: 
+                argocd.argoproj.io/hook: PreSync
+                argocd.argoproj.io/sync-wave: "-8"
+
