@@ -85,6 +85,7 @@ spec:
                     - name: external-secrets-webhook
                       cache: 10s
                       url: https://external-secrets-webhook.glueops-core-external-secrets.svc.cluster.local
+                      timeout: 2s
                       insecure: true
                       method: GET
                       codes:
