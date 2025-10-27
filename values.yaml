@@ -352,7 +352,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/go-healthz
-        tag: v0.0.9@sha256:d14080a3aebea5b1cd9713e584d8d9d69f4d2864e03307af244d9397e9b08ea9
+        tag: v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c
   app_qr_code_generator:
     qr_code_generator:
       image: 

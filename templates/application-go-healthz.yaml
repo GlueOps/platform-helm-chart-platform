@@ -51,7 +51,7 @@ spec:
               name: go-healthz-go-healthz-config
           volumeMounts:
           - name: go-healthz-config
-            mountPath: "/etc/go-healthz/config.yaml"
+            mountPath: "/etc/go-healthz/config.yml"
             subPath: "config.yml"
 
         service:
