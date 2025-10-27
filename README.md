@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.63.0](https://img.shields.io/badge/Version-0.63.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.64.0](https://img.shields.io/badge/Version-0.64.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -60,6 +60,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
+| container_images.app_go_healthz.go_healthz.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
+| container_images.app_go_healthz.go_healthz.image.repository | string | `"glueops/go-healthz"` |  |
+| container_images.app_go_healthz.go_healthz.image.tag | string | `"v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c"` |  |
 | container_images.app_ingress_nginx.controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-registry-k8s-io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd"` |  |
