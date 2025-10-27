@@ -347,6 +347,12 @@ container_images:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/pull-request-bot
         tag: v1.1.0@sha256:f8b5eb18e1194f08ad0decddcf2c7ef73aaf22953347aca77d2e528a68549c67
+  app_go_healthz:
+    go_healthz:
+      image:
+        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        repository: glueops/go-healthz
+        tag: v0.0.9@sha256:d14080a3aebea5b1cd9713e584d8d9d69f4d2864e03307af244d9397e9b08ea9
   app_qr_code_generator:
     qr_code_generator:
       image: 

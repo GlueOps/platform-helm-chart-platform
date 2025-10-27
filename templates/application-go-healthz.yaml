@@ -1,0 +1,91 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-go-healthz
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-go-healthz
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.8.1
+    helm:
+      values: |
+        appName: 'go-healthz'
+        image:
+          port: 80
+          registry: {{ .Values.container_images.app_go_healthz.go_healthz.image.registry }}
+          repository: {{ .Values.container_images.app_go_healthz.go_healthz.image.repository }}
+          tag: {{ .Values.container_images.app_go_healthz.go_healthz.image.tag }}
+          pullPolicy: IfNotPresent
+        deployment:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          replicas: 2
+          enabled: true
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+
+          volumes:
+          - name: go-healthz-config
+            configMap:
+              name: go-healthz-go-healthz-config
+          volumeMounts:
+          - name: go-healthz-config
+            mountPath: "/etc/go-healthz/config.yaml"
+            subPath: "config.yml"
+
+        service:
+          enabled: true
+
+        configMap:
+          enabled: true
+          configs:
+            go-healthz-config:
+              data: |-
+                config.yml: |
+                  bind: 0.0.0.0:80
+
+                  requests:
+                    - name: public-ingress-nginx
+                      url: http://public-ingress-nginx-controller.glueops-core-public-ingress-nginx.svc.cluster.local/healthz
+                      cache: 10s
+                      method: GET
+                      timeout: 2s
+                      insecure: true
+                      codes:
+                        - 200
+                    - name: glueops-platform-ingress-nginx
+                      url: http://glueops-platform-ingress-nginx-controller.glueops-core-glueops-platform-ingress-nginx.svc.cluster.local/healthz
+                      cache: 10s
+                      method: GET
+                      timeout: 2s
+                      insecure: true
+                      codes:
+                        - 200
+                    - name: external-secrets-webhook
+                      cache: 10s
+                      url: https://external-secrets-webhook.glueops-core-external-secrets.svc.cluster.local
+                      insecure: true
+                      method: GET
+                      codes:
+                        - 404
