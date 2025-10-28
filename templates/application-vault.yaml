@@ -298,7 +298,7 @@ spec:
           apiVersion: batch/v1
           kind: Job
           metadata:
-            name: cert-manager-health-check-job
+            name: glueops-core-cert-manager-health-check-job
             namespace: glueops-core-vault
             annotations:
               # This needs to run before other sync waves to ensure cert-manager is ready.
