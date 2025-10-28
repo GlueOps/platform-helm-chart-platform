@@ -316,7 +316,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-docker-io
         repository: grafana/grafana
-        tag: 10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111
+        tag: 12.0.2-security-01@sha256:9047b1d7ec7bfad6a7e6542e7f1782b2337e18af8ebf4f21cf5327e903dac830
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
