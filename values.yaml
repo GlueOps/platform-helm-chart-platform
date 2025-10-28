@@ -310,7 +310,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/cluster-monitoring
-        tag: v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d
+        tag: v2.0.0@sha256:cc6b9fd4da9e18468aba6757ff6a891d843e2d134884bae0f6404faa520023bb
   app_kube_prometheus_stack:
     grafana:
       image:
