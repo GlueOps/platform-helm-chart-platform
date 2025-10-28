@@ -26,7 +26,7 @@ spec:
   ignoreDifferences:
     - group: apps
       kind: Job
-      name: glueops-tls-cert-restore
+      name: glueops-core-tls-cert-restore
       jqPathExpressions:
         - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
   source:
@@ -68,7 +68,7 @@ spec:
             apiVersion: batch/v1
             kind: Job
             metadata:
-              name: glueops-tls-cert-restore
+              name: glueops-core-tls-cert-restore
               namespace: glueops-core-cert-manager
               annotations:
                 argocd.argoproj.io/hook: PreSync
@@ -108,7 +108,7 @@ spec:
                       value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
                     image: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
                     imagePullPolicy: IfNotPresent
-                    name: glueops-tls-cert-restore
+                    name: glueops-core-tls-cert-restore
                     resources:
                       limits:
                         cpu: 100m
