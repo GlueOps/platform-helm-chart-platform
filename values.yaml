@@ -263,7 +263,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-registry-k8s-io
         repository: descheduler/descheduler
-        tag: v0.33.0
+        tag: v0.34.0@sha256:18ecceedd6096627d9e496f5332e9d2431587f53699802d35393f40a5a7b7239
   app_external_secrets:
     external_secrets:
       image:
