@@ -257,7 +257,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/certs-backup-restore
-        tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
+        tag: v1.2.8@sha256:611a21eccb04097e800c95c8d6ccd535d0a3585825ef1841de22a8158de9d555
   app_descheduler:
     descheduler:
       image:
@@ -292,7 +292,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/certs-backup-restore
-        tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
+        tag: v1.2.8@sha256:611a21eccb04097e800c95c8d6ccd535d0a3585825ef1841de22a8158de9d555
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:
