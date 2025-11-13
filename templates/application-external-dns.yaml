@@ -24,9 +24,9 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: https://kubernetes-sigs.github.io/external-dns/
-    targetRevision: 1.15.2
-    chart: external-dns
+    repoURL: 'https://github.com/kubernetes-sigs/external-dns.git'
+    path: charts/external-dns
+    targetRevision: external-dns-helm-chart-1.15.2
     helm:
       parameters:
         - name: domainFilters[0]
