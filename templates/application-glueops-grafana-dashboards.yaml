@@ -24,6 +24,6 @@ spec:
         maxDuration: 3m0s
       limit: 5
   source:
-    repoURL: 'https://github.com/GlueOps/platform-helm-chart-grafana-dashboards'
+    repoURL: 'https://github.com/GlueOps/platform-helm-chart-grafana-dashboards.git'
     path: .
     targetRevision: v0.12.1
