@@ -12,12 +12,15 @@ spec:
     namespace: glueops-core-vault
   project: glueops-core
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
     automated:
       prune: true
       selfHeal: true
     retry:
       backoff:
-        duration: 10s
+        duration: 30s
         factor: 2
         maxDuration: 3m0s
       limit: 5
@@ -27,47 +30,60 @@ spec:
         - '.webhooks[0].clientConfig.caBundle'
       kind: MutatingWebhookConfiguration
   source:
-    repoURL: 'https://helm.releases.hashicorp.com'
-    chart: vault
-    targetRevision: 0.28.1
+    repoURL: ghcr.io/openbao/charts
+    chart: openbao
+    targetRevision: 0.19.1
     helm:
       values: |-
-        # Vault Helm Chart Value Overrides
+        # OpenBao Helm Chart Value Overrides (cutover from Vault)
+
+        # Keep legacy service/DNS names (vault-*, vault-active, etc.)
+        nameOverride: vault
+        fullnameOverride: vault
+
         global:
           enabled: true
           tlsDisable: false
+
+        # OpenBao server image can be overridden by your platform values.
+        # If you manage images via .Values.container_images, keep this block and
+        # ensure those values point to an OpenBao image (e.g., ghcr.io/openbao/openbao).
         ui:
           enabled: true
+
         injector:
           enabled: false
+
         server:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           image:
-            repository: {{ .Values.container_images.app_vault.vault.image.registry }}/{{ .Values.container_images.app_vault.vault.image.repository }}
+            registry: {{ .Values.container_images.app_vault.vault.image.registry }}
+            repository: {{ .Values.container_images.app_vault.vault.image.repository }}
             tag: {{ .Values.container_images.app_vault.vault.image.tag }}
           updateStrategyType: "RollingUpdate"
           dataStorage:
             size: {{ .Values.vault.data_storage }}Gi
-          ingress:
-              activeService: false
-              ingressClassName: glueops-platform
-              annotations: 
-                cert-manager.io/cluster-issuer: letsencrypt
-                nginx.ingress.kubernetes.io/auth-signin: "http://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
-                nginx.ingress.kubernetes.io/auth-url: "http://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
-                nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
-                nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-              enabled: true
-              hosts: 
-                - host: vault.{{ .Values.captain_domain }}
-              
-          extraEnvironmentVars:
-            VAULT_CACERT: /vault/userconfig/vault-tls/ca.crt
-            VAULT_TLSCERT: /vault/userconfig/vault-tls/tls.crt
-            VAULT_TLSKEY: /vault/userconfig/vault-tls/tls.key
 
-          # extraVolumes is a list of extra volumes to mount. These will be exposed
-          # to Vault in the path `/vault/userconfig/<name>/`.
+          ingress:
+            activeService: false
+            ingressClassName: glueops-platform
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
+              nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+              nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            enabled: true
+            hosts:
+              - host: vault.{{ .Values.captain_domain }}
+
+          # Update paths for OpenBao userconfig mount location
+          extraEnvironmentVars:
+            VAULT_CACERT: /openbao/userconfig/vault-tls/ca.crt
+            VAULT_TLSCERT: /openbao/userconfig/vault-tls/tls.crt
+            VAULT_TLSKEY: /openbao/userconfig/vault-tls/tls.key
+
+          # Extra volumes are mounted under /openbao/userconfig/<name>
           extraVolumes:
             - type: secret
               name: vault-tls
@@ -75,52 +91,271 @@ spec:
           standalone:
             enabled: false
 
-          # Run Vault in "HA" mode.
+          # Run OpenBao in "HA" mode with Raft
           ha:
             enabled: true
             replicas: 3
             raft:
-                enabled: true
-                setNodeId: true
-                config: |
-                  ui = true
-                  listener "tcp" {
-                    address = "0.0.0.0:8200"
-                    cluster_address = "0.0.0.0:8201"
-                    tls_cert_file = "/vault/userconfig/vault-tls/tls.crt"
-                    tls_key_file  = "/vault/userconfig/vault-tls/tls.key"
-                    tls_client_ca_file = "/vault/userconfig/vault-tls/ca.crt"
-                    tls_min_version = "tls12"
-                    telemetry {
-                      unauthenticated_metrics_access = true
-                    }
-                  }
+              enabled: true
+              setNodeId: true
+              config: |
+                ui = true
 
-                  storage "raft" {
-                    path = "/vault/data"
-                    retry_join {
-                      auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=vault\" namespace=\"glueops-core-vault\" "
-                      leader_tls_servername = "vault-active.glueops-core-vault.svc.cluster.local"
-                      leader_client_cert_file = "/vault/userconfig/vault-tls/tls.crt"
-                      leader_client_key_file = "/vault/userconfig/vault-tls/tls.key"
-                      leader_ca_cert_file = "/vault/userconfig/vault-tls/ca.crt"
-                    }
-
-                    autopilot {
-                      cleanup_dead_servers = "true"
-                      last_contact_threshold = "200ms"
-                      last_contact_failure_threshold = "10m"
-                      max_trailing_logs = 250000
-                      min_quorum = 5
-                      server_stabilization_time = "10s"
-                    }
-
-                  }
-                  
+                listener "tcp" {
+                  address            = "0.0.0.0:8200"
+                  cluster_address    = "0.0.0.0:8201"
+                  tls_cert_file      = "/openbao/userconfig/vault-tls/tls.crt"
+                  tls_key_file       = "/openbao/userconfig/vault-tls/tls.key"
+                  tls_client_ca_file = "/openbao/userconfig/vault-tls/ca.crt"
+                  tls_min_version    = "tls12"
                   telemetry {
-                      disable_hostname = true
-                      prometheus_retention_time = "30s"
-                      enable_hostname_label = true
+                    unauthenticated_metrics_access = true
+                  }
+                }
+
+                storage "raft" {
+                  path = "/openbao/data"
+
+                  retry_join {
+                    # Keep label selector/DNS stable by using name/fullname override = "vault"
+                    auto_join = "provider=k8s label_selector=\"component=server,app.kubernetes.io/name=vault\" namespace=\"glueops-core-vault\" "
+                    leader_tls_servername   = "vault-active.glueops-core-vault.svc.cluster.local"
+                    leader_client_cert_file = "/openbao/userconfig/vault-tls/tls.crt"
+                    leader_client_key_file  = "/openbao/userconfig/vault-tls/tls.key"
+                    leader_ca_cert_file     = "/openbao/userconfig/vault-tls/ca.crt"
                   }
 
-                  service_registration "kubernetes" {}
+                  autopilot {
+                    cleanup_dead_servers        = "true"
+                    last_contact_threshold      = "200ms"
+                    last_contact_failure_threshold = "10m"
+                    max_trailing_logs           = 250000
+                    min_quorum                  = 5
+                    server_stabilization_time   = "10s"
+                  }
+                }
+
+                telemetry {
+                  disable_hostname           = true
+                  prometheus_retention_time  = "30s"
+                  enable_hostname_label      = true
+                }
+
+                service_registration "kubernetes" {}
+
+        extraObjects:
+        - |-
+          apiVersion: cert-manager.io/v1
+          kind: Issuer
+          metadata:
+            name: vault-ca-issuer
+            namespace: glueops-core-vault
+            annotations:
+              argocd.argoproj.io/sync-wave: "-11"
+          spec:
+            ca:
+              secretName: vault-ca-secret
+        - |-
+          apiVersion: cert-manager.io/v1
+          kind: Certificate
+          metadata:
+            name: vault-selfsigned-ca
+            namespace: glueops-core-vault
+            annotations:
+              argocd.argoproj.io/hook: PreSync
+              argocd.argoproj.io/sync-wave: "-10"
+          spec:
+            isCA: true
+            commonName: Vault CA
+            secretName: vault-ca-secret
+            duration: 87660h0m0s # 10 years
+            privateKey:
+              algorithm: ECDSA
+              size: 256
+            issuerRef:
+              name: selfsigned
+              kind: ClusterIssuer
+              group: cert-manager.io
+        - |-
+          apiVersion: cert-manager.io/v1
+          kind: Certificate
+          metadata:
+            name: vault-certificate
+            namespace: glueops-core-vault
+            annotations:
+              argocd.argoproj.io/sync-wave: "-9"
+          spec:
+            secretName: vault-tls
+            duration: 9528h0m0s
+            renewBefore: 1080h0m0s
+            dnsNames:
+            - '*.glueops-core-vault.svc.cluster.local'
+            - '*.vault-internal'
+            - '*.vault-internal.glueops-core-vault.svc.cluster.local'
+            - '*.glueops-core-vault'
+            ipAddresses:
+            - '127.0.0.1'
+            issuerRef:
+              name: vault-ca-issuer
+            commonName: vault cert
+        - |-
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            name: glueops-vault-init-controller
+            namespace: glueops-core
+          spec:
+            destination:
+              name: "in-cluster"
+              namespace: glueops-core-vault
+            project: glueops-core
+            syncPolicy:
+              syncOptions:
+                - Replace=true
+              automated:
+                prune: true
+                selfHeal: true
+              retry:
+                backoff:
+                  duration: 10s
+                  factor: 2
+                  maxDuration: 3m0s
+                limit: 5
+            ignoreDifferences:
+              - group: apps
+                kind: Deployment
+                jqPathExpressions:
+                  - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
+            source:
+              repoURL: https://helm.gpkg.io/project-template
+              chart: app
+              targetRevision: 0.8.1
+              helm:
+                values: |
+                  appName: 'vault-init-controller'
+                  image:
+                    registry: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.registry }}
+                    repository: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.repository }}
+                    tag: {{ .Values.container_images.app_vault_init_controller.vault_init_controller.image.tag }}
+                  serviceAccount:
+                    create: true
+                    name: vault-init-controller
+                  customResources:
+                    - |-
+                      apiVersion: rbac.authorization.k8s.io/v1
+                      kind: Role
+                      metadata:
+                        name: vault-init-controller
+                      rules:
+                      - apiGroups: [""]
+                        resources: ["pods"]
+                        verbs: ["get", "list", "watch"]
+                    - |-
+                      apiVersion: rbac.authorization.k8s.io/v1
+                      kind: RoleBinding
+                      metadata:
+                        name: vault-init-controller
+                      subjects:
+                      - kind: ServiceAccount
+                        name: vault-init-controller
+                        namespace: glueops-core-vault
+                      roleRef:
+                        kind: Role
+                        name: vault-init-controller
+                        apiGroup: rbac.authorization.k8s.io
+                  deployment:
+                    {{- toYaml .Values.glueops_node_and_tolerations | nindent 20 }}
+                    serviceAccount:
+                      enabled: true
+                      name: vault-init-controller
+                    replicas: 1
+                    enabled: true
+                    imagePullPolicy: IfNotPresent
+                    envVariables:
+                    - name: VAULT_S3_BUCKET
+                      value: "{{ .Values.vault_init_controller.s3_bucket_name }}"
+                    - name: VAULT_SECRET_FILE
+                      value: "{{ .Values.vault_init_controller.s3_key_path }}"
+                    - name: RECONCILE_PERIOD
+                      value: "{{ .Values.vault_init_controller.reconcile_period }}"
+                    - name: AWS_ACCESS_KEY_ID
+                      value: "{{ .Values.vault_init_controller.aws_accessKey }}"
+                    - name: AWS_SECRET_ACCESS_KEY
+                      value: "{{ .Values.vault_init_controller.aws_secretKey }}"
+                    - name: AWS_DEFAULT_REGION
+                      value: "{{ .Values.vault_init_controller.aws_region }}"
+                    - name: PAUSE_RECONCILE
+                      value: "{{ .Values.vault_init_controller.pause_reconcile }}"
+                    - name: ENABLE_RESTORE
+                      value: "{{ .Values.vault_init_controller.enable_restore }}"
+                    - name: CAPTAIN_DOMAIN
+                      value: "{{ .Values.captain_domain }}"
+                    - name: BACKUP_PREFIX
+                      value: "backups_with_expiration_enabled/hashicorp-vault-backups"
+                    - name: RESTORE_THIS_BACKUP
+                      value: ""
+        - |-
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: glueops-core-cert-manager-health-check-job
+            namespace: glueops-core-vault
+            annotations:
+              # This needs to run before other sync waves to ensure cert-manager is ready.
+              argocd.argoproj.io/sync-wave: "-100"
+              argocd.argoproj.io/hook: PreSync
+          spec:
+            # The number of times to retry the job before marking it as failed.
+            backoffLimit: 3
+            template:
+              spec:
+                # This ensures the pod does not restart within the job. The job controller handles retries.
+                restartPolicy: Never
+                containers:
+                - name: health-checker
+                  image: {{ .Values.container_images.app_curlimages.curl.image.registry }}/{{ .Values.container_images.app_curlimages.curl.image.repository }}:{{ .Values.container_images.app_curlimages.curl.image.tag }}
+                  command:
+                    - /bin/sh
+                    - -c
+                    - |
+                      set -e
+                      echo "---"
+                      echo "Starting Sync Wave health check for all cert-manager services."
+                      echo "The sync will NOT proceed until all services are available."
+                      echo "---"
+                      
+                      # Define services to check: FQDN:port
+                      SERVICES_TO_CHECK="cert-manager.glueops-core-cert-manager.svc:9402 cert-manager-cainjector.glueops-core-cert-manager.svc:9402 cert-manager-webhook.glueops-core-cert-manager.svc:9402"
+                      
+                      for SERVICE in $SERVICES_TO_CHECK; do
+                        echo "--- Checking service: $SERVICE ---"
+                        ATTEMPTS=0
+                        MAX_ATTEMPTS=20
+                        SLEEP_SECONDS=6
+                        
+                        while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
+                          echo "Attempting to connect to $SERVICE (Attempt $((ATTEMPTS+1))/${MAX_ATTEMPTS})..."
+                          # Use curl to check for network connectivity. We REMOVED the --fail flag.
+                          # The command now succeeds if a connection is made, even if we get a 404 response.
+                          # This correctly checks if the service is up and listening on its port.
+                          if curl --silent --insecure --connect-timeout 5 --output /dev/null http://$SERVICE; then
+                            echo "Service $SERVICE is ready."
+                            break # Move on to the next service
+                          fi
+                          
+                          ATTEMPTS=$((ATTEMPTS+1))
+                          
+                          if [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; then
+                            echo "Service $SERVICE did not become ready in time. Failing sync wave."
+                            exit 1
+                          fi
+                          
+                          echo "Service not ready yet. Retrying in ${SLEEP_SECONDS} seconds..."
+                          sleep $SLEEP_SECONDS
+                        done
+                      done
+                      
+                      echo "---"
+                      echo "All cert-manager services are ready. Sync wave check successful."
+                      exit 0
+

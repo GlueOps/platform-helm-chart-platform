@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://kubernetes.github.io/ingress-nginx'
     chart: ingress-nginx
-    targetRevision: 4.13.2
+    targetRevision: 4.13.3
     helm:
       values: |-
         defaultBackend:
@@ -98,6 +98,8 @@ spec:
                                    }' 
           extraArgs:
             default-ssl-certificate: glueops-core-cert-manager/{{ .Values.certManager.name_of_default_certificate }}
+            # Without this flag, nginx may clear ingress entries between upgrades and possibly restarts ref: https://github.com/kubernetes/ingress-nginx/issues/4774#issuecomment-707003403
+            update-status-on-shutdown: "false"
           service:
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"

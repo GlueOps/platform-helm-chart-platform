@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.61.3](https://img.shields.io/badge/Version-0.61.3-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.64.1](https://img.shields.io/badge/Version-0.64.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -23,13 +23,13 @@ This chart deploys the GlueOps Platform
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | container_images.app_backup_and_exports.backup_tools.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
-| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v0.19.1@sha256:be93e21c0751d91e3c0aa0ba45d839e067401a90d5722c5c61cdd327af9b13d1"` |  |
+| container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v2.1.5@sha256:2748babb25059208e7ca15c181a1d39ce6477064b5b805471c1fb3c4e579e6a6"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
-| container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v1.0.1@sha256:0885bc98888411a93c6166751a25bbbfee243dc7de1ac806884cb385f203e4f6"` |  |
+| container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v2.0.1@sha256:8c2b0cb50b08a242b52006995d448b3e86a83df065383bbd24733c967df425a9"` |  |
 | container_images.app_cert_manager.cert_manager.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
 | container_images.app_cert_manager.cert_manager.image.repository | string | `"jetstack/cert-manager-controller"` |  |
 | container_images.app_cert_manager.cert_manager.image.tag | string | `"v1.18.2@sha256:81316365dc0b713eddddfbf9b8907b2939676e6c0e12beec0f9625f202a36d16"` |  |
@@ -39,6 +39,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.5.0@sha256:5396f0638205a218f40d6c71edeff538b2e44dae63d3ffc34cb0b75f37b3964b"` |  |
+| container_images.app_curlimages.curl.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
+| container_images.app_curlimages.curl.image.repository | string | `"curlimages/curl"` |  |
+| container_images.app_curlimages.curl.image.tag | string | `"8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"` |  |
 | container_images.app_descheduler.descheduler.image.registry | string | `"replicas.mirror.gpkg.io/proxy-registry-k8s-io"` |  |
 | container_images.app_descheduler.descheduler.image.repository | string | `"descheduler/descheduler"` |  |
 | container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0"` |  |
@@ -57,9 +60,12 @@ This chart deploys the GlueOps Platform
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
+| container_images.app_go_healthz.go_healthz.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
+| container_images.app_go_healthz.go_healthz.image.repository | string | `"glueops/go-healthz"` |  |
+| container_images.app_go_healthz.go_healthz.image.tag | string | `"v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c"` |  |
 | container_images.app_ingress_nginx.controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-registry-k8s-io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
-| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.2@sha256:1f7eaeb01933e719c8a9f4acd8181e555e582330c7d50f24484fb64d2ba9b2ef"` |  |
+| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111"` |  |
@@ -87,12 +93,12 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e"` |  |
-| container_images.app_vault.vault.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
-| container_images.app_vault.vault.image.repository | string | `"hashicorp/vault"` |  |
-| container_images.app_vault.vault.image.tag | string | `"1.14.10@sha256:14be0a8eb323181a56d10facab3b424809d9921e85d2f2678126ce232766a8e1"` |  |
+| container_images.app_vault.vault.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
+| container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
+| container_images.app_vault.vault.image.tag | string | `"2.4.3@sha256:48174d0c98dbb955731c5d54a7e7083987fd25a7fb5d793181db8576ada8ed64"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
-| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v1.0.1@sha256:5be941c0635ba9172f95c76a73ad4eef42ba46e4223e1b544dab5326a9fe2c4b"` |  |
+| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.0.1@sha256:ed23f63142ccaa9d611ef70422aca003797864b3c60581c6d2d8c7aa25702e78"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
@@ -133,7 +139,6 @@ This chart deploys the GlueOps Platform
 | gitHub.github_app_installation_id | string | `"placeholder_github_tenant_app_installation_id"` |  |
 | gitHub.tenant_github_org | string | `"placeholder_tenant_github_org_name"` |  |
 | gitHub.tenant_github_org_and_team | string | `"placeholder_tenant_github_org_name:developers"` | The format is: <github-org-name>:<github-team-name> (The team should include the developers) |
-| glueops_alerts.opsgenie_apikey | string | `"placeholder_opsgenie_api_key"` | Found at `opsgenie_credentials` in the json output that is part of `opsgenie_prometheus_api_keys` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.s3_bucket_name | string | `"placeholder_tenant_s3_multi_region_access_point"` |  |
 | glueops_backups.tls_cert_backup.aws_accessKey | string | `"placeholder_tls_cert_backup_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | glueops_backups.tls_cert_backup.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
