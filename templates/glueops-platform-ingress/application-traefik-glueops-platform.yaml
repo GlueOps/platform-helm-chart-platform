@@ -1,0 +1,146 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-platform-ingress-traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-glueops-platform-ingress-traefik
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://traefik.github.io/charts'
+    chart: traefik
+    targetRevision: 32.1.1
+    helm:
+      values: |-
+        # Node and tolerations from values
+        {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+        
+        # RBAC configuration
+        rbac:
+          enabled: true
+          namespaced: false
+        
+        deployment:
+          replicas: {{ .Values.nginx.controller_replica_count }}
+          minReadySeconds: 180
+          
+        # Rolling update strategy
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 0
+        
+        # Pod disruption budget
+        podDisruptionBudget:
+          enabled: true
+          maxUnavailable: 1
+        
+        # Lifecycle hooks for graceful shutdown with AWS NLB
+        # https://github.com/kubernetes/ingress-nginx/issues/6928
+        # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1118312709
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 240"]
+        
+        # IngressClass configuration
+        ingressClass:
+          enabled: true
+          isDefaultClass: false
+          name: glueops-platform
+        
+        # Ports configuration
+        ports:
+          web:
+            port: 80
+          websecure:
+            port: 443
+            http3:
+              enabled: false
+            tls:
+              enabled: true
+              # Default certificate via TLS store
+              options: ""
+              certResolver: ""
+              domains: []
+        
+        # Service configuration
+        service:
+          type: "LoadBalancer"
+          annotations:
+            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+            external-dns.alpha.kubernetes.io/hostname: glueops-platform-ingress.{{ .Values.captain_domain }}
+          spec:
+            externalTrafficPolicy: Local
+        
+        # Providers configuration
+        providers:
+          kubernetesCRD:
+            enabled: true
+            allowCrossNamespace: false
+            allowExternalNameServices: false
+          kubernetesIngress:
+            enabled: true
+            allowExternalNameServices: false
+            publishedService:
+              enabled: true
+        # Additional arguments
+        additionalArguments:
+          - "--providers.kubernetesingress.ingressclass=glueops-platform"
+          - "--serversTransport.forwardingTimeouts.dialTimeout=30s"
+          - "--serversTransport.forwardingTimeouts.responseHeaderTimeout=0s"
+          - "--serversTransport.forwardingTimeouts.idleConnTimeout=90s"
+        
+        # Global arguments
+        globalArguments:
+          - "--global.checknewversion=false"
+          - "--global.sendanonymoususage=false"
+        
+        # Logs configuration (JSON format similar to nginx)
+        logs:
+          general:
+            level: INFO
+          access:
+            enabled: true
+            format: json
+            fields:
+              general:
+                defaultmode: keep
+              headers:
+                defaultmode: keep
+        
+        # Metrics and monitoring
+        metrics:
+          prometheus:
+            enabled: true
+            service:
+              enabled: true
+            serviceMonitor:
+              enabled: true
+        
+        # Extra objects to create TLSStore for default certificate
+        extraObjects:
+          - apiVersion: traefik.io/v1alpha1
+            kind: TLSStore
+            metadata:
+              name: default
+              namespace: glueops-core-glueops-platform-ingress-traefik
+            spec:
+              defaultCertificate:
+                secretName: {{ .Values.certManager.name_of_default_certificate }}
