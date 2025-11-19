@@ -120,7 +120,7 @@ spec:
             hostNetwork: {{ .Values.host_network.enabled }}
             {{- if .Values.kube_etcd.enabled }}
             secrets:
-              - etcd-client
+              - etcd-client-certs
             {{- end }}
         grafana:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
