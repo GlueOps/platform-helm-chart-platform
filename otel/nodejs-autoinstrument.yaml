@@ -1,11 +1,11 @@
 apiVersion: opentelemetry.io/v1alpha1
 kind: Instrumentation
 metadata:
-  name: glueops-instrumentation
-  namespace: glueops-core
+  name: glueops-core
+  namespace: glueops-monitoring
 spec:
   exporter:
-    endpoint: http://otel-collector-collector.glueops-core-otel.svc.cluster.local:4317
+    endpoint: http://otel-collector-collector.glueops-monitoring.svc.cluster.local:4317
   propagators:
     - tracecontext
     - baggage

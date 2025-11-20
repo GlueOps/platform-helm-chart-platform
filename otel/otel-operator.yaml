@@ -2,7 +2,7 @@ apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
   name: otel-collector
-  namespace: glueops-core-otel
+  namespace: glueops-monitoring
 spec:
   mode: daemonset
   volumes:
@@ -17,7 +17,7 @@ spec:
       receivers:
         filelog/multilang:
             include: [ /var/log/pods/*/*/*.log ]
-            start_at: end
+            #start_at: end
             include_file_path: true
             include_file_name: false
             poll_interval: 200ms
@@ -89,13 +89,13 @@ spec:
         otlphttp/loki:
           headers:
             X-Scope-OrgID: nonprod.gliese667cc.onglueops.rocks
-          logs_endpoint: http://loki-write-headless.glueops-core-loki:3100/otlp/v1/logs
+          logs_endpoint: http://loki-write-headless.glueops-monitoring:3100/otlp/v1/logs
         otlphttp/trace:
           headers:
             X-Scope-OrgID: nonprod.gliese667cc.onglueops.rocks
-          traces_endpoint: http://grafana-tempo-distributor.glueops-core-tempo:4318/v1/traces
+          traces_endpoint: http://glueops-monitoring-tempo-distributor.glueops-monitoring:4318/v1/traces
         prometheusremotewrite:
-          endpoint: http://kps-prometheus.glueops-core-kube-prometheus-stack:9090/api/v1/write
+          endpoint: http://kps-prometheus.glueops-monitoring:9090/api/v1/write
           target_info:
             enabled: true
       connectors:
@@ -122,12 +122,15 @@ spec:
         telemetry:
           metrics:
             address: 0.0.0.0:8888
+          logs:
+            level: debug 
         pipelines:
           logs:
             exporters:
               - otlphttp/loki
             receivers:
               - otlp
+              - filelog/multilang
           metrics:
             exporters:
               - prometheusremotewrite

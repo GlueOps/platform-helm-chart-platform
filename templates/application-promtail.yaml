@@ -30,7 +30,7 @@ spec:
     helm:
       parameters:
         - name: config.clients[0].url
-          value: http://loki-write.glueops-core-loki.svc.cluster.local:3100/loki/api/v1/push
+          value: http://loki-write.glueops-monitoring.svc.cluster.local:3100/loki/api/v1/push
         - name: config.clients[0].tenant_id
           value: "{{ .Values.captain_domain }}"
       values: |-

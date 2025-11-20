@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-kube-prometheus-stack
+    namespace: glueops-monitoring
   project: glueops-core
   syncPolicy:
     syncOptions:
