@@ -95,7 +95,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e"` |  |
 | container_images.app_vault.vault.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
-| container_images.app_vault.vault.image.tag | string | `"2.4.3@sha256:48174d0c98dbb955731c5d54a7e7083987fd25a7fb5d793181db8576ada8ed64"` |  |
+| container_images.app_vault.vault.image.tag | string | `"2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.0.1@sha256:ed23f63142ccaa9d611ef70422aca003797864b3c60581c6d2d8c7aa25702e78"` |  |
