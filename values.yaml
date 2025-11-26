@@ -282,7 +282,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/vault-backup-validator
-        tag: v2.0.1@sha256:8c2b0cb50b08a242b52006995d448b3e86a83df065383bbd24733c967df425a9
+        tag: v2.1.1@sha256:a6b6cde8eb1f31879c936c086826414a5791fdb07d85c6b5060b7e0b76227dbc
     backup_tools:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
