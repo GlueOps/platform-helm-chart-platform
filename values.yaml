@@ -287,7 +287,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/backup-tools
-        tag: v2.1.5@sha256:2748babb25059208e7ca15c181a1d39ce6477064b5b805471c1fb3c4e579e6a6
+        tag: v2.5.0@sha256:2dcc5fb89bce04be6171f9bc86a19aec39588a825302f00b8ef5aab461c2cef6
     certs_backup_restore:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
