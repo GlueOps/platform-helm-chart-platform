@@ -78,6 +78,9 @@ spec:
             glueops.dev/app-name: vault-backup-validator
           matchLabels:
             glueops.dev/app-name: vault-backup-validator
+          envVariables:
+            - name: LOG_LEVEL
+              value: "info" # if you use 'debug' it will log sensitive details
         service:
           enabled: true
           labels:
