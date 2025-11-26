@@ -353,7 +353,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/vault-init-controller
-        tag: v2.0.1@sha256:ed23f63142ccaa9d611ef70422aca003797864b3c60581c6d2d8c7aa25702e78
+        tag: v2.2.3@sha256:d12d284d4ee464b500d64fc22c3cfa7c8bd1a505e0a168a131ba8fb9486c374b
   app_vault:
     vault:
       image:
