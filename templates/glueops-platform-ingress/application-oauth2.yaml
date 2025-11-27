@@ -31,6 +31,8 @@ spec:
       values: |-
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           proxyVarsAsSecrets: false
+          global:
+            imageRegistry: {{ .Values.base_registries.quay_io }}
           image:
             registry: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.registry }}
             repository: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.repository }}
