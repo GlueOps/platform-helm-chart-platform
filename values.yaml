@@ -328,7 +328,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-docker-io
         repository: grafana/loki
-        tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
+        tag: 2.9.10@sha256:415dbbcad74f6ca76036b4a3f40520021d41aebb61240c1e56206d18323b255e
   app_network_exporter:
     network_exporter:
       image:
