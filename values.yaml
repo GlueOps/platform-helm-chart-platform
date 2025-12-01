@@ -334,7 +334,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-docker-io
         repository: syepes/network_exporter
-        tag: 1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69
+        tag: 1.8.0@sha256:00af1691570e84bb0d8839d934e1ca10e9ee018385463609e03a8137e0ea9c56
   app_promtail:
     promtail:
       image:
