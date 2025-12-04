@@ -388,7 +388,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-registry-k8s-io
         repository: ingress-nginx/controller
-        tag: v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd
+        tag: v1.14.1@sha256:f95a79b85fb93ac3de752c71a5c27d5ceae10a18b61904dec224c1c6a4581e47
   app_oauth2_proxy:
     oauth2_proxy:
       image:
