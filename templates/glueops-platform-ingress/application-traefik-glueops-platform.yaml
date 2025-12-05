@@ -29,9 +29,6 @@ spec:
     targetRevision: 32.1.1
     helm:
       values: |-
-        # Node and tolerations from values
-        {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
-        
         # RBAC configuration
         rbac:
           enabled: true
@@ -41,23 +38,15 @@ spec:
           replicas: {{ .Values.nginx.controller_replica_count }}
           minReadySeconds: 180
           
-        # Rolling update strategy
-        rollingUpdate:
-          maxSurge: 1
-          maxUnavailable: 0
+        # # Rolling update strategy
+        # rollingUpdate:
+        #   maxSurge: 1
+        #   maxUnavailable: 0
         
-        # Pod disruption budget
-        podDisruptionBudget:
-          enabled: true
-          maxUnavailable: 1
-        
-        # Lifecycle hooks for graceful shutdown with AWS NLB
-        # https://github.com/kubernetes/ingress-nginx/issues/6928
-        # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1118312709
-        lifecycle:
-          preStop:
-            exec:
-              command: ["/bin/sh", "-c", "sleep 240"]
+        # # Pod disruption budget
+        # podDisruptionBudget:
+        #   enabled: true
+        #   maxUnavailable: 1
         
         # IngressClass configuration
         ingressClass:
@@ -83,23 +72,21 @@ spec:
         # Service configuration
         service:
           type: "LoadBalancer"
-          annotations:
-            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-            external-dns.alpha.kubernetes.io/hostname: glueops-platform-ingress.{{ .Values.captain_domain }}
-          spec:
-            externalTrafficPolicy: Local
-        
+          labels: 
+            use-as-loadbalancer: platform
+              
         # Providers configuration
         providers:
           kubernetesCRD:
             enabled: true
             allowCrossNamespace: false
-            allowExternalNameServices: false
+            allowExternalNameServices: true
           kubernetesIngress:
             enabled: true
-            allowExternalNameServices: false
+            allowExternalNameServices: true
             publishedService:
               enabled: true
+            
         # Additional arguments
         additionalArguments:
           - "--providers.kubernetesingress.ingressclass=glueops-platform"
@@ -133,7 +120,24 @@ spec:
               enabled: true
             serviceMonitor:
               enabled: true
+        # -- nodeSelector is the simplest recommended form of node selection constraint.
+        nodeSelector:
+          use-as-loadbalancer: platform
         
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: traefik
+                topologyKey: kubernetes.io/hostname
+        
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "glueops-platform"
+            effect: "NoSchedule"
+
         # Extra objects to create TLSStore for default certificate
         extraObjects:
           - apiVersion: traefik.io/v1alpha1
