@@ -39,6 +39,8 @@ spec:
             className: glueops-platform
             hosts:
               - oauth2.{{ .Values.captain_domain }}
+            annotations:
+              external-dns.alpha.kubernetes.io/target: "platform-lb.infra-hetzner.glueops.onglueops.com"
           config:
             #https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview/
             configFile: |-
