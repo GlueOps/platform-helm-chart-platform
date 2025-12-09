@@ -252,7 +252,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-quay-io
         repository: jetstack/cert-manager-controller
-        tag: v1.18.2@sha256:81316365dc0b713eddddfbf9b8907b2939676e6c0e12beec0f9625f202a36d16
+        tag: v1.19.2@sha256:d4ffb81a6d89a0e690ee80d07fcdcb6cccb99118010e3eb0808442e506e18ab0
     cert_restore:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
