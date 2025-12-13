@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-monitoring
+  namespace: glueops-core          # Argo CD control-plane namespace
+spec:
+  project: glueops-core
+
+  source:
+    repoURL: 'https://github.com/GlueOps/k8s-monitoring-helm.git'
+    targetRevision: feat/adding-monitoring-stack
+    path: apps
+    helm:
+      values: |
+        captain_domain: '{{ .Values.captain_domain }}'
+        loki:
+        {{ .Values.loki | toYaml | nindent 10 }}
+        thanos:
+        {{ .Values.thanos | toYaml | nindent 10 }}
+        tempo:
+        {{ .Values.tempo | toYaml | nindent 10 }}
+        grafana:
+        {{ .Values.grafana | toYaml | nindent 10 }}
+        dex:
+          grafana:
+            client_secret: {{ .Values.dex.grafana.client_secret }}
+        
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: glueops-core        # Doesn't really matter for child Apps; they each set their own
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
