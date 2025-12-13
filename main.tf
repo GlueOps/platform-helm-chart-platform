@@ -66,14 +66,6 @@ variable "tls_cert_restore_aws_secret_key" {
   description = "AWS secret key for cert manager"
 }
 
-variable "loki_aws_access_key" {
-  description = "AWS access key for Loki"
-}
-
-variable "loki_aws_secret_key" {
-  description = "AWS secret key for Loki"
-}
-
 variable "dex_github_client_id" {
   description = "Dex GitHub client ID"
 }
@@ -213,10 +205,28 @@ variable "tenant_s3_multi_region_access_point" {
   nullable    = false
 }
 
+variable "loki_storage" {
+  description = "Loki storage config"
+  type        = any
+  nullable    = false
+}
+
+variable "tempo_storage" {
+  description = "Tempo storage config"
+  type        = any
+  nullable    = false
+}
+
+variable "thanos_storage" {
+  description = "Thanos storage config"
+  type        = any
+  nullable    = false
+}
+
 
 output "helm_values" {
 
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
 
     replace(
       data.local_file.platform_values_template.content,
@@ -243,8 +253,9 @@ output "helm_values" {
     "placeholder_vault_backup_s3_key_prefix", var.vault_backup_s3_key_prefix),
     "placeholder_tls_cert_backup_s3_key_prefix", var.tls_cert_backup_s3_key_prefix),
     "placeholder_tls_cert_restore_exclude_namespaces", var.tls_cert_restore_exclude_namespaces),
-    "placeholder_loki_aws_access_key", var.loki_aws_access_key),
-    "placeholder_loki_aws_secret_key", var.loki_aws_secret_key),
+    "#placeholder_loki_storage", var.loki_storage),
+    "placeholder_tempo_storage", var.tempo_storage),
++   "#placeholder_thanos_storage", var.thanos_storage),
     "placeholder_dex_github_client_id", var.dex_github_client_id),
     "placeholder_dex_github_client_secret", var.dex_github_client_secret),
     "placeholder_dex_argocd_client_secret", var.dex_argocd_client_secret),
