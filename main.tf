@@ -255,7 +255,7 @@ output "helm_values" {
     "placeholder_tls_cert_restore_exclude_namespaces", var.tls_cert_restore_exclude_namespaces),
     "#placeholder_loki_storage", var.loki_storage),
     "placeholder_tempo_storage", var.tempo_storage),
-+   "#placeholder_thanos_storage", var.thanos_storage),
+    "#placeholder_thanos_storage", var.thanos_storage),
     "placeholder_dex_github_client_id", var.dex_github_client_id),
     "placeholder_dex_github_client_secret", var.dex_github_client_secret),
     "placeholder_dex_argocd_client_secret", var.dex_argocd_client_secret),
