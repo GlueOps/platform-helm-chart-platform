@@ -145,6 +145,44 @@ spec:
 
         extraObjects:
         - |-
+          apiVersion: traefik.io/v1alpha1
+          kind: ServersTransport
+          metadata:
+            name: vault
+            namespace: glueops-core-vault
+          spec:
+            insecureSkipVerify: true
+        - |-
+          apiVersion: traefik.io/v1alpha1
+          kind: TraefikService
+          metadata:
+            name: vault-service
+            namespace: glueops-core-vault
+          spec:
+            weighted:
+              services:
+                - name: vault
+                  port: 8200
+                  serversTransport: vault
+        - |-
+          apiVersion: traefik.io/v1alpha1
+          kind: IngressRoute
+          metadata:
+            name: vault-route
+            namespace: glueops-core-vault
+          spec:
+            entryPoints:
+              - websecure
+            routes:
+              - match: Host(`vault.{{ .Values.captain_domain }}`)
+                kind: Rule
+                priority: 100
+                services:
+                  - name: vault-service
+                    kind: TraefikService
+            tls:
+              secretName: vault-tls
+        - |-
           apiVersion: cert-manager.io/v1
           kind: Issuer
           metadata:

@@ -79,10 +79,11 @@ spec:
         providers:
           kubernetesCRD:
             enabled: true
-            allowCrossNamespace: false
+            allowCrossNamespace: true
             allowExternalNameServices: true
           kubernetesIngress:
             enabled: true
+            allowCrossNamespace: true
             allowExternalNameServices: true
             publishedService:
               enabled: true
