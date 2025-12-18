@@ -1,0 +1,144 @@
+{{- if .Values.public_traefik.enabled -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: public-ingress-traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-public-ingress-traefik
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true  
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://traefik.github.io/charts'
+    chart: traefik
+    targetRevision: 32.1.1
+    helm:
+      values: |-
+        # RBAC configuration
+        rbac:
+          enabled: true
+          namespaced: false
+        
+        deployment:
+          replicas: {{ .Values.nginx.controller_replica_count }}
+          
+        
+        # IngressClass configuration
+        ingressClass:
+          enabled: true
+          isDefaultClass: false
+          name: public-v1
+        
+        # Ports configuration
+        ports:
+          web:
+            port: 80
+          websecure:
+            port: 443
+            http3:
+              enabled: false
+            tls:
+              enabled: true
+              # Default certificate via TLS store
+              options: ""
+              certResolver: ""
+              domains: []
+        
+        # Service configuration
+        service:
+          type: "LoadBalancer"
+          labels: 
+            use-as-loadbalancer: public-v1
+              
+        # Providers configuration
+        providers:
+          kubernetesCRD:
+            enabled: true
+            allowCrossNamespace: true
+            allowExternalNameServices: true
+          kubernetesIngress:
+            enabled: true
+            allowCrossNamespace: true
+            allowExternalNameServices: true
+            publishedService:
+              enabled: true
+            
+        # Additional arguments
+        additionalArguments:
+          - "--providers.kubernetesingress.ingressclass=public-v1"
+          - "--serversTransport.forwardingTimeouts.dialTimeout=30s"
+          - "--serversTransport.forwardingTimeouts.responseHeaderTimeout=0s"
+          - "--serversTransport.forwardingTimeouts.idleConnTimeout=90s"
+        
+        # Global arguments
+        globalArguments:
+          - "--global.checknewversion=false"
+          - "--global.sendanonymoususage=false"
+        
+        # Logs configuration (JSON format similar to nginx)
+        logs:
+          general:
+            level: INFO
+          access:
+            enabled: true
+            format: json
+            fields:
+              general:
+                defaultmode: keep
+              headers:
+                defaultmode: keep
+        
+        # Metrics and monitoring
+        metrics:
+          prometheus:
+            enabled: true
+            service:
+              enabled: true
+            serviceMonitor:
+              enabled: true
+        # -- nodeSelector is the simplest recommended form of node selection constraint.
+        nodeSelector:
+          use-as-loadbalancer: public-v1
+        
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: traefik
+                topologyKey: kubernetes.io/hostname
+        
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "public-v1"
+            effect: "NoSchedule"
+
+        # Extra objects to create TLSStore for default certificate
+        extraObjects:
+          - apiVersion: traefik.io/v1alpha1
+            kind: TLSStore
+            metadata:
+              name: default
+              namespace: glueops-core-glueops-platform-ingress-traefik
+            spec:
+              defaultCertificate:
+                secretName: {{ .Values.certManager.name_of_default_certificate }}
+
+{{- end }}
