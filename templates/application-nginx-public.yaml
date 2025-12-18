@@ -103,8 +103,11 @@ spec:
           service:
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+              external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
             labels:
               use-as-loadbalancer: "public"
+              gluekube-dns: public-lb.{{ .Values.captain_domain }}
+
             type: "LoadBalancer" 
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366

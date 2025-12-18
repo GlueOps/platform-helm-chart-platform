@@ -38,15 +38,6 @@ spec:
           replicas: {{ .Values.nginx.controller_replica_count }}
           minReadySeconds: 180
           
-        # # Rolling update strategy
-        # rollingUpdate:
-        #   maxSurge: 1
-        #   maxUnavailable: 0
-        
-        # # Pod disruption budget
-        # podDisruptionBudget:
-        #   enabled: true
-        #   maxUnavailable: 1
         
         # IngressClass configuration
         ingressClass:
@@ -74,6 +65,7 @@ spec:
           type: "LoadBalancer"
           labels: 
             use-as-loadbalancer: platform
+            gluekube-dns: platform-lb.{{ .Values.captain_domain }}
               
         # Providers configuration
         providers:
