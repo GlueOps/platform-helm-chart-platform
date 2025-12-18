@@ -390,6 +390,11 @@ container_images:
         registry: replicas.mirror.gpkg.io/proxy-docker-io
         repository: curlimages/curl
         tag: 8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6
+  app_gluekube_ccm:
+    gluekube_ccm:
+      image:
+        registry: quay.io/hamza_bouissa/glueops-ccm
+        tag: v51
 
 enable_chisel_proxy_protocol: false
 
@@ -402,4 +407,4 @@ kubeadm:
       keyFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key
 
 public_traefik:
-  enabled: true
+  enabled: false
