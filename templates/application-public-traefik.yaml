@@ -43,7 +43,7 @@ spec:
         ingressClass:
           enabled: true
           isDefaultClass: false
-          name: public-v1
+          name: public-traefik
         
         # Ports configuration
         ports:
@@ -64,9 +64,9 @@ spec:
         service:
           type: "LoadBalancer"
           labels: 
-            use-as-loadbalancer: public-v1
+            use-as-loadbalancer: public-traefik
           annotations:
-            external-dns.alpha.kubernetes.io/hostname: ingress-v1.{{ .Values.captain_domain }}
+            external-dns.alpha.kubernetes.io/hostname: ingress-traefik.{{ .Values.captain_domain }}
         # Providers configuration
         providers:
           kubernetesCRD:
@@ -82,7 +82,7 @@ spec:
             
         # Additional arguments
         additionalArguments:
-          - "--providers.kubernetesingress.ingressclass=public-v1"
+          - "--providers.kubernetesingress.ingressclass=public-traefik"
           - "--serversTransport.forwardingTimeouts.dialTimeout=30s"
           - "--serversTransport.forwardingTimeouts.responseHeaderTimeout=0s"
           - "--serversTransport.forwardingTimeouts.idleConnTimeout=90s"
@@ -115,7 +115,7 @@ spec:
               enabled: true
         # -- nodeSelector is the simplest recommended form of node selection constraint.
         nodeSelector:
-          use-as-loadbalancer: public-v1
+          use-as-loadbalancer: public-traefik
         
         affinity:
           podAntiAffinity:
@@ -128,7 +128,7 @@ spec:
         tolerations:
           - key: "glueops.dev/role"
             operator: "Equal"
-            value: "public-v1"
+            value: "public-traefik"
             effect: "NoSchedule"
 
         # Extra objects to create TLSStore for default certificate
@@ -137,7 +137,7 @@ spec:
             kind: TLSStore
             metadata:
               name: default
-              namespace: glueops-core-glueops-platform-ingress-traefik
+              namespace: glueops-core-public-ingress-traefik
             spec:
               defaultCertificate:
                 secretName: {{ .Values.certManager.name_of_default_certificate }}
