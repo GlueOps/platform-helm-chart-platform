@@ -98,7 +98,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault.vault.image.tag | string | `"2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
-| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.3.0@sha256:6ded1c0defe0040fbccd6a91b6f37355c1b0a52ac16fe46ce0c9fa34f2dfe2a6"` |  |
+| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.4.7@sha256:b9bd8bba9078eb9b708a2f6e931a78b516b11e7cdcfe0bac20fbef4e85600e0c"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
