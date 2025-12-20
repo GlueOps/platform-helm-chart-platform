@@ -242,7 +242,7 @@ base_registries:
   ghcr_io: "ghcr.repo.gpkg.io"
   quay_io: "quay.repo.gpkg.io"
   public_ecr_aws: "ecr.repo.gpkg.io"
-  registry_k8s_io: "k8s.repo.gpkg.io""
+  registry_k8s_io: "k8s.repo.gpkg.io"
 
 container_images:
   app_cert_manager:
