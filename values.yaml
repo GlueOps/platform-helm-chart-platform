@@ -255,167 +255,165 @@ tls_cert_restore:
   exclude_namespaces: placeholder_tls_cert_restore_exclude_namespaces
 
 base_registries:
-  docker_io: "replicas.mirror.gpkg.io/proxy-docker-io"
-  gcr_io: "replicas.mirror.gpkg.io/proxy-gcr-io"
-  ghcr_io: "replicas.mirror.gpkg.io/proxy-ghcr-io"
-  quay_io: "replicas.mirror.gpkg.io/proxy-quay-io"
-  mcr_microsoft_com: "replicas.mirror.gpkg.io/proxy-mcr-microsoft-com"
-  public_ecr_aws: "replicas.mirror.gpkg.io/proxy-public-ecr-aws"
-  registry_k8s_io: "replicas.mirror.gpkg.io/proxy-registry-k8s-io"
+  docker_io: "dockerhub.repo.gpkg.io"
+  ghcr_io: "ghcr.repo.gpkg.io"
+  quay_io: "quay.repo.gpkg.io"
+  public_ecr_aws: "ecr.repo.gpkg.io"
+  registry_k8s_io: "k8s.repo.gpkg.io"
 
 container_images:
   app_cert_manager:
     cert_manager:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-quay-io
+        registry: quay.repo.gpkg.io
         repository: jetstack/cert-manager-controller
         tag: v1.18.2@sha256:81316365dc0b713eddddfbf9b8907b2939676e6c0e12beec0f9625f202a36d16
     cert_restore:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/certs-backup-restore
         tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
   app_descheduler:
     descheduler:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-registry-k8s-io
+        registry: k8s.repo.gpkg.io
         repository: descheduler/descheduler
         tag: v0.33.0
   app_external_secrets:
     external_secrets:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: external-secrets/external-secrets
         tag: v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649
   app_external_dns:
     external_dns:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-registry-k8s-io
+        registry: k8s.repo.gpkg.io
         repository: external-dns/external-dns
         tag: v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f
 
   app_backup_and_exports:
     vault_backup_validator:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/vault-backup-validator
         tag: v2.5.0@sha256:560c7a3167d14b1fab74857771eb3a2c159c93ce206e3f5b7ce9395b17b4650b
     backup_tools:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/backup-tools
         tag: v2.7.0@sha256:64e194438f3d056b4a658978be30cd06dce2d37e8df65db611b65aad0e7c3231
     certs_backup_restore:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/certs-backup-restore
         tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/cluster-information-help-page-html
         tag: v0.5.0@sha256:5396f0638205a218f40d6c71edeff538b2e44dae63d3ffc34cb0b75f37b3964b
   app_dex:
     dex:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: dexidp/dex
         tag: v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86
   app_glueops_alerts:
     cluster_monitoring:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/cluster-monitoring
         tag: v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d
   app_kube_prometheus_stack:
     grafana:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-docker-io
+        registry: dockerhub.repo.gpkg.io
         repository: grafana/grafana
         tag: 10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/metacontroller-operator-loki-rule-group
         tag: v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c
   app_loki:
     loki:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-docker-io
+        registry: dockerhub.repo.gpkg.io
         repository: grafana/loki
         tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
   app_network_exporter:
     network_exporter:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-docker-io
+        registry: dockerhub.repo.gpkg.io
         repository: syepes/network_exporter
         tag: 1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69
   app_promtail:
     promtail:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-docker-io
+        registry: dockerhub.repo.gpkg.io
         repository: grafana/promtail
         tag: 2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf
   app_pull_request_bot:
     pull_request_bot:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/pull-request-bot
         tag: v1.1.0@sha256:f8b5eb18e1194f08ad0decddcf2c7ef73aaf22953347aca77d2e528a68549c67
   app_go_healthz:
     go_healthz:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/go-healthz
         tag: v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c
   app_qr_code_generator:
     qr_code_generator:
       image: 
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/qr-code-generator
         tag: v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e
   app_vault_init_controller:
     vault_init_controller:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/vault-init-controller
         tag: v2.3.0@sha256:6ded1c0defe0040fbccd6a91b6f37355c1b0a52ac16fe46ce0c9fa34f2dfe2a6
   app_vault:
     vault:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-quay-io
+        registry: quay.repo.gpkg.io
         repository: openbao/openbao
         tag: 2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd
   app_metacontroller:
     metacontroller:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: metacontroller/metacontroller
         tag: v4.12.5@sha256:8d8f21f3f4e36897b6405f5507fefce209ae805425e556361d93f3ae0ed16ce6 #this might need to be updated manually because of renovatebot errors
   app_fluent_operator:
     kubesphere:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-docker-io
+        registry: dockerhub.repo.gpkg.io
         repository: kubesphere/fluent-operator
         tag: v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947
   app_ingress_nginx:
     controller:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-registry-k8s-io
+        registry: k8s.repo.gpkg.io
         repository: ingress-nginx/controller
         tag: v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd
   app_oauth2_proxy:
     oauth2_proxy:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-quay-io
+        registry: quay.repo.gpkg.io
         repository: oauth2-proxy/oauth2-proxy
         tag: v7.13.0@sha256:56e3daedf765c7a1eea6e366fbe684be7d3084830ade14b6174570d3c7960954
   app_curlimages:
     curl:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-docker-io
+        registry: dockerhub.repo.gpkg.io
         repository: curlimages/curl
         tag: 8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6
 
