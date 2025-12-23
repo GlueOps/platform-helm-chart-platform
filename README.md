@@ -57,7 +57,8 @@ This chart deploys the GlueOps Platform
 | container_images.app_fluent_operator.kubesphere.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
-| container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"quay.io/hamza_bouissa/glueops-ccm"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/ccm"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v51"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
@@ -184,7 +185,6 @@ This chart deploys the GlueOps Platform
 | loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
 | prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
-| public_traefik.enabled | bool | `false` |  |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
