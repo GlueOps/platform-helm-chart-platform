@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: public-ingress-nginx
+  name: glueops-platform-ingress-nginx
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   finalizers:
@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-public-ingress-nginx
+    namespace: glueops-core-glueops-platform-ingress-nginx
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -31,17 +31,18 @@ spec:
       values: |-
         defaultBackend:
           image:
-            registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
+            registry: {{ .Values.base_registries.registry_k8s_io }}
         controller:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           admissionWebhooks:
             patch:
               image:
-                registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
+                registry: {{ .Values.base_registries.registry_k8s_io }}
           opentelemetry:
             image:
-              registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
+              registry: {{ .Values.base_registries.registry_k8s_io }}
           image:
-            registry: {{ .Values.container_images.app_ingress_nginx.controller.image.registry }}
+            registry: {{ .Values.base_registries.registry_k8s_io }}
             image: {{ .Values.container_images.app_ingress_nginx.controller.image.repository }}
             tag: {{ .Values.container_images.app_ingress_nginx.controller.image.tag }}
             digest: ""
@@ -101,14 +102,17 @@ spec:
             # Without this flag, nginx may clear ingress entries between upgrades and possibly restarts ref: https://github.com/kubernetes/ingress-nginx/issues/4774#issuecomment-707003403
             update-status-on-shutdown: "false"
           service:
+            labels:
+              use-as-loadbalancer: "platform"
+              gluekube-dns: platform-lb.{{ .Values.captain_domain }}
+
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-              external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
-            labels:
-              use-as-loadbalancer: "public"
-              gluekube-dns: public-lb.{{ .Values.captain_domain }}
-
-            type: "LoadBalancer" 
+              external-dns.alpha.kubernetes.io/hostname: glueops-platform-ingress.{{ .Values.captain_domain }}
+              {{- if .Values.enable_chisel_proxy_protocol }}
+              chisel-operator.io/proxy-protocol: "true"
+              {{- end }}
+            type: "LoadBalancer"
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1788923154
@@ -116,6 +120,13 @@ spec:
             rollingUpdate:
               maxSurge: 1
               maxUnavailable: 0
+          # Add a pause to make time for the pod to be registered in the AWS NLB target group before proceeding with the next
+          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/1834#issuecomment-781530724
+          # https://alexklibisz.com/2021/07/20/speed-limits-for-rolling-restarts-in-kubernetes#round-3-set-minreadyseconds-maxunavailable-to-0-and-maxsurge-to-1
+          minReadySeconds: 180
+          # Add sleep on preStop to allow for graceful shutdown with AWS NLB
+          # https://github.com/kubernetes/ingress-nginx/issues/6928
+          # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366#issuecomment-1118312709
           lifecycle:
             preStop:
               exec:
@@ -124,16 +135,16 @@ spec:
             enabled: true
             serviceMonitor:
               enabled: true
-          electionID: public-ingress-nginx-leader
+          electionID: glueops-platform-ingress-nginx-leader
           ingressClassByName: true
-          ingressClass: public
+          ingressClass: glueops-platform
           ingressClassResource:
-            name: public
+            name: glueops-platform
             enabled: true
             default: false
-            controllerValue: "k8s.io/public-ingress-nginx"
+            controllerValue: "k8s.io/glueops-platform-ingress-nginx"
           nodeSelector:
-            use-as-loadbalancer: public
+            use-as-loadbalancer: platform
           affinity: 
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:

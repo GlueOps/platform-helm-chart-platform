@@ -57,7 +57,9 @@ spec:
           enabled: true
           ingressClassName: glueops-platform
           annotations:
-            traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-secure-oauth-chain@kubernetescrd
+            nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
+            nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+            nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
           entries:
             - name: glueops-platform
               hosts:

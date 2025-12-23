@@ -406,6 +406,3 @@ kubeadm:
       caFile: /etc/prometheus/secrets/etcd-client/ca.crt
       certFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt
       keyFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key
-
-public_traefik:
-  enabled: false
