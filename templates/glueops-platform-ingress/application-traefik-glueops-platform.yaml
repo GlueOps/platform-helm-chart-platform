@@ -141,3 +141,68 @@ spec:
             spec:
               defaultCertificate:
                 secretName: {{ .Values.certManager.name_of_default_certificate }}
+          - apiVersion: traefik.io/v1alpha1
+            kind: Middleware
+            metadata:
+              name: auth-headers
+              namespace: glueops-core-oauth2-proxy
+            spec:
+              headers:
+                stsSeconds: 315360000
+                browserXssFilter: true
+                contentTypeNosniff: true
+                forceSTSHeader: true
+                stsIncludeSubdomains: true
+                stsPreload: true
+                frameDeny: true
+          - apiVersion: traefik.io/v1alpha1
+            kind: Middleware
+            metadata:
+              name: ssl-redirect
+              namespace: glueops-core-oauth2-proxy
+            spec:
+              redirectScheme:
+                scheme: https
+                permanent: true
+
+          - apiVersion: traefik.io/v1alpha1
+            kind: Middleware
+            metadata:
+              name: oauth-errors
+              namespace: glueops-core-oauth2-proxy
+
+            spec:
+              errors:
+                status:
+                  - "401-403"
+                service:
+                  name: oauth2-proxy # This must match a valid Kubernetes Service name
+                  port: 80            # The port of your oauth-backend service
+                query: "/oauth2/start?rd={url}"
+          - apiVersion: traefik.io/v1alpha1
+            kind: Middleware
+            metadata:
+              name: oauth-auth
+              namespace: glueops-core-oauth2-proxy
+
+            spec:
+              forwardAuth:
+                address: https://oauth2.{{ .Values.captain_domain }}/oauth2/auth
+                trustForwardHeader: true
+                authRequestHeaders:
+                  - Cookie
+                  - Authorization
+            
+          - apiVersion: traefik.io/v1alpha1
+            kind: Middleware
+            metadata:
+              name: secure-oauth-chain
+              namespace: glueops-core-oauth2-proxy
+
+            spec:
+              chain:
+                middlewares:
+                - name: auth-headers
+                - name: ssl-redirect
+                - name: oauth-errors # Error middleware should usually wrap the auth
+                - name: oauth-auth

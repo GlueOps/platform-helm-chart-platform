@@ -393,7 +393,8 @@ container_images:
   app_gluekube_ccm:
     gluekube_ccm:
       image:
-        registry: quay.io/hamza_bouissa/glueops-ccm
+        registry: replicas.mirror.gpkg.io/proxy-quay-io
+        repository: glueops/ccm
         tag: v51
 
 enable_chisel_proxy_protocol: false

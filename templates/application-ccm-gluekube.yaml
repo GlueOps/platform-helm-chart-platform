@@ -29,95 +29,73 @@ spec:
     helm:
       values: |+
         appName: "glueops-ccm-gluekube"
-
       
         serviceAccount:
           create: true
           name: webhook
         
         customResources:
-        - |-
-          apiVersion: metacontroller.k8s.io/v1alpha1
-          kind: DecoratorController
-          metadata:
-            name: lb-service-decorator
-          spec:
-            resources:
-            - apiVersion: v1
-              resource: services
-              labelSelector:
-                matchExpressions:
-                - {key: "use-as-loadbalancer", operator: In, values: ["platform","public"]}
-            resyncPeriodSeconds: 30
-            hooks:
-              sync:
-                webhook:
-                  url: http://webhook-controller.glueops-core-ccm.svc.cluster.local/sync
-              finalize:
-                webhook:
-                  url: http://webhook-controller.glueops-core-ccm.svc.cluster.local/finilize
-        - |-
-          apiVersion: rbac.authorization.k8s.io/v1
-          kind: ClusterRole
-          metadata:
-            name: node-and-deploy-role
-          rules:
-            - apiGroups: [""]
-              resources: ["nodes"]
-              verbs: ["get", "list", "watch"]
-            - apiGroups: [""]
-              resources: ["services"]
-              verbs: ["get", "list", "watch", "create", "patch", "delete"]
-            - apiGroups: ["externaldns.k8s.io"]
-              resources: ["dnsendpoints"]
-              verbs: ["create", "update", "patch", "delete"]
-        - |-
-          apiVersion: rbac.authorization.k8s.io/v1
-          kind: ClusterRoleBinding
-          metadata:
-            name: webhook-binding
-          subjects:
-          - kind: ServiceAccount
-            name: webhook
-            namespace: glueops-core-ccm
-          roleRef:
+          - |-
+            apiVersion: metacontroller.k8s.io/v1alpha1
+            kind: DecoratorController
+            metadata:
+              name: lb-service-decorator
+            spec:
+              resources:
+              - apiVersion: v1
+                resource: services
+                labelSelector:
+                  matchExpressions:
+                  - {key: "use-as-loadbalancer", operator: In, values: ["platform","public"]}
+              resyncPeriodSeconds: 30
+              hooks:
+                sync:
+                  webhook:
+                    url: http://glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/sync
+                finalize:
+                  webhook:
+                    url: http://glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/finilize
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
-            name: node-and-deploy-role
-            apiGroup: rbac.authorization.k8s.io
-        - |-
-          apiVersion: networking.k8s.io/v1
-          kind: NetworkPolicy
-          metadata:
-            name: ccm
-            namespace: glueops-core-ccm
-          spec:
-            podSelector:
-              matchLabels:
-                app: webhook-controller
-            policyTypes:
-            - Ingress
-            ingress:
-            - from:
-              - namespaceSelector:
-                  matchLabels:
-                    kubernetes.io/metadata.name: glueops-core-metacontroller
-              - podSelector:
-                  matchLabels:
-                    app.kubernetes.io/instance: metacontroller
+            metadata:
+              name: node-and-deploy-role
+            rules:
+              - apiGroups: [""]
+                resources: ["nodes"]
+                verbs: ["get", "list", "watch"]
+              - apiGroups: [""]
+                resources: ["services"]
+                verbs: ["get", "list", "watch", "create", "patch", "delete"]
+              - apiGroups: ["externaldns.k8s.io"]
+                resources: ["dnsendpoints"]
+                verbs: ["create", "update", "patch", "delete"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              name: webhook-binding
+            subjects:
+            - kind: ServiceAccount
+              name: webhook
+              namespace: glueops-core-ccm
+            roleRef:
+              kind: ClusterRole
+              name: node-and-deploy-role
+              apiGroup: rbac.authorization.k8s.io
 
         image:
           registry: {{ .Values.container_images.app_gluekube_ccm.gluekube_ccm.image.registry }}
+          repository: {{ .Values.container_images.app_gluekube_ccm.gluekube_ccm.image.repository }}
           tag: {{ .Values.container_images.app_gluekube_ccm.gluekube_ccm.image.tag }}
-  
+          port: 80
+          
         deployment:
           enabled: true
-          labels:
-            app: webhook-controller
-          matchLabels:
-            app: webhook-controller
+          serviceAccount:
+            name: webhook
+            enabled: true
         service:
           enabled: true
-          labels:
-            app: webhook-controller
-          type: ClusterIP
-          port: 80
+
+{{- end }}
