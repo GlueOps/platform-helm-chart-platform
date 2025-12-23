@@ -57,7 +57,8 @@ This chart deploys the GlueOps Platform
 | container_images.app_fluent_operator.kubesphere.image.registry | string | `"replicas.mirror.gpkg.io/proxy-docker-io"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
-| container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"quay.io/hamza_bouissa/glueops-ccm"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"replicas.mirror.gpkg.io/proxy-quay-io"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/ccm"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v51"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
