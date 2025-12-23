@@ -101,13 +101,16 @@ spec:
             # Without this flag, nginx may clear ingress entries between upgrades and possibly restarts ref: https://github.com/kubernetes/ingress-nginx/issues/4774#issuecomment-707003403
             update-status-on-shutdown: "false"
           service:
-            annotations:
-              service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-              external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
             labels:
               use-as-loadbalancer: "public"
               gluekube-dns: public-lb.{{ .Values.captain_domain }}
-
+            annotations:
+              service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+              external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
+            {{- if .Values.enable_chisel_proxy_protocol }}
+            chisel-operator.io/proxy-protocol: "true"
+            {{- end }}
+            
             type: "LoadBalancer" 
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
