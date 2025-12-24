@@ -58,7 +58,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/gluekube-ccm"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.0.2"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"replicas.mirror.gpkg.io/proxy-ghcr-io"` |  |
+| container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
 | container_images.app_go_healthz.go_healthz.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
