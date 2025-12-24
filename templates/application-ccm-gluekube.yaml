@@ -32,14 +32,14 @@ spec:
       
         serviceAccount:
           create: true
-          name: webhook
+          name: glueops-core-ccm-webhook
         
         customResources:
           - |-
             apiVersion: metacontroller.k8s.io/v1alpha1
             kind: DecoratorController
             metadata:
-              name: lb-service-decorator
+              name: glueops-core-ccm-lb-service-decorator
             spec:
               resources:
               - apiVersion: v1
@@ -59,7 +59,7 @@ spec:
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
             metadata:
-              name: node-and-deploy-role
+              name: glueops-core-ccm-node-and-deploy-role
             rules:
               - apiGroups: [""]
                 resources: ["nodes"]
@@ -74,14 +74,14 @@ spec:
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRoleBinding
             metadata:
-              name: webhook-binding
+              name: glueops-core-ccm-webhook-binding
             subjects:
             - kind: ServiceAccount
-              name: webhook
+              name: glueops-core-ccm-webhook
               namespace: glueops-core-ccm
             roleRef:
               kind: ClusterRole
-              name: node-and-deploy-role
+              name: glueops-core-ccm-node-and-deploy-role
               apiGroup: rbac.authorization.k8s.io
 
         image:
@@ -93,7 +93,7 @@ spec:
         deployment:
           enabled: true
           serviceAccount:
-            name: webhook
+            name: glueops-core-ccm-webhook
             enabled: true
         service:
           enabled: true
