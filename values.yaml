@@ -395,7 +395,7 @@ container_images:
       image:
         registry: replicas.mirror.gpkg.io/proxy-ghcr-io
         repository: glueops/gluekube-ccm
-        tag: v0.0.1
+        tag: v0.0.2
 
 enable_chisel_proxy_protocol: false
 

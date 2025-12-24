@@ -109,9 +109,9 @@ spec:
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
               external-dns.alpha.kubernetes.io/hostname: glueops-platform-ingress.{{ .Values.captain_domain }}
-              {{- if .Values.enable_chisel_proxy_protocol }}
-              chisel-operator.io/proxy-protocol: "true"
-              {{- end }}
+            {{- if .Values.enable_chisel_proxy_protocol }}
+            chisel-operator.io/proxy-protocol: "true"
+            {{- end }}
             type: "LoadBalancer"
             externalTrafficPolicy: "Local"
           # https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/2366
@@ -159,7 +159,7 @@ spec:
                     - key: app.kubernetes.io/instance
                       operator: In
                       values:
-                      - public-ingress-nginx
+                      - glueops-platform-ingress-nginx
                     - key: app.kubernetes.io/component
                       operator: In
                       values:
