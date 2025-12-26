@@ -393,7 +393,7 @@ container_images:
   app_gluekube_ccm:
     gluekube_ccm:
       image:
-        registry: replicas.mirror.gpkg.io/proxy-ghcr-io
+        registry: ghcr.repo.gpkg.io
         repository: glueops/gluekube-ccm
         tag: v0.0.2
 

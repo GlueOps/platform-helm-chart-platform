@@ -28,7 +28,7 @@ spec:
     targetRevision: 0.8.1
     helm:
       values: |+
-        appName: "glueops-ccm-gluekube"
+        appName: "glueops-core-glueops-ccm-gluekube"
       
         serviceAccount:
           create: true
@@ -54,7 +54,7 @@ spec:
                     url: http://glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/sync
                 finalize:
                   webhook:
-                    url: http://glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/finilize
+                    url: http://glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/finalize
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
