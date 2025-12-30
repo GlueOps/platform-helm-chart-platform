@@ -143,8 +143,10 @@ spec:
             enabled: true
             default: false
             controllerValue: "k8s.io/glueops-platform-ingress-nginx"
+          {{- if .Values.kubeadm.enabled }}
           nodeSelector:
             use-as-loadbalancer: platform
+          {{- end }}
           affinity: 
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:

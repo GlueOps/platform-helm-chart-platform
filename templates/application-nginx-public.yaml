@@ -135,8 +135,10 @@ spec:
             enabled: true
             default: false
             controllerValue: "k8s.io/public-ingress-nginx"
+          {{- if .Values.kubeadm.enabled }}
           nodeSelector:
             use-as-loadbalancer: public
+          {{- end }}
           affinity: 
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
