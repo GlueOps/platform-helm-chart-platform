@@ -42,7 +42,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_curlimages.curl.image.tag | string | `"8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"` |  |
 | container_images.app_descheduler.descheduler.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_descheduler.descheduler.image.repository | string | `"descheduler/descheduler"` |  |
-| container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0"` |  |
+| container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0@sha256:de38c88dcb1e7d822c4bd320551cc55e541c160c6ba380d99772949b0c967ab0"` |  |
 | container_images.app_dex.dex.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86"` |  |
@@ -57,7 +57,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/gluekube-ccm"` |  |
-| container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.0.2"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.0.2@sha256:0f8993e1827739e804ff14ec35165d8f6f8befed4ef1a5df9ebbd2c47acefcbf"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
