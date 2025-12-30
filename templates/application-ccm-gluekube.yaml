@@ -51,10 +51,10 @@ spec:
               hooks:
                 sync:
                   webhook:
-                    url: http://glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/sync
+                    url: http://glueops-core-glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/sync
                 finalize:
                   webhook:
-                    url: http://glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/finalize
+                    url: http://glueops-core-glueops-ccm-gluekube.glueops-core-ccm.svc.cluster.local/finalize
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
