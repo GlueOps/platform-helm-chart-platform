@@ -1,0 +1,20 @@
+server:
+  ha:
+    enabled: true
+    raft:
+      enabled: true
+  dataStorage:
+    enabled: true
+    size: 20Gi
+    storageClass: local-path
+  service:
+    type: ClusterIP
+    port: 8200
+  ingress:
+    enabled: true
+    ingressClassName: glueops-platform
+    pathType: Prefix
+    hosts:
+      - host: openbao.nonprod.earth.onglueops.rocks
+injector:
+  enabled: false
