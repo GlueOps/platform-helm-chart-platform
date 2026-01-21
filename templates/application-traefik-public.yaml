@@ -1,0 +1,53 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: public-ingress-traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: in-cluster
+    namespace: glueops-core-public-traefik
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+  source:
+    repoURL: https://traefik.github.io/charts
+    chart: traefik
+    # pick a pinned version you like; example:
+    targetRevision: 30.1.0
+    helm:
+      values: |-
+        ingressClass:
+          enabled: true
+          isDefaultClass: false
+          name: public
+        providers:
+          kubernetesIngress:
+            enabled: true
+            ingressClass: public
+          kubernetesCRD:
+            enabled: true
+
+        service:
+          type: NodePort
+          ports:
+            web:
+              port: 80
+              nodePort: 30080
+            websecure:
+              port: 443
+              nodePort: 30443
+
+        # optional: dashboard, keep internal
+        api:
+          dashboard: true
+        ports:
+          traefik:
+            expose: false
