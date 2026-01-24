@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     name: "in-cluster"
-    namespace: glueops-core-cert-manager
+    namespace: glueops-core-public-traefik
   project: glueops-core
   syncPolicy:
     syncOptions:
