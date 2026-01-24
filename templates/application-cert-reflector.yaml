@@ -11,7 +11,7 @@ spec:
   project: glueops-core
   destination:
     name: "in-cluster"
-    namespace: reflector
+    namespace: glueops-core-reflector
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
