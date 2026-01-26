@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: reflector
+  name: glueops-core-reflector
   annotations:
     # ensure this installs before your cert-manager app (you have cert-manager at -1)
     argocd.argoproj.io/sync-wave: "-2"
@@ -36,7 +36,7 @@ spec:
         # Leaving defaults on purpose. Add overrides here if you want.
         # Example knobs you might add later:
         #
-        replicaCount: 1
+        #replicaCount: 1
         
         resources:
           requests:

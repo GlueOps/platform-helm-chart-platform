@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-traefik-crds
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: glueops-core
+  destination:
+    name: in-cluster
+    namespace: glueops-core-traefik-crds
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      # Strongly recommended for CRDs so they aren't deleted if this app is removed
+      - Prune=false
+    automated:
+      prune: false
+      selfHeal: true
+  source:
+    # Getting CRDs ::
+    # helm repo add traefik https://traefik.github.io/charts
+    # helm repo update
+    # helm show crds traefik/traefik --version 38.0.2 > infrastructure/traefik/crds/traefik-crds.yaml
+    repoURL: https://github.com/GlueOps/platform-helm-chart-platform
+    targetRevision: HEAD
+    path: infrastructure/traefik/crds

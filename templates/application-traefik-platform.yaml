@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-core-public-traefik
+  name: glueops-core-platform-traefik
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   finalizers:
@@ -9,7 +9,7 @@ metadata:
 spec:
   destination:
     name: in-cluster
-    namespace: glueops-core-public-traefik
+    namespace: glueops-core-platform-traefik
   project: glueops-core
   syncPolicy:
     syncOptions:
@@ -22,29 +22,32 @@ spec:
     chart: traefik
     targetRevision: 38.0.2
     helm:
-      # CRITICAL: CRDs are installed by the CRD-only app
       skipCrds: true
       values: |-
         ingressClass:
           enabled: true
           isDefaultClass: false
-          name: public-traefik
+          name: platform-traefik
+
         providers:
           kubernetesIngress:
             enabled: true
-            ingressClass: public-traefik
+            ingressClass: platform-traefik
             publishedService:
               enabled: true
           kubernetesCRD:
             enabled: true
-            ingressClass: public-traefik
+            ingressClass: platform-traefik
+
         tlsStore:
           default:
             defaultCertificate:
               secretName: default-ingress-cert
+
         deployment:
           replicas: 2
           terminationGracePeriodSeconds: 300
+
         affinity:
           podAntiAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
@@ -57,20 +60,25 @@ spec:
                         operator: In
                         values:
                           - traefik
+
         resources:
           requests:
             cpu: 100m
             memory: 90Mi
+
         service:
           type: LoadBalancer
           labels:
-            use-as-loadbalancer: "public"
-            gluekube-dns: public-lb.{{ .Values.captain_domain }}
+            use-as-loadbalancer: "platform"
+            gluekube-dns: platform-lb.{{ .Values.captain_domain }}
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-            external-dns.alpha.kubernetes.io/hostname: public-traefik.{{ .Values.captain_domain }}
+            # Many setups want "platform" internal; if you want it public, remove this.
+            service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+            external-dns.alpha.kubernetes.io/hostname: platform-traefik.{{ .Values.captain_domain }}
           spec:
             externalTrafficPolicy: Local
+
         ports:
           traefik:
             expose:
@@ -95,6 +103,7 @@ spec:
               lifeCycle:
                 requestAcceptGraceTimeout: 240s
                 graceTimeOut: 240s
+
         logs:
           access:
             enabled: true
@@ -102,11 +111,13 @@ spec:
           general:
             format: json
             level: INFO
+
         metrics:
           prometheus:
             service:
               enabled: true
             serviceMonitor:
               enabled: true
+
         additionalArguments:
           - "--metrics.prometheus=true"
