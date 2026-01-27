@@ -297,7 +297,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/cluster-monitoring
-        tag: v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d
+        tag: v2.6.0@sha256:288c6deec33a35cad65b9b6bbf9df2b531f2c84ba56aadef51f2ae3ca023e652
   app_kube_prometheus_stack:
     grafana:
       image:
