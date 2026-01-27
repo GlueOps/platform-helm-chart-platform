@@ -1,0 +1,118 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-public-traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: in-cluster
+    namespace: glueops-core-public-traefik
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: https://traefik.github.io/charts
+    chart: traefik
+    targetRevision: 38.0.2
+    helm:
+      # CRITICAL: CRDs are installed by the CRD-only app
+      skipCrds: true
+      values: |-
+        ingressClass:
+          enabled: true
+          isDefaultClass: false
+          name: public-traefik
+        providers:
+          kubernetesIngress:
+            enabled: true
+            ingressClass: public-traefik
+            publishedService:
+              enabled: true
+          kubernetesCRD:
+            enabled: true
+            ingressClass: public-traefik
+        tlsStore:
+          default:
+            defaultCertificate:
+              secretName: default-ingress-cert
+        deployment:
+          replicas: 2
+          terminationGracePeriodSeconds: 300
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values:
+                          - traefik
+        resources:
+          requests:
+            cpu: 100m
+            memory: 90Mi
+        service:
+          type: LoadBalancer
+          labels:
+            use-as-loadbalancer: "public"
+            gluekube-dns: public-lb.{{ .Values.captain_domain }}
+          annotations:
+            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+            external-dns.alpha.kubernetes.io/hostname: public-lb-traefik.{{ .Values.captain_domain }}
+          spec:
+            externalTrafficPolicy: Local
+        ports:
+          traefik:
+            expose:
+              default: false
+          web:
+            expose:
+              default: true
+            exposedPort: 80
+            forwardedHeaders:
+              insecure: true
+            transport:
+              lifeCycle:
+                requestAcceptGraceTimeout: 240s
+                graceTimeOut: 240s
+          websecure:
+            expose:
+              default: true
+            exposedPort: 443
+            forwardedHeaders:
+              insecure: true
+            transport:
+              lifeCycle:
+                requestAcceptGraceTimeout: 240s
+                graceTimeOut: 240s
+        logs:
+          access:
+            enabled: true
+            format: json
+          general:
+            format: json
+            level: INFO
+        metrics:
+          prometheus:
+            service:
+              enabled: true
+            serviceMonitor:
+              enabled: true
+        additionalArguments:
+          - "--metrics.prometheus=true"
