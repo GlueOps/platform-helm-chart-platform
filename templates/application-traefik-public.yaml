@@ -17,6 +17,12 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
     repoURL: https://traefik.github.io/charts
     chart: traefik
@@ -68,7 +74,7 @@ spec:
             gluekube-dns: public-lb.{{ .Values.captain_domain }}
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-            external-dns.alpha.kubernetes.io/hostname: public-traefik.{{ .Values.captain_domain }}
+            external-dns.alpha.kubernetes.io/hostname: public-lb-traefik.{{ .Values.captain_domain }}
           spec:
             externalTrafficPolicy: Local
         ports:

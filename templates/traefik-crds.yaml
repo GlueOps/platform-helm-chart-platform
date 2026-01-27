@@ -19,11 +19,15 @@ spec:
     automated:
       prune: false
       selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
   source:
-    # Getting CRDs ::
-    # helm repo add traefik https://traefik.github.io/charts
-    # helm repo update
-    # helm show crds traefik/traefik --version 38.0.2 > infrastructure/traefik/crds/traefik-crds.yaml
-    repoURL: https://github.com/GlueOps/platform-helm-chart-platform
-    targetRevision: HEAD
-    path: infrastructure/traefik/crds
+    repoURL: https://github.com/traefik/traefik-helm-chart.git
+    targetRevision: v38.0.2
+    path: traefik-crds/crds-files
+    directory:
+      recurse: true

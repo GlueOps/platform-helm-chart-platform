@@ -129,7 +129,6 @@ spec:
                     key: glueops.dev/role
                     operator: Equal
                     value: glueops-platform
-                    value: glueops-platform
 
           - |-
             apiVersion: cert-manager.io/v1
@@ -143,7 +142,9 @@ spec:
               dnsNames:
               - "*.apps.{{ .Values.captain_domain }}"
               - "*.{{ .Values.captain_domain }}"
-              - "*.ingress-traefik.{{ .Values.captain_domain }}"
+              - "*.platform-traefik.{{ .Values.captain_domain }}"
+              - "*.internal-traefik.{{ .Values.captain_domain }}"
+              - "*.public-traefik.{{ .Values.captain_domain }}"
               issuerRef:
                 group: cert-manager.io
                 kind: ClusterIssuer
