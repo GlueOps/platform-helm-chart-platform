@@ -154,7 +154,7 @@ spec:
                 annotations:
                   reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
                   reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-                  reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "glueops-core-public-traefik"
+                  reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "glueops-core-public-traefik,glueops-core-platform-traefik,glueops-core-internal-traefik"
 
           - |-
             apiVersion: cert-manager.io/v1
