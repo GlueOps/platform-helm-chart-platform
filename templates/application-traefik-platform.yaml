@@ -44,6 +44,8 @@ spec:
           kubernetesCRD:
             enabled: true
             ingressClass: platform-traefik
+            namespaces:
+              - glueops-core-platform-traefik
 
         tlsStore:
           default:
