@@ -44,8 +44,10 @@ spec:
           kubernetesCRD:
             enabled: true
             ingressClass: platform-traefik
+            allowCrossNamespace: true
             namespaces:
               - glueops-core-platform-traefik
+              - glueops-core-oauth2-proxy
 
         tlsStore:
           default:
