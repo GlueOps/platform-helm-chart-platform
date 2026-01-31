@@ -51,7 +51,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_external_dns.external_dns.image.tag | string | `"v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f"` |  |
 | container_images.app_external_secrets.external_secrets.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
-| container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649"` |  |
+| container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.19.2@sha256:c5617d6e8044dad923f66ff8b7f6736905fd0bb71657b40ad39b62f672ff69ea"` |  |
 | container_images.app_fluent_operator.kubesphere.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
