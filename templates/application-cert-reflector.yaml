@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-reflector
+  annotations:
+    # ensure this installs before your cert-manager app (you have cert-manager at -1)
+    argocd.argoproj.io/sync-wave: "-2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: glueops-core
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-reflector
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 10
+  source:
+    repoURL: https://emberstack.github.io/helm-charts
+    chart: reflector
+    # pick a specific chart version you want to pin.
+    # If you want to track latest, you can set this to something like "10.x.x" only if your ArgoCD/Helm setup supports semver ranges.
+    targetRevision: 10.0.2
+    helm:
+      releaseName: reflector
+      values: |-
+        # Leaving defaults on purpose. Add overrides here if you want.
+        # Example knobs you might add later:
+        #
+        #replicaCount: 1
+        
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        #
+        nodeSelector:
+          glueops.dev/role: glueops-platform
+        #
+        tolerations:
+        - effect: NoSchedule
+          key: glueops.dev/role
+          operator: Equal
+          value: glueops-platform

@@ -63,6 +63,7 @@ spec:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         startupapicheck:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+
         extraObjects:
           - |-
             apiVersion: batch/v1
@@ -128,22 +129,33 @@ spec:
                     key: glueops.dev/role
                     operator: Equal
                     value: glueops-platform
+
           - |-
             apiVersion: cert-manager.io/v1
             kind: Certificate
             metadata:
               name: "{{ .Values.certManager.name_of_default_certificate }}"
+              namespace: glueops-core-cert-manager
               annotations:
                 argocd.argoproj.io/sync-wave: "1"
             spec:
               dnsNames:
-              - '*.apps.{{ .Values.captain_domain }}'
-              - '*.{{ .Values.captain_domain }}'
+              - "*.apps.{{ .Values.captain_domain }}"
+              - "*.{{ .Values.captain_domain }}"
+              - "*.platform-traefik.{{ .Values.captain_domain }}"
+              - "*.internal-traefik.{{ .Values.captain_domain }}"
+              - "*.public-traefik.{{ .Values.captain_domain }}"
               issuerRef:
                 group: cert-manager.io
                 kind: ClusterIssuer
                 name: letsencrypt
               secretName: "{{ .Values.certManager.name_of_default_certificate }}"
+              secretTemplate:
+                annotations:
+                  reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+                  reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+                  reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "glueops-core-public-traefik,glueops-core-platform-traefik,glueops-core-internal-traefik"
+
           - |-
             apiVersion: cert-manager.io/v1
             kind: ClusterIssuer
@@ -164,13 +176,13 @@ spec:
                     dnsZones:
                     - {{ .Values.captain_domain }}
                   dns01:
-                    # Valid values are None and Follow
                     route53:
                       region: "{{ .Values.certManager.aws_region }}"
                       accessKeyID: "{{ .Values.certManager.aws_accessKey }}"
                       secretAccessKeySecretRef:
                         name: route53-credentials-secret
                         key: secret
+
             ---
             apiVersion: cert-manager.io/v1
             kind: ClusterIssuer
@@ -180,6 +192,7 @@ spec:
                 argocd.argoproj.io/sync-wave: "1"
             spec:
               selfSigned: {}
+
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
@@ -206,6 +219,7 @@ spec:
               verbs:
               - get
               - list
+
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRoleBinding
@@ -221,20 +235,22 @@ spec:
             - kind: ServiceAccount
               name: tls-cert-restore
               namespace: glueops-core-cert-manager
+
           - |-
             apiVersion: v1
             kind: Secret
             metadata:
               name: route53-credentials-secret
+              namespace: glueops-core-cert-manager
             stringData:
               secret: "{{ .Values.certManager.aws_secretKey }}"
+
           - |-
             apiVersion: v1
             kind: ServiceAccount
             metadata:
               name: tls-cert-restore
               namespace: glueops-core-cert-manager
-              annotations: 
+              annotations:
                 argocd.argoproj.io/hook: PreSync
                 argocd.argoproj.io/sync-wave: "-8"
-
