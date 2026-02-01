@@ -55,7 +55,7 @@ glueops_backups:
     # -- Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
     aws_secretKey: placeholder_vault_aws_secret_key
     # @ignored
-    cron_expression: "0 */6 * * *"
+    cron_expression: "*/10 * * * *"
     company_key: placeholder_tenant_key
     backup_prefix: placeholder_vault_backup_s3_key_prefix
     
@@ -68,7 +68,7 @@ glueops_backups:
     aws_secretKey: placeholder_tls_cert_backup_aws_secret_key
     backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
     # @ignored
-    cron_expression: "0 */6 * * *"
+    cron_expression: "*/10 * * * *"
     company_key: placeholder_tenant_key
 
 captain_repo:
