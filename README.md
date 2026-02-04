@@ -48,7 +48,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_dex.dex.image.tag | string | `"v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86"` |  |
 | container_images.app_external_dns.external_dns.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_external_dns.external_dns.image.repository | string | `"external-dns/external-dns"` |  |
-| container_images.app_external_dns.external_dns.image.tag | string | `"v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f"` |  |
+| container_images.app_external_dns.external_dns.image.tag | string | `"v0.19.0@sha256:f76114338104264f655b23138444481b20bb9d6125742c7240fac25936fe164e"` |  |
 | container_images.app_external_secrets.external_secrets.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
 | container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649"` |  |
