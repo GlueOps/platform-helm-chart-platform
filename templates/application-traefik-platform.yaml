@@ -49,32 +49,7 @@ spec:
               - glueops-core-platform-traefik
               - glueops-core-oauth2-proxy
 
-        tlsStore:
-          default:
-            defaultCertificate:
-              secretName: default-ingress-cert
 
-        deployment:
-          replicas: 2
-          terminationGracePeriodSeconds: 300
-
-        affinity:
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 100
-                podAffinityTerm:
-                  topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/name
-                        operator: In
-                        values:
-                          - traefik
-
-        resources:
-          requests:
-            cpu: 100m
-            memory: 90Mi
 
         service:
           type: LoadBalancer
@@ -87,45 +62,12 @@ spec:
           spec:
             externalTrafficPolicy: Local
 
-        ports:
-          traefik:
-            expose:
-              default: false
-          web:
-            expose:
-              default: true
-            exposedPort: 80
-            forwardedHeaders:
-              insecure: true
-            transport:
-              lifeCycle:
-                requestAcceptGraceTimeout: 240s
-                graceTimeOut: 240s
-          websecure:
-            expose:
-              default: true
-            exposedPort: 443
-            forwardedHeaders:
-              insecure: true
-            transport:
-              lifeCycle:
-                requestAcceptGraceTimeout: 240s
-                graceTimeOut: 240s
+        deployment:
+          replicas: {{ .Values.traefik.platform_lb.deployment_replicas }}
 
-        logs:
-          access:
-            enabled: true
-            format: json
-          general:
-            format: json
-            level: INFO
+        {{ .Values.traefik.shared_helm_values | toYaml | nindent 8 }}
 
-        metrics:
-          prometheus:
-            service:
-              enabled: true
-            serviceMonitor:
-              enabled: true
 
-        additionalArguments:
-          - "--metrics.prometheus=true"
+
+  
+
