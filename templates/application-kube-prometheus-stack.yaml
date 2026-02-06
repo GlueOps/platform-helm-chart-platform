@@ -133,13 +133,22 @@ spec:
           assertNoLeakedSecrets: false
           ingress:
             enabled: true
-            ingressClassName: glueops-platform
+            ingressClassName: platform-traefik
             annotations:
-              nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
-              nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
-              nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
+              cert-manager.io/cluster-issuer: letsencrypt
+              traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-oauth2@kubernetescrd
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
+
+              #nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
+              #nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+              #nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
+            tls:
+              - secretName: "{{ .Values.certManager.name_of_default_certificate }}"
+                hosts:
+                  - grafana.{{ .Values.captain_domain }}
           additionalDataSources:
           - name: Loki
             type: loki
