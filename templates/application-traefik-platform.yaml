@@ -35,6 +35,11 @@ spec:
           isDefaultClass: false
           name: platform-traefik
 
+        experimental:
+          plugins:
+            redirectErrors:
+              moduleName: github.com/indivisible/redirecterrors
+              version: "v0.1.0"
         providers:
           kubernetesIngress:
             enabled: true
