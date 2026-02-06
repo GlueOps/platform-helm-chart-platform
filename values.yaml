@@ -172,6 +172,8 @@ traefik:
           enabled: true
     additionalArguments:
       - "--metrics.prometheus=true"
+      - "--serversTransport.insecureSkipVerify=true"
+      
     tlsStore:
       default:
         defaultCertificate:
@@ -434,7 +436,7 @@ container_images:
       image:
         registry: quay.repo.gpkg.io
         repository: openbao/openbao
-        tag: 2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd
+        tag: 2.5.0
   app_metacontroller:
     metacontroller:
       image:

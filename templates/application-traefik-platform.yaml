@@ -48,8 +48,18 @@ spec:
             namespaces:
               - glueops-core-platform-traefik
               - glueops-core-oauth2-proxy
+              - glueops-core-vault
 
-
+        # Add the ServersTransport here so Traefik "owns" the configuration locally
+        extraObjects:
+          - |-
+            apiVersion: traefik.io/v1alpha1
+            kind: ServersTransport
+            metadata:
+              name: vault-transport
+              namespace: glueops-core-platform-traefik
+            spec:
+              insecureSkipVerify: true
 
         service:
           type: LoadBalancer
@@ -66,8 +76,3 @@ spec:
           replicas: {{ .Values.traefik.platform_lb.deployment_replicas }}
 
         {{ .Values.traefik.shared_helm_values | toYaml | nindent 8 }}
-
-
-
-  
-
