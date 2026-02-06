@@ -137,6 +137,83 @@ nginx:
   # -- number of replicas for ingress controller
   controller_replica_count: 2
 
+traefik:
+  # -- number of replicas for traefik controller
+  internal_lb:
+    enabled: true
+    deployment_replicas: 2
+  public_lb:
+    deployment_replicas: 2
+  platform_lb:
+    deployment_replicas: 2
+  shared_helm_values:
+    deployment:
+      terminationGracePeriodSeconds: 311
+    image:
+      registry: dockerhub.repo.gpkg.io
+      repository: traefik
+      tag: v3.6.7@sha256:a9890c898f379c1905ee5b28342f6b408dc863f08db2dab20e46c267d1ff463a
+    resources:
+      requests:
+        cpu: 100m
+        memory: 90Mi
+    logs:
+      access:
+        enabled: true
+        format: json
+      general:
+        format: json
+        level: INFO
+    metrics:
+      prometheus:
+        service:
+          enabled: true
+        serviceMonitor:
+          enabled: true
+    additionalArguments:
+      - "--metrics.prometheus=true"
+    tlsStore:
+      default:
+        defaultCertificate:
+          secretName: default-ingress-cert
+    ports:
+      traefik:
+        expose:
+          default: false
+      web:
+        expose:
+          default: true
+        exposedPort: 80
+        forwardedHeaders:
+          insecure: true
+        transport:
+          lifeCycle:
+            requestAcceptGraceTimeout: 240s
+            graceTimeOut: 240s
+      websecure:
+        expose:
+          default: true
+        exposedPort: 443
+        forwardedHeaders:
+          insecure: true
+        transport:
+          lifeCycle:
+            requestAcceptGraceTimeout: 240s
+            graceTimeOut: 240s
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - traefik
+
+
 pull_request_bot:
   # -- number of seconds to wait before checking ArgoCD for new applications
   watch_for_apps_delay_seconds: '10'
