@@ -122,5 +122,5 @@ spec:
               spec:
                 chain:
                   middlewares:
-                    - name: oauth2-forwardauth
                     - name: oauth2-errors
+                    - name: oauth2-forwardauth
