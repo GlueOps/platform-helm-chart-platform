@@ -71,6 +71,21 @@ spec:
                 annotations:
                   argocd.argoproj.io/sync-wave: "0"
             - |-
+            
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-ssl-redirect
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  argocd.argoproj.io/sync-wave: "1"
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                redirectScheme:
+                  scheme: https
+                  permanent: true
+
+            - |-
               apiVersion: traefik.io/v1alpha1
               kind: Middleware
               metadata:
@@ -101,13 +116,11 @@ spec:
                   argocd.argoproj.io/sync-wave: "1"
                   argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
-                errors:
-                  status:
-                    - "401-403"
-                  service:
-                    name: oauth2-proxy
-                    port: 80
-                  query: /oauth2/start?rd=https://{host}{uri}
+                plugin:
+                  redirectErrors:
+                    status: ["401-403"]
+                    target: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd={url}"
+
             - |-
               apiVersion: traefik.io/v1alpha1
               kind: Middleware
@@ -118,17 +131,19 @@ spec:
                   argocd.argoproj.io/sync-wave: "1"
                   argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
-                plugin:
-                  redirectErrors:
-                    status:
-                      - "401-403"
-                    target: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd={url}"
-                    outputStatus: 302
+                errors:
+                  status:
+                    - "401-403"
+                  service:
+                    name: oauth2-proxy
+                    port: 80
+                  query: "/oauth2/start?rd={url}"
+
             - |-
               apiVersion: traefik.io/v1alpha1
               kind: Middleware
               metadata:
-                name: oauth2
+                name: oauth2-with-redirect
                 namespace: glueops-core-oauth2-proxy
                 annotations:
                   # apply after the two middlewares it references
@@ -137,5 +152,21 @@ spec:
               spec:
                 chain:
                   middlewares:
-                    - name: oauth2-redirect
+                    - name: oauth2-ssl-redirect
+                    - name: oauth2-errors
+                    - name: oauth2-forwardauth
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-no-redirect
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  # apply after the two middlewares it references
+                  argocd.argoproj.io/sync-wave: "2"
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                chain:
+                  middlewares:
+                    - name: oauth2-ssl-redirect
                     - name: oauth2-forwardauth
