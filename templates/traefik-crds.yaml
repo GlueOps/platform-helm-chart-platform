@@ -31,7 +31,7 @@ spec:
     # 1) CRDs directory (applied first by wave)
     - repoURL: https://github.com/traefik/traefik-helm-chart.git
       targetRevision: v38.0.2
-      path: traefik-crds/crds-files
+      path: traefik-crds/crds-files/traefik
       directory:
         recurse: true
 
@@ -40,15 +40,14 @@ spec:
     # Best place for these middlewares is usually your *existing Traefik helm release app*.
     # If you already have the Traefik chart installed elsewhere, move the extraObjects block
     # into that Traefik app’s values instead of creating a second Traefik release here.
-    - repoURL: https://traefik.github.io/charts
-      chart: traefik
-      targetRevision: 38.0.2
+    - repoURL: https://helm.gpkg.io/project-template
+      chart: app
+      targetRevision: 0.8.1
       helm:
-        # IMPORTANT: if you do NOT want to install another Traefik instance,
-        # do NOT apply this as-is. Put the `extraObjects:` part into your existing
-        # Traefik helm release values instead.
-        values: |-
-          extraObjects:
+        values: |
+          appName: '{{ .Release.Name }}'
+
+          customResources:
             - |-
               apiVersion: v1
               kind: Namespace
