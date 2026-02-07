@@ -122,7 +122,7 @@ spec:
                   redirectErrors:
                     status:
                       - "401-403"
-                    target: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://{host}{uri}"
+                    target: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd={url}"
                     outputStatus: 302
             - |-
               apiVersion: traefik.io/v1alpha1
