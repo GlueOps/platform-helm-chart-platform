@@ -70,7 +70,7 @@ spec:
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt
               # Auth middleware
-              traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-oauth2@kubernetescrd
+              traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-oauth2-with-redirect@kubernetescrd
               
               # Protocol for backend
               traefik.ingress.kubernetes.io/service.serversscheme: https
