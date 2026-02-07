@@ -55,6 +55,7 @@ spec:
                 name: glueops-core-platform-traefik
                 annotations:
                   argocd.argoproj.io/sync-wave: "0"
+
             - |-
               apiVersion: v1
               kind: Namespace
@@ -62,6 +63,7 @@ spec:
                 name: glueops-core-public-traefik
                 annotations:
                   argocd.argoproj.io/sync-wave: "0"
+
             - |-
               apiVersion: v1
               kind: Namespace
@@ -69,8 +71,8 @@ spec:
                 name: glueops-core-internal-traefik
                 annotations:
                   argocd.argoproj.io/sync-wave: "0"
+
             - |-
-            
               apiVersion: traefik.io/v1alpha1
               kind: Middleware
               metadata:
@@ -109,7 +111,7 @@ spec:
               apiVersion: traefik.io/v1alpha1
               kind: Middleware
               metadata:
-                name: oauth2-errors
+                name: oauth2-errors-redirect
                 namespace: glueops-core-oauth2-proxy
                 annotations:
                   argocd.argoproj.io/sync-wave: "1"
@@ -119,24 +121,6 @@ spec:
                   redirectErrors:
                     status: ["401-403"]
                     target: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd={url}"
-
-            - |-
-              apiVersion: traefik.io/v1alpha1
-              kind: Middleware
-              metadata:
-                name: oauth2-redirect
-                namespace: glueops-core-oauth2-proxy
-                annotations:
-                  argocd.argoproj.io/sync-wave: "1"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-              spec:
-                errors:
-                  status:
-                    - "401-403"
-                  service:
-                    name: oauth2-proxy
-                    port: 80
-                  query: "/oauth2/start?rd={url}"
 
             - |-
               apiVersion: traefik.io/v1alpha1
@@ -152,8 +136,9 @@ spec:
                 chain:
                   middlewares:
                     - name: oauth2-ssl-redirect
-                    - name: oauth2-errors
+                    - name: oauth2-errors-redirect
                     - name: oauth2-forwardauth
+
             - |-
               apiVersion: traefik.io/v1alpha1
               kind: Middleware
