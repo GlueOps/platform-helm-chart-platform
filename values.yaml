@@ -140,7 +140,7 @@ nginx:
 traefik:
   # -- number of replicas for traefik controller
   internal_lb:
-    enabled: true
+    enabled: placeholder_traefik_enable_internal_lb
     deployment_replicas: 2
   public_lb:
     deployment_replicas: 2
