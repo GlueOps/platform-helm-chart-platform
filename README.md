@@ -96,7 +96,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e"` |  |
 | container_images.app_vault.vault.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
-| container_images.app_vault.vault.image.tag | string | `"2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd"` |  |
+| container_images.app_vault.vault.image.tag | string | `"2.5.0"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.3.0@sha256:6ded1c0defe0040fbccd6a91b6f37355c1b0a52ac16fe46ce0c9fa34f2dfe2a6"` |  |
@@ -189,6 +189,40 @@ This chart deploys the GlueOps Platform
 | tls_cert_restore.aws_secretKey | string | `"placeholder_tls_cert_restore_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.backup_prefix | string | `"placeholder_tls_cert_backup_s3_key_prefix"` |  |
 | tls_cert_restore.exclude_namespaces | string | `"placeholder_tls_cert_restore_exclude_namespaces"` |  |
+| traefik.internal_lb | object | `{"deployment_replicas":2,"enabled":"placeholder_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
+| traefik.platform_lb.deployment_replicas | int | `2` |  |
+| traefik.public_lb.deployment_replicas | int | `2` |  |
+| traefik.shared_helm_values.additionalArguments[0] | string | `"--metrics.prometheus=true"` |  |
+| traefik.shared_helm_values.additionalArguments[1] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key | string | `"app.kubernetes.io/name"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator | string | `"In"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0] | string | `"traefik"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"kubernetes.io/hostname"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `100` |  |
+| traefik.shared_helm_values.deployment.terminationGracePeriodSeconds | int | `311` |  |
+| traefik.shared_helm_values.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
+| traefik.shared_helm_values.image.repository | string | `"traefik"` |  |
+| traefik.shared_helm_values.image.tag | string | `"v3.6.7@sha256:a9890c898f379c1905ee5b28342f6b408dc863f08db2dab20e46c267d1ff463a"` |  |
+| traefik.shared_helm_values.logs.access.enabled | bool | `true` |  |
+| traefik.shared_helm_values.logs.access.format | string | `"json"` |  |
+| traefik.shared_helm_values.logs.general.format | string | `"json"` |  |
+| traefik.shared_helm_values.logs.general.level | string | `"INFO"` |  |
+| traefik.shared_helm_values.metrics.prometheus.service.enabled | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.serviceMonitor.enabled | bool | `true` |  |
+| traefik.shared_helm_values.ports.traefik.expose.default | bool | `false` |  |
+| traefik.shared_helm_values.ports.web.expose.default | bool | `true` |  |
+| traefik.shared_helm_values.ports.web.exposedPort | int | `80` |  |
+| traefik.shared_helm_values.ports.web.forwardedHeaders.insecure | bool | `true` |  |
+| traefik.shared_helm_values.ports.web.transport.lifeCycle.graceTimeOut | string | `"240s"` |  |
+| traefik.shared_helm_values.ports.web.transport.lifeCycle.requestAcceptGraceTimeout | string | `"240s"` |  |
+| traefik.shared_helm_values.ports.websecure.expose.default | bool | `true` |  |
+| traefik.shared_helm_values.ports.websecure.exposedPort | int | `443` |  |
+| traefik.shared_helm_values.ports.websecure.forwardedHeaders.insecure | bool | `true` |  |
+| traefik.shared_helm_values.ports.websecure.transport.lifeCycle.graceTimeOut | string | `"240s"` |  |
+| traefik.shared_helm_values.ports.websecure.transport.lifeCycle.requestAcceptGraceTimeout | string | `"240s"` |  |
+| traefik.shared_helm_values.resources.requests.cpu | string | `"100m"` |  |
+| traefik.shared_helm_values.resources.requests.memory | string | `"90Mi"` |  |
+| traefik.shared_helm_values.tlsStore.default.defaultCertificate.secretName | string | `"default-ingress-cert"` |  |
 | vault.data_storage | int | `10` | Volume of storage requested for each Vault Data PVC, in Gi |
 | vault_init_controller.aws_accessKey | string | `"placeholder_vault_init_controller_aws_access_key"` | S3 Credentials to access the vault_access.json |
 | vault_init_controller.aws_region | string | `"placeholder_aws_region"` | S3 region to access the vault_access.json |
