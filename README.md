@@ -189,7 +189,7 @@ This chart deploys the GlueOps Platform
 | tls_cert_restore.aws_secretKey | string | `"placeholder_tls_cert_restore_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.backup_prefix | string | `"placeholder_tls_cert_backup_s3_key_prefix"` |  |
 | tls_cert_restore.exclude_namespaces | string | `"placeholder_tls_cert_restore_exclude_namespaces"` |  |
-| traefik.internal_lb | object | `{"deployment_replicas":2,"enabled":"placeholder_enable_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
+| traefik.internal_lb | object | `{"deployment_replicas":2,"enabled":"placeholder_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
 | traefik.platform_lb.deployment_replicas | int | `2` |  |
 | traefik.public_lb.deployment_replicas | int | `2` |  |
 | traefik.shared_helm_values.additionalArguments[0] | string | `"--metrics.prometheus=true"` |  |
