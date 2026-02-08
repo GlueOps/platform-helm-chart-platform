@@ -129,7 +129,7 @@ variable "host_network_enabled" {
 
 variable "traefik_enable_internal_lb" {
   type        = bool
-  description = "Determines whether or not to internal traefik loadbalancer."
+  description = "Determines whether or not to enable the internal Traefik load balancer."
 }
 
 variable "kubeadm_cluster" {
