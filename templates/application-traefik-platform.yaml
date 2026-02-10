@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-platform-traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: in-cluster
+    namespace: glueops-core-platform-traefik
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: https://traefik.github.io/charts
+    chart: traefik
+    targetRevision: 38.0.2
+    helm:
+      skipCrds: true
+      values: |-
+        ingressClass:
+          enabled: true
+          isDefaultClass: false
+          name: platform-traefik
+      {{- if .Values.kubeadm.enabled }}
+        nodeSelector:
+          use-as-loadbalancer: platform-traefik
+          gluekube-dns: platform-lb-traefik.{{ .Values.captain_domain }}
+      {{- end }}
+        experimental:
+          plugins:
+            redirectErrors:
+              moduleName: github.com/indivisible/redirecterrors
+              version: "v0.1.0"
+        providers:
+          kubernetesIngress:
+            enabled: true
+            ingressClass: platform-traefik
+            publishedService:
+              enabled: true
+          kubernetesCRD:
+            enabled: true
+            ingressClass: platform-traefik
+            allowCrossNamespace: true
+            namespaces:
+              - glueops-core-platform-traefik
+              - glueops-core-oauth2-proxy
+              - glueops-core-vault
+              - glueops-core-kube-prometheus-stack
+
+        # Add the ServersTransport here so Traefik "owns" the configuration locally
+        extraObjects:
+          - |-
+            apiVersion: traefik.io/v1alpha1
+            kind: ServersTransport
+            metadata:
+              name: vault-transport
+              namespace: glueops-core-platform-traefik
+            spec:
+              insecureSkipVerify: true
+
+        service:
+          type: LoadBalancer
+          labels:
+            use-as-loadbalancer: "platform"
+            gluekube-dns: platform-lb.{{ .Values.captain_domain }}
+          annotations:
+            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+            external-dns.alpha.kubernetes.io/hostname: platform-lb-traefik.{{ .Values.captain_domain }}
+          spec:
+            externalTrafficPolicy: Local
+
+        deployment:
+          replicas: {{ .Values.traefik.platform_lb.deployment_replicas }}
+
+        {{ .Values.traefik.shared_helm_values | toYaml | nindent 8 }}

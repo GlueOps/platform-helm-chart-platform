@@ -127,6 +127,22 @@ variable "host_network_enabled" {
   description = "Determines whether or not to use hostNetwork mode."
 }
 
+variable "traefik_enable_internal_lb" {
+  type        = bool
+  description = "Determines whether or not to enable the internal Traefik load balancer."
+}
+
+variable "traefik_enable_public_lb" {
+  type        = bool
+  description = "Determines whether or not to enable the public Traefik load balancer."
+}
+
+variable "ingress_nginx_enable_public_lb" {
+  type        = bool
+  description = "Determines whether or not to enable the public ingress-nginx load balancer."
+}
+
+
 variable "kubeadm_cluster" {
   type        = bool
   description = "Determines whether or not to deploy kubeadm_cluster."
@@ -216,7 +232,7 @@ variable "tenant_s3_multi_region_access_point" {
 
 output "helm_values" {
 
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
 
     replace(
       data.local_file.platform_values_template.content,
@@ -225,6 +241,9 @@ output "helm_values" {
     "placeholder_captain_repo_ssh_clone_url", var.captain_repo_ssh_clone_url),
     "placeholder_this_is_development", var.this_is_development),
     "placeholder_enable_host_network", var.host_network_enabled),
+    "placeholder_traefik_enable_internal_lb", var.traefik_enable_internal_lb),
+    "placeholder_traefik_enable_public_lb", var.traefik_enable_public_lb),
+    "placeholder_ingress_nginx_enable_public_lb", var.ingress_nginx_enable_public_lb),
     "placeholder_enable_kubeadm_cluster", var.kubeadm_cluster),
     "placeholder_cluster_environment", var.cluster_environment),
     "placeholder_glueops_root_domain", var.glueops_root_domain),

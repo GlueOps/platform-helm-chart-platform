@@ -39,18 +39,22 @@ spec:
             tag: {{ .Values.container_images.app_oauth2_proxy.oauth2_proxy.image.tag }}
           ingress:
             enabled: true
-            className: glueops-platform
+            className: platform-traefik
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
             hosts:
               - oauth2.{{ .Values.captain_domain }}
           config:
-            #https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview/
             configFile: |-
               cookie_secret="{{ .Values.dex.oauth2.cookie_secret }}"
               cookie_domains=".{{ .Values.captain_domain }}"
               whitelist_domains=[".{{ .Values.captain_domain }}"]
               client_id="oauth2-proxy"
               client_secret="{{ .Values.dex.oauth2.client_secret }}"
-              cookie_secure=false
+              # Changed to true since Traefik is providing HTTPS at the edge
+              cookie_secure=true
               email_domains=[ "*" ]
               redirect_url="https://oauth2.{{ .Values.captain_domain }}/oauth2/callback"
               upstreams=[ "static://204" ]
@@ -58,11 +62,8 @@ spec:
               set_xauthrequest=true
               cookie_csrf_per_request=true
               prompt="select_account"
-              #oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
-              # The oidc_issuer_url has been replaced by the 4 lines below to bypass discovery
               skip_oidc_discovery="true"
               oidc_issuer_url="https://dex.{{ .Values.captain_domain }}"
               login_url="https://dex.{{ .Values.captain_domain }}/auth"
               redeem_url="https://dex.{{ .Values.captain_domain }}/token"
               oidc_jwks_url="https://dex.{{ .Values.captain_domain }}/keys"
-
