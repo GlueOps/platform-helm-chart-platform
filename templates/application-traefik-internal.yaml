@@ -35,7 +35,10 @@ spec:
           enabled: true
           isDefaultClass: false
           name: internal-traefik
-
+      {{- if .Values.kubeadm.enabled }}
+        nodeSelector:
+          use-as-loadbalancer: internal-traefik
+      {{- end }}
         providers:
           kubernetesIngress:
             enabled: true
