@@ -1,3 +1,4 @@
+{{- if .Values.nginx.public_lb.enabled -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -159,3 +160,8 @@ spec:
                       values:
                       - controller
                   topologyKey: kubernetes.io/hostname
+
+
+
+
+{{- end }}
