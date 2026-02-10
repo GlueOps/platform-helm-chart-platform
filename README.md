@@ -182,6 +182,7 @@ This chart deploys the GlueOps Platform
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
 | nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
+| nginx.public_lb.enabled | string | `"placeholder_ingress_nginx_enable_public_lb"` |  |
 | prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
@@ -192,6 +193,7 @@ This chart deploys the GlueOps Platform
 | traefik.internal_lb | object | `{"deployment_replicas":2,"enabled":"placeholder_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
 | traefik.platform_lb.deployment_replicas | int | `2` |  |
 | traefik.public_lb.deployment_replicas | int | `2` |  |
+| traefik.public_lb.enabled | string | `"placeholder_traefik_enable_public_lb"` |  |
 | traefik.shared_helm_values.additionalArguments[0] | string | `"--metrics.prometheus=true"` |  |
 | traefik.shared_helm_values.additionalArguments[1] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key | string | `"app.kubernetes.io/name"` |  |

@@ -136,6 +136,8 @@ vault:
 nginx:
   # -- number of replicas for ingress controller
   controller_replica_count: 2
+  public_lb:
+    enabled: placeholder_ingress_nginx_enable_public_lb
 
 traefik:
   # -- number of replicas for traefik controller
@@ -143,6 +145,7 @@ traefik:
     enabled: placeholder_traefik_enable_internal_lb
     deployment_replicas: 2
   public_lb:
+    enabled: placeholder_traefik_enable_public_lb
     deployment_replicas: 2
   platform_lb:
     deployment_replicas: 2
