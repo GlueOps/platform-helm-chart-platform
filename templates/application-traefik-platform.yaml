@@ -37,6 +37,7 @@ spec:
       {{- if .Values.kubeadm.enabled }}
         nodeSelector:
           use-as-loadbalancer: platform-traefik
+          gluekube-dns: platform-lb-traefik.{{ .Values.captain_domain }}
       {{- end }}
         experimental:
           plugins:

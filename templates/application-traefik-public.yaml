@@ -60,7 +60,7 @@ spec:
           type: LoadBalancer
           labels:
             use-as-loadbalancer: "public"
-            gluekube-dns: public-lb.{{ .Values.captain_domain }}
+            gluekube-dns: public-lb-traefik.{{ .Values.captain_domain }}
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
             external-dns.alpha.kubernetes.io/hostname: public-lb-traefik.{{ .Values.captain_domain }}
