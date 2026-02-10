@@ -34,7 +34,10 @@ spec:
           enabled: true
           isDefaultClass: false
           name: platform-traefik
-
+      {{- if .Values.kubeadm.enabled }}
+        nodeSelector:
+          use-as-loadbalancer: platform-traefik
+      {{- end }}
         experimental:
           plugins:
             redirectErrors:
