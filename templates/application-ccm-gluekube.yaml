@@ -46,7 +46,7 @@ spec:
                 resource: services
                 labelSelector:
                   matchExpressions:
-                  - {key: "use-as-loadbalancer", operator: In, values: ["platform","public"]}
+                  - {key: "use-as-loadbalancer", operator: In, values: ["platform","public", "public-traefik", "internal-traefik"]}
               resyncPeriodSeconds: 30
               hooks:
                 sync:
