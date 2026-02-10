@@ -78,7 +78,7 @@ spec:
             gluekube-dns: platform-lb.{{ .Values.captain_domain }}
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-            external-dns.alpha.kubernetes.io/hostname: platform-lb-traefik.{{ .Values.captain_domain }}
+            external-dns.alpha.kubernetes.io/hostname: platform-lb-v2.{{ .Values.captain_domain }}
           spec:
             externalTrafficPolicy: Local
 
