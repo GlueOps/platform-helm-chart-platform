@@ -55,7 +55,11 @@ spec:
               - glueops-core-oauth2-proxy
               - {{ (split "." .Values.captain_domain)._0 }}
 
-
+        experimental:
+          plugins:
+            redirectErrors:
+              moduleName: github.com/indivisible/redirecterrors
+              version: v0.1.0
 
         service:
           type: LoadBalancer
@@ -74,7 +78,17 @@ spec:
         
         {{ .Values.traefik.shared_helm_values | toYaml | nindent 8 }}
 
-
+        ingressRoute:
+          dashboard:
+            enabled: true
+            entryPoints: ["websecure"]
+            matchRule: Host(`dashboard-traefik-public-v2.{{ .Values.captain_domain }}`)
+            middlewares:
+              - name: oauth2-with-redirect
+                namespace: glueops-core-oauth2-proxy
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: dashboard-traefik-public-v2.{{ .Values.captain_domain }}
+              external-dns.alpha.kubernetes.io/target: public-v2.{{ .Values.captain_domain }}
 
 
 

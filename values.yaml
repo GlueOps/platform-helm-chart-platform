@@ -181,10 +181,15 @@ traefik:
       default:
         defaultCertificate:
           secretName: default-ingress-cert
+          
+    api:
+      dashboard: true
+
     ports:
       traefik:
         expose:
-          default: false
+          default: true
+
       web:
         expose:
           default: true
@@ -195,6 +200,7 @@ traefik:
           lifeCycle:
             requestAcceptGraceTimeout: 240s
             graceTimeOut: 240s
+
       websecure:
         expose:
           default: true
