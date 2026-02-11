@@ -44,7 +44,7 @@ spec:
               redirectErrors:
                 moduleName: github.com/indivisible/redirecterrors
                 version: v0.1.0
-                
+
         providers:
           kubernetesIngress:
             enabled: true
@@ -82,12 +82,12 @@ spec:
           dashboard:
             enabled: true
             entryPoints: ["websecure"]
-            matchRule: Host(`dashboard-traefik-internal.{{ .Values.captain_domain }}`)
+            matchRule: Host(`dashboard-traefik-internal-v2.{{ .Values.captain_domain }}`)
             middlewares:
               - name: oauth2-with-redirect
                 namespace: glueops-core-oauth2-proxy
             annotations:
-              external-dns.alpha.kubernetes.io/hostname: dashboard-traefik-internal.{{ .Values.captain_domain }}
+              external-dns.alpha.kubernetes.io/hostname: dashboard-traefik-internal-v2.{{ .Values.captain_domain }}
               external-dns.alpha.kubernetes.io/target: internal-v2.{{ .Values.captain_domain }}
 
 {{- end }}

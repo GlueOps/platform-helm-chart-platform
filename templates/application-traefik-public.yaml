@@ -81,12 +81,12 @@ spec:
           dashboard:
             enabled: true
             entryPoints: ["websecure"]
-            matchRule: Host(`dashboard-traefik-public.{{ .Values.captain_domain }}`)
+            matchRule: Host(`dashboard-traefik-public-v2.{{ .Values.captain_domain }}`)
             middlewares:
               - name: oauth2-with-redirect
                 namespace: glueops-core-oauth2-proxy
             annotations:
-              external-dns.alpha.kubernetes.io/hostname: dashboard-traefik-public.{{ .Values.captain_domain }}
+              external-dns.alpha.kubernetes.io/hostname: dashboard-traefik-public-v2.{{ .Values.captain_domain }}
               external-dns.alpha.kubernetes.io/target: public-v2.{{ .Values.captain_domain }}
 
 {{- end }}
