@@ -54,6 +54,12 @@ spec:
               - glueops-core-public-traefik
               - glueops-core-oauth2-proxy
         
+        experimental:
+          plugins:
+            redirectErrors:
+              moduleName: github.com/esnunes/redirecterrors
+              version: v0.1.0
+
         api:
           dashboard: true
         
