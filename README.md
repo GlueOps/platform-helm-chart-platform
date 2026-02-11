@@ -208,7 +208,7 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.logs.access.enabled | bool | `true` |  |
 | traefik.shared_helm_values.logs.access.format | string | `"json"` |  |
 | traefik.shared_helm_values.logs.general.format | string | `"json"` |  |
-| traefik.shared_helm_values.logs.general.level | string | `"INFO"` |  |
+| traefik.shared_helm_values.logs.general.level | string | `"DEBUG"` |  |
 | traefik.shared_helm_values.metrics.prometheus.service.enabled | bool | `true` |  |
 | traefik.shared_helm_values.metrics.prometheus.serviceMonitor.enabled | bool | `true` |  |
 | traefik.shared_helm_values.ports.traefik.expose.default | bool | `false` |  |
