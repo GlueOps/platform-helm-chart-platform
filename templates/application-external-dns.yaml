@@ -62,6 +62,5 @@ spec:
         extraArgs: 
           - "--aws-prefer-cname"
           - "--aws-api-retries=3"
-          - "--traefik-disable-legacy"
         
 

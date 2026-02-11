@@ -60,14 +60,6 @@ spec:
             redirectErrors:
               moduleName: github.com/indivisible/redirecterrors
               version: v0.1.0
-
-        api:
-          dashboard: true
-        
-        ports:
-          traefik:
-            expose:
-              default: true
         
         service:
           type: LoadBalancer
@@ -79,7 +71,6 @@ spec:
             external-dns.alpha.kubernetes.io/hostname: public-v2.{{ .Values.captain_domain }}
           spec:
             externalTrafficPolicy: Local
-
 
         deployment:
           replicas: {{ .Values.traefik.public_lb.deployment_replicas }}
