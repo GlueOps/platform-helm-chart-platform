@@ -213,7 +213,6 @@ spec:
                   - http01:
                       ingress:
                         ingressClassName: "public-traefik"
-                        
             ---
             apiVersion: cert-manager.io/v1
             kind: ClusterIssuer
