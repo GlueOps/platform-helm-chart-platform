@@ -201,6 +201,7 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0] | string | `"traefik"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"kubernetes.io/hostname"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `100` |  |
+| traefik.shared_helm_values.api.dashboard | bool | `true` |  |
 | traefik.shared_helm_values.deployment.terminationGracePeriodSeconds | int | `311` |  |
 | traefik.shared_helm_values.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | traefik.shared_helm_values.image.repository | string | `"traefik"` |  |
@@ -211,7 +212,7 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.logs.general.level | string | `"INFO"` |  |
 | traefik.shared_helm_values.metrics.prometheus.service.enabled | bool | `true` |  |
 | traefik.shared_helm_values.metrics.prometheus.serviceMonitor.enabled | bool | `true` |  |
-| traefik.shared_helm_values.ports.traefik.expose.default | bool | `false` |  |
+| traefik.shared_helm_values.ports.traefik.expose.default | bool | `true` |  |
 | traefik.shared_helm_values.ports.web.expose.default | bool | `true` |  |
 | traefik.shared_helm_values.ports.web.exposedPort | int | `80` |  |
 | traefik.shared_helm_values.ports.web.forwardedHeaders.insecure | bool | `true` |  |
