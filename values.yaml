@@ -166,7 +166,7 @@ traefik:
         format: json
       general:
         format: json
-        level: INFO
+        level: DEBUG
     metrics:
       prometheus:
         service:

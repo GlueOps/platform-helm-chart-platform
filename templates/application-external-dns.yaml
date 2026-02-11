@@ -55,11 +55,13 @@ spec:
           - name: AWS_ACCESS_KEY_ID
             value: {{ .Values.externalDns.aws_accessKey }}
         sources:
+          - traefik-proxy
           - ingress
           - service
           - crd
         extraArgs: 
           - "--aws-prefer-cname"
           - "--aws-api-retries=3"
+          - "--traefik-disable-legacy"
         
 

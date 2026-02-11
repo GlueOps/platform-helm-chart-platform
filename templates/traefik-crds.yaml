@@ -136,7 +136,7 @@ spec:
                 chain:
                   middlewares:
                     - name: oauth2-ssl-redirect
-                    - name: oauth2-errors-redirect
+                    # - name: oauth2-errors-redirect
                     - name: oauth2-forwardauth
 
             - |-
