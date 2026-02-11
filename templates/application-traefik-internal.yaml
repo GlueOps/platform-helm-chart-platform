@@ -39,6 +39,12 @@ spec:
         nodeSelector:
           use-as-loadbalancer: internal-traefik
       {{- end }}
+        experimental:
+            plugins:
+              redirectErrors:
+                moduleName: github.com/indivisible/redirecterrors
+                version: v0.1.0
+                
         providers:
           kubernetesIngress:
             enabled: true
