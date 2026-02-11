@@ -42,7 +42,7 @@ spec:
     # into that Traefik app’s values instead of creating a second Traefik release here.
     - repoURL: https://helm.gpkg.io/project-template
       chart: app
-      targetRevision: 0.8.1
+      targetRevision: 0.9.0
       helm:
         values: |
           appName: '{{ .Release.Name }}'
