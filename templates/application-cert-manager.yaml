@@ -85,38 +85,38 @@ spec:
                     helm.sh/chart: app-0.4.0
                 spec:
                   containers:
-                  - command:
-                    - python
-                    - -u
-                    - /app/cert-backup-restore/main.py
-                    - --restore
-                    env:
-                    - name: AWS_ACCESS_KEY_ID
-                      value: "{{ .Values.tls_cert_restore.aws_accessKey }}"
-                    - name: AWS_SECRET_ACCESS_KEY
-                      value: "{{ .Values.tls_cert_restore.aws_secretKey }}"
-                    - name: AWS_DEFAULT_REGION
-                      value: "{{ .Values.tls_cert_restore.aws_region }}"
-                    - name: CAPTAIN_DOMAIN
-                      value: "{{ .Values.captain_domain }}"
-                    - name: BUCKET_NAME
-                      value: "{{ .Values.glueops_backups.s3_bucket_name }}"
-                    - name: BACKUP_PREFIX
-                      value: "{{ .Values.tls_cert_restore.backup_prefix }}"
-                    - name: RESTORE_THIS_BACKUP
-                      value: ""
-                    - name: EXCLUDE_NAMESPACES
-                      value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
-                    image: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
-                    imagePullPolicy: IfNotPresent
-                    name: glueops-core-tls-cert-restore
-                    resources:
-                      limits:
-                        cpu: 100m
-                        memory: 128Mi
-                      requests:
-                        cpu: 100m
-                        memory: 128Mi
+                    - name: glueops-core-tls-cert-restore
+                      command:
+                        - python
+                        - -u
+                        - /app/cert-backup-restore/main.py
+                        - --restore
+                      env:
+                        - name: AWS_ACCESS_KEY_ID
+                          value: "{{ .Values.tls_cert_restore.aws_accessKey }}"
+                        - name: AWS_SECRET_ACCESS_KEY
+                          value: "{{ .Values.tls_cert_restore.aws_secretKey }}"
+                        - name: AWS_DEFAULT_REGION
+                          value: "{{ .Values.tls_cert_restore.aws_region }}"
+                        - name: CAPTAIN_DOMAIN
+                          value: "{{ .Values.captain_domain }}"
+                        - name: BUCKET_NAME
+                          value: "{{ .Values.glueops_backups.s3_bucket_name }}"
+                        - name: BACKUP_PREFIX
+                          value: "{{ .Values.tls_cert_restore.backup_prefix }}"
+                        - name: RESTORE_THIS_BACKUP
+                          value: ""
+                        - name: EXCLUDE_NAMESPACES
+                          value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
+                      image: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
+                      imagePullPolicy: IfNotPresent
+                      resources:
+                        limits:
+                          cpu: 100m
+                          memory: 128Mi
+                        requests:
+                          cpu: 100m
+                          memory: 128Mi
                   nodeSelector:
                     glueops.dev/role: glueops-platform
                   restartPolicy: Never
@@ -125,10 +125,10 @@ spec:
                   serviceAccountName: tls-cert-restore
                   terminationGracePeriodSeconds: 60
                   tolerations:
-                  - effect: NoSchedule
-                    key: glueops.dev/role
-                    operator: Equal
-                    value: glueops-platform
+                    - effect: NoSchedule
+                      key: glueops.dev/role
+                      operator: Equal
+                      value: glueops-platform
 
           - |-
             apiVersion: cert-manager.io/v1
@@ -140,11 +140,11 @@ spec:
                 argocd.argoproj.io/sync-wave: "1"
             spec:
               dnsNames:
-              - "*.apps.{{ .Values.captain_domain }}"
-              - "*.{{ .Values.captain_domain }}"
-              - "*.platform-traefik.{{ .Values.captain_domain }}"
-              - "*.internal-traefik.{{ .Values.captain_domain }}"
-              - "*.public-traefik.{{ .Values.captain_domain }}"
+                - "*.apps.{{ .Values.captain_domain }}"
+                - "*.{{ .Values.captain_domain }}"
+                - "*.platform-traefik.{{ .Values.captain_domain }}"
+                - "*.internal-traefik.{{ .Values.captain_domain }}"
+                - "*.public-traefik.{{ .Values.captain_domain }}"
               issuerRef:
                 group: cert-manager.io
                 kind: ClusterIssuer
@@ -156,6 +156,9 @@ spec:
                   reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
                   reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "glueops-core-public-traefik,glueops-core-platform-traefik,glueops-core-internal-traefik"
 
+          # Legacy issuer (nginx / ingressClass "public")
+          # NOTE: DNS-01 selector is first so anything in captain_domain uses Route53,
+          # and HTTP-01 is the fallback for non-captain_domain hostnames.
           - |-
             apiVersion: cert-manager.io/v1
             kind: ClusterIssuer
@@ -167,23 +170,52 @@ spec:
               acme:
                 server: https://acme-v02.api.letsencrypt.org/directory
                 privateKeySecretRef:
-                  name: letsencrypt-acme-privatekey
+                  name: letsencrypt-nginx-acme-privatekey
                 solvers:
-                - http01:
-                    ingress:
-                      ingressClassName: "public"
-                - selector:
-                    dnsZones:
-                    - {{ .Values.captain_domain }}
-                  dns01:
-                    route53:
-                      region: "{{ .Values.certManager.aws_region }}"
-                      accessKeyID: "{{ .Values.certManager.aws_accessKey }}"
-                      secretAccessKeySecretRef:
-                        name: route53-credentials-secret
-                        key: secret
+                  - selector:
+                      dnsZones:
+                        - {{ .Values.captain_domain }}
+                    dns01:
+                      route53:
+                        region: "{{ .Values.certManager.aws_region }}"
+                        accessKeyID: "{{ .Values.certManager.aws_accessKey }}"
+                        secretAccessKeySecretRef:
+                          name: route53-credentials-secret
+                          key: secret
+                  - http01:
+                      ingress:
+                        ingressClassName: "public"
 
-            ---
+          # New issuer (traefik / ingressClass "public-traefik")
+          # Same selection rules: DNS-01 for captain_domain, HTTP-01 fallback elsewhere.
+          - |-
+            apiVersion: cert-manager.io/v1
+            kind: ClusterIssuer
+            metadata:
+              name: letsencrypt-public-traefik
+              annotations:
+                argocd.argoproj.io/sync-wave: "1"
+            spec:
+              acme:
+                server: https://acme-v02.api.letsencrypt.org/directory
+                privateKeySecretRef:
+                  name: letsencrypt-public-traefik-acme-privatekey
+                solvers:
+                  - selector:
+                      dnsZones:
+                        - {{ .Values.captain_domain }}
+                    dns01:
+                      route53:
+                        region: "{{ .Values.certManager.aws_region }}"
+                        accessKeyID: "{{ .Values.certManager.aws_accessKey }}"
+                        secretAccessKeySecretRef:
+                          name: route53-credentials-secret
+                          key: secret
+                  - http01:
+                      ingress:
+                        ingressClassName: "public-traefik"
+
+          - |-
             apiVersion: cert-manager.io/v1
             kind: ClusterIssuer
             metadata:
@@ -202,23 +234,12 @@ spec:
                 argocd.argoproj.io/hook: PreSync
                 argocd.argoproj.io/sync-wave: "-7"
             rules:
-            - apiGroups:
-              - ""
-              resources:
-              - secrets
-              verbs:
-              - get
-              - list
-              - create
-              - update
-              - patch
-            - apiGroups:
-              - ""
-              resources:
-              - namespaces
-              verbs:
-              - get
-              - list
+              - apiGroups: [""]
+                resources: ["secrets"]
+                verbs: ["get", "list", "create", "update", "patch"]
+              - apiGroups: [""]
+                resources: ["namespaces"]
+                verbs: ["get", "list"]
 
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
@@ -232,9 +253,9 @@ spec:
               kind: ClusterRole
               name: tls-cert-restore
             subjects:
-            - kind: ServiceAccount
-              name: tls-cert-restore
-              namespace: glueops-core-cert-manager
+              - kind: ServiceAccount
+                name: tls-cert-restore
+                namespace: glueops-core-cert-manager
 
           - |-
             apiVersion: v1
