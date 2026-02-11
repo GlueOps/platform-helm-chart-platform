@@ -53,6 +53,7 @@ spec:
             namespaces:
               - glueops-core-public-traefik
               - glueops-core-oauth2-proxy
+              - {{ (split "." .Values.captain_domain)._0 }}
 
 
 
