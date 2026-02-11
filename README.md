@@ -192,7 +192,7 @@ This chart deploys the GlueOps Platform
 | tls_cert_restore.exclude_namespaces | string | `"placeholder_tls_cert_restore_exclude_namespaces"` |  |
 | traefik.internal_lb | object | `{"deployment_replicas":2,"enabled":"placeholder_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
 | traefik.platform_lb.deployment_replicas | int | `2` |  |
-| traefik.public_lb.deployment_replicas | int | `2` |  |
+| traefik.public_lb.deployment_replicas | string | `"placeholder_traefik_deployment_replicas"` |  |
 | traefik.public_lb.enabled | string | `"placeholder_traefik_enable_public_lb"` |  |
 | traefik.shared_helm_values.additionalArguments[0] | string | `"--metrics.prometheus=true"` |  |
 | traefik.shared_helm_values.additionalArguments[1] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
