@@ -145,10 +145,6 @@ spec:
               #nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
             hosts: ['grafana.{{ .Values.captain_domain }}']
             path: "/"
-            tls:
-              - secretName: "{{ .Values.certManager.name_of_default_certificate }}"
-                hosts:
-                  - grafana.{{ .Values.captain_domain }}
           additionalDataSources:
           - name: Loki
             type: loki
