@@ -54,7 +54,7 @@ spec:
           enabled: true
           ingressClassName: public
           entries:
-            - name: public
+            - name: public-traefik
               hosts:
                 - hostname: qr-code-generator.{{ .Values.captain_domain }}
                   paths:
