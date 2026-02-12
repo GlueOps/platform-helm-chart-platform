@@ -155,8 +155,6 @@ traefik:
         redirectErrors:
           moduleName: github.com/indivisible/redirecterrors
           version: "v0.1.0"
-    deployment:
-      terminationGracePeriodSeconds: 311
     image:
       registry: dockerhub.repo.gpkg.io
       repository: traefik
