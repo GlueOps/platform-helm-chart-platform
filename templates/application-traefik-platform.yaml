@@ -39,11 +39,7 @@ spec:
           use-as-loadbalancer: platform-traefik
           gluekube-dns: platform-lb-traefik.{{ .Values.captain_domain }}
       {{- end }}
-        experimental:
-          plugins:
-            redirectErrors:
-              moduleName: github.com/indivisible/redirecterrors
-              version: "v0.1.0"
+
         providers:
           kubernetesIngress:
             enabled: true
