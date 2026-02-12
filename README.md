@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.69.4](https://img.shields.io/badge/Version-0.69.4-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.69.5](https://img.shields.io/badge/Version-0.69.5-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -202,7 +202,6 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"kubernetes.io/hostname"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `100` |  |
 | traefik.shared_helm_values.api.dashboard | bool | `true` |  |
-| traefik.shared_helm_values.deployment.terminationGracePeriodSeconds | int | `311` |  |
 | traefik.shared_helm_values.experimental.plugins.redirectErrors.moduleName | string | `"github.com/indivisible/redirecterrors"` |  |
 | traefik.shared_helm_values.experimental.plugins.redirectErrors.version | string | `"v0.1.0"` |  |
 | traefik.shared_helm_values.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
