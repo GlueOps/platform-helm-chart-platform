@@ -127,29 +127,34 @@ loki:
 
 prometheus:
   # -- Volume of storage requested for each Prometheus PVC, in Gi
-  volume_claim_storage_request: "50"
+  volume_claim_storage_request: "placeholder_prometheus_volume_claim_storage_request"
 
 vault:
   # -- Volume of storage requested for each Vault Data PVC, in Gi
-  data_storage: 10
+  data_storage: placeholder_vault_data_storage
 
 nginx:
   # -- number of replicas for ingress controller
-  controller_replica_count: 2
+  controller_replica_count: placeholder_nginx_controller_replica_count
   public_lb:
-    enabled: placeholder_ingress_nginx_enable_public_lb
+    enabled: placeholder_nginx_enable_public_lb
 
 traefik:
   # -- number of replicas for traefik controller
   internal_lb:
     enabled: placeholder_traefik_enable_internal_lb
-    deployment_replicas: 2
+    deployment_replicas: placeholder_traefik_internal_lb_deployment_replicas
   public_lb:
     enabled: placeholder_traefik_enable_public_lb
-    deployment_replicas: 2
+    deployment_replicas: placeholder_traefik_public_lb_deployment_replicas
   platform_lb:
     deployment_replicas: 2
   shared_helm_values:
+    experimental:
+      plugins:
+        redirectErrors:
+          moduleName: github.com/indivisible/redirecterrors
+          version: "v0.1.0"
     deployment:
       terminationGracePeriodSeconds: 311
     image:

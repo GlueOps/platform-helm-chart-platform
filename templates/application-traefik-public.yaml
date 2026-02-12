@@ -55,12 +55,6 @@ spec:
               - glueops-core-oauth2-proxy
               - {{ (split "." .Values.captain_domain)._0 }}
 
-        experimental:
-          plugins:
-            redirectErrors:
-              moduleName: github.com/indivisible/redirecterrors
-              version: v0.1.0
-
         service:
           type: LoadBalancer
           labels:

@@ -181,18 +181,18 @@ This chart deploys the GlueOps Platform
 | loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
-| nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
-| nginx.public_lb.enabled | string | `"placeholder_ingress_nginx_enable_public_lb"` |  |
-| prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
+| nginx.controller_replica_count | string | `"placeholder_nginx_controller_replica_count"` | number of replicas for ingress controller |
+| nginx.public_lb.enabled | string | `"placeholder_nginx_enable_public_lb"` |  |
+| prometheus.volume_claim_storage_request | string | `"placeholder_prometheus_volume_claim_storage_request"` | Volume of storage requested for each Prometheus PVC, in Gi |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tls_cert_restore.aws_accessKey | string | `"placeholder_tls_cert_restore_aws_access_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.aws_secretKey | string | `"placeholder_tls_cert_restore_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.backup_prefix | string | `"placeholder_tls_cert_backup_s3_key_prefix"` |  |
 | tls_cert_restore.exclude_namespaces | string | `"placeholder_tls_cert_restore_exclude_namespaces"` |  |
-| traefik.internal_lb | object | `{"deployment_replicas":2,"enabled":"placeholder_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
+| traefik.internal_lb | object | `{"deployment_replicas":"placeholder_traefik_internal_lb_deployment_replicas","enabled":"placeholder_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
 | traefik.platform_lb.deployment_replicas | int | `2` |  |
-| traefik.public_lb.deployment_replicas | int | `2` |  |
+| traefik.public_lb.deployment_replicas | string | `"placeholder_traefik_public_lb_deployment_replicas"` |  |
 | traefik.public_lb.enabled | string | `"placeholder_traefik_enable_public_lb"` |  |
 | traefik.shared_helm_values.additionalArguments[0] | string | `"--metrics.prometheus=true"` |  |
 | traefik.shared_helm_values.additionalArguments[1] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
@@ -203,6 +203,8 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `100` |  |
 | traefik.shared_helm_values.api.dashboard | bool | `true` |  |
 | traefik.shared_helm_values.deployment.terminationGracePeriodSeconds | int | `311` |  |
+| traefik.shared_helm_values.experimental.plugins.redirectErrors.moduleName | string | `"github.com/indivisible/redirecterrors"` |  |
+| traefik.shared_helm_values.experimental.plugins.redirectErrors.version | string | `"v0.1.0"` |  |
 | traefik.shared_helm_values.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | traefik.shared_helm_values.image.repository | string | `"traefik"` |  |
 | traefik.shared_helm_values.image.tag | string | `"v3.6.7@sha256:a9890c898f379c1905ee5b28342f6b408dc863f08db2dab20e46c267d1ff463a"` |  |
@@ -226,7 +228,7 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.resources.requests.cpu | string | `"100m"` |  |
 | traefik.shared_helm_values.resources.requests.memory | string | `"90Mi"` |  |
 | traefik.shared_helm_values.tlsStore.default.defaultCertificate.secretName | string | `"default-ingress-cert"` |  |
-| vault.data_storage | int | `10` | Volume of storage requested for each Vault Data PVC, in Gi |
+| vault.data_storage | string | `"placeholder_vault_data_storage"` | Volume of storage requested for each Vault Data PVC, in Gi |
 | vault_init_controller.aws_accessKey | string | `"placeholder_vault_init_controller_aws_access_key"` | S3 Credentials to access the vault_access.json |
 | vault_init_controller.aws_region | string | `"placeholder_aws_region"` | S3 region to access the vault_access.json |
 | vault_init_controller.aws_secretKey | string | `"placeholder_vault_init_controller_aws_access_secret"` | S3 Credentials to access the vault_access.json |

@@ -137,9 +137,35 @@ variable "traefik_enable_public_lb" {
   description = "Determines whether or not to enable the public Traefik load balancer."
 }
 
-variable "ingress_nginx_enable_public_lb" {
+variable "nginx_enable_public_lb" {
   type        = bool
   description = "Determines whether or not to enable the public ingress-nginx load balancer."
+}
+
+variable "prometheus_volume_claim_storage_request" {
+  type        = string
+  description = "Volume of storage requested for each Prometheus PVC, in Gi"
+}
+
+variable "vault_data_storage" {
+  type        = string
+  description = "Volume of storage requested for each Vault Data PVC, in Gi"
+}
+
+
+variable "nginx_controller_replica_count" {
+  type        = string
+  description = "Number of replicas for ingress-nginx public LB controller"
+}
+
+variable "traefik_internal_lb_deployment_replicas" {
+  type        = string
+  description = "number of replicas for traefik internal LB"
+}
+
+variable "traefik_public_lb_deployment_replicas" {
+  type        = string
+  description = "number of replicas for traefik public LB"
 }
 
 
@@ -232,7 +258,7 @@ variable "tenant_s3_multi_region_access_point" {
 
 output "helm_values" {
 
-  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+  value = replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
 
     replace(
       data.local_file.platform_values_template.content,
@@ -243,7 +269,12 @@ output "helm_values" {
     "placeholder_enable_host_network", var.host_network_enabled),
     "placeholder_traefik_enable_internal_lb", var.traefik_enable_internal_lb),
     "placeholder_traefik_enable_public_lb", var.traefik_enable_public_lb),
-    "placeholder_ingress_nginx_enable_public_lb", var.ingress_nginx_enable_public_lb),
+    "placeholder_nginx_enable_public_lb", var.nginx_enable_public_lb),
+    "placeholder_prometheus_volume_claim_storage_request", var.prometheus_volume_claim_storage_request),
+    "placeholder_vault_data_storage", var.vault_data_storage),
+    "placeholder_nginx_controller_replica_count", var.nginx_controller_replica_count),
+    "placeholder_traefik_internal_lb_deployment_replicas", var.traefik_internal_lb_deployment_replicas),
+    "placeholder_traefik_public_lb_deployment_replicas", var.traefik_public_lb_deployment_replicas),
     "placeholder_enable_kubeadm_cluster", var.kubeadm_cluster),
     "placeholder_cluster_environment", var.cluster_environment),
     "placeholder_glueops_root_domain", var.glueops_root_domain),
