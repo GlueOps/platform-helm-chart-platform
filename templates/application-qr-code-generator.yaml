@@ -52,7 +52,7 @@ spec:
 
         ingress:
           enabled: true
-          ingressClassName: public
+          ingressClassName: public-traefik
           entries:
             - name: public
               hosts:
