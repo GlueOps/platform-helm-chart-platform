@@ -36,7 +36,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
-| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v3.0.0@sha256:77ed9c52d704bf92ef874bd9c4b2b56511f716c5939aea0b4952d3d06f07db5f"` |  |
+| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v3.2.1@sha256:c877d88884860326b9753a685753de24e8357c1e5609f9d51f42edff3b55cf67"` |  |
 | container_images.app_curlimages.curl.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_curlimages.curl.image.repository | string | `"curlimages/curl"` |  |
 | container_images.app_curlimages.curl.image.tag | string | `"8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"` |  |

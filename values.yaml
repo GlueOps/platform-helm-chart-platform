@@ -376,7 +376,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/cluster-information-help-page-html
-        tag: v3.0.0@sha256:77ed9c52d704bf92ef874bd9c4b2b56511f716c5939aea0b4952d3d06f07db5f
+        tag: v3.2.1@sha256:c877d88884860326b9753a685753de24e8357c1e5609f9d51f42edff3b55cf67
   app_dex:
     dex:
       image:
