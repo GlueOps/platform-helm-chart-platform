@@ -184,7 +184,6 @@ traefik:
       - "--metrics.prometheus=true"
       - "--metrics.prometheus.addEntryPointsLabels=true"
       - "--metrics.prometheus.addRoutersLabels=true"
-      - "--entryPoints.websecure.address=:443"
       - "--serversTransport.insecureSkipVerify=true"
       
     tlsStore:
