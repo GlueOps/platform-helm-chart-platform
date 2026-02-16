@@ -173,22 +173,19 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| kube_etcd.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
-| kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client/ca.crt"` |  |
-| kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt"` |  |
-| kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key"` |  |
-| loki.aws_accessKey | string | `"placeholder_loki_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| loki.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
-| loki.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` | Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites |
-| nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
-| node_ports.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
-| node_ports.nginx.ports.http | int | `30020` |  |
-| node_ports.nginx.ports.https | int | `30021` |  |
-| node_ports.oauth2_proxy.ports.http | int | `30010` |  |
-| node_ports.oauth2_proxy.ports.https | int | `30011` |  |
-| prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi |
+| kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
+| kubeadm.kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client-secret/ca.crt"` |  |
+| kubeadm.kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client-secret/apiserver-etcd-client.crt"` |  |
+| kubeadm.kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client-secret/apiserver-etcd-client.key"` |  |
+| loki.chunkConfig | object | `{"allocatedMemory":2024,"batchSize":2,"maxItemMemory":2,"parallelism":2,"replicas":2,"writebackBuffer":1000,"writebackParallelism":1,"writebackSizeLimit":"500MB"}` | Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config backoff_config: {} disable_dualstack: false https://docs.memcached.org/advisories/grafanaloki/ https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/     |
+| loki.storage | string | `nil` |  |
+| nginx.controller_replica_count | string | `"placeholder_nginx_controller_replica_count"` | number of replicas for ingress controller |
+| nginx.public_lb.enabled | string | `"placeholder_nginx_enable_public_lb"` |  |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
+| tempo.aws_accessKey | string | `"placeholder_loki_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| tempo.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| tempo.aws_secretKey | string | `"placeholder_loki_aws_secret_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| tempo.bucket | string | `"glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary"` |  |
 | tempo.compaction_block_retention | string | `"168h"` |  |
 | tempo.remote_url[0] | string | `"http://localhost:9090/api/v1/write"` |  |
 | tempo.storage.placeholder_tempo_storage | object | `{}` |  |
