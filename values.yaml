@@ -37,17 +37,6 @@ host_network:
       metricServer:
         port: 45056
 
-node_ports:
-  enabled: placeholder_enable_kubeadm_cluster
-  # the chosen http/https values are the same with LoadBalancer values 
-  oauth2_proxy:
-    ports:
-      http: 30010
-      https: 30011
-  nginx:
-    ports:
-      http: 30020
-      https: 30021
 
 # -- The Route53 subdomain for the services on your cluster. It will be used as the suffix url for argocd, grafana, vault, and any other services that come out of the box in the glueops platform. Note: you need to create this before using this repo as this repo does not provision DNS Zones for you.
 # This is the domain you created through: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
@@ -66,7 +55,7 @@ glueops_backups:
     # -- Part of `vault_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
     aws_secretKey: placeholder_vault_aws_secret_key
     # @ignored
-    cron_expression: "0 */6 * * *"
+    cron_expression: "*/10 * * * *"
     company_key: placeholder_tenant_key
     backup_prefix: placeholder_vault_backup_s3_key_prefix
     
@@ -79,7 +68,7 @@ glueops_backups:
     aws_secretKey: placeholder_tls_cert_backup_aws_secret_key
     backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
     # @ignored
-    cron_expression: "0 */6 * * *"
+    cron_expression: "*/10 * * * *"
     company_key: placeholder_tenant_key
 
 captain_repo:
@@ -156,14 +145,113 @@ tempo:
   remote_url: ["http://localhost:9090/api/v1/write"]
 
   compaction_block_retention: "168h"
+  bucket: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
+  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_region: placeholder_aws_region
+  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_accessKey: placeholder_loki_aws_access_key
+  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
+  aws_secretKey: placeholder_loki_aws_secret_key
+
 
 vault:
   # -- Volume of storage requested for each Vault Data PVC, in Gi
-  data_storage: 10
+  data_storage: placeholder_vault_data_storage
 
 nginx:
   # -- number of replicas for ingress controller
-  controller_replica_count: 2
+  controller_replica_count: placeholder_nginx_controller_replica_count
+  public_lb:
+    enabled: placeholder_nginx_enable_public_lb
+
+traefik:
+  # -- number of replicas for traefik controller
+  internal_lb:
+    enabled: placeholder_traefik_enable_internal_lb
+    deployment_replicas: placeholder_traefik_internal_lb_deployment_replicas
+  public_lb:
+    enabled: placeholder_traefik_enable_public_lb
+    deployment_replicas: placeholder_traefik_public_lb_deployment_replicas
+  platform_lb:
+    deployment_replicas: 2
+  shared_helm_values:
+    experimental:
+      plugins:
+        redirectErrors:
+          moduleName: github.com/indivisible/redirecterrors
+          version: "v0.1.0"
+    image:
+      registry: dockerhub.repo.gpkg.io
+      repository: traefik
+      tag: v3.6.7@sha256:a9890c898f379c1905ee5b28342f6b408dc863f08db2dab20e46c267d1ff463a
+    resources:
+      requests:
+        cpu: 100m
+        memory: 90Mi
+    logs:
+      access:
+        enabled: true
+        format: json
+      general:
+        format: json
+        level: INFO
+    metrics:
+      prometheus:
+        service:
+          enabled: true
+        serviceMonitor:
+          enabled: true
+    additionalArguments:
+      - "--metrics.prometheus=true"
+      - "--serversTransport.insecureSkipVerify=true"
+      
+    tlsStore:
+      default:
+        defaultCertificate:
+          secretName: default-ingress-cert
+          
+    api:
+      dashboard: true
+
+    ports:
+      traefik:
+        expose:
+          default: true
+
+      web:
+        expose:
+          default: true
+        exposedPort: 80
+        forwardedHeaders:
+          insecure: true
+        transport:
+          lifeCycle:
+            requestAcceptGraceTimeout: 240s
+            graceTimeOut: 240s
+
+      websecure:
+        expose:
+          default: true
+        exposedPort: 443
+        forwardedHeaders:
+          insecure: true
+        transport:
+          lifeCycle:
+            requestAcceptGraceTimeout: 240s
+            graceTimeOut: 240s
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - traefik
+
 
 pull_request_bot:
   # -- number of seconds to wait before checking ArgoCD for new applications
@@ -290,7 +378,7 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: external-dns/external-dns
-        tag: v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f
+        tag: v0.20.0@sha256:ddc7f4212ed09a21024deb1f470a05240837712e74e4b9f6d1f2632ff10672e7
 
   app_backup_and_exports:
     vault_backup_validator:
@@ -313,7 +401,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/cluster-information-help-page-html
-        tag: v0.5.0@sha256:5396f0638205a218f40d6c71edeff538b2e44dae63d3ffc34cb0b75f37b3964b
+        tag: v3.2.1@sha256:c877d88884860326b9753a685753de24e8357c1e5609f9d51f42edff3b55cf67
   app_dex:
     dex:
       image:
@@ -416,13 +504,19 @@ container_images:
         registry: dockerhub.repo.gpkg.io
         repository: curlimages/curl
         tag: 8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6
+  app_gluekube_ccm:
+    gluekube_ccm:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: glueops/gluekube-ccm
+        tag: v0.3.0@sha256:27f76cdf54ce0f341767aa10e2e0fab3ed6f4d70ec49da398931daf5c9b4bc88
 
 enable_chisel_proxy_protocol: false
 
-kube_etcd:
+kubeadm:
   enabled: placeholder_enable_kubeadm_cluster
-  serviceMonitor:
-    caFile: /etc/prometheus/secrets/etcd-client/ca.crt
-    certFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt
-    keyFile: /etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key
-
+  kube_etcd:
+    serviceMonitor:
+      caFile: /etc/prometheus/secrets/etcd-client-secret/ca.crt
+      certFile: /etc/prometheus/secrets/etcd-client-secret/apiserver-etcd-client.crt
+      keyFile: /etc/prometheus/secrets/etcd-client-secret/apiserver-etcd-client.key

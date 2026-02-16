@@ -1,0 +1,88 @@
+{{- if .Values.traefik.internal_lb.enabled -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-internal-traefik
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: in-cluster
+    namespace: glueops-core-internal-traefik
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: https://traefik.github.io/charts
+    chart: traefik
+    targetRevision: 39.0.0
+    helm:
+      skipCrds: true
+      values: |-
+        ingressClass:
+          enabled: true
+          isDefaultClass: false
+          name: internal-traefik
+      {{- if .Values.kubeadm.enabled }}
+        nodeSelector:
+          use-as-loadbalancer: internal-traefik
+      {{- end }}
+        providers:
+          kubernetesIngress:
+            enabled: true
+            ingressClass: internal-traefik
+            publishedService:
+              enabled: true
+          kubernetesCRD:
+            enabled: true
+            ingressClass: internal-traefik
+            allowCrossNamespace: true
+            namespaces:
+              - glueops-core-internal-traefik
+              - glueops-core-oauth2-proxy
+              - {{ (split "." .Values.captain_domain)._0 }}
+
+        service:
+          type: LoadBalancer
+          labels:
+            use-as-loadbalancer: "internal"
+            gluekube-dns: internal-lb-traefik.{{ .Values.captain_domain }}
+          annotations:
+            service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+            # Mark as internal LB on AWS
+            service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+            external-dns.alpha.kubernetes.io/hostname: internal-v2.{{ .Values.captain_domain }}
+          spec:
+            externalTrafficPolicy: Local
+
+        deployment:
+          replicas: {{ .Values.traefik.internal_lb.deployment_replicas }}
+          terminationGracePeriodSeconds: 311
+
+        {{ .Values.traefik.shared_helm_values | toYaml | nindent 8 }}
+
+        ingressRoute:
+          dashboard:
+            enabled: true
+            entryPoints: ["websecure"]
+            matchRule: Host(`dashboard-traefik-internal-v2.{{ .Values.captain_domain }}`)
+            middlewares:
+              - name: oauth2-with-redirect
+                namespace: glueops-core-oauth2-proxy
+            annotations:
+              external-dns.alpha.kubernetes.io/hostname: dashboard-traefik-internal-v2.{{ .Values.captain_domain }}
+              external-dns.alpha.kubernetes.io/target: internal-v2.{{ .Values.captain_domain }}
+
+{{- end }}

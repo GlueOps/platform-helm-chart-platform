@@ -66,13 +66,25 @@ spec:
 
           ingress:
             activeService: false
-            ingressClassName: glueops-platform
+            ingressClassName: platform-traefik
             annotations:
               cert-manager.io/cluster-issuer: letsencrypt
-              nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
-              nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
-              nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
-              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              # Auth middleware
+              traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-oauth2-with-redirect@kubernetescrd
+              
+              # Protocol for backend
+              traefik.ingress.kubernetes.io/service.serversscheme: https
+
+              # Point to the LOCAL transport in the vault namespace
+              traefik.ingress.kubernetes.io/service.serverstransport: vault-transport@kubernetescrd
+              
+              # Matches the internal SANs in your cert-manager Certificate
+              traefik.ingress.kubernetes.io/service.servername: vault.glueops-core-vault.svc.cluster.local
+              
+              #nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
+              #nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+              #nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
+              #nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             enabled: true
             hosts:
               - host: vault.{{ .Values.captain_domain }}
@@ -144,6 +156,14 @@ spec:
                 service_registration "kubernetes" {}
 
         extraObjects:
+        - |-
+          apiVersion: traefik.io/v1alpha1
+          kind: ServersTransport
+          metadata:
+            name: vault-transport
+            namespace: glueops-core-vault
+          spec:
+            insecureSkipVerify: true
         - |-
           apiVersion: cert-manager.io/v1
           kind: Issuer
@@ -358,4 +378,3 @@ spec:
                       echo "---"
                       echo "All cert-manager services are ready. Sync wave check successful."
                       exit 0
-

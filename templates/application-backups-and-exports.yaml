@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.8.1
+    targetRevision: 0.9.0
     helm:
       values: |+
         appName: "glueops-backup-and-exports"
@@ -98,7 +98,7 @@ spec:
                 name: vault-backup
               schedule: "{{ .Values.glueops_backups.vault.cron_expression }}"
               concurrencyPolicy: Forbid
-              successfulJobsHistoryLimit: 10
+              successfulJobsHistoryLimit: 3
               failedJobsHistoryLimit: 3
               image: {{ .Values.container_images.app_backup_and_exports.backup_tools.image.registry }}/{{ .Values.container_images.app_backup_and_exports.backup_tools.image.repository }}:{{ .Values.container_images.app_backup_and_exports.backup_tools.image.tag }}
               command: ["/bin/bash", "-c"]
@@ -142,7 +142,7 @@ spec:
                 name: tls-cert-backup
               schedule: "{{ .Values.glueops_backups.tls_cert_backup.cron_expression }}"
               concurrencyPolicy: Forbid
-              successfulJobsHistoryLimit: 10
+              successfulJobsHistoryLimit: 3
               failedJobsHistoryLimit: 3
               image: {{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.registry }}/{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.repository }}:{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.tag }}
               command: ["python", "-u", "/app/cert-backup-restore/main.py","--backup"]

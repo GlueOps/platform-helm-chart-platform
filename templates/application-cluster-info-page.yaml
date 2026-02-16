@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.8.1
+    targetRevision: 0.9.0
     helm:
       values: |+
         appName: "glueops-cluster-info-page"
@@ -55,11 +55,15 @@ spec:
         
         ingress:
           enabled: true
-          ingressClassName: glueops-platform
+          ingressClassName: platform-traefik
           annotations:
-            nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
-            nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
-            nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-oauth2-with-redirect@kubernetescrd
+
+            #nginx.ingress.kubernetes.io/auth-signin: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd=https://$host$request_uri"
+            #nginx.ingress.kubernetes.io/auth-url: "https://oauth2.{{ .Values.captain_domain }}/oauth2/auth"
+            #nginx.ingress.kubernetes.io/auth-response-headers: "authorization, x-auth-request-user, x-auth-request-email, x_auth_request_access_token"
           entries:
             - name: glueops-platform
               hosts:
