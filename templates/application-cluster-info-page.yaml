@@ -53,7 +53,7 @@ spec:
             - name: CAPTAIN_DOMAIN
               value: "{{ .Values.captain_domain }}"
             - name: INTERNAL_LB_ENABLED
-              value: {{ if .Values.traefik.internal_lb.enabled }}"TRUE"{{ else }}"FALSE"{{ end }}
+              value: "{{ if .Values.traefik.internal_lb.enabled }}TRUE{{ else }}FALSE{{ end }}"
         
         ingress:
           enabled: true
