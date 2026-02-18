@@ -187,12 +187,12 @@ traefik:
       - "--metrics.prometheus.addServicesLabels=true"
       - "--metrics.prometheus.addServicesLabels=true"
       - "--serversTransport.insecureSkipVerify=true"
-      
+
     tlsStore:
       default:
         defaultCertificate:
           secretName: default-ingress-cert
-          
+
     api:
       dashboard: true
 
