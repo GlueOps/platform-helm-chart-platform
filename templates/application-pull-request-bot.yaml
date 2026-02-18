@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-pull-request-bot
+  name: glueops-core-pull-request-bot
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
