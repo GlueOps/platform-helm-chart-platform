@@ -185,6 +185,7 @@ traefik:
       - "--metrics.prometheus.addEntryPointsLabels=true"
       - "--metrics.prometheus.addRoutersLabels=true"
       - "--metrics.prometheus.addServicesLabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
       - "--serversTransport.insecureSkipVerify=true"
       
     tlsStore:
