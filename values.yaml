@@ -424,7 +424,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/pull-request-bot
-        tag: v1.1.0@sha256:f8b5eb18e1194f08ad0decddcf2c7ef73aaf22953347aca77d2e528a68549c67
+        tag: v1.23.2
   app_go_healthz:
     go_healthz:
       image:
@@ -436,7 +436,7 @@ container_images:
       image: 
         registry: ghcr.repo.gpkg.io
         repository: glueops/qr-code-generator
-        tag: v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e
+        tag: v1.22.1
   app_vault_init_controller:
     vault_init_controller:
       image:
