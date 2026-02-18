@@ -195,7 +195,11 @@ This chart deploys the GlueOps Platform
 | traefik.public_lb.deployment_replicas | string | `"placeholder_traefik_public_lb_deployment_replicas"` |  |
 | traefik.public_lb.enabled | string | `"placeholder_traefik_enable_public_lb"` |  |
 | traefik.shared_helm_values.additionalArguments[0] | string | `"--metrics.prometheus=true"` |  |
-| traefik.shared_helm_values.additionalArguments[1] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
+| traefik.shared_helm_values.additionalArguments[1] | string | `"--metrics.prometheus.addEntryPointsLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[2] | string | `"--metrics.prometheus.addRoutersLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[3] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[4] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[5] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key | string | `"app.kubernetes.io/name"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator | string | `"In"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0] | string | `"traefik"` |  |
@@ -211,6 +215,10 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.logs.access.format | string | `"json"` |  |
 | traefik.shared_helm_values.logs.general.format | string | `"json"` |  |
 | traefik.shared_helm_values.logs.general.level | string | `"INFO"` |  |
+| traefik.shared_helm_values.metrics.prometheus.addEntryPointsLabels | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.addRoutersLabels | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.addServicesLabels | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.entryPoint | string | `"traefik"` |  |
 | traefik.shared_helm_values.metrics.prometheus.service.enabled | bool | `true` |  |
 | traefik.shared_helm_values.metrics.prometheus.serviceMonitor.enabled | bool | `true` |  |
 | traefik.shared_helm_values.ports.traefik.expose.default | bool | `true` |  |

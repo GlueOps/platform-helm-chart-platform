@@ -172,19 +172,27 @@ traefik:
         level: INFO
     metrics:
       prometheus:
+        addEntryPointsLabels: true
+        addRoutersLabels: true
+        addServicesLabels: true
+        entryPoint: traefik
         service:
           enabled: true
         serviceMonitor:
           enabled: true
     additionalArguments:
       - "--metrics.prometheus=true"
+      - "--metrics.prometheus.addEntryPointsLabels=true"
+      - "--metrics.prometheus.addRoutersLabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
       - "--serversTransport.insecureSkipVerify=true"
-      
+
     tlsStore:
       default:
         defaultCertificate:
           secretName: default-ingress-cert
-          
+
     api:
       dashboard: true
 
