@@ -198,7 +198,8 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.additionalArguments[1] | string | `"--metrics.prometheus.addEntryPointsLabels=true"` |  |
 | traefik.shared_helm_values.additionalArguments[2] | string | `"--metrics.prometheus.addRoutersLabels=true"` |  |
 | traefik.shared_helm_values.additionalArguments[3] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
-| traefik.shared_helm_values.additionalArguments[4] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
+| traefik.shared_helm_values.additionalArguments[4] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[5] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key | string | `"app.kubernetes.io/name"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator | string | `"In"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0] | string | `"traefik"` |  |
