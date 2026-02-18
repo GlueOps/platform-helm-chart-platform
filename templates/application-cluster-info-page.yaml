@@ -35,7 +35,7 @@ spec:
           repository: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository }}
           tag: {{ .Values.container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag }}
           pullPolicy: IfNotPresent
-          port: 80
+          port: 8080
         
         
         service:
