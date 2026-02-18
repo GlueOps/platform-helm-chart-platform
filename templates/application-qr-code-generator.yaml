@@ -40,7 +40,13 @@ spec:
         deployment: 
           enabled: true
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
-
+          envSecrets:
+            - variable: QR_MINT_TOKEN
+              secretName: qr-shared
+              secretKey: QR_MINT_TOKEN
+            - name: QR_SIGNING_SECRET
+              secretName: qr-shared
+              secretKey: QR_SIGNING_SECRET
         service:
           enabled: true
           type: ClusterIP

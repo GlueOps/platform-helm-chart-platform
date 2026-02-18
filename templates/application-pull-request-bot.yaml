@@ -38,6 +38,10 @@ spec:
           create: true
           name: pull-request-bot
         deployment:
+          envSecrets:
+            - variable: QR_MINT_TOKEN
+              secretName: qr-shared
+              secretKey: QR_MINT_TOKEN
           envVariables:
             - name: WATCH_FOR_APPS_DELAY_SECONDS
               value: {{ .Values.pull_request_bot.watch_for_apps_delay_seconds }}
