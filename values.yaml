@@ -175,7 +175,6 @@ traefik:
         addEntryPointsLabels: true
         addRoutersLabels: true
         addServicesLabels: true
-        entryPoint: traefik
         service:
           enabled: true
         serviceMonitor:
