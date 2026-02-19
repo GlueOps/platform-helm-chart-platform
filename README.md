@@ -218,7 +218,6 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.metrics.prometheus.addEntryPointsLabels | bool | `true` |  |
 | traefik.shared_helm_values.metrics.prometheus.addRoutersLabels | bool | `true` |  |
 | traefik.shared_helm_values.metrics.prometheus.addServicesLabels | bool | `true` |  |
-| traefik.shared_helm_values.metrics.prometheus.entryPoint | string | `"traefik"` |  |
 | traefik.shared_helm_values.metrics.prometheus.service.enabled | bool | `true` |  |
 | traefik.shared_helm_values.metrics.prometheus.serviceMonitor.enabled | bool | `true` |  |
 | traefik.shared_helm_values.ports.traefik.expose.default | bool | `true` |  |
