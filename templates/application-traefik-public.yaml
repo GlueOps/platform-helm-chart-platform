@@ -58,7 +58,7 @@ spec:
         service:
           type: LoadBalancer
           labels:
-            use-as-loadbalancer: "public"
+            use-as-loadbalancer: "public-traefik"
             gluekube-dns: public-lb-traefik.{{ .Values.captain_domain }}
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
