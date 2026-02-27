@@ -34,12 +34,7 @@ spec:
           enabled: true
           isDefaultClass: false
           name: platform-traefik
-      {{- if .Values.kubeadm.enabled }}
-        nodeSelector:
-          use-as-loadbalancer: platform-traefik
-          gluekube-dns: platform-lb-traefik.{{ .Values.captain_domain }}
-      {{- end }}
-
+        
         providers:
           kubernetesIngress:
             enabled: true
@@ -55,7 +50,18 @@ spec:
               - glueops-core-oauth2-proxy
               - glueops-core-vault
               - glueops-core-kube-prometheus-stack
-
+      
+        nodeSelector:
+        {{- if .Values.kubeadm.enabled }}
+          use-as-loadbalancer: platform-traefik
+        {{- end }}
+          glueops.dev/role: "glueops-platform"
+        tolerations:
+          - key: "glueops.dev/role"
+            operator: "Equal"
+            value: "glueops-platform"
+            effect: "NoSchedule"
+        
         # Add the ServersTransport here so Traefik "owns" the configuration locally
         extraObjects:
           - |-
@@ -71,7 +77,8 @@ spec:
           type: LoadBalancer
           labels:
             use-as-loadbalancer: "platform-traefik"
-            gluekube-dns: platform-lb.{{ .Values.captain_domain }}
+            gluekube-dns: platform-lb-traefik.{{ .Values.captain_domain }}
+
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
             external-dns.alpha.kubernetes.io/hostname: platform-v2.{{ .Values.captain_domain }}
