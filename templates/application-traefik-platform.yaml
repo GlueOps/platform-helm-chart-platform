@@ -70,7 +70,7 @@ spec:
         service:
           type: LoadBalancer
           labels:
-            use-as-loadbalancer: "platform"
+            use-as-loadbalancer: "platform-traefik"
             gluekube-dns: platform-lb.{{ .Values.captain_domain }}
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
