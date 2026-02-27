@@ -348,7 +348,7 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: descheduler/descheduler
-        tag: v0.33.0
+        tag: v0.33.0@sha256:de38c88dcb1e7d822c4bd320551cc55e541c160c6ba380d99772949b0c967ab0
   app_external_secrets:
     external_secrets:
       image:
@@ -431,7 +431,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/pull-request-bot
-        tag: v1.23.2
+        tag: v1.23.2@sha256:e8b98aa8940814a398e48d3bb71fc50d02b72249df9e02d1918739444c6ba0fc
   app_go_healthz:
     go_healthz:
       image:
@@ -443,7 +443,7 @@ container_images:
       image: 
         registry: ghcr.repo.gpkg.io
         repository: glueops/qr-code-generator
-        tag: v1.22.1
+        tag: v1.22.1@sha256:d59f54ddeb8e363d24b2ce3c114e867ee8f794e915630f79a47010fcedaa9eb6
   app_vault_init_controller:
     vault_init_controller:
       image:

@@ -42,7 +42,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_curlimages.curl.image.tag | string | `"8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"` |  |
 | container_images.app_descheduler.descheduler.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_descheduler.descheduler.image.repository | string | `"descheduler/descheduler"` |  |
-| container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0"` |  |
+| container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0@sha256:de38c88dcb1e7d822c4bd320551cc55e541c160c6ba380d99772949b0c967ab0"` |  |
 | container_images.app_dex.dex.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86"` |  |
@@ -90,10 +90,10 @@ This chart deploys the GlueOps Platform
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
-| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v1.23.2"` |  |
+| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v1.23.2@sha256:e8b98aa8940814a398e48d3bb71fc50d02b72249df9e02d1918739444c6ba0fc"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
-| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.22.1"` |  |
+| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.22.1@sha256:d59f54ddeb8e363d24b2ce3c114e867ee8f794e915630f79a47010fcedaa9eb6"` |  |
 | container_images.app_vault.vault.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
 | container_images.app_vault.vault.image.tag | string | `"2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd"` |  |
