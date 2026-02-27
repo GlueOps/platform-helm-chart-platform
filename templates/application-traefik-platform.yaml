@@ -39,7 +39,6 @@ spec:
           use-as-loadbalancer: platform-traefik
           gluekube-dns: platform-lb-traefik.{{ .Values.captain_domain }}
       {{- end }}
-
         providers:
           kubernetesIngress:
             enabled: true
