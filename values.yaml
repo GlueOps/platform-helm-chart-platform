@@ -413,7 +413,7 @@ container_images:
       image:
         registry: dockerhub.repo.gpkg.io
         repository: grafana/loki
-        tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
+        tag: 3.6.4@sha256:be31579ac047e9f78b81e48f3b69d3af709e7299b431d5aa78bcda43382f9511
   app_network_exporter:
     network_exporter:
       image:
