@@ -30,7 +30,7 @@ spec:
   sources:
     # 1) CRDs directory (applied first by wave)
     - repoURL: https://github.com/traefik/traefik-helm-chart.git
-      targetRevision: v39.0.0
+      targetRevision: v39.0.2
       path: traefik-crds/crds-files/traefik
       directory:
         recurse: true
