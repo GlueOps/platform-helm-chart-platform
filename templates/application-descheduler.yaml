@@ -22,7 +22,7 @@ spec:
   source:
     repoURL: 'https://github.com/kubernetes-sigs/descheduler.git'
     path: charts/descheduler
-    targetRevision: v0.33.0
+    targetRevision: v0.34.0
     helm:
       parameters:
         - name: kind
