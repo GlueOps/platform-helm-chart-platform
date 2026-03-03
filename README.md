@@ -60,7 +60,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.13.1@sha256:4419971516a2191f55b8b19ab2ebccbf4a6bae7e2434e674cf173ed0b95681bf"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
+| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v1.4.0@sha256:eae6a55c1c58cb06eacb26ec1b6e12ad06900e15e0d0fff422555fa6547ee71c"` |  |
 | container_images.app_go_healthz.go_healthz.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_go_healthz.go_healthz.image.repository | string | `"glueops/go-healthz"` |  |
 | container_images.app_go_healthz.go_healthz.image.tag | string | `"v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c"` |  |
