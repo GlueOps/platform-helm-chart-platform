@@ -90,10 +90,10 @@ This chart deploys the GlueOps Platform
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
-| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v1.23.2"` |  |
+| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v2.0.1@sha256:ded47441a7a0627b107d04e0af085251f506dc77134126e5356e900864a7c8aa"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
-| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.22.1"` |  |
+| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v2.0.1@sha256:4d3ac7b38661db9ebb87f10f46ca636301570e90c027f217b97c681a0d2825c2"` |  |
 | container_images.app_vault.vault.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
 | container_images.app_vault.vault.image.tag | string | `"2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd"` |  |
