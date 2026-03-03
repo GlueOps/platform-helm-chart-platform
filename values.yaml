@@ -337,7 +337,7 @@ container_images:
       image:
         registry: quay.repo.gpkg.io
         repository: jetstack/cert-manager-controller
-        tag: v1.18.2@sha256:81316365dc0b713eddddfbf9b8907b2939676e6c0e12beec0f9625f202a36d16
+        tag: v1.18.4@sha256:cfa008017878994442c0a7e21a5f497ca94a4ef8d39900ff213abffa1b838b4e
     cert_restore:
       image:
         registry: ghcr.repo.gpkg.io
