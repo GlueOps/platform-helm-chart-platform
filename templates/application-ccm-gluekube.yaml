@@ -69,7 +69,7 @@ spec:
                 verbs: ["list"]
               - apiGroups: [""]
                 resources: ["services"]
-                verbs: ["get", "list", "watch", "create", "patch", "delete"]
+                verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
               - apiGroups: ["externaldns.k8s.io"]
                 resources: ["dnsendpoints"]
                 verbs: ["create", "update", "patch", "delete"]
