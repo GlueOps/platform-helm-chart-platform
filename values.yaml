@@ -473,7 +473,7 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: ingress-nginx/controller
-        tag: v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd
+        tag: v1.13.6@sha256:4b85724d716a545f38338cb99f0e07c83d16780adb0911e0e4d6218c7e5944a8
   app_oauth2_proxy:
     oauth2_proxy:
       image:
