@@ -58,7 +58,8 @@ spec:
           type: LoadBalancer
           labels:
             use-as-loadbalancer: "internal-traefik"
-            gluekube-dns: internal-lb-traefik.{{ .Values.captain_domain }}
+            gluekube_captain_domain: {{ .Values.captain_domain }}
+            gluekube_loadbalancer_name: internal-lb-traefik
           annotations:
             service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
             # Mark as internal LB on AWS
