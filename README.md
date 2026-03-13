@@ -54,7 +54,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649"` |  |
 | container_images.app_fluent_operator.kubesphere.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
-| container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
+| container_images.app_fluent_operator.kubesphere.image.tag | string | `"v3.6.0@sha256:5d0b350f971cb723b2a64e38d38d21ff2246c8e11e0abfa814955c32a4f4748c"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/gluekube-ccm"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.16.0@sha256:6daedff19370fc23b49c69700bf89a8e4f484def1825da0f0b3409c03d42c6af"` |  |
