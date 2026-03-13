@@ -104,10 +104,11 @@ spec:
           service:
             labels:
               use-as-loadbalancer: "public"
-              gluekube-dns: public-lb.{{ .Values.captain_domain }}
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
               external-dns.alpha.kubernetes.io/hostname: ingress.{{ .Values.captain_domain }}
+              gluekube-dns: public-lb.{{ .Values.captain_domain }}
+
             {{- if .Values.enable_chisel_proxy_protocol }}
             chisel-operator.io/proxy-protocol: "true"
             {{- end }}
