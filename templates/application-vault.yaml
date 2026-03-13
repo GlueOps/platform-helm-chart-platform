@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ghcr.io/openbao/charts
     chart: openbao
-    targetRevision: 0.19.3
+    targetRevision: 0.23.5
     helm:
       values: |-
         # OpenBao Helm Chart Value Overrides (cutover from Vault)
