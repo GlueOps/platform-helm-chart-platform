@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.70.8](https://img.shields.io/badge/Version-0.70.8-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.71.0](https://img.shields.io/badge/Version-0.71.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -60,7 +60,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_gatekeeper.gatekeeper.image.tag | string | `"85de4c74ff077dcd2bc4436ab6ec00865ac4f3a0"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/gluekube-ccm"` |  |
-| container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.14.2@sha256:469cf89b25048c2d99979ec474aad80fe2e1714f0fa741d508b23098796e3b6c"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.17.1@sha256:3d73666c4bb47b5ea0fc4838feecc1776ffffbfd82efed993ad8911f18566410"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
