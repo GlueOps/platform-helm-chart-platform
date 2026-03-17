@@ -38,6 +38,9 @@ spec:
         #
         #replicaCount: 1
         
+        configuration:
+          configmaps:
+            enabled: false
         resources:
           requests:
             cpu: 50m
