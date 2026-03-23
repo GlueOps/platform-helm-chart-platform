@@ -401,7 +401,7 @@ container_images:
       image:
         registry: dockerhub.repo.gpkg.io
         repository: grafana/grafana
-        tag: 10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111
+        tag: 11.6.9-security-01@sha256:5c44683235f774a30af5afca35e12520e3abf9e35ba0496a915a0cb116e1ead7
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
