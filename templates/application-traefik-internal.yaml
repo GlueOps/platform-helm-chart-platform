@@ -68,6 +68,12 @@ spec:
           spec:
             externalTrafficPolicy: Local
 
+        tolerations:
+          - key: "dedicated"
+            operator: "Equal"
+            value: "internal-traefik"
+            effect: "NoSchedule"
+
         deployment:
           replicas: {{ .Values.traefik.internal_lb.deployment_replicas }}
           terminationGracePeriodSeconds: 311
