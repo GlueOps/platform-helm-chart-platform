@@ -40,6 +40,13 @@ spec:
         nodeSelector:
           use-as-loadbalancer: public-traefik
       {{- end }}
+
+        tolerations:
+          - key: "dedicated"
+            operator: "Equal"
+            value: "public-traefik"
+            effect: "NoSchedule"
+
         providers:
           kubernetesIngress:
             enabled: true

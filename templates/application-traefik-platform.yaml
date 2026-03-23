@@ -61,6 +61,11 @@ spec:
             operator: "Equal"
             value: "glueops-platform"
             effect: "NoSchedule"
+          
+          - key: "dedicated"
+            operator: "Equal"
+            value: "platform-traefik"
+            effect: "NoSchedule"
         
         # Add the ServersTransport here so Traefik "owns" the configuration locally
         extraObjects:
