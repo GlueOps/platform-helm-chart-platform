@@ -14,6 +14,8 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
     automated:
       prune: true
       selfHeal: true
@@ -73,6 +75,7 @@ spec:
               namespace: glueops-core-cert-manager
               annotations:
                 argocd.argoproj.io/hook: PreSync
+                argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
             spec:
               backoffLimit: 6
               completionMode: NonIndexed
@@ -137,7 +140,7 @@ spec:
               name: "{{ .Values.certManager.name_of_default_certificate }}"
               namespace: glueops-core-cert-manager
               annotations:
-                argocd.argoproj.io/sync-wave: "1"
+                argocd.argoproj.io/sync-wave: "3"
             spec:
               dnsNames:
               - "*.apps.{{ .Values.captain_domain }}"
@@ -165,7 +168,7 @@ spec:
             metadata:
               name: letsencrypt
               annotations:
-                argocd.argoproj.io/sync-wave: "1"
+                argocd.argoproj.io/sync-wave: "3"
             spec:
               acme:
                 server: https://acme-v02.api.letsencrypt.org/directory
@@ -193,7 +196,7 @@ spec:
             metadata:
               name: letsencrypt-public-traefik
               annotations:
-                argocd.argoproj.io/sync-wave: "1"
+                argocd.argoproj.io/sync-wave: "3"
             spec:
               acme:
                 server: https://acme-v02.api.letsencrypt.org/directory
@@ -219,7 +222,7 @@ spec:
             metadata:
               name: selfsigned
               annotations:
-                argocd.argoproj.io/sync-wave: "1"
+                argocd.argoproj.io/sync-wave: "3"
             spec:
               selfSigned: {}
 
@@ -230,6 +233,7 @@ spec:
               name: tls-cert-restore
               annotations:
                 argocd.argoproj.io/hook: PreSync
+                argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
                 argocd.argoproj.io/sync-wave: "-7"
             rules:
             - apiGroups:
@@ -283,4 +287,5 @@ spec:
               namespace: glueops-core-cert-manager
               annotations:
                 argocd.argoproj.io/hook: PreSync
+                argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
                 argocd.argoproj.io/sync-wave: "-8"
