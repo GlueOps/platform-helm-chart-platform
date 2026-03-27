@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gatekeeper
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-gatekeeper
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 10
+
+  sources:
+    # 1) CRD + RBAC pulled directly from the gatekeeper repo
+    - repoURL: https://github.com/GlueOps/platform-gatekeeper.git
+      targetRevision: HEAD
+      path: .
+      directory:
+        include: "{crd,rbac}.yaml"
+        exclude: "{test-*,examples/**}"
+
+    # 2) Helm chart for the Go service deployment
+    - repoURL: https://helm.gpkg.io/project-template
+      chart: app
+      targetRevision: 0.9.0
+      helm:
+        values: |
+          appName: 'gatekeeper'
+          image:
+            port: 8080
+            registry: {{ .Values.container_images.app_gatekeeper.gatekeeper.image.registry }}
+            repository: {{ .Values.container_images.app_gatekeeper.gatekeeper.image.repository }}
+            tag: {{ .Values.container_images.app_gatekeeper.gatekeeper.image.tag }}
+            pullPolicy: IfNotPresent
+          deployment:
+            {{- toYaml .Values.glueops_node_and_tolerations | nindent 12 }}
+            replicas: 1
+            enabled: true
+            serviceAccountName: glueops-core-gatekeeper
+            env:
+              - name: PORT
+                value: "8080"
+              - name: GATEKEEPER_PLATFORM_ALLOWED_NAMESPACES
+                value: "glueops-core,nonprod"
+              - name: GATEKEEPER_PLATFORM_ALLOWED_NAMESPACE_PREFIXES
+                value: "glueops-core-"
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                cpu: 100m
+                memory: 128Mi
+          service:
+            enabled: true
