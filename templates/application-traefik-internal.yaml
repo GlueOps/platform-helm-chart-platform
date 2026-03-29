@@ -80,6 +80,10 @@ spec:
 
         {{ .Values.traefik.shared_helm_values | toYaml | nindent 8 }}
 
+        ports:
+          {{- $ports := mustMergeOverwrite (dict) (default (dict) .Values.traefik.shared_ports) (default (dict) .Values.traefik.shared_additional_ports) (default (dict) .Values.traefik.internal_lb.additional_ports) }}
+          {{- $ports | toYaml | nindent 10 }}
+
         ingressRoute:
           dashboard:
             enabled: true
