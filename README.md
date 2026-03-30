@@ -19,6 +19,27 @@ This chart deploys the GlueOps Platform
 | certManager.aws_accessKey | string | `"placeholder_certmanager_aws_access_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| chart_versions.cert_manager | string | `"v1.18.2"` |  |
+| chart_versions.cert_reflector | string | `"10.0.8"` |  |
+| chart_versions.descheduler | string | `"v0.33.0"` |  |
+| chart_versions.dex | string | `"0.24.0"` |  |
+| chart_versions.external_dns | string | `"external-dns-helm-chart-1.20.0"` |  |
+| chart_versions.external_secrets | string | `"0.19.2"` |  |
+| chart_versions.fluent_operator | string | `"v2.7.0"` |  |
+| chart_versions.glueops_grafana_dashboards | string | `"v0.12.1"` |  |
+| chart_versions.keda | string | `"2.17.2"` |  |
+| chart_versions.kube_prometheus_stack | string | `"59.1.0"` |  |
+| chart_versions.kube_prometheus_stack_crds | string | `"kube-prometheus-stack-59.1.0"` |  |
+| chart_versions.loki | string | `"5.48.0"` |  |
+| chart_versions.metacontroller | string | `"v4.12.5"` |  |
+| chart_versions.nginx | string | `"4.13.3"` |  |
+| chart_versions.oauth2_proxy | string | `"9.0.0"` |  |
+| chart_versions.openbao | string | `"0.19.3"` |  |
+| chart_versions.project_template | string | `"0.9.0"` |  |
+| chart_versions.project_template_vault_init | string | `"0.8.1"` |  |
+| chart_versions.promtail | string | `"6.15.5"` |  |
+| chart_versions.traefik | string | `"39.0.0"` |  |
+| chart_versions.traefik_crds | string | `"v39.0.0"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v2.7.0@sha256:64e194438f3d056b4a658978be30cd06dce2d37e8df65db611b65aad0e7c3231"` |  |
@@ -70,6 +91,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111"` |  |
+| container_images.app_kubectl.kubectl.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
+| container_images.app_kubectl.kubectl.image.repository | string | `"bitnami/kubectl"` |  |
+| container_images.app_kubectl.kubectl.image.tag | string | `"1.33.1"` |  |
 | container_images.app_loki.loki.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
 | container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
