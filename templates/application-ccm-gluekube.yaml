@@ -18,14 +18,14 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 10s
         factor: 2
         maxDuration: 3m0s
-      limit: 2
+      limit: 5
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.9.0
+    targetRevision: {{ .Values.chart_versions.project_template }}
     helm:
       values: |+
         appName: "glueops-core-glueops-ccm-gluekube"

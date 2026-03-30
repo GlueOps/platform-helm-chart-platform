@@ -22,7 +22,7 @@ spec:
         duration: 10s
         factor: 2
         maxDuration: 3m0s
-      limit: 10
+      limit: 5
   ignoreDifferences:
     - group: apps
       kind: Job
@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: quay.io/jetstack/charts
     chart: cert-manager
-    targetRevision: v1.18.2
+    targetRevision: {{ .Values.chart_versions.cert_manager }}
     helm:
       parameters:
         - name: crds.enabled

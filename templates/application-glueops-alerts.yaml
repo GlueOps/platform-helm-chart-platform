@@ -13,7 +13,7 @@ spec:
   project: glueops-core
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true  
+      - CreateNamespace=true
       - Replace=true
     automated:
       prune: true
@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.9.0
+    targetRevision: {{ .Values.chart_versions.project_template }}
     helm:
       values: |
         appName: 'glueops-core-alerts'
