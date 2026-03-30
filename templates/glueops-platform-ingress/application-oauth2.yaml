@@ -13,7 +13,7 @@ spec:
   project: glueops-core
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true  
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://oauth2-proxy.github.io/manifests'
     chart: oauth2-proxy
-    targetRevision: 9.0.0
+    targetRevision: {{ .Values.chart_versions.oauth2_proxy }}
     helm:
       values: |-
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}

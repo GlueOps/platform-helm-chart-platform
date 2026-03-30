@@ -23,13 +23,13 @@ spec:
         duration: 10s
         factor: 2
         maxDuration: 3m0s
-      limit: 10
+      limit: 5
   source:
     repoURL: https://emberstack.github.io/helm-charts
     chart: reflector
     # pick a specific chart version you want to pin.
     # If you want to track latest, you can set this to something like "10.x.x" only if your ArgoCD/Helm setup supports semver ranges.
-    targetRevision: 10.0.8
+    targetRevision: {{ .Values.chart_versions.cert_reflector }}
     helm:
       releaseName: reflector
       values: |-

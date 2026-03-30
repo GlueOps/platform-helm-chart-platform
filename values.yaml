@@ -486,12 +486,41 @@ container_images:
         registry: dockerhub.repo.gpkg.io
         repository: curlimages/curl
         tag: 8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6
+  app_kubectl:
+    kubectl:
+      image:
+        registry: dockerhub.repo.gpkg.io
+        repository: bitnami/kubectl
+        tag: "1.33.1"
   app_gluekube_ccm:
     gluekube_ccm:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/gluekube-ccm
         tag: v0.17.1@sha256:3d73666c4bb47b5ea0fc4838feecc1776ffffbfd82efed993ad8911f18566410
+
+chart_versions:
+  project_template: "0.9.0"
+  project_template_vault_init: "0.8.1"
+  traefik: "39.0.0"
+  traefik_crds: "v39.0.0"
+  cert_manager: "v1.18.2"
+  cert_reflector: "10.0.8"
+  external_secrets: "0.19.2"
+  external_dns: "external-dns-helm-chart-1.20.0"
+  kube_prometheus_stack: "59.1.0"
+  kube_prometheus_stack_crds: "kube-prometheus-stack-59.1.0"
+  loki: "5.48.0"
+  dex: "0.24.0"
+  openbao: "0.19.3"
+  keda: "2.17.2"
+  fluent_operator: "v2.7.0"
+  metacontroller: "v4.12.5"
+  descheduler: "v0.33.0"
+  oauth2_proxy: "9.0.0"
+  glueops_grafana_dashboards: "v0.12.1"
+  nginx: "4.13.3"
+  promtail: "6.15.5"
 
 enable_chisel_proxy_protocol: false
 

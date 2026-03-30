@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: ghcr.io/openbao/charts
     chart: openbao
-    targetRevision: 0.19.3
+    targetRevision: {{ .Values.chart_versions.openbao }}
     helm:
       values: |-
         # OpenBao Helm Chart Value Overrides (cutover from Vault)
@@ -249,7 +249,7 @@ spec:
             source:
               repoURL: https://helm.gpkg.io/project-template
               chart: app
-              targetRevision: 0.8.1
+              targetRevision: {{ .Values.chart_versions.project_template_vault_init }}
               helm:
                 values: |
                   appName: 'vault-init-controller'

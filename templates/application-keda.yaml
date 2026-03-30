@@ -16,7 +16,7 @@ spec:
   project: glueops-core
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true  
+      - CreateNamespace=true
       - Replace=true
     automated:
       prune: true
@@ -29,7 +29,7 @@ spec:
       limit: 5
   source:
     repoURL: 'https://kedacore.github.io/charts'
-    targetRevision: 2.17.2
+    targetRevision: {{ .Values.chart_versions.keda }}
     chart: keda
     helm:
       values: |-
@@ -45,16 +45,14 @@ spec:
                     memory: 1000Mi
         prometheus:
             metricServer:
-            enabled: true
-        prometheus:
+                enabled: true
+                port: {{ .Values.host_network.keda.prometheus.metricServer.port }}
             webhooks:
                 enabled: true
                 port: {{ .Values.host_network.keda.prometheus.webhooks.port }}
             operator:
                 enabled: true
                 port: {{ .Values.host_network.keda.prometheus.operator.port }}
-            metricServer:
-                port: {{ .Values.host_network.keda.prometheus.metricServer.port }}
         service:
             portHttps:  {{ .Values.host_network.keda.service.portHttps }}
             portHttpsTarget: {{ .Values.host_network.keda.service.portHttpsTarget }}
