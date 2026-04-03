@@ -25,7 +25,7 @@ jobs:
 
       - name: Verify chart version matches tag
         run: |
-          chart_version=$(yq '.version' Chart.yaml)
+          chart_version=$(helm show chart . | grep '^version:' | awk '{print $2}')
           if [ "$chart_version" != "${{ steps.version.outputs.version }}" ]; then
             echo "ERROR: Chart.yaml version ($chart_version) does not match tag (${{ steps.version.outputs.version }})"
             exit 1
@@ -44,9 +44,24 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u "${{ github.actor }}" --password-stdin
 
       - name: Push to GHCR
-        run: helm push glueops-platform-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/${{ github.repository_owner }}/helm-charts
-
-      - name: Verify immutability
+        id: push
         run: |
-          echo "Published: oci://ghcr.io/${{ github.repository_owner }}/helm-charts/glueops-platform:${{ steps.version.outputs.version }}"
-          echo "OCI artifacts in GHCR are immutable - the same tag cannot be overwritten."
+          output=$(helm push glueops-platform-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/${{ github.repository_owner }}/helm-charts 2>&1)
+          echo "$output"
+          digest=$(echo "$output" | grep -oP 'Digest: \K\S+')
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
+
+      - name: Verify pushed digest
+        run: |
+          echo "Chart: oci://ghcr.io/${{ github.repository_owner }}/helm-charts/glueops-platform:${{ steps.version.outputs.version }}"
+          echo "Digest: ${{ steps.push.outputs.digest }}"
+          if [ -z "${{ steps.push.outputs.digest }}" ]; then
+            echo "ERROR: No digest returned from push — cannot verify artifact integrity"
+            exit 1
+          fi
+          pulled_digest=$(helm pull oci://ghcr.io/${{ github.repository_owner }}/helm-charts/glueops-platform --version "${{ steps.version.outputs.version }}" 2>&1 | grep -oP 'Digest: \K\S+')
+          if [ "${{ steps.push.outputs.digest }}" != "$pulled_digest" ]; then
+            echo "ERROR: Pushed digest (${{ steps.push.outputs.digest }}) does not match pulled digest ($pulled_digest)"
+            exit 1
+          fi
+          echo "Verified: pushed and pulled digests match"
