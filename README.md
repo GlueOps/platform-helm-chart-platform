@@ -42,7 +42,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_curlimages.curl.image.tag | string | `"8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"` |  |
 | container_images.app_descheduler.descheduler.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_descheduler.descheduler.image.repository | string | `"descheduler/descheduler"` |  |
-| container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0"` |  |
+| container_images.app_descheduler.descheduler.image.tag | string | `"v0.33.0@sha256:de38c88dcb1e7d822c4bd320551cc55e541c160c6ba380d99772949b0c967ab0"` |  |
 | container_images.app_dex.dex.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86"` |  |
