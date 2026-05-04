@@ -491,7 +491,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/gluekube-ccm
-        tag: v0.17.1@sha256:3d73666c4bb47b5ea0fc4838feecc1776ffffbfd82efed993ad8911f18566410
+        tag: v0.23.1@sha256:d4287446ed75030eede591029d08b5d78e22a380516a238ba3d279718a32ffb5
 
 enable_chisel_proxy_protocol: false
 
@@ -499,6 +499,6 @@ kubeadm:
   enabled: placeholder_enable_kubeadm_cluster
   kube_etcd:
     serviceMonitor:
-      caFile: /etc/prometheus/secrets/etcd-client-secret/ca.crt
-      certFile: /etc/prometheus/secrets/etcd-client-secret/apiserver-etcd-client.crt
-      keyFile: /etc/prometheus/secrets/etcd-client-secret/apiserver-etcd-client.key
+      caFile: /etc/prometheus/secrets/etcd-client-certs/ca.crt
+      certFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.crt
+      keyFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.key
