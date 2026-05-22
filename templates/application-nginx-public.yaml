@@ -141,6 +141,11 @@ spec:
           nodeSelector:
             use-as-loadbalancer: public
           {{- end }}
+          tolerations:
+          - key: "dedicated"
+            operator: "Equal"
+            value: "public"
+            effect: "NoSchedule"
           affinity: 
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
