@@ -51,8 +51,8 @@ spec:
               - glueops-core-vault
               - glueops-core-kube-prometheus-stack
       
-        nodeSelector:
         {{- if .Values.kubeadm.enabled }}
+        nodeSelector:
           use-as-loadbalancer: platform-traefik
         {{- end }}
         tolerations:
