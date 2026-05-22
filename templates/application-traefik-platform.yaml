@@ -51,17 +51,11 @@ spec:
               - glueops-core-vault
               - glueops-core-kube-prometheus-stack
       
-        nodeSelector:
         {{- if .Values.kubeadm.enabled }}
+        nodeSelector:
           use-as-loadbalancer: platform-traefik
         {{- end }}
-          glueops.dev/role: "glueops-platform"
         tolerations:
-          - key: "glueops.dev/role"
-            operator: "Equal"
-            value: "glueops-platform"
-            effect: "NoSchedule"
-          
           - key: "dedicated"
             operator: "Equal"
             value: "platform-traefik"
