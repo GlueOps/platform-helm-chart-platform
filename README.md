@@ -57,7 +57,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/gluekube-ccm"` |  |
-| container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.25.2@sha256:c2eb367a0bf19cc18ff1eaaa5d444718b36af00b76b04045270bda573e6dcbe9"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.33.0@sha256:7f495a97ee5a01748fbb7e06d1fc3a10e882cedc58c9ebceae0beed2d4402c83"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
 | container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
