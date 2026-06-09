@@ -73,6 +73,9 @@ spec:
               redirectURIs:
                 - 'https://argocd.{{ .Values.captain_domain }}/auth/callback'
               secret: {{ .Values.dex.argocd.client_secret }}
+            - id: kubectl
+              name: kubectl
+              public: true
             - id: grafana
               name: Grafana
               redirectURIs:
