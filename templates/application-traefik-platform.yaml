@@ -50,6 +50,7 @@ spec:
               - glueops-core-oauth2-proxy
               - glueops-core-vault
               - glueops-core-kube-prometheus-stack
+              - default
       
         {{- if .Values.kubeadm.enabled }}
         nodeSelector:
