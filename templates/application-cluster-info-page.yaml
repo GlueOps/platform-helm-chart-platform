@@ -56,10 +56,12 @@ spec:
               value: "{{ if .Values.traefik.internal_lb.enabled }}TRUE{{ else }}FALSE{{ end }}"
             - name: KUBEADM_ENABLED
               value: "{{ if .Values.kubeadm.enabled }}TRUE{{ else }}FALSE{{ end }}"
+          {{ if .Values.kubeadm.enabled }}
           envConfigMaps:
             - variable: CLUSTER_CA_CERTIFICATE
               configMapName: kube-root-ca.crt
               configMapKey: ca.crt
+          {{ end }}
         
         ingress:
           enabled: true
