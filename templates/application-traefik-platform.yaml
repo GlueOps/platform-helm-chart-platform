@@ -51,7 +51,7 @@ spec:
               - glueops-core-vault
               - glueops-core-kube-prometheus-stack
               - default
-              - glueops-core-expose-kube-api
+              - glueops-core-kube-api
       
         {{- if .Values.kubeadm.enabled }}
         nodeSelector:
