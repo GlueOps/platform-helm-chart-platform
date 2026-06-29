@@ -15,15 +15,15 @@
       "enabled": false
     },
     {
-      "description": "Ignore container image updates in values.yaml ONLY for the images consumed by the apps above (kube-prometheus-stack/grafana, loki, fluent-operator, promtail, loki-alert-group-controller). All other values.yaml images still get PRs.",
+      "description": "Ignore container image updates in values.yaml ONLY for the images consumed by the apps above (kube-prometheus-stack/grafana, loki, fluent-operator, promtail, loki-alert-group-controller). Regex anchors are registry-agnostic because depName is registry-qualified (e.g. dockerhub.repo.gpkg.io/grafana/loki). All other values.yaml images still get PRs.",
       "matchFileNames": ["values.yaml"],
       "matchDatasources": ["docker"],
       "matchPackageNames": [
-        "grafana/grafana",
-        "grafana/loki",
-        "kubesphere/fluent-operator",
-        "grafana/promtail",
-        "glueops/metacontroller-operator-loki-rule-group"
+        "/grafana\\/grafana$/",
+        "/grafana\\/loki$/",
+        "/grafana\\/promtail$/",
+        "/kubesphere\\/fluent-operator$/",
+        "/metacontroller-operator-loki-rule-group$/"
       ],
       "enabled": false
     }
