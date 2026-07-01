@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.73.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.73.0...v0.73.1) (2026-07-01)
+
+
+### Continuous Integration
+
+* fix OCI push URL missing the ghcr.io registry host ([3a9b798](https://github.com/GlueOps/platform-helm-chart-platform/commit/3a9b79842a34dd478ef73b1c7f3558770ccdb0de))
+
 ## [0.73.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.72.0...v0.73.0) (2026-07-01)
 
 
