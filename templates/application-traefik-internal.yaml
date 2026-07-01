@@ -49,6 +49,7 @@ spec:
             enabled: true
             ingressClass: internal-traefik
             allowCrossNamespace: true
+            allowExternalNameServices: true
             namespaces:
               - glueops-core-internal-traefik
               - glueops-core-oauth2-proxy
