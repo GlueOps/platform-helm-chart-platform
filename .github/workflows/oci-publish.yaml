@@ -27,5 +27,5 @@ jobs:
         run: |
           echo "$GITHUB_TOKEN" | helm registry login ghcr.io -u "${{ github.actor }}" --password-stdin
           helm package .
-          helm push glueops-platform-*.tgz "oci://${{ steps.repo.outputs.path }}"
+          helm push glueops-platform-*.tgz "oci://ghcr.io/${{ steps.repo.outputs.path }}"
           helm registry logout ghcr.io
