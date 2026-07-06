@@ -109,7 +109,12 @@ grafana:
 
 loki:
   storage:
-    #placeholder_loki_storage: {}
+   # NOTE: the 3-space indent on the line below is intentional and load-bearing.
+   # terraform substitutes the loki_storage heredoc here; only its first line
+   # inherits this indent, so the heredoc's other top-level keys (type:, s3:)
+   # are authored at column 3 to align. Do NOT "normalize" this to 4 spaces —
+   # it desyncs the alignment and produces invalid YAML in the rendered values.
+   #placeholder_loki_storage: {}
       #http_config: {}
       # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
       #backoff_config: {}
