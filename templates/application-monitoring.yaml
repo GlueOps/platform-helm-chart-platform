@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: 'https://github.com/GlueOps/k8s-monitoring-helm.git'
-    targetRevision: feat/adding-monitoring-stack
+    targetRevision: main
     path: apps
     helm:
       values: |
