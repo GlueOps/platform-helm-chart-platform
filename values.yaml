@@ -14,14 +14,6 @@ host_network:
         ports:
           http: 45030
           https: 45031
-  kube_pometheus_stack:
-    prometheusOperator:
-      tls:
-        internal_port: 45040
-      admissionWebhooks:
-        deployment:
-          tls:
-            internal_port: 45041
   keda:
     webhooks:
       port: 45050
@@ -117,7 +109,7 @@ grafana:
 
 loki:
   storage:
-   #placeholder_loki_storage: {}
+    #placeholder_loki_storage: {}
       #http_config: {}
       # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
       #backoff_config: {}

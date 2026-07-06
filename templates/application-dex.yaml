@@ -85,7 +85,7 @@ spec:
               name: Grafana
               redirectURIs:
                 - 'https://grafana-admin.{{ .Values.captain_domain }}/login/generic_oauth'
-              secret: {{ .Values.dex.grafana.client_secret }}  
+              secret: {{ .Values.dex.grafana.client_secret }}
             - id: oauth2-proxy
               name: OAuth2Proxy
               redirectURIs:

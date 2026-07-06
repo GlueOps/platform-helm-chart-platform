@@ -243,20 +243,20 @@ variable "tenant_s3_multi_region_access_point" {
 }
 
 variable "loki_storage" {
-  description = "Loki storage config"
-  type        = any
+  description = "Loki storage config (pre-rendered YAML string substituted into values.yaml)"
+  type        = string
   nullable    = false
 }
 
 variable "tempo_storage" {
-  description = "Tempo storage config"
-  type        = any
+  description = "Tempo storage config (pre-rendered YAML string substituted into values.yaml)"
+  type        = string
   nullable    = false
 }
 
 variable "thanos_storage" {
-  description = "Thanos storage config"
-  type        = any
+  description = "Thanos storage config (pre-rendered YAML string substituted into values.yaml)"
+  type        = string
   nullable    = false
 }
 

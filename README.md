@@ -154,8 +154,6 @@ This chart deploys the GlueOps Platform
 | host_network.keda.service.portHttpsTarget | int | `45053` |  |
 | host_network.keda.webhooks.healthProbePort | int | `45051` |  |
 | host_network.keda.webhooks.port | int | `45050` |  |
-| host_network.kube_pometheus_stack.prometheusOperator.admissionWebhooks.deployment.tls.internal_port | int | `45041` |  |
-| host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
 | kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
