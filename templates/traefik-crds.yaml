@@ -1,0 +1,156 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-traefik-crds-and-middleware
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: glueops-core
+  destination:
+    name: in-cluster
+    # destination namespace is mostly irrelevant for CRDs, and middleware has its own namespace
+    namespace: glueops-core-traefik-crds
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      # Keep prune OFF if you want the “CRDs survive app deletion” behavior
+      # (because you cannot easily add per-CRD Prune=false annotations to upstream CRD files).
+      - Prune=false
+    automated:
+      prune: false
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+
+  sources:
+    # 1) CRDs directory (applied first by wave)
+    - repoURL: https://github.com/traefik/traefik-helm-chart.git
+      targetRevision: v39.0.0
+      path: traefik-crds/crds-files/traefik
+      directory:
+        recurse: true
+
+    # 2) A Helm source that supports extraObjects
+    #
+    # Best place for these middlewares is usually your *existing Traefik helm release app*.
+    # If you already have the Traefik chart installed elsewhere, move the extraObjects block
+    # into that Traefik app’s values instead of creating a second Traefik release here.
+    - repoURL: https://helm.gpkg.io/project-template
+      chart: app
+      targetRevision: 0.9.0
+      helm:
+        values: |
+          appName: '{{ .Release.Name }}'
+
+          customResources:
+            - |-
+              apiVersion: v1
+              kind: Namespace
+              metadata:
+                name: glueops-core-platform-traefik
+                annotations:
+                  argocd.argoproj.io/sync-wave: "0"
+
+            - |-
+              apiVersion: v1
+              kind: Namespace
+              metadata:
+                name: glueops-core-public-traefik
+                annotations:
+                  argocd.argoproj.io/sync-wave: "0"
+
+            - |-
+              apiVersion: v1
+              kind: Namespace
+              metadata:
+                name: glueops-core-internal-traefik
+                annotations:
+                  argocd.argoproj.io/sync-wave: "0"
+
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-ssl-redirect
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  argocd.argoproj.io/sync-wave: "1"
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                redirectScheme:
+                  scheme: https
+                  permanent: true
+
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-forwardauth
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  # ensure it happens after CRDs are registered
+                  argocd.argoproj.io/sync-wave: "1"
+                  # prevents dry-run failures if CRD registration lags slightly
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                forwardAuth:
+                  address: https://oauth2.{{ .Values.captain_domain }}/oauth2/auth
+                  trustForwardHeader: true
+                  authResponseHeaders:
+                    - authorization
+                    - x-auth-request-user
+                    - x-auth-request-email
+                    - x-auth-request-access-token
+
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-errors-redirect
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  argocd.argoproj.io/sync-wave: "1"
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                plugin:
+                  redirectErrors:
+                    status: ["401-403"]
+                    target: "https://oauth2.{{ .Values.captain_domain }}/oauth2/start?rd={url}"
+
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-with-redirect
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  # apply after the two middlewares it references
+                  argocd.argoproj.io/sync-wave: "2"
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                chain:
+                  middlewares:
+                    - name: oauth2-ssl-redirect
+                    - name: oauth2-errors-redirect
+                    - name: oauth2-forwardauth
+
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-no-redirect
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  # apply after the two middlewares it references
+                  argocd.argoproj.io/sync-wave: "2"
+                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              spec:
+                chain:
+                  middlewares:
+                    - name: oauth2-ssl-redirect
+                    - name: oauth2-forwardauth

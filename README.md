@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.65.0](https://img.shields.io/badge/Version-0.65.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.73.1](https://img.shields.io/badge/Version-0.73.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -36,7 +36,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_cert_manager.cert_restore.image.tag | string | `"v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
-| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v0.5.0@sha256:5396f0638205a218f40d6c71edeff538b2e44dae63d3ffc34cb0b75f37b3964b"` |  |
+| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v4.23.0@sha256:ff9ab76848c696038b997d562f580ffafe2511d04ba746c7b5cf7fed1ee8a65b"` |  |
 | container_images.app_curlimages.curl.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_curlimages.curl.image.repository | string | `"curlimages/curl"` |  |
 | container_images.app_curlimages.curl.image.tag | string | `"8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"` |  |
@@ -48,31 +48,22 @@ This chart deploys the GlueOps Platform
 | container_images.app_dex.dex.image.tag | string | `"v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86"` |  |
 | container_images.app_external_dns.external_dns.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_external_dns.external_dns.image.repository | string | `"external-dns/external-dns"` |  |
-| container_images.app_external_dns.external_dns.image.tag | string | `"v0.17.0@sha256:85eba2727b410c8f8093d641a4b1a29671878db94d525a70a4108d10ba8eef5f"` |  |
+| container_images.app_external_dns.external_dns.image.tag | string | `"v0.20.0@sha256:ddc7f4212ed09a21024deb1f470a05240837712e74e4b9f6d1f2632ff10672e7"` |  |
 | container_images.app_external_secrets.external_secrets.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
 | container_images.app_external_secrets.external_secrets.image.tag | string | `"v0.16.2@sha256:bf08e22f09fe2467d62ee54b54906c065d1fcb366ff47b1dbe18186b1788d649"` |  |
 | container_images.app_fluent_operator.kubesphere.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.repository | string | `"glueops/cluster-monitoring"` |  |
-| container_images.app_glueops_alerts.cluster_monitoring.image.tag | string | `"v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.repository | string | `"glueops/gluekube-ccm"` |  |
+| container_images.app_gluekube_ccm.gluekube_ccm.image.tag | string | `"v0.37.0@sha256:98a66f1c80140594c34f5c054f40f83913ad93d3978bcb141fb67fbb16de1ff1"` |  |
 | container_images.app_go_healthz.go_healthz.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_go_healthz.go_healthz.image.repository | string | `"glueops/go-healthz"` |  |
 | container_images.app_go_healthz.go_healthz.image.tag | string | `"v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c"` |  |
 | container_images.app_ingress_nginx.controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
-| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111"` |  |
-| container_images.app_loki.loki.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
-| container_images.app_loki.loki.image.repository | string | `"grafana/loki"` |  |
-| container_images.app_loki.loki.image.tag | string | `"2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7"` |  |
-| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
-| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
-| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c"` |  |
 | container_images.app_metacontroller.metacontroller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
 | container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.12.5@sha256:8d8f21f3f4e36897b6405f5507fefce209ae805425e556361d93f3ae0ed16ce6"` |  |
@@ -82,21 +73,18 @@ This chart deploys the GlueOps Platform
 | container_images.app_oauth2_proxy.oauth2_proxy.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.repository | string | `"oauth2-proxy/oauth2-proxy"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.13.0@sha256:56e3daedf765c7a1eea6e366fbe684be7d3084830ade14b6174570d3c7960954"` |  |
-| container_images.app_promtail.promtail.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
-| container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
-| container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_pull_request_bot.pull_request_bot.image.repository | string | `"glueops/pull-request-bot"` |  |
-| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v1.1.0@sha256:f8b5eb18e1194f08ad0decddcf2c7ef73aaf22953347aca77d2e528a68549c67"` |  |
+| container_images.app_pull_request_bot.pull_request_bot.image.tag | string | `"v2.0.1@sha256:ded47441a7a0627b107d04e0af085251f506dc77134126e5356e900864a7c8aa"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_qr_code_generator.qr_code_generator.image.repository | string | `"glueops/qr-code-generator"` |  |
-| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v1.0.1@sha256:3ce0da14140856f0a8d8c39f8155903d14ca145f2d35ca09be8c2aba465b7a3e"` |  |
+| container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v2.0.1@sha256:4d3ac7b38661db9ebb87f10f46ca636301570e90c027f217b97c681a0d2825c2"` |  |
 | container_images.app_vault.vault.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
 | container_images.app_vault.vault.image.tag | string | `"2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
-| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.3.0@sha256:6ded1c0defe0040fbccd6a91b6f37355c1b0a52ac16fe46ce0c9fa34f2dfe2a6"` |  |
+| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.9.8@sha256:c09535d254194035bfb8ff810be69ab20f25ac5ccc926b42d619fa7e1cc8a419"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
@@ -170,18 +158,14 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| kube_etcd.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
-| kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client/ca.crt"` |  |
-| kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.crt"` |  |
-| kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client/apiserver-etcd-client.key"` |  |
+| kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
+| kubeadm.kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client-certs/ca.crt"` |  |
+| kubeadm.kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.crt"` |  |
+| kubeadm.kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.key"` |  |
 | loki.chunkConfig | object | `{"allocatedMemory":2024,"batchSize":2,"maxItemMemory":2,"parallelism":2,"replicas":2,"writebackBuffer":1000,"writebackParallelism":1,"writebackSizeLimit":"500MB"}` | Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config backoff_config: {} disable_dualstack: false https://docs.memcached.org/advisories/grafanaloki/ https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/     |
 | loki.storage | string | `nil` |  |
-| nginx.controller_replica_count | int | `2` | number of replicas for ingress controller |
-| node_ports.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
-| node_ports.nginx.ports.http | int | `30020` |  |
-| node_ports.nginx.ports.https | int | `30021` |  |
-| node_ports.oauth2_proxy.ports.http | int | `30010` |  |
-| node_ports.oauth2_proxy.ports.https | int | `30011` |  |
+| nginx.controller_replica_count | string | `"placeholder_nginx_controller_replica_count"` | number of replicas for ingress controller |
+| nginx.public_lb.enabled | string | `"placeholder_nginx_enable_public_lb"` |  |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tempo.compaction_block_retention | string | `"168h"` |  |
 | tempo.remote_url[0] | string | `"http://localhost:9090/api/v1/write"` |  |
@@ -192,7 +176,51 @@ This chart deploys the GlueOps Platform
 | tls_cert_restore.aws_secretKey | string | `"placeholder_tls_cert_restore_aws_secret_key"` | Part of `loki_log_exporter` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | tls_cert_restore.backup_prefix | string | `"placeholder_tls_cert_backup_s3_key_prefix"` |  |
 | tls_cert_restore.exclude_namespaces | string | `"placeholder_tls_cert_restore_exclude_namespaces"` |  |
-| vault.data_storage | int | `10` | Volume of storage requested for each Vault Data PVC, in Gi |
+| traefik.internal_lb | object | `{"deployment_replicas":"placeholder_traefik_internal_lb_deployment_replicas","enabled":"placeholder_traefik_enable_internal_lb"}` | number of replicas for traefik controller |
+| traefik.platform_lb.deployment_replicas | int | `2` |  |
+| traefik.public_lb.deployment_replicas | string | `"placeholder_traefik_public_lb_deployment_replicas"` |  |
+| traefik.public_lb.enabled | string | `"placeholder_traefik_enable_public_lb"` |  |
+| traefik.shared_helm_values.additionalArguments[0] | string | `"--metrics.prometheus=true"` |  |
+| traefik.shared_helm_values.additionalArguments[1] | string | `"--metrics.prometheus.addEntryPointsLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[2] | string | `"--metrics.prometheus.addRoutersLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[3] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[4] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
+| traefik.shared_helm_values.additionalArguments[5] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key | string | `"app.kubernetes.io/name"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator | string | `"In"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0] | string | `"traefik"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"kubernetes.io/hostname"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `100` |  |
+| traefik.shared_helm_values.api.dashboard | bool | `true` |  |
+| traefik.shared_helm_values.experimental.plugins.redirectErrors.moduleName | string | `"github.com/indivisible/redirecterrors"` |  |
+| traefik.shared_helm_values.experimental.plugins.redirectErrors.version | string | `"v0.1.0"` |  |
+| traefik.shared_helm_values.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
+| traefik.shared_helm_values.image.repository | string | `"traefik"` |  |
+| traefik.shared_helm_values.image.tag | string | `"v3.6.7@sha256:a9890c898f379c1905ee5b28342f6b408dc863f08db2dab20e46c267d1ff463a"` |  |
+| traefik.shared_helm_values.logs.access.enabled | bool | `true` |  |
+| traefik.shared_helm_values.logs.access.format | string | `"json"` |  |
+| traefik.shared_helm_values.logs.general.format | string | `"json"` |  |
+| traefik.shared_helm_values.logs.general.level | string | `"INFO"` |  |
+| traefik.shared_helm_values.metrics.prometheus.addEntryPointsLabels | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.addRoutersLabels | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.addServicesLabels | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.service.enabled | bool | `true` |  |
+| traefik.shared_helm_values.metrics.prometheus.serviceMonitor.enabled | bool | `true` |  |
+| traefik.shared_helm_values.ports.traefik.expose.default | bool | `true` |  |
+| traefik.shared_helm_values.ports.web.expose.default | bool | `true` |  |
+| traefik.shared_helm_values.ports.web.exposedPort | int | `80` |  |
+| traefik.shared_helm_values.ports.web.forwardedHeaders.insecure | bool | `true` |  |
+| traefik.shared_helm_values.ports.web.transport.lifeCycle.graceTimeOut | string | `"240s"` |  |
+| traefik.shared_helm_values.ports.web.transport.lifeCycle.requestAcceptGraceTimeout | string | `"240s"` |  |
+| traefik.shared_helm_values.ports.websecure.expose.default | bool | `true` |  |
+| traefik.shared_helm_values.ports.websecure.exposedPort | int | `443` |  |
+| traefik.shared_helm_values.ports.websecure.forwardedHeaders.insecure | bool | `true` |  |
+| traefik.shared_helm_values.ports.websecure.transport.lifeCycle.graceTimeOut | string | `"240s"` |  |
+| traefik.shared_helm_values.ports.websecure.transport.lifeCycle.requestAcceptGraceTimeout | string | `"240s"` |  |
+| traefik.shared_helm_values.resources.requests.cpu | string | `"100m"` |  |
+| traefik.shared_helm_values.resources.requests.memory | string | `"90Mi"` |  |
+| traefik.shared_helm_values.tlsStore.default.defaultCertificate.secretName | string | `"default-ingress-cert"` |  |
+| vault.data_storage | string | `"placeholder_vault_data_storage"` | Volume of storage requested for each Vault Data PVC, in Gi |
 | vault_init_controller.aws_accessKey | string | `"placeholder_vault_init_controller_aws_access_key"` | S3 Credentials to access the vault_access.json |
 | vault_init_controller.aws_region | string | `"placeholder_aws_region"` | S3 region to access the vault_access.json |
 | vault_init_controller.aws_secretKey | string | `"placeholder_vault_init_controller_aws_access_secret"` | S3 Credentials to access the vault_access.json |

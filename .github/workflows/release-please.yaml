@@ -1,0 +1,74 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      pr: ${{ steps.release.outputs.pr }}
+    steps:
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PLEASE_APP_PRIVATE_KEY }}
+
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        id: release
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  docs-on-release-pr:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.pr != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      PR_JSON: ${{ needs.release-please.outputs.pr }}
+    steps:
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PLEASE_APP_PRIVATE_KEY }}
+
+      - name: Resolve release PR branch
+        id: pr
+        shell: bash
+        run: echo "branch=$(echo "$PR_JSON" | jq -r '.headBranchName')" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout release PR branch
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          ref: ${{ steps.pr.outputs.branch }}
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Install helm-docs
+        uses: envoy/install-helm-docs@05313083ef2cfaea27c4c3d7cb725242d22ea88b # v1.0.0
+        with:
+          version: 1.12.0
+
+      - name: Regenerate README and commit to the release PR
+        shell: bash
+        run: |
+          helm-docs -t README.md.gotmpl
+          if [ -n "$(git status --porcelain README.md)" ]; then
+            git config user.email "github@glueops.dev"
+            git config user.name "GlueOps"
+            git add README.md
+            git commit -m "docs: regenerate helm-docs for release"
+            git push
+          else
+            echo "README already in sync with the release version."
+          fi
