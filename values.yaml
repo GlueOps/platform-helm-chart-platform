@@ -431,7 +431,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/pull-request-bot
-        tag: v2.0.1@sha256:ded47441a7a0627b107d04e0af085251f506dc77134126e5356e900864a7c8aa
+        tag: v2.2.2@sha256:de81b4bd3ee75d61971db0e489a6d04f87062cae3c4b58d480008a78c9b42e40
   app_go_healthz:
     go_healthz:
       image:
