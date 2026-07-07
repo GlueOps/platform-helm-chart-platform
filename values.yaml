@@ -491,7 +491,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/gluekube-ccm
-        tag: v0.37.0@sha256:98a66f1c80140594c34f5c054f40f83913ad93d3978bcb141fb67fbb16de1ff1
+        tag: v0.43.0@sha256:7d6a5d89665d31b26122376b33e89dde79626f244c0688e2a7cf858e917a4feb
 
 enable_chisel_proxy_protocol: false
 
