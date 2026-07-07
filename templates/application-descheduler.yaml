@@ -33,44 +33,44 @@ spec:
           value: "{{ .Values.container_images.app_descheduler.descheduler.image.registry }}/{{ .Values.container_images.app_descheduler.descheduler.image.repository }}"
       values: |-
          {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
-          deschedulerPolicy:
-            profiles:
-              - name: default
-                pluginConfig:
-                  - name: DefaultEvictor
-                    args:
-                      ignorePvcPods: true
-                      evictLocalStoragePods: true
-                  # RemoveDuplicates intentionally omitted to disable it
-                  - name: RemovePodsHavingTooManyRestarts
-                    args:
-                      podRestartThreshold: 100
-                      includingInitContainers: true
-                  - name: RemovePodsViolatingNodeAffinity
-                    args:
-                      nodeAffinityType:
-                      - requiredDuringSchedulingIgnoredDuringExecution
-                  - name: RemovePodsViolatingNodeTaints
-                  - name: RemovePodsViolatingInterPodAntiAffinity
-                  - name: RemovePodsViolatingTopologySpreadConstraint
-                  - name: LowNodeUtilization
-                    args:
-                      thresholds:
-                        cpu: 20
-                        memory: 20
-                        pods: 20
-                      targetThresholds:
-                        cpu: 50
-                        memory: 50
-                        pods: 50
-                plugins:
-                  balance:
-                    enabled:
-                      - RemovePodsViolatingTopologySpreadConstraint
-                      - LowNodeUtilization
-                  deschedule:
-                    enabled:
-                      - RemovePodsHavingTooManyRestarts
-                      - RemovePodsViolatingNodeTaints
-                      - RemovePodsViolatingNodeAffinity
-                      - RemovePodsViolatingInterPodAntiAffinity
+        deschedulerPolicy:
+          profiles:
+            - name: default
+              pluginConfig:
+                - name: DefaultEvictor
+                  args:
+                    ignorePvcPods: true
+                    evictLocalStoragePods: true
+                # RemoveDuplicates intentionally omitted to disable it
+                - name: RemovePodsHavingTooManyRestarts
+                  args:
+                    podRestartThreshold: 100
+                    includingInitContainers: true
+                - name: RemovePodsViolatingNodeAffinity
+                  args:
+                    nodeAffinityType:
+                    - requiredDuringSchedulingIgnoredDuringExecution
+                - name: RemovePodsViolatingNodeTaints
+                - name: RemovePodsViolatingInterPodAntiAffinity
+                - name: RemovePodsViolatingTopologySpreadConstraint
+                - name: LowNodeUtilization
+                  args:
+                    thresholds:
+                      cpu: 20
+                      memory: 20
+                      pods: 20
+                    targetThresholds:
+                      cpu: 50
+                      memory: 50
+                      pods: 50
+              plugins:
+                balance:
+                  enabled:
+                    - RemovePodsViolatingTopologySpreadConstraint
+                    - LowNodeUtilization
+                deschedule:
+                  enabled:
+                    - RemovePodsHavingTooManyRestarts
+                    - RemovePodsViolatingNodeTaints
+                    - RemovePodsViolatingNodeAffinity
+                    - RemovePodsViolatingInterPodAntiAffinity
