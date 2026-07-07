@@ -367,7 +367,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/vault-backup-validator
-        tag: v2.5.0@sha256:560c7a3167d14b1fab74857771eb3a2c159c93ce206e3f5b7ce9395b17b4650b
+        tag: v2.13.1@sha256:7a4bddee18a80dc56566962d724c8f76bfef8c169822913e3e29fe7e657bfa05
     backup_tools:
       image:
         registry: ghcr.repo.gpkg.io
