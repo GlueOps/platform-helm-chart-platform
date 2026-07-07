@@ -372,7 +372,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/backup-tools
-        tag: v2.7.0@sha256:64e194438f3d056b4a658978be30cd06dce2d37e8df65db611b65aad0e7c3231
+        tag: v2.14.2@sha256:4092797e197debe538a4ff40c00a69cfe327c9ceda506440ed1ff8527e5c0672
     certs_backup_restore:
       image:
         registry: ghcr.repo.gpkg.io
