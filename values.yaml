@@ -449,7 +449,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/vault-init-controller
-        tag: v2.9.8@sha256:c09535d254194035bfb8ff810be69ab20f25ac5ccc926b42d619fa7e1cc8a419
+        tag: v2.10.5@sha256:4f0c0b518d493ed4f0c52c2f7345d1db8a26cda795c0df2abc4c2144ecd9fcdb
   app_vault:
     vault:
       image:
