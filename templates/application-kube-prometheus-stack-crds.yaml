@@ -1,11 +1,18 @@
+# De-fanged ahead of removal in a following release: the resources-finalizer and
+# automated sync policy are gone so the Application can be deleted non-cascadingly.
+# POST-DEPLOYMENT STEP (run after `helm upgrade` with this change, and before the
+# follow-up release deletes this file): confirm the live Application carries no
+# finalizer, otherwise its deletion cascades and wipes the kube-prometheus-stack
+# CRDs and every monitoring CR cluster-wide.
+#   kubectl get application kube-prometheus-stack-crds -n glueops-core -o jsonpath='{.metadata.finalizers}'
+# Expect empty output. If it is non-empty, strip it before the removal release:
+#   kubectl patch application kube-prometheus-stack-crds -n glueops-core --type merge -p '{"metadata":{"finalizers":null}}'
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kube-prometheus-stack-crds
   annotations:
     argocd.argoproj.io/sync-wave: "1"
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     name: "in-cluster"
@@ -14,9 +21,6 @@ spec:
   syncPolicy:
     syncOptions:
       - Replace=true
-    automated:
-      prune: true
-      selfHeal: true
     retry:
       backoff:
         duration: 10s
