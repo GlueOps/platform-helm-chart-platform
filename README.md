@@ -64,6 +64,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_go_healthz.go_healthz.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_go_healthz.go_healthz.image.repository | string | `"glueops/go-healthz"` |  |
 | container_images.app_go_healthz.go_healthz.image.tag | string | `"v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c"` |  |
+| container_images.app_goldilocks.goldilocks.image.registry | string | `"us-docker.pkg.dev"` |  |
+| container_images.app_goldilocks.goldilocks.image.repository | string | `"fairwinds-ops/oss/goldilocks"` |  |
+| container_images.app_goldilocks.goldilocks.image.tag | string | `"v4.14.1"` |  |
 | container_images.app_ingress_nginx.controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd"` |  |
@@ -100,6 +103,15 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.9.8@sha256:c09535d254194035bfb8ff810be69ab20f25ac5ccc926b42d619fa7e1cc8a419"` |  |
+| container_images.app_vpa.admission_controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
+| container_images.app_vpa.admission_controller.image.repository | string | `"autoscaling/vpa-admission-controller"` |  |
+| container_images.app_vpa.admission_controller.image.tag | string | `"1.6.0"` |  |
+| container_images.app_vpa.recommender.image.registry | string | `"k8s.repo.gpkg.io"` |  |
+| container_images.app_vpa.recommender.image.repository | string | `"autoscaling/vpa-recommender"` |  |
+| container_images.app_vpa.recommender.image.tag | string | `"1.6.0"` |  |
+| container_images.app_vpa.updater.image.registry | string | `"k8s.repo.gpkg.io"` |  |
+| container_images.app_vpa.updater.image.repository | string | `"autoscaling/vpa-updater"` |  |
+| container_images.app_vpa.updater.image.tag | string | `"1.6.0"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
@@ -156,6 +168,7 @@ This chart deploys the GlueOps Platform
 | glueops_node_and_tolerations.tolerations[0].key | string | `"glueops.dev/role"` |  |
 | glueops_node_and_tolerations.tolerations[0].operator | string | `"Equal"` |  |
 | glueops_node_and_tolerations.tolerations[0].value | string | `"glueops-platform"` |  |
+| goldilocks.enabled | bool | `false` | Enable/disable workload right-sizing (VPA recommender + Goldilocks dashboard) |
 | grafana.admin_password | string | `"placeholder_grafana_admin_password"` | Default admin password. CHANGE THIS!!!! |
 | grafana.github_other_org_names | string | `"placeholder_tenant_github_org_name"` |  |
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
