@@ -1,0 +1,258 @@
+{{- /*
+Deploys the Argo CD UI extension backend (github.com/GlueOps/argo-cd-extention-backend)
+via the shared `app` chart, following the same pattern as the other platform
+components (see application-go-healthz.yaml / application-network-exporter.yaml).
+
+Cluster environment (e.g. "nonprod") is the first label of captain_domain and is
+used as the tenant destination namespace the backend serves.
+
+VERIFY BEFORE MERGE (namespace correction vs the standalone manifests):
+  The standalone chart/manifests in the backend repo scoped the app-namespace gate
+  and the NetworkPolicy source to a namespace literally named "argocd". On GlueOps
+  clusters Argo CD (server + Application CRs) runs in "glueops-core" (see the real
+  Application manifests, project glueops-core). This template therefore uses
+  glueops-core for both. If your Argo CD server actually runs elsewhere, adjust
+  `networkPolicyArgocdNamespace` and the ALLOWED_APP/ARGOCD_APP namespaces below.
+*/ -}}
+{{- $env := .Values.captain_domain | splitList "." | first -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-argocd-extension-backend
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-argocd-extension-backend
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - Replace=true
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 2
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.13.0
+    helm:
+      values: |
+        appName: 'argocd-extension-backend-api'
+        appVersion: '0.1.1'
+
+        image:
+          port: 8000
+          registry: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.registry }}
+          repository: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.repository }}
+          tag: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.tag }}
+          pullPolicy: IfNotPresent
+
+        serviceAccount:
+          create: true
+          name: argocd-extension-backend-api
+
+        service:
+          enabled: true
+          port: 8000
+
+        podDisruptionBudget:
+          enabled: true
+          minAvailable: 1
+
+        deployment:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+          enabled: true
+          replicas: 2
+          imagePullPolicy: IfNotPresent
+          strategy: RollingUpdate
+          maxUnavailable: "0"
+          maxSurge: 1
+
+          serviceAccount:
+            enabled: true
+            automountServiceAccountToken: true
+
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+
+          containerSecurityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: ScheduleAnyway
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: argocd-extension-backend-api
+                  app.kubernetes.io/instance: glueops-argocd-extension-backend
+
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            failureThreshold: 30
+            periodSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+
+          volumes:
+            - name: tmp
+              emptyDir: {}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+
+          envMap:
+            PORT:
+              value: "8000"
+            LOG_LEVEL:
+              value: "INFO"
+            REQUEST_TIMEOUT_MS:
+              value: "8000"
+            TEMPO_SEARCH_PATH:
+              value: "/api/search"
+            TEMPO_BASE_URL:
+              value: ""
+            PROMETHEUS_BASE_URL:
+              value: "http://kps-prometheus.glueops-core-kube-prometheus-stack.svc.cluster.local:9090"
+            GRAFANA_BASE_URL:
+              value: "https://grafana.{{ .Values.captain_domain }}"
+            VAULT_BASE_URL:
+              value: "https://vault.{{ .Values.captain_domain }}"
+            DEPLOYMENT_CONFIG_REPO_URL:
+              value: "https://github.com/GlueOps/deployment-configurations"
+            CONFIG_REPO_LOCAL_ROOT:
+              value: ""
+            GRAFANA_LOGS_DASHBOARD:
+              value: ""
+            GRAFANA_METRICS_DASHBOARD:
+              value: ""
+            GRAFANA_TRACES_DASHBOARD:
+              value: ""
+            # Application CRs live in glueops-core (see VERIFY note above).
+            ARGOCD_APP_NAMESPACES:
+              value: "glueops-core"
+            ALLOWED_APP_NAMESPACES:
+              value: "glueops-core"
+            # Destination namespace this cluster's apps deploy into = the environment.
+            ALLOWED_DEST_NAMESPACES:
+              value: "{{ $env }}"
+            ALLOWED_NAMESPACES:
+              value: "{{ $env }}"
+
+        # RBAC + NetworkPolicy are not first-class in the app chart, so they go through
+        # customResources. Names/labels are LITERAL (the app chart's tpl runs on these
+        # but they contain no template expressions) — instance label = this Application's
+        # name (the Helm release name Argo CD uses).
+        customResources:
+          # NetworkPolicy: only argocd-server (in glueops-core) may reach the backend.
+          - |-
+            apiVersion: networking.k8s.io/v1
+            kind: NetworkPolicy
+            metadata:
+              name: argocd-extension-backend-api
+              namespace: glueops-core-argocd-extension-backend
+            spec:
+              podSelector:
+                matchLabels:
+                  app.kubernetes.io/name: argocd-extension-backend-api
+                  app.kubernetes.io/instance: glueops-argocd-extension-backend
+              policyTypes:
+                - Ingress
+              ingress:
+                - from:
+                    - namespaceSelector:
+                        matchLabels:
+                          kubernetes.io/metadata.name: glueops-core
+                      podSelector:
+                        matchLabels:
+                          app.kubernetes.io/name: argocd-server
+                  ports:
+                    - protocol: TCP
+                      port: 8000
+          # argoproj.io Applications: get/list, CLUSTER-WIDE (always).
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRole
+            metadata:
+              name: argocd-extension-backend-api-applications
+            rules:
+              - apiGroups: ["argoproj.io"]
+                resources: ["applications"]
+                verbs: ["get", "list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              name: argocd-extension-backend-api-applications
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: argocd-extension-backend-api-applications
+            subjects:
+              - kind: ServiceAccount
+                name: argocd-extension-backend-api
+                namespace: glueops-core-argocd-extension-backend
+          # Workload/ExternalSecret list: namespaced Role in the destination namespace.
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: argocd-extension-backend-api-workloads
+              namespace: {{ $env }}
+            rules:
+              - apiGroups: ["apps"]
+                resources: ["deployments", "statefulsets", "daemonsets"]
+                verbs: ["list"]
+              - apiGroups: ["external-secrets.io"]
+                resources: ["externalsecrets"]
+                verbs: ["list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: argocd-extension-backend-api-workloads
+              namespace: {{ $env }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: Role
+              name: argocd-extension-backend-api-workloads
+            subjects:
+              - kind: ServiceAccount
+                name: argocd-extension-backend-api
+                namespace: glueops-core-argocd-extension-backend
