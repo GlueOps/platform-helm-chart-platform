@@ -332,6 +332,12 @@ base_registries:
   registry_k8s_io: "k8s.repo.gpkg.io"
 
 container_images:
+  app_argocd_extension_backend:
+    argocd_extension_backend:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: glueops/argocd-extension-backend-api
+        tag: v0.1.1
   app_cert_manager:
     cert_manager:
       image:
