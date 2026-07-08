@@ -39,9 +39,13 @@ spec:
               pluginConfig:
                 - name: DefaultEvictor
                   args:
-                    ignorePvcPods: true
-                    evictLocalStoragePods: true
-                # RemoveDuplicates intentionally omitted to disable it
+                    podProtections:
+                      defaultDisabled:
+                      - "PodsWithLocalStorage"
+                      extraEnabled:
+                      - "PodsWithPVC"
+                    minReplicas: 2
+                    noEvictionPolicy: "Mandatory"
                 - name: RemovePodsHavingTooManyRestarts
                   args:
                     podRestartThreshold: 100
