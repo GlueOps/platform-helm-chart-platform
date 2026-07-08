@@ -437,7 +437,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/go-healthz
-        tag: v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c
+        tag: v0.2.1@sha256:929c2ca16d9868f35f0e1ab309caf9766d948df9fac43e0e64c0860dcd80aa0d
   app_qr_code_generator:
     qr_code_generator:
       image: 
