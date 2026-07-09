@@ -30,7 +30,7 @@ spec:
         - '.webhooks[0].clientConfig.caBundle'
       kind: MutatingWebhookConfiguration
   source:
-    repoURL: ghcr.io/openbao/charts
+    repoURL: {{ .Values.base_registries.ghcr_io }}/openbao/charts
     chart: openbao
     targetRevision: 0.19.3
     helm:
@@ -61,6 +61,14 @@ spec:
             repository: {{ .Values.container_images.app_vault.vault.image.repository }}
             tag: {{ .Values.container_images.app_vault.vault.image.tag }}
           updateStrategyType: "RollingUpdate"
+          # Pin podManagementPolicy explicitly. The chart default flipped from
+          # "Parallel" to "OrderedReady" in openbao chart 0.20.0, which breaks
+          # HA raft bootstrap (pods start one-at-a-time waiting for Ready, but a
+          # raft pod cannot become Ready until the cluster has quorum) and would
+          # collide with the immutable podManagementPolicy field on sync. Keeping
+          # it Parallel matches the current running StatefulSet, so this is a
+          # no-op today and lets the chart be upgraded past 0.20.0 safely.
+          podManagementPolicy: "Parallel"
           dataStorage:
             size: {{ .Values.vault.data_storage }}Gi
 
