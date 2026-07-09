@@ -19,6 +19,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: glueops-argocd-extension-backend
+  annotations:
+    # Sync after captain-manifests (sync-wave 20), which creates the tenant
+    # environment namespace ($env). The Role/RoleBinding below live in that
+    # namespace, so without this they can fail on the initial sync until the
+    # namespace exists.
+    argocd.argoproj.io/sync-wave: "21"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
