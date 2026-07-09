@@ -390,12 +390,6 @@ container_images:
         registry: ghcr.repo.gpkg.io
         repository: dexidp/dex
         tag: v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86
-  app_glueops_alerts:
-    cluster_monitoring:
-      image:
-        registry: ghcr.repo.gpkg.io
-        repository: glueops/cluster-monitoring
-        tag: v0.8.2@sha256:06bad372dfd21d2bf807d26fb6d354f885d7e4fe63a2108f7446f20be2b5413d
   app_kube_prometheus_stack:
     grafana:
       image:
