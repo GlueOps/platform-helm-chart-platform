@@ -388,7 +388,7 @@ container_images:
   app_goldilocks:
     goldilocks:
       image:
-        registry: us-docker.pkg.dev
+        registry: gcp.repo.gpkg.io
         repository: fairwinds-ops/oss/goldilocks
         tag: "v4.14.1"
 
