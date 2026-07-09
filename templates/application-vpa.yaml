@@ -1,0 +1,61 @@
+{{- /* VPA is installed as the recommender backend for Goldilocks, so it shares
+       the single `goldilocks.enabled` right-sizing gate. */}}
+{{- if .Values.goldilocks.enabled -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vpa
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-vpa
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: 'https://charts.fairwinds.com/stable'
+    targetRevision: 4.12.3
+    chart: vpa
+    helm:
+      values: |-
+        {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+        # Goldilocks only needs the VPA recommender. The updater and admission
+        # controller are disabled so VPA never evicts or mutates workloads on
+        # its own; it only produces right-sizing recommendations.
+        recommender:
+          enabled: true
+          image:
+            repository: {{ .Values.container_images.app_vpa.recommender.image.registry }}/{{ .Values.container_images.app_vpa.recommender.image.repository }}
+            tag: {{ .Values.container_images.app_vpa.recommender.image.tag }}
+          resources:
+            requests:
+              cpu: 50m
+              memory: 500Mi
+            limits:
+              cpu: 200m
+              memory: 1000Mi
+        updater:
+          enabled: false
+          image:
+            repository: {{ .Values.container_images.app_vpa.updater.image.registry }}/{{ .Values.container_images.app_vpa.updater.image.repository }}
+            tag: {{ .Values.container_images.app_vpa.updater.image.tag }}
+        admissionController:
+          enabled: false
+          image:
+            repository: {{ .Values.container_images.app_vpa.admission_controller.image.registry }}/{{ .Values.container_images.app_vpa.admission_controller.image.repository }}
+            tag: {{ .Values.container_images.app_vpa.admission_controller.image.tag }}
+{{- end }}
