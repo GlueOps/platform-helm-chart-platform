@@ -324,14 +324,6 @@ tls_cert_restore:
   backup_prefix: placeholder_tls_cert_backup_s3_key_prefix
   exclude_namespaces: placeholder_tls_cert_restore_exclude_namespaces
 
-# Workload right-sizing. A single gate that installs the Vertical Pod Autoscaler
-# (recommender-only) together with the Goldilocks dashboard that surfaces its
-# recommendations. VPA is only used to feed Goldilocks, so the two are enabled
-# and disabled as one unit.
-goldilocks:
-  # -- Enable/disable workload right-sizing (VPA recommender + Goldilocks dashboard)
-  enabled: false
-
 base_registries:
   docker_io: "dockerhub.repo.gpkg.io"
   ghcr_io: "ghcr.repo.gpkg.io"
