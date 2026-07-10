@@ -54,7 +54,8 @@ spec:
               - glueops-core-platform-traefik
               - glueops-core-oauth2-proxy
               - glueops-core-vault
-              - glueops-core-kube-prometheus-stack
+              - glueops-core-monitoring
+              
 
         # Add the ServersTransport here so Traefik "owns" the configuration locally
         extraObjects:
