@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.75.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.74.0...v0.75.0) (2026-07-10)
+
+
+### Features
+
+* update ghcr.repo.gpkg.io/glueops/cluster-information-help-page-html to v4.30.1 #minor ([#1447](https://github.com/GlueOps/platform-helm-chart-platform/issues/1447)) ([70577af](https://github.com/GlueOps/platform-helm-chart-platform/commit/70577aff9d0e85f8d5090782728d36a04f7689df))
+* update oauth2-proxy to 10.7.0 #minor ([26f7cf6](https://github.com/GlueOps/platform-helm-chart-platform/commit/26f7cf610a0821b807acec44586a17ac620d2376))
+
+
+### Bug Fixes
+
+* goldilocks.enabled -&gt; kubeadm.enabled ([fc44426](https://github.com/GlueOps/platform-helm-chart-platform/commit/fc44426e71aa6c9845266f926812807e69beefea))
+* pin openbao podManagementPolicy for HA raft, use ghcr mirror ([#1441](https://github.com/GlueOps/platform-helm-chart-platform/issues/1441)) ([c2c3456](https://github.com/GlueOps/platform-helm-chart-platform/commit/c2c3456cb80409b3b53b1f3c806227273489e6ef))
+* remove unused goldilocks placeholder since we are using the same gate as kubeadm now ([1b0b5c4](https://github.com/GlueOps/platform-helm-chart-platform/commit/1b0b5c400707e0ef4acf3c701b4cd8f1636f5da3))
+* trigger new release ([#1452](https://github.com/GlueOps/platform-helm-chart-platform/issues/1452)) ([63e5c99](https://github.com/GlueOps/platform-helm-chart-platform/commit/63e5c99467a6df77ea42e2391ad80cbae5488123))
+
+
+### Reverts
+
+* 6fbcdd6a0510e5287bb67ff461d361aead866843 https://github.com/GlueOps/platform-helm-chart-platform/pull/1300  ([ea2350c](https://github.com/GlueOps/platform-helm-chart-platform/commit/ea2350c9a4f707d74d7dfbdb88a7f9535d050caa))
+* 70708dc8a28efe948099b022faed2c44c480549a  https://github.com/GlueOps/platform-helm-chart-platform/pull/1297 ([ea2350c](https://github.com/GlueOps/platform-helm-chart-platform/commit/ea2350c9a4f707d74d7dfbdb88a7f9535d050caa))
+* prs - keda https://github.com/GlueOps/platform-helm-chart-platform/pull/1300  & nginx - https://github.com/GlueOps/platform-helm-chart-platform/pull/1297 ([ea2350c](https://github.com/GlueOps/platform-helm-chart-platform/commit/ea2350c9a4f707d74d7dfbdb88a7f9535d050caa))
+
+
+### Miscellaneous Chores
+
+* **main:** release 0.74.0 ([#1385](https://github.com/GlueOps/platform-helm-chart-platform/issues/1385)) ([9710167](https://github.com/GlueOps/platform-helm-chart-platform/commit/97101670f0489d8d187cb67a67d82a84cab414a8))
+
 ## [0.74.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.73.1...v0.74.0) (2026-07-10)
 
 
