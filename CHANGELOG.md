@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.75.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.0...v0.75.1) (2026-07-10)
+
+
+### Bug Fixes
+
+* sizing of cards on cluster-info page ([#1455](https://github.com/GlueOps/platform-helm-chart-platform/issues/1455)) ([c7f0dc4](https://github.com/GlueOps/platform-helm-chart-platform/commit/c7f0dc4c695b835a954180558d6c30c7073f02ad))
+
 ## [0.75.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.74.0...v0.75.0) (2026-07-10)
 
 
