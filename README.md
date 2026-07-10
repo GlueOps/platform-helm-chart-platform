@@ -168,7 +168,7 @@ This chart deploys the GlueOps Platform
 | glueops_node_and_tolerations.tolerations[0].key | string | `"glueops.dev/role"` |  |
 | glueops_node_and_tolerations.tolerations[0].operator | string | `"Equal"` |  |
 | glueops_node_and_tolerations.tolerations[0].value | string | `"glueops-platform"` |  |
-| goldilocks.enabled | bool | `false` | Enable/disable workload right-sizing (VPA recommender + Goldilocks dashboard) |
+| kubeadm.enabled | bool | `false` | Enable/disable workload right-sizing (VPA recommender + Goldilocks dashboard) |
 | grafana.admin_password | string | `"placeholder_grafana_admin_password"` | Default admin password. CHANGE THIS!!!! |
 | grafana.github_other_org_names | string | `"placeholder_tenant_github_org_name"` |  |
 | host_network.cert_manager.webhook_secure_port | int | `45020` |  |
