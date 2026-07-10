@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.75.2](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.1...v0.75.2) (2026-07-10)
+
+
+### Bug Fixes
+
+* namespacing of vpa/goldilocks to be prefixed with glueops-core-* ([#1457](https://github.com/GlueOps/platform-helm-chart-platform/issues/1457)) ([7150dc0](https://github.com/GlueOps/platform-helm-chart-platform/commit/7150dc0f2e1634241748a34410a428760f6f458e))
+
 ## [0.75.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.0...v0.75.1) (2026-07-10)
 
 
