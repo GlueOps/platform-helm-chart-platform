@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.75.0](https://img.shields.io/badge/Version-0.75.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.75.1](https://img.shields.io/badge/Version-0.75.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -36,7 +36,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_cert_manager.cert_restore.image.tag | string | `"v2.3.4@sha256:bd246e59076bd76329ff1126a07da5f7429ef4307c4153d4986b2201035a8283"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
-| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v4.30.1@sha256:4f37af66f6c8121351233cde552b0148f6b10b427a54ae8a469cf6541bc76397"` |  |
+| container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v4.30.2@sha256:ccd43ecafd24ced075fe66182b749c8247fc2c1dcb9e0a395994d4642cbc70c4"` |  |
 | container_images.app_curlimages.curl.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_curlimages.curl.image.repository | string | `"curlimages/curl"` |  |
 | container_images.app_curlimages.curl.image.tag | string | `"8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6"` |  |
