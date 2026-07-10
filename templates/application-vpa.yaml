@@ -1,6 +1,6 @@
 {{- /* VPA is installed as the recommender backend for Goldilocks, so it shares
-       the single `goldilocks.enabled` right-sizing gate. */}}
-{{- if .Values.goldilocks.enabled -}}
+       the single `kubeadm.enabled` right-sizing gate. */}}
+{{- if .Values.kubeadm.enabled -}}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
