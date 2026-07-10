@@ -53,6 +53,7 @@ spec:
               - glueops-core-kube-prometheus-stack
               - default
               - glueops-core-kube-api
+              - glueops-core-monitoring
       
         {{- if .Values.kubeadm.enabled }}
         nodeSelector:
