@@ -6,13 +6,14 @@ components (see application-go-healthz.yaml / application-network-exporter.yaml)
 Cluster environment (e.g. "nonprod") is the first label of captain_domain and is
 used as the tenant destination namespace the backend serves.
 
-VERIFY BEFORE MERGE (namespace correction vs the standalone manifests):
+Argo CD namespace assumption (correction vs the standalone manifests):
   The standalone chart/manifests in the backend repo scoped the app-namespace gate
   and the NetworkPolicy source to a namespace literally named "argocd". On GlueOps
   clusters Argo CD (server + Application CRs) runs in "glueops-core" (see the real
-  Application manifests, project glueops-core). This template therefore uses
-  glueops-core for both. If your Argo CD server actually runs elsewhere, adjust
-  `networkPolicyArgocdNamespace` and the ALLOWED_APP/ARGOCD_APP namespaces below.
+  Application manifests, project glueops-core), so this template uses glueops-core
+  for both. If your Argo CD server runs elsewhere, change it in the two places
+  below: the NetworkPolicy `namespaceSelector` (kubernetes.io/metadata.name:
+  glueops-core) and the ARGOCD_APP_NAMESPACES / ALLOWED_APP_NAMESPACES env vars.
 */ -}}
 {{- $env := .Values.captain_domain | splitList "." | first -}}
 apiVersion: argoproj.io/v1alpha1
@@ -170,7 +171,7 @@ spec:
               value: ""
             GRAFANA_TRACES_DASHBOARD:
               value: ""
-            # Application CRs live in glueops-core (see VERIFY note above).
+            # Application CRs live in glueops-core (see Argo CD namespace note above).
             ARGOCD_APP_NAMESPACES:
               value: "glueops-core"
             ALLOWED_APP_NAMESPACES:
