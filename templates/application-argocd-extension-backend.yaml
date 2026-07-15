@@ -182,9 +182,11 @@ spec:
               value: "{{ $env }}"
 
         # RBAC + NetworkPolicy are not first-class in the app chart, so they go through
-        # customResources. Names/labels are LITERAL (the app chart's tpl runs on these
-        # but they contain no template expressions) — instance label = this Application's
-        # name (the Helm release name Argo CD uses).
+        # customResources. Two templating phases apply: this platform chart (Helm)
+        # renders its own expressions first (e.g. `{{ $env }}` below becomes a literal
+        # namespace), then the app chart runs `tpl` on the result. By that second phase
+        # the strings are already literal, so the app chart's `tpl` is a no-op here.
+        # Instance label = this Application's name (the Helm release name Argo CD uses).
         customResources:
           # NetworkPolicy: only argocd-server (in glueops-core) may reach the backend.
           - |-
@@ -211,24 +213,30 @@ spec:
                   ports:
                     - protocol: TCP
                       port: 8000
-          # argoproj.io Applications: get/list, CLUSTER-WIDE (always).
+          # argoproj.io Applications: get/list, scoped to glueops-core — where the
+          # Application CRs live (see ARGOCD_APP_NAMESPACES above). `applications` is a
+          # namespaced resource and the backend only reads from glueops-core, so a
+          # namespaced Role + RoleBinding is sufficient (least privilege, no cluster-wide
+          # grant). The bound ServiceAccount lives in the backend's own namespace.
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
-            kind: ClusterRole
+            kind: Role
             metadata:
               name: argocd-extension-backend-api-applications
+              namespace: glueops-core
             rules:
               - apiGroups: ["argoproj.io"]
                 resources: ["applications"]
                 verbs: ["get", "list"]
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
-            kind: ClusterRoleBinding
+            kind: RoleBinding
             metadata:
               name: argocd-extension-backend-api-applications
+              namespace: glueops-core
             roleRef:
               apiGroup: rbac.authorization.k8s.io
-              kind: ClusterRole
+              kind: Role
               name: argocd-extension-backend-api-applications
             subjects:
               - kind: ServiceAccount
