@@ -252,7 +252,7 @@ spec:
             kind: Role
             metadata:
               name: argocd-extension-backend-api-workloads
-              namespace: {{ $env }}
+              namespace: {{ $env | quote }}
             rules:
               - apiGroups: ["apps"]
                 resources: ["deployments", "statefulsets", "daemonsets"]
@@ -265,7 +265,7 @@ spec:
             kind: RoleBinding
             metadata:
               name: argocd-extension-backend-api-workloads
-              namespace: {{ $env }}
+              namespace: {{ $env | quote }}
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: Role
