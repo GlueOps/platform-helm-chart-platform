@@ -49,7 +49,10 @@ spec:
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
-    targetRevision: 0.13.0
+    # Pinned to the same app-chart version as the other platform components
+    # (application-go-healthz.yaml, application-network-exporter.yaml, …) to avoid
+    # version drift. Renders identically to 0.13.0 for these values (verified).
+    targetRevision: 0.9.0
     helm:
       values: |
         appName: 'argocd-extension-backend-api'
