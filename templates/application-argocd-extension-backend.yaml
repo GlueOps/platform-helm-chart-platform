@@ -21,10 +21,14 @@ kind: Application
 metadata:
   name: glueops-argocd-extension-backend
   annotations:
-    # Sync after captain-manifests (sync-wave 20), which creates the tenant
-    # environment namespace ($env). The Role/RoleBinding below live in that
-    # namespace, so without this they can fail on the initial sync until the
-    # namespace exists.
+    # Ordered after captain-manifests (sync-wave 20), which owns the tenant
+    # environment namespace ($env) that the Role/RoleBinding below live in.
+    #
+    # This wave is a best-effort hint, NOT a guarantee: it gates on the
+    # captain-manifests Application reporting Healthy, which it already does
+    # whenever it is stale relative to its git source. So this app can still be
+    # created while $env does not yet exist. The retry budget below — not this
+    # annotation — is what makes that case recoverable.
     argocd.argoproj.io/sync-wave: "21"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -40,12 +44,17 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    # The RBAC below targets $env, a namespace owned by captain-manifests, so on a
+    # cold bootstrap this app can start syncing minutes before that namespace
+    # exists (observed gap: ~9m). Argo will not re-attempt a failed automated sync
+    # for an unchanged revision, so whatever this budget does not cover latches
+    # into a permanent SyncError. These values retry for ~17m before giving up.
     retry:
       backoff:
         duration: 5s
         maxDuration: 3m0s
         factor: 2
-      limit: 2
+      limit: 10
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
