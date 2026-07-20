@@ -370,7 +370,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/argocd-extension-backend-api
-        tag: v0.1.1@sha256:a73df0e7df8331ecdfb3d2a69a49fe7d90511ec58b15e6a9515ea33af98f6df3
+        tag: v0.1.2@sha256:ca8c865eccd595f3ea48c09c373b3b00d0a3503283ba01bb11b1f96c277316c9
   app_cert_manager:
     cert_manager:
       image:
