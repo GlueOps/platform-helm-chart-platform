@@ -343,6 +343,27 @@ base_registries:
   public_ecr_aws: "ecr.repo.gpkg.io"
   registry_k8s_io: "k8s.repo.gpkg.io"
 
+# Argo CD UI extension backend. These wire the Grafana links the extension renders.
+#
+# Setting a datasource UID switches that signal (logs/metrics/traces) from its
+# classic Grafana dashboard to the corresponding Drilldown app plugin. Leave a UID
+# blank on clusters that do not run the OTEL monitoring stack -- the Drilldown
+# plugins are not installed there, so a /a/<plugin>/ link would 404.
+argocd_extension_backend:
+  # Pinned explicitly in the monitoring chart's datasource provisioning, so these
+  # are stable across clusters.
+  grafana_prometheus_ds_uid: "prometheus"
+  grafana_tempo_ds_uid: "de7lydl3hl9fkd"
+  # NOT pinned in provisioning -- Grafana auto-generates Loki's uid per cluster, so
+  # there is no correct shared default. Override per cluster with the real value
+  # (Grafana > Connections > Data sources > Loki, the uid in its URL). Left blank,
+  # logs fall back to the classic workload-logs dashboard, which still works.
+  grafana_loki_ds_uid: ""
+  # Dashboards shipped alongside the OTEL monitoring stack. Blank disables the link.
+  grafana_apm_dashboard: "opentelemetry-apm"
+  grafana_k8s_overview_dashboard: "ee58kcteeir5sf"
+  grafana_k8s_pod_dashboard: "ce60j8f8umhhcc"
+
 container_images:
   app_argocd_extension_backend:
     argocd_extension_backend:

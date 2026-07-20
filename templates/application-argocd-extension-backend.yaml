@@ -183,6 +183,31 @@ spec:
               value: ""
             GRAFANA_TRACES_DASHBOARD:
               value: ""
+            # --- Grafana Drilldown apps ---------------------------------------
+            # Setting a datasource UID switches that signal from its classic
+            # dashboard to the corresponding Drilldown app plugin. Blank it out to
+            # fall back, which is what a cluster not yet running the OTEL
+            # monitoring stack (and therefore without the plugins) should do.
+            #
+            # Prometheus and Tempo UIDs are pinned explicitly in the monitoring
+            # chart's datasource provisioning, so they are the same everywhere.
+            GRAFANA_PROMETHEUS_DS_UID:
+              value: "{{ .Values.argocd_extension_backend.grafana_prometheus_ds_uid }}"
+            GRAFANA_TEMPO_DS_UID:
+              value: "{{ .Values.argocd_extension_backend.grafana_tempo_ds_uid }}"
+            # Loki is NOT provisioned with an explicit uid, so Grafana generates a
+            # different one per cluster. There is no safe shared default: an
+            # unset/wrong value here means logs keep using the classic dashboard
+            # rather than linking to a datasource that does not exist.
+            GRAFANA_LOKI_DS_UID:
+              value: "{{ .Values.argocd_extension_backend.grafana_loki_ds_uid }}"
+            # Platform dashboards shipped with the OTEL monitoring stack.
+            GRAFANA_APM_DASHBOARD:
+              value: "{{ .Values.argocd_extension_backend.grafana_apm_dashboard }}"
+            GRAFANA_K8S_OVERVIEW_DASHBOARD:
+              value: "{{ .Values.argocd_extension_backend.grafana_k8s_overview_dashboard }}"
+            GRAFANA_K8S_POD_DASHBOARD:
+              value: "{{ .Values.argocd_extension_backend.grafana_k8s_pod_dashboard }}"
             # Application CRs live in glueops-core (see Argo CD namespace note above).
             ARGOCD_APP_NAMESPACES:
               value: "glueops-core"
