@@ -13,7 +13,7 @@ Argo CD namespace assumption (correction vs the standalone manifests):
   Application manifests, project glueops-core), so this template uses glueops-core
   for both. If your Argo CD server runs elsewhere, change it in the two places
   below: the NetworkPolicy `namespaceSelector` (kubernetes.io/metadata.name:
-  glueops-core) and the ARGOCD_APP_NAMESPACES / ALLOWED_APP_NAMESPACES env vars.
+  glueops-core) and the ALLOWED_APP_NAMESPACES env var.
 */ -}}
 {{- $env := .Values.captain_domain | splitList "." | first -}}
 apiVersion: argoproj.io/v1alpha1
@@ -198,32 +198,30 @@ spec:
             # Prometheus and Tempo UIDs are pinned explicitly in the monitoring
             # chart's datasource provisioning, so they are the same everywhere.
             GRAFANA_PROMETHEUS_DS_UID:
-              value: "{{ .Values.argocd_extension_backend.grafana_prometheus_ds_uid }}"
+              value: {{ .Values.argocd_extension_backend.grafana_prometheus_ds_uid | quote }}
             GRAFANA_TEMPO_DS_UID:
-              value: "{{ .Values.argocd_extension_backend.grafana_tempo_ds_uid }}"
+              value: {{ .Values.argocd_extension_backend.grafana_tempo_ds_uid | quote }}
             # Loki is NOT provisioned with an explicit uid, so Grafana generates a
             # different one per cluster. There is no safe shared default: an
             # unset/wrong value here means logs keep using the classic dashboard
             # rather than linking to a datasource that does not exist.
             GRAFANA_LOKI_DS_UID:
-              value: "{{ .Values.argocd_extension_backend.grafana_loki_ds_uid }}"
+              value: {{ .Values.argocd_extension_backend.grafana_loki_ds_uid | quote }}
             # Platform dashboards shipped with the OTEL monitoring stack.
             GRAFANA_APM_DASHBOARD:
-              value: "{{ .Values.argocd_extension_backend.grafana_apm_dashboard }}"
+              value: {{ .Values.argocd_extension_backend.grafana_apm_dashboard | quote }}
             GRAFANA_K8S_OVERVIEW_DASHBOARD:
-              value: "{{ .Values.argocd_extension_backend.grafana_k8s_overview_dashboard }}"
+              value: {{ .Values.argocd_extension_backend.grafana_k8s_overview_dashboard | quote }}
             GRAFANA_K8S_POD_DASHBOARD:
-              value: "{{ .Values.argocd_extension_backend.grafana_k8s_pod_dashboard }}"
+              value: {{ .Values.argocd_extension_backend.grafana_k8s_pod_dashboard | quote }}
             # Application CRs live in glueops-core (see Argo CD namespace note above).
-            ARGOCD_APP_NAMESPACES:
-              value: "glueops-core"
             ALLOWED_APP_NAMESPACES:
               value: "glueops-core"
             # Destination namespace this cluster's apps deploy into = the environment.
             ALLOWED_DEST_NAMESPACES:
-              value: "{{ $env }}"
+              value: {{ $env | quote }}
             ALLOWED_NAMESPACES:
-              value: "{{ $env }}"
+              value: {{ $env | quote }}
 
         # RBAC + NetworkPolicy are not first-class in the app chart, so they go through
         # customResources. Two templating phases apply: this platform chart (Helm)
