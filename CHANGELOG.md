@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.75.4](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.3...v0.75.4) (2026-07-23)
+
+
+### Bug Fixes
+
+* removing limits from vpa ([#1469](https://github.com/GlueOps/platform-helm-chart-platform/issues/1469)) ([ffafd24](https://github.com/GlueOps/platform-helm-chart-platform/commit/ffafd242ef57d0831f7cfe319667e000af64d132))
+
 ## [0.75.3](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.2...v0.75.3) (2026-07-23)
 
 
