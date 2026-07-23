@@ -40,22 +40,10 @@ spec:
           tag: {{ .Values.container_images.app_goldilocks.goldilocks.image.tag }}
         controller:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
-          resources:
-            requests:
-              cpu: 25m
-              memory: 64Mi
-            limits:
-              cpu: 100m
-              memory: 128Mi
+
         dashboard:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
-          resources:
-            requests:
-              cpu: 25m
-              memory: 64Mi
-            limits:
-              cpu: 100m
-              memory: 256Mi
+
           # Exposed at https://goldilocks.<captain_domain> behind the shared
           # oauth2-proxy/dex SSO forward-auth middleware, same as the other
           # platform dashboards (grafana, prometheus, vault, cluster-info).
