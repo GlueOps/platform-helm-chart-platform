@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.75.3](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.2...v0.75.3) (2026-07-23)
+
+
+### Bug Fixes
+
+* **goldilocks:** using chart defaults instead of overrides. ([#1468](https://github.com/GlueOps/platform-helm-chart-platform/issues/1468)) ([8cf5ba4](https://github.com/GlueOps/platform-helm-chart-platform/commit/8cf5ba429bcdba6812b864855e6465cde50eca99))
+* Update goldilocks dashboard memory limit ([#1466](https://github.com/GlueOps/platform-helm-chart-platform/issues/1466)) ([11f1c24](https://github.com/GlueOps/platform-helm-chart-platform/commit/11f1c241895618f7034473d8e9f8ce593ab6a30a))
+
 ## [0.75.2](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.1...v0.75.2) (2026-07-10)
 
 
