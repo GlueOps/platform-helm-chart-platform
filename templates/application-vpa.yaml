@@ -41,13 +41,6 @@ spec:
           image:
             repository: {{ .Values.container_images.app_vpa.recommender.image.registry }}/{{ .Values.container_images.app_vpa.recommender.image.repository }}
             tag: {{ .Values.container_images.app_vpa.recommender.image.tag }}
-          resources:
-            requests:
-              cpu: 50m
-              memory: 500Mi
-            limits:
-              cpu: 200m
-              memory: 1000Mi
         updater:
           enabled: false
           image:
