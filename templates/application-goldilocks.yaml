@@ -55,7 +55,7 @@ spec:
               memory: 64Mi
             limits:
               cpu: 100m
-              memory: 128Mi
+              memory: 256Mi
           # Exposed at https://goldilocks.<captain_domain> behind the shared
           # oauth2-proxy/dex SSO forward-auth middleware, same as the other
           # platform dashboards (grafana, prometheus, vault, cluster-info).
