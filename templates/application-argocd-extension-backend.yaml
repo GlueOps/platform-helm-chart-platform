@@ -21,14 +21,11 @@ kind: Application
 metadata:
   name: glueops-argocd-extension-backend
   annotations:
-    # Ordered after captain-manifests (sync-wave 20), which owns the tenant
-    # environment namespace ($env) that the Role/RoleBinding below live in.
-    #
-    # This wave is a best-effort hint, NOT a guarantee: it gates on the
-    # captain-manifests Application reporting Healthy, which it already does
-    # whenever it is stale relative to its git source. So this app can still be
-    # created while $env does not yet exist. The retry budget below — not this
-    # annotation — is what makes that case recoverable.
+    # Kept after captain-manifests (sync-wave 20) as a soft ordering hint. This is
+    # no longer load-bearing: every resource this app creates now lives in either
+    # glueops-core (always present) or its own namespace, and the workload RBAC is
+    # cluster-scoped, so nothing here depends on the tenant environment namespace
+    # existing first. (It previously did, via a Role in $env — see the RBAC below.)
     argocd.argoproj.io/sync-wave: "21"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -44,17 +41,17 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    # The RBAC below targets $env, a namespace owned by captain-manifests, so on a
-    # cold bootstrap this app can start syncing minutes before that namespace
-    # exists (observed gap: ~9m). Argo will not re-attempt a failed automated sync
-    # for an unchanged revision, so whatever this budget does not cover latches
-    # into a permanent SyncError. These values retry for ~17m before giving up.
+    # General resilience for transient apply failures. The namespace-ordering race
+    # that originally justified a large budget is gone (the workload RBAC is now
+    # cluster-scoped — see below), but Argo still will not re-attempt a failed
+    # automated sync for an unchanged revision, so a modest retry keeps a transient
+    # failure from latching into a permanent SyncError.
     retry:
       backoff:
         duration: 5s
         maxDuration: 3m0s
         factor: 2
-      limit: 10
+      limit: 5
   source:
     repoURL: https://helm.gpkg.io/project-template
     chart: app
@@ -222,6 +219,20 @@ spec:
               value: {{ $env | quote }}
             ALLOWED_NAMESPACES:
               value: {{ $env | quote }}
+            # Static links surfaced under the "Other" category (GlueOps-wide, not
+            # per-cluster). Pinned here rather than relying on the app's built-in
+            # defaults so the platform owns what shows up.
+            SUPPORT_URL:
+              value: "https://support.glueops.dev"
+            DOCUMENTATION_URL:
+              value: "https://docs.glueops.dev"
+            # Projects the extension does NOT serve: platform/core Applications carry
+            # project "glueops-core" (see the AppProject in argocd-projects-setup.yaml),
+            # so a link request for one returns an empty "not applicable" response. This
+            # replaces relying on ALLOWED_DEST_NAMESPACES to hide them, so it keeps
+            # working even if the destination allow-list is later widened.
+            SKIP_PROJECTS:
+              value: "glueops-core"
 
         # RBAC + NetworkPolicy are not first-class in the app chart, so they go through
         # customResources. Two templating phases apply: this platform chart (Helm)
@@ -284,13 +295,32 @@ spec:
               - kind: ServiceAccount
                 name: argocd-extension-backend-api
                 namespace: glueops-core-argocd-extension-backend
-          # Workload/ExternalSecret list: namespaced Role in the destination namespace.
+          # Workload/ExternalSecret/Pod list: CLUSTER-scoped, not a namespaced Role.
+          #
+          # This was a Role + RoleBinding in the destination namespace ($env), which
+          # is wrong on two counts:
+          #   1. Race: $env is owned by captain-manifests and often does not exist yet
+          #      when this app first syncs. `kubectl auth reconcile` resolves the
+          #      target namespace before applying, so the whole sync failed with
+          #      `namespaces "<env>" not found` until captain-manifests caught up.
+          #   2. Coverage: the backend serves whatever namespace an Application
+          #      deploys to, and that is not always $env. A Role pinned to one
+          #      namespace cannot authorize listing workloads in any other.
+          # A ClusterRole + ClusterRoleBinding removes the namespace dependency
+          # entirely, fixing both. The grant is now cluster-wide list on these
+          # resources; the backend still restricts what it actually reads to
+          # ALLOWED_DEST_NAMESPACES at the application layer, so effective exposure
+          # is unchanged even though the RBAC is broader.
+          #
+          # pods:list resolves one live pod name per workload to fill the Grafana POD
+          # Overview dashboard's var-pod. It is best-effort in the backend (a denied
+          # list is swallowed and the dashboard auto-selects a pod), so this grant
+          # only makes var-pod deep-links possible — it is not required to work.
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
-            kind: Role
+            kind: ClusterRole
             metadata:
               name: argocd-extension-backend-api-workloads
-              namespace: {{ $env | quote }}
             rules:
               - apiGroups: ["apps"]
                 resources: ["deployments", "statefulsets", "daemonsets"]
@@ -298,15 +328,17 @@ spec:
               - apiGroups: ["external-secrets.io"]
                 resources: ["externalsecrets"]
                 verbs: ["list"]
+              - apiGroups: [""]
+                resources: ["pods"]
+                verbs: ["list"]
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
-            kind: RoleBinding
+            kind: ClusterRoleBinding
             metadata:
               name: argocd-extension-backend-api-workloads
-              namespace: {{ $env | quote }}
             roleRef:
               apiGroup: rbac.authorization.k8s.io
-              kind: Role
+              kind: ClusterRole
               name: argocd-extension-backend-api-workloads
             subjects:
               - kind: ServiceAccount
