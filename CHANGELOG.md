@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.76.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.4...v0.76.0) (2026-07-25)
+
+
+### Features
+
+* update keda to 2.20.1 #minor ([#1459](https://github.com/GlueOps/platform-helm-chart-platform/issues/1459)) ([81469d7](https://github.com/GlueOps/platform-helm-chart-platform/commit/81469d7b04680e69f83b6352ba47acb921958b6f))
+
+
+### Bug Fixes
+
+* remove LowNodeUtilization from descheduler ([#1472](https://github.com/GlueOps/platform-helm-chart-platform/issues/1472)) ([21a5bae](https://github.com/GlueOps/platform-helm-chart-platform/commit/21a5baeb4d807c2c261c6aae546e203561e42add))
+
 ## [0.75.4](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.3...v0.75.4) (2026-07-23)
 
 
