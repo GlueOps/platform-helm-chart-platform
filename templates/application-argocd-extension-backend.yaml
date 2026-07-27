@@ -72,9 +72,9 @@ spec:
 
         image:
           port: 8000
-          registry: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.registry }}
-          repository: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.repository }}
-          tag: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.tag }}
+          registry: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.registry | quote }}
+          repository: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.repository | quote }}
+          tag: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.tag | quote }}
           pullPolicy: IfNotPresent
 
         serviceAccount:
@@ -220,17 +220,22 @@ spec:
             ALLOWED_NAMESPACES:
               value: {{ $env | quote }}
             # Static links surfaced under the "Other" category (GlueOps-wide, not
-            # per-cluster). Pinned here rather than relying on the app's built-in
-            # defaults so the platform owns what shows up.
+            # per-cluster). Pinned here so the platform owns what shows up.
+            # FORWARD-COMPAT: the pinned image (v0.1.4) does not read these yet --
+            # they are implemented on the backend's fix/proxy-auth-and-hardening
+            # branch and take effect once the image is bumped to a release that
+            # includes it. Until then they are inert env vars.
             SUPPORT_URL:
               value: "https://support.glueops.dev"
             DOCUMENTATION_URL:
               value: "https://docs.glueops.dev"
             # Projects the extension does NOT serve: platform/core Applications carry
             # project "glueops-core" (see the AppProject in argocd-projects-setup.yaml),
-            # so a link request for one returns an empty "not applicable" response. This
-            # replaces relying on ALLOWED_DEST_NAMESPACES to hide them, so it keeps
-            # working even if the destination allow-list is later widened.
+            # so a link request for one returns an empty "not applicable" response.
+            # FORWARD-COMPAT: also not read by the pinned image (v0.1.4) -- same
+            # branch/bump as SUPPORT_URL above. Until that bump, platform apps are
+            # hidden solely by ALLOWED_DEST_NAMESPACES, so do NOT widen that
+            # allow-list expecting SKIP_PROJECTS to keep hiding them.
             SKIP_PROJECTS:
               value: "glueops-core"
 
@@ -267,7 +272,7 @@ spec:
                     - protocol: TCP
                       port: 8000
           # argoproj.io Applications: get/list, scoped to glueops-core — where the
-          # Application CRs live (see ARGOCD_APP_NAMESPACES above). `applications` is a
+          # Application CRs live (see ALLOWED_APP_NAMESPACES above). `applications` is a
           # namespaced resource and the backend only reads from glueops-core, so a
           # namespaced Role + RoleBinding is sufficient (least privilege, no cluster-wide
           # grant). The bound ServiceAccount lives in the backend's own namespace.
