@@ -6,14 +6,18 @@ components (see application-go-healthz.yaml / application-network-exporter.yaml)
 Cluster environment (e.g. "nonprod") is the first label of captain_domain and is
 used as the tenant destination namespace the backend serves.
 
-Argo CD namespace assumption (correction vs the standalone manifests):
-  The standalone chart/manifests in the backend repo scoped the app-namespace gate
-  and the NetworkPolicy source to a namespace literally named "argocd". On GlueOps
-  clusters Argo CD (server + Application CRs) runs in "glueops-core" (see the real
-  Application manifests, project glueops-core), so this template uses glueops-core
-  for both. If your Argo CD server runs elsewhere, change it in the two places
-  below: the NetworkPolicy `namespaceSelector` (kubernetes.io/metadata.name:
-  glueops-core) and the ALLOWED_APP_NAMESPACES env var.
+Argo CD namespace model (correction vs the standalone manifests):
+  The standalone chart/manifests in the backend repo assumed everything lives in a
+  namespace literally named "argocd". On GlueOps clusters argocd-server and the
+  PLATFORM Application CRs live in "glueops-core", but TENANT Application CRs —
+  the ones this extension exists to serve — live in the $env namespace via
+  apps-in-any-namespace: the tenant ApplicationSet stamps metadata.namespace =
+  $env, the tenant AppProject sets sourceNamespaces [$env], and argocd-server
+  runs with --application-namespaces=* (see the captain manifests repo). If your
+  layout differs, the namespace-coupled sites are the NetworkPolicy
+  `namespaceSelector` (where argocd-server runs) and the ALLOWED_APP_NAMESPACES
+  env var (where Application CRs live); the applications RBAC below is
+  cluster-scoped and needs no change.
 */ -}}
 {{- $env := .Values.captain_domain | splitList "." | first -}}
 apiVersion: argoproj.io/v1alpha1
@@ -57,7 +61,9 @@ spec:
     chart: app
     # Pinned to the same app-chart version as the other platform components
     # (application-go-healthz.yaml, application-network-exporter.yaml, …) to avoid
-    # version drift. Renders identically to 0.13.0 for these values (verified).
+    # version drift. Renders identically to 0.13.0 for these values (verified)
+    # except the helm.sh/chart labels/annotations, so a future bump is safe (no
+    # selector touches them) but will roll the pods once via the pod-template hash.
     targetRevision: 0.9.0
     helm:
       values: |
@@ -75,7 +81,6 @@ spec:
           registry: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.registry | quote }}
           repository: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.repository | quote }}
           tag: {{ .Values.container_images.app_argocd_extension_backend.argocd_extension_backend.image.tag | quote }}
-          pullPolicy: IfNotPresent
 
         serviceAccount:
           create: true
@@ -168,16 +173,34 @@ spec:
               value: "8000"
             TEMPO_SEARCH_PATH:
               value: "/api/search"
+            # Intentionally blank: the UI extension only ever calls /api/links, so
+            # the backend's Tempo search proxy has no callers — and GlueOps Tempo
+            # is multi-tenant (X-Scope-OrgID header) which the proxy does not send.
+            # Traces surface through the GRAFANA_TEMPO_DS_UID deep links instead.
             TEMPO_BASE_URL:
               value: ""
+            # Thanos query endpoint of the OTEL monitoring stack — the same target
+            # its Grafana datasource provisioning points at. kube-prometheus-stack
+            # (kps-prometheus) was removed by the OTEL migration this branch sits
+            # on, so do not point this back there. Only the backend's Prometheus
+            # proxy route reads this; the current UI extension never calls it.
             PROMETHEUS_BASE_URL:
-              value: "http://kps-prometheus.glueops-core-kube-prometheus-stack.svc.cluster.local:9090"
+              value: "http://glueops-core-thanos-query.glueops-core-monitoring.svc.cluster.local:9090"
             GRAFANA_BASE_URL:
               value: "https://grafana.{{ .Values.captain_domain }}"
             VAULT_BASE_URL:
               value: "https://vault.{{ .Values.captain_domain }}"
+            # The TENANT org's deployment-configurations repo. Tenant Application
+            # sources reference https://github.com/<tenant_github_org>/deployment-
+            # configurations, and the backend only reads value files whose source
+            # repoURL matches this env var exactly (identity gate) — pointing it at
+            # the GlueOps template repo would permanently disable config-derived
+            # Vault links. KNOWN LIMITATION: tenant repos are typically private and
+            # no GITHUB_TOKEN is wired (a token belongs in a secret, not envMap),
+            # so config-derived Vault links stay empty for private repos;
+            # live-ExternalSecret Vault links are unaffected.
             DEPLOYMENT_CONFIG_REPO_URL:
-              value: "https://github.com/GlueOps/deployment-configurations"
+              value: "https://github.com/{{ .Values.gitHub.tenant_github_org }}/deployment-configurations"
             CONFIG_REPO_LOCAL_ROOT:
               value: ""
             GRAFANA_LOGS_DASHBOARD:
@@ -211,12 +234,20 @@ spec:
               value: {{ .Values.argocd_extension_backend.grafana_k8s_overview_dashboard | quote }}
             GRAFANA_K8S_POD_DASHBOARD:
               value: {{ .Values.argocd_extension_backend.grafana_k8s_pod_dashboard | quote }}
-            # Application CRs live in glueops-core (see Argo CD namespace note above).
+            # Where Application CRs live (see the namespace model in the header):
+            # tenant CRs in $env, platform CRs in glueops-core. glueops-core is
+            # kept in the list so platform-app requests pass this gate and can hit
+            # the project-based SKIP_PROJECTS "not applicable" response once the
+            # image bump lands; until then the dest-namespace gate below hides them.
             ALLOWED_APP_NAMESPACES:
-              value: "glueops-core"
+              value: "glueops-core,{{ $env }}"
             # Destination namespace this cluster's apps deploy into = the environment.
             ALLOWED_DEST_NAMESPACES:
               value: {{ $env | quote }}
+            # Inert in v0.1.4: only the fallback default for the two vars above,
+            # which are both set explicitly. Kept fail-closed so any future gate
+            # that defaults to ALLOWED_NAMESPACES inherits $env rather than the
+            # backend's permissive '*' default.
             ALLOWED_NAMESPACES:
               value: {{ $env | quote }}
             # Static links surfaced under the "Other" category (GlueOps-wide, not
@@ -241,9 +272,9 @@ spec:
 
         # RBAC + NetworkPolicy are not first-class in the app chart, so they go through
         # customResources. Two templating phases apply: this platform chart (Helm)
-        # renders its own expressions first (e.g. `{{ $env }}` below becomes a literal
-        # namespace), then the app chart runs `tpl` on the result. By that second phase
-        # the strings are already literal, so the app chart's `tpl` is a no-op here.
+        # renders its own expressions first, then the app chart runs `tpl` on the
+        # result. The strings below are pure literals after phase one, so the app
+        # chart's `tpl` is a no-op here.
         # Instance label = this Application's name (the Helm release name Argo CD uses).
         customResources:
           # NetworkPolicy: only argocd-server (in glueops-core) may reach the backend.
@@ -271,36 +302,43 @@ spec:
                   ports:
                     - protocol: TCP
                       port: 8000
-          # argoproj.io Applications: get/list, scoped to glueops-core — where the
-          # Application CRs live (see ALLOWED_APP_NAMESPACES above). `applications` is a
-          # namespaced resource and the backend only reads from glueops-core, so a
-          # namespaced Role + RoleBinding is sufficient (least privilege, no cluster-wide
-          # grant). The bound ServiceAccount lives in the backend's own namespace.
+          # argoproj.io Applications: get, CLUSTER-scoped. The backend does a
+          # namespaced get of exactly the Application named in the request header,
+          # and those CRs live in TWO namespaces (tenant CRs in $env, platform CRs
+          # in glueops-core — see the header). A namespaced Role cannot span both,
+          # and a Role in $env would resurrect the captain-manifests namespace race
+          # described below, so this is a ClusterRole — with `get` only, which is
+          # strictly narrower than a cluster list: a caller must already know a
+          # CR's namespace AND name, so tenant Applications (and the helm values in
+          # their specs) cannot be enumerated. The backend's transient-failure
+          # fallback is a cluster-scope LIST (listClusterCustomObject) and stays
+          # intentionally unauthorized for exactly that enumeration reason; the
+          # cost is a degraded response (guessed workload names, no config/Vault
+          # links) on a transient get miss. The bound ServiceAccount lives in the
+          # backend's own namespace.
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
-            kind: Role
+            kind: ClusterRole
             metadata:
               name: argocd-extension-backend-api-applications
-              namespace: glueops-core
             rules:
               - apiGroups: ["argoproj.io"]
                 resources: ["applications"]
-                verbs: ["get", "list"]
+                verbs: ["get"]
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
-            kind: RoleBinding
+            kind: ClusterRoleBinding
             metadata:
               name: argocd-extension-backend-api-applications
-              namespace: glueops-core
             roleRef:
               apiGroup: rbac.authorization.k8s.io
-              kind: Role
+              kind: ClusterRole
               name: argocd-extension-backend-api-applications
             subjects:
               - kind: ServiceAccount
                 name: argocd-extension-backend-api
                 namespace: glueops-core-argocd-extension-backend
-          # Workload/ExternalSecret/Pod list: CLUSTER-scoped, not a namespaced Role.
+          # Workload/ExternalSecret list: CLUSTER-scoped, not a namespaced Role.
           #
           # This was a Role + RoleBinding in the destination namespace ($env), which
           # is wrong on two counts:
@@ -313,14 +351,21 @@ spec:
           #      namespace cannot authorize listing workloads in any other.
           # A ClusterRole + ClusterRoleBinding removes the namespace dependency
           # entirely, fixing both. The grant is now cluster-wide list on these
-          # resources; the backend still restricts what it actually reads to
-          # ALLOWED_DEST_NAMESPACES at the application layer, so effective exposure
-          # is unchanged even though the RBAC is broader.
+          # resources. The backend restricts reads to ALLOWED_DEST_NAMESPACES at the
+          # application layer, but only once the Application CR resolves: if the
+          # applications get fails transiently, v0.1.4 falls back to listing in the
+          # app-CR namespace from the request header without that gate — reads the
+          # old namespaced Role denied. Exposure there is workload names and Vault path
+          # links (never secret values; the SA has no `secrets` grant), accepted in
+          # exchange for killing the namespace race.
           #
-          # pods:list resolves one live pod name per workload to fill the Grafana POD
-          # Overview dashboard's var-pod. It is best-effort in the backend (a denied
-          # list is swallowed and the dashboard auto-selects a pod), so this grant
-          # only makes var-pod deep-links possible — it is not required to work.
+          # pods:list is intentionally NOT granted. The pinned image (v0.1.4) never
+          # lists pods — the var-pod resolution that wants it exists only on the
+          # backend's unreleased fix/proxy-auth-and-hardening branch (the same
+          # branch as SUPPORT_URL above). When bumping to a release that has it, add
+          #   - apiGroups: [""], resources: ["pods"], verbs: ["list"]
+          # back here; it is best-effort in the backend (a denied list is swallowed
+          # and the Grafana POD Overview dashboard auto-selects a pod).
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
@@ -332,9 +377,6 @@ spec:
                 verbs: ["list"]
               - apiGroups: ["external-secrets.io"]
                 resources: ["externalsecrets"]
-                verbs: ["list"]
-              - apiGroups: [""]
-                resources: ["pods"]
                 verbs: ["list"]
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
