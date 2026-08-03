@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.77.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.76.0...v0.77.0) (2026-08-03)
+
+
+### Features
+
+* update glueops/vault-init-controller to v2.14.0 #minor ([#1475](https://github.com/GlueOps/platform-helm-chart-platform/issues/1475)) ([39c1697](https://github.com/GlueOps/platform-helm-chart-platform/commit/39c1697132e95562c1c5f26ef83bb2f2c8caf7e0))
+
+
+### Miscellaneous Chores
+
+* add Apache-2.0 LICENSE ([#1473](https://github.com/GlueOps/platform-helm-chart-platform/issues/1473)) ([2f6525c](https://github.com/GlueOps/platform-helm-chart-platform/commit/2f6525c5f4d9bdf124d3dc79068ffd037e2f6054))
+
 ## [0.76.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.75.4...v0.76.0) (2026-07-25)
 
 
