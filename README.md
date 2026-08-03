@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.76.0](https://img.shields.io/badge/Version-0.76.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.77.0](https://img.shields.io/badge/Version-0.77.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -99,7 +99,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault.vault.image.tag | string | `"2.4.4@sha256:595c83b42614a4d2b044608e4593c05b019c5db25bc9c185d8fff3ac96c03ddd"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
-| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.13.1@sha256:2eaa8b3099f543348270bf681c196c1bab899255a5074ecab9281fdbe65d6ccb"` |  |
+| container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.14.0@sha256:9b4d6ed77c3843c269846495b3f1f6f20e86cb8c92381727fcfb3d3169b0fbfa"` |  |
 | container_images.app_vpa.admission_controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_vpa.admission_controller.image.repository | string | `"autoscaling/vpa-admission-controller"` |  |
 | container_images.app_vpa.admission_controller.image.tag | string | `"1.6.0"` |  |
