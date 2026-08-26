@@ -113,7 +113,7 @@ while IFS= read -r app; do
 
   for ((i = 0; i < n_sources; i++)); do
     src="$(jq -c --argjson i "$i" 'if .spec.sources then .spec.sources[$i] else .spec.source end' <<<"$app")"
-    label="$name"; [ "$n_sources" -gt 1 ] && label="$name[$i]"
+    label="$name"; [ "$n_sources" -gt 1 ] && label="${name}[$i]"
     repo="$(jq -r '.repoURL' <<<"$src")"
     rev="$(jq -r '.targetRevision // "HEAD"' <<<"$src")"
 
@@ -124,20 +124,24 @@ while IFS= read -r app; do
     if jq -e '.chart == null' <<<"$src" >/dev/null && [[ "$repo" == placeholder_* ]]; then
       report+=("skip    $label  (captain repo placeholder URL)"); skipped=$((skipped + 1)); continue
     fi
-    if jq -e '.directory != null' <<<"$src" >/dev/null; then
-      # Plain manifests: Argo CD applies every yaml/yml/json under path (recursively if asked).
-      dir_path="$(fetch_git "$repo" "$rev" "$(jq -r '.path // "."' <<<"$src")")"
-      maxdepth=(-maxdepth 1); jq -e '.directory.recurse == true' <<<"$src" >/dev/null && maxdepth=()
-      crds="$(find "$dir_path" "${maxdepth[@]}" -type f \( -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) -print0 \
+    # scan_plain <dir> <recurse:true|false> <what> : Argo CD applies every yaml/yml/json under path.
+    scan_plain() {
+      local d="$1" recurse="$2" what="$3" maxdepth=(-maxdepth 1)
+      [ "$recurse" = "true" ] && maxdepth=()
+      crds="$(find "$d" "${maxdepth[@]}" -type f \( -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) -print0 \
         | xargs -0 -r yq -N 'select(.kind == "CustomResourceDefinition") | .metadata.name' 2>/dev/null | grep -v '^---$' || true)"
       n_crds=0; [ -z "$crds" ] || n_crds="$(wc -l <<<"$crds")"
       rendered=$((rendered + 1))
       if [ "$n_crds" -gt 0 ]; then
         crd_total=$((crd_total + n_crds))
-        report+=("FAIL    $label  (directory source, $n_crds CRDs): $(tr '\n' ' ' <<<"$crds")")
+        report+=("FAIL    $label  ($what, $n_crds CRDs): $(tr '\n' ' ' <<<"$crds")")
       else
-        report+=("ok      $label  (directory source, 0 CRDs)")
+        report+=("ok      $label  ($what, 0 CRDs)")
       fi
+    }
+    if jq -e '.directory != null' <<<"$src" >/dev/null; then
+      dir_path="$(fetch_git "$repo" "$rev" "$(jq -r '.path // "."' <<<"$src")")"
+      scan_plain "$dir_path" "$(jq -r '.directory.recurse // false' <<<"$src")" "directory source"
       continue
     fi
 
@@ -147,11 +151,20 @@ while IFS= read -r app; do
     else
       chart_dir="$(fetch_git "$repo" "$rev" "$(jq -r '.path // "."' <<<"$src")")"
       if [ ! -f "$chart_dir/Chart.yaml" ]; then
-        # Argo CD would treat this as a plain directory source.
         if jq -e '.helm != null' <<<"$src" >/dev/null; then
           fail "$label: helm source but no Chart.yaml at $repo@$rev:$(jq -r '.path' <<<"$src")"
         fi
-        report+=("skip    $label  (git directory without Chart.yaml)"); skipped=$((skipped + 1)); continue
+        if [ -f "$chart_dir/kustomization.yaml" ] || [ -f "$chart_dir/kustomization.yml" ] || [ -f "$chart_dir/Kustomization" ]; then
+          # Argo CD auto-detects a kustomize source; build it the way Argo CD would.
+          command -v kubectl >/dev/null || fail "$label: kustomize source at $repo@$rev needs kubectl (kubectl kustomize)"
+          kdir="$WORK/values/$(cache_key "$label")"; mkdir -p "$kdir"
+          kubectl kustomize "$chart_dir" > "$kdir/kustomize.yaml" || fail "$label: kubectl kustomize failed for $repo@$rev"
+          scan_plain "$kdir" false "kustomize source"
+          continue
+        fi
+        # No Chart.yaml, no kustomization: Argo CD auto-detects a plain directory source (non-recursive).
+        scan_plain "$chart_dir" false "implicit directory source"
+        continue
       fi
       if yq -e '.dependencies' "$chart_dir/Chart.yaml" >/dev/null 2>&1; then
         helm dependency build "$chart_dir" >/dev/null

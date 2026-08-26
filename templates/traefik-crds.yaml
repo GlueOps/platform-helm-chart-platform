@@ -8,7 +8,8 @@ spec:
   project: glueops-core
   destination:
     name: in-cluster
-    # destination namespace is mostly irrelevant for CRDs, and middleware has its own namespace
+    # this Application only carries the oauth2 Middlewares now (the traefik CRDs come from the platform-crds bundle);
+    # the destination namespace is irrelevant for them, each Middleware sets its own namespace
     namespace: glueops-core-traefik-crds
 
   syncPolicy:

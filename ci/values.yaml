@@ -4,8 +4,8 @@
 #      gates default to placeholders that a captain repo fills in),
 #   2. give the typed placeholders (bools / replica counts / storage sizes) values of
 #      the type the upstream charts' values.schema.json expects, and
-#   3. point chart repositories at the public upstream registries instead of the
-#      GlueOps Nexus mirrors (*.repo.gpkg.io), which GitHub Actions cannot reach.
+#   3. point chart repositories at the public upstream registries so CI does not depend
+#      on (or warm the cache of) the GlueOps Nexus mirrors (*.repo.gpkg.io).
 development_mode_enabled: false
 host_network:
   enabled: true
