@@ -7,7 +7,6 @@
     {
       "description": "Ignore platform-managed monitoring/logging Argo CD app manifests (chart versions are bumped via the platform release process, not Renovate). Scoped to this repo only.",
       "matchFileNames": [
-        "templates/application-kube-prometheus-stack-crds.yaml",
         "templates/application-kube-prometheus-stack.yaml",
         "templates/application-loki.yaml",
         "templates/application-fluent-operator.yaml",

@@ -14,8 +14,8 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-      # Keep prune OFF if you want the “CRDs survive app deletion” behavior
-      # (because you cannot easily add per-CRD Prune=false annotations to upstream CRD files).
+      # Prune stays OFF: Argo CD never tracked the CRDs this Application used to
+      # render, so nothing is pruned when they disappear from the rendered set.
       - Prune=false
     automated:
       prune: false
@@ -28,14 +28,10 @@ spec:
       limit: 5
 
   sources:
-    # 1) CRDs directory (applied first by wave)
-    - repoURL: https://github.com/traefik/traefik-helm-chart.git
-      targetRevision: v39.0.0
-      path: traefik-crds/crds-files/traefik
-      directory:
-        recurse: true
-
-    # 2) A Helm source that supports extraObjects
+    # The traefik.io CRDs are NOT rendered here anymore: they are installed by
+    # captain_utils from the platform-crds layer-0 bundle (GlueOps/platform-crds).
+    #
+    # A Helm source that supports extraObjects
     #
     # Best place for these middlewares is usually your *existing Traefik helm release app*.
     # If you already have the Traefik chart installed elsewhere, move the extraObjects block

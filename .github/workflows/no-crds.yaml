@@ -1,0 +1,29 @@
+name: no-crds
+
+# Guard: no Argo CD Application in this chart may render a CustomResourceDefinition.
+# Platform CRDs are installed from the platform-crds layer-0 bundle by captain_utils.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  no-crds:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
+      - name: Install yq and jq
+        env:
+          YQ_VERSION: v4.53.3
+        run: |
+          sudo curl -fsSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
+          sudo chmod +x /usr/local/bin/yq
+          command -v jq >/dev/null || sudo apt-get install -y jq
+          helm version --short && yq --version && jq --version
+      - name: Lint the platform chart
+        run: helm lint . -f ci/values.yaml
+      - name: Render every Application's chart and assert no CRDs
+        run: hack/check-no-crds.sh
