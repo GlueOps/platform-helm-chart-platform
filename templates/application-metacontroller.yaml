@@ -29,6 +29,7 @@ spec:
     path: deploy/helm/metacontroller
     targetRevision: v4.12.5
     helm:
+      skipCrds: true
       parameters:
         - name: replicas
           value: '1'
