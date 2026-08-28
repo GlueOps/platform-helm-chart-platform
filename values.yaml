@@ -512,6 +512,10 @@ container_images:
 enable_chisel_proxy_protocol: false
 
 kubeadm:
+  # LOAD-BEARING: leave this unquoted. terraform substitutes a bare true/false, which must render as a YAML boolean.
+  # captain_utils passes this file to the platform-crds bundle to pick which CRD profiles a cluster installs, and that
+  # chart's values.schema.json requires a boolean — quoting it renders "true", which this chart still accepts as truthy
+  # but which hard-fails the `crds` step on every kubeadm cluster with: at '/kubeadm/enabled': got string, want boolean.
   enabled: placeholder_enable_kubeadm_cluster
   kube_etcd:
     serviceMonitor:
