@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.78.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.77.0...v0.78.0) (2026-08-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* this release must only be deployed after `captain_utils -> crds` has applied the platform-crds bundle on the cluster (plan section 7); on a cluster without the bundle the flipped Applications would leave their CRDs unmanaged and new clusters would have no CRDs at all. Argo CD 3.2.12 never tracked these CRDs, so on migrated clusters the flag flips are non-destructive (no prune).
+
+### Features
+
+* stop rendering CRDs in ArgoCD Applications (CRDs come from the platform-crds bundle) ([#1480](https://github.com/GlueOps/platform-helm-chart-platform/issues/1480)) ([19cb19b](https://github.com/GlueOps/platform-helm-chart-platform/commit/19cb19b1238e106a3f92cb6913344b9c0713c04f))
+
 ## [0.77.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.76.0...v0.77.0) (2026-08-03)
 
 
