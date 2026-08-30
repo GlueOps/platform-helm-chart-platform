@@ -67,3 +67,12 @@ spec:
               login_url="https://dex.{{ .Values.captain_domain }}/auth"
               redeem_url="https://dex.{{ .Values.captain_domain }}/token"
               oidc_jwks_url="https://dex.{{ .Values.captain_domain }}/keys"
+              # Accept a Dex-issued id_token as an alternative to the browser session
+              # cookie, so CLIs (argocd, bao) can authenticate at the edge. Every request
+              # is still authenticated by this forwardauth; nothing is exempted. Without
+              # this the bearer token is ignored and CLIs get a login redirect.
+              skip_jwt_bearer_tokens=true
+              # Audiences accepted in addition to "oauth2-proxy". Not a widening:
+              # email_domains=["*"] already authorizes anyone Dex admits, and Dex only
+              # admits members of the configured GitHub orgs.
+              oidc_extra_audiences=["argocd","vault","toolbox"]

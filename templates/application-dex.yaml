@@ -76,6 +76,13 @@ spec:
             - id: kubectl
               name: kubectl
               public: true
+            # Public client (no secret) developers mint an id_token from, for the
+            # oauth2-proxy edge, via the OIDC device flow. Public so the token can be
+            # obtained on any machine without distributing a client secret; the device
+            # flow needs no redirect URI, so nothing has to be registered per developer.
+            - id: toolbox
+              name: Toolbox
+              public: true
             - id: grafana
               name: Grafana
               redirectURIs:
