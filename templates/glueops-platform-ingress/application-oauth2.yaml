@@ -75,4 +75,11 @@ spec:
               # Audiences accepted in addition to "oauth2-proxy". Not a widening:
               # email_domains=["*"] already authorizes anyone Dex admits, and Dex only
               # admits members of the configured GitHub orgs.
-              oidc_extra_audiences=["argocd","vault","toolbox"]
+              #
+              # Deliberately ONLY toolbox. No flow presents an argocd- or vault-audience
+              # token at the edge: the argocd CLI sends the toolbox token as
+              # ARGOCD_AUTH_TOKEN and bao sends the same one. Listing those audiences
+              # would promote every ArgoCD browser-SSO id_token and every Vault OIDC
+              # login token -- each of which today unlocks exactly one service -- into a
+              # key that opens the entire edge for every host behind it.
+              oidc_extra_audiences=["toolbox"]
