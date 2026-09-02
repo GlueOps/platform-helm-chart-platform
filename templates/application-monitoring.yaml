@@ -1,0 +1,58 @@
+# The monitoring stack (kube-prometheus-stack, Thanos, Loki, Tempo, the OpenTelemetry operator and collectors,
+# Grafana admin/dev, dashboards, alerts) is an app-of-apps maintained in GlueOps/k8s-monitoring-helm. Every CRD it
+# needs comes from the platform-crds bundle; none of its child Applications renders a CRD (hack/check-no-crds.sh
+# follows the children and proves it).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    # The child Applications carry no metadata.namespace, so they land here: the Argo CD control-plane namespace.
+    # Each child sets its own destination (glueops-core-monitoring).
+    namespace: glueops-core
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+  source:
+    repoURL: 'https://github.com/GlueOps/k8s-monitoring-helm.git'
+    targetRevision: main
+    path: apps
+    helm:
+      values: |
+        captain_domain: '{{ .Values.captain_domain }}'
+        host_network:
+          enabled: {{ .Values.host_network.enabled }}
+          kube_pometheus_stack:
+            {{- toYaml .Values.host_network.kube_pometheus_stack | nindent 12 }}
+        kubeadm:
+          enabled: {{ .Values.kubeadm.enabled }}
+        glueops_node_and_tolerations:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+        grafana:
+          {{- toYaml .Values.grafana | nindent 10 }}
+        loki:
+          {{- toYaml .Values.loki | nindent 10 }}
+        thanos:
+          {{- toYaml .Values.thanos | nindent 10 }}
+        tempo:
+          {{- toYaml .Values.tempo | nindent 10 }}
+        dex:
+          grafana:
+            client_secret: {{ .Values.dex.grafana.client_secret }}

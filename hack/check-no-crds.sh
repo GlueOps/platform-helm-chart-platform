@@ -7,6 +7,10 @@
 # values, or helm.skipCrds for charts that ship a crds/ directory). This script renders each
 # Application's chart the way Argo CD would and fails if a CRD shows up anywhere.
 #
+# App-of-apps are followed: when a rendered source itself contains Argo CD Applications
+# (e.g. the GlueOps/k8s-monitoring-helm umbrella), those child Applications are queued and
+# rendered too, so a CRD hidden one level down is still caught (depth-limited by MAX_DEPTH).
+#
 # How Argo CD (3.x) renders a Helm source, mirrored here:
 #   helm template <release> <chart> --namespace <destination.namespace> \
 #     [--include-crds unless helm.skipCrds] --values <helm.values> --set <helm.parameters>
@@ -14,7 +18,10 @@
 # CRDs as well; only the tenant captain repo (a placeholder URL in this chart) is skipped.
 #
 # Usage: hack/check-no-crds.sh            (needs helm, yq (mikefarah v4), jq, git, network)
-#   CI_VALUES=<file>   values file for rendering the platform chart (default: ci/values.yaml)
+#   CHART_DIR=<dir>    the chart whose Applications are checked (default: the repo root)
+#   CI_VALUES=<file>   values file for rendering the chart (default: ci/values.yaml under
+#                      CHART_DIR, used only if it exists)
+#   MAX_DEPTH=n        how many app-of-apps levels to follow (default: 4)
 #   KUBE_VERSION=x.y.z optional --kube-version passed to every helm template
 #   API_VERSIONS=a/v1,b/v2  comma-separated --api-versions (default: the API groups served by
 #                      the platform-crds bundle, so charts that gate CRs on
@@ -22,8 +29,10 @@
 #   KEEP_WORK=1        keep the work directory (printed at the end) for debugging
 set -euo pipefail
 
-CHART_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CHART_DIR="${CHART_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+CHART_DIR="$(cd "$CHART_DIR" && pwd)"
 CI_VALUES="${CI_VALUES:-$CHART_DIR/ci/values.yaml}"
+MAX_DEPTH="${MAX_DEPTH:-4}"
 WORK="$(mktemp -d)"
 CACHE="$WORK/cache"
 mkdir -p "$CACHE"
@@ -41,24 +50,26 @@ DEFAULT_API_VERSIONS="acme.cert-manager.io/v1,argoproj.io/v1alpha1,autoscaling.k
 eventing.keda.sh/v1alpha1,external-secrets.io/v1,external-secrets.io/v1beta1,externaldns.k8s.io/v1alpha1,\
 fluentbit.fluent.io/v1alpha2,fluentd.fluent.io/v1alpha1,generators.external-secrets.io/v1alpha1,keda.sh/v1alpha1,\
 metacontroller.glueops.dev/v1alpha1,metacontroller.k8s.io/v1alpha1,monitoring.coreos.com/v1,monitoring.coreos.com/v1alpha1,\
-platform.glueops.dev/v1alpha1,traefik.io/v1alpha1"
+opentelemetry.io/v1alpha1,opentelemetry.io/v1beta1,platform.glueops.dev/v1alpha1,traefik.io/v1alpha1"
 API_VERSIONS="${API_VERSIONS:-$DEFAULT_API_VERSIONS}"
 
 log()  { printf '%s\n' "$*" >&2; }
 fail() { printf '::error::%s\n' "$*" >&2; exit 1; }
 
 # ---------------------------------------------------------------------------
-# 1. Render the platform chart and pull out the Applications (one JSON per line)
+# 1. Render the chart and pull out the Applications (one JSON per line)
 # ---------------------------------------------------------------------------
-helm template glueops-platform "$CHART_DIR" -f "$CI_VALUES" > "$WORK/platform.yaml"
+values_args=()
+[ -f "$CI_VALUES" ] && values_args=(-f "$CI_VALUES")
+helm template glueops-platform "$CHART_DIR" "${values_args[@]}" > "$WORK/platform.yaml"
 yq -o=json -I=0 'select(.kind == "Application")' "$WORK/platform.yaml" > "$WORK/apps.jsonl"
 app_count="$(wc -l < "$WORK/apps.jsonl")"
-[ "$app_count" -gt 0 ] || fail "no Application rendered from the platform chart"
-log "platform chart rendered: $app_count Applications"
+[ "$app_count" -gt 0 ] || fail "no Application rendered from the chart at $CHART_DIR"
+log "chart rendered: $app_count Applications"
 
-# The platform chart itself must not carry a CRD either.
+# The chart itself must not carry a CRD either.
 if [ "$(yq -N 'select(.kind == "CustomResourceDefinition") | .metadata.name' "$WORK/platform.yaml" | grep -vc '^---$' || true)" -ne 0 ]; then
-  fail "the platform chart renders a CustomResourceDefinition directly"
+  fail "the chart renders a CustomResourceDefinition directly"
 fi
 
 # ---------------------------------------------------------------------------
@@ -99,15 +110,62 @@ fetch_git() {
 }
 
 # ---------------------------------------------------------------------------
-# 3. Render every Helm source of every Application
+# 3. Render every source of every Application, following app-of-apps children
 # ---------------------------------------------------------------------------
 declare -a report=()
+declare -a queue=()          # JSON Applications, each tagged with _depth and _label
 crd_total=0
 rendered=0
 skipped=0
+child_total=0
 
 while IFS= read -r app; do
-  name="$(jq -r '.metadata.name' <<<"$app")"
+  [ -n "$app" ] || continue
+  queue+=("$(jq -c '. + {_depth: 0, _label: .metadata.name}' <<<"$app")")
+done < "$WORK/apps.jsonl"
+
+# enqueue_children <label> <depth> <file...>: any Application among the rendered manifests
+# is an app-of-apps child; queue it so its own sources get rendered and scanned too.
+enqueue_children() {
+  local parent="$1" depth="$2"; shift 2
+  local children n_children
+  children="$(cat "$@" 2>/dev/null | yq -o=json -I=0 'select(.kind == "Application")' 2>/dev/null || true)"
+  [ -n "$children" ] || return 0
+  n_children="$(wc -l <<<"$children")"
+  if [ "$depth" -ge "$MAX_DEPTH" ]; then
+    fail "$parent renders $n_children child Application(s) at depth $depth; MAX_DEPTH=$MAX_DEPTH reached"
+  fi
+  while IFS= read -r child; do
+    [ -n "$child" ] || continue
+    queue+=("$(jq -c --arg p "$parent" --argjson d "$((depth + 1))" '. + {_depth: $d, _label: ($p + ">" + .metadata.name)}' <<<"$child")")
+    child_total=$((child_total + 1))
+  done <<<"$children"
+}
+
+# scan_plain <dir> <recurse:true|false> <what> <label> <depth>: Argo CD applies every yaml/yml/json under path.
+scan_plain() {
+  local d="$1" recurse="$2" what="$3" label="$4" depth="$5" maxdepth=(-maxdepth 1)
+  [ "$recurse" = "true" ] && maxdepth=()
+  local files; files="$(find "$d" "${maxdepth[@]}" -type f \( -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) | sort)"
+  local crds n_crds
+  crds="$(printf '%s\n' "$files" | xargs -r yq -N 'select(.kind == "CustomResourceDefinition") | .metadata.name' 2>/dev/null | grep -v '^---$' || true)"
+  n_crds=0; [ -z "$crds" ] || n_crds="$(wc -l <<<"$crds")"
+  rendered=$((rendered + 1))
+  if [ "$n_crds" -gt 0 ]; then
+    crd_total=$((crd_total + n_crds))
+    report+=("FAIL    $label  ($what, $n_crds CRDs): $(tr '\n' ' ' <<<"$crds")")
+  else
+    report+=("ok      $label  ($what, 0 CRDs)")
+  fi
+  # shellcheck disable=SC2086
+  [ -z "$files" ] || enqueue_children "$label" "$depth" $files
+}
+
+qi=0
+while [ "$qi" -lt "${#queue[@]}" ]; do
+  app="${queue[$qi]}"; qi=$((qi + 1))
+  name="$(jq -r '._label' <<<"$app")"
+  depth="$(jq -r '._depth' <<<"$app")"
   ns="$(jq -r '.spec.destination.namespace // "default"' <<<"$app")"
   n_sources="$(jq -r 'if .spec.sources then (.spec.sources | length) else 1 end' <<<"$app")"
 
@@ -124,24 +182,9 @@ while IFS= read -r app; do
     if jq -e '.chart == null' <<<"$src" >/dev/null && [[ "$repo" == placeholder_* ]]; then
       report+=("skip    $label  (captain repo placeholder URL)"); skipped=$((skipped + 1)); continue
     fi
-    # scan_plain <dir> <recurse:true|false> <what> : Argo CD applies every yaml/yml/json under path.
-    scan_plain() {
-      local d="$1" recurse="$2" what="$3" maxdepth=(-maxdepth 1)
-      [ "$recurse" = "true" ] && maxdepth=()
-      crds="$(find "$d" "${maxdepth[@]}" -type f \( -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) -print0 \
-        | xargs -0 -r yq -N 'select(.kind == "CustomResourceDefinition") | .metadata.name' 2>/dev/null | grep -v '^---$' || true)"
-      n_crds=0; [ -z "$crds" ] || n_crds="$(wc -l <<<"$crds")"
-      rendered=$((rendered + 1))
-      if [ "$n_crds" -gt 0 ]; then
-        crd_total=$((crd_total + n_crds))
-        report+=("FAIL    $label  ($what, $n_crds CRDs): $(tr '\n' ' ' <<<"$crds")")
-      else
-        report+=("ok      $label  ($what, 0 CRDs)")
-      fi
-    }
     if jq -e '.directory != null' <<<"$src" >/dev/null; then
       dir_path="$(fetch_git "$repo" "$rev" "$(jq -r '.path // "."' <<<"$src")")"
-      scan_plain "$dir_path" "$(jq -r '.directory.recurse // false' <<<"$src")" "directory source"
+      scan_plain "$dir_path" "$(jq -r '.directory.recurse // false' <<<"$src")" "directory source" "$label" "$depth"
       continue
     fi
 
@@ -159,11 +202,11 @@ while IFS= read -r app; do
           command -v kubectl >/dev/null || fail "$label: kustomize source at $repo@$rev needs kubectl (kubectl kustomize)"
           kdir="$WORK/values/$(cache_key "$label")"; mkdir -p "$kdir"
           kubectl kustomize "$chart_dir" > "$kdir/kustomize.yaml" || fail "$label: kubectl kustomize failed for $repo@$rev"
-          scan_plain "$kdir" false "kustomize source"
+          scan_plain "$kdir" false "kustomize source" "$label" "$depth"
           continue
         fi
         # No Chart.yaml, no kustomization: Argo CD auto-detects a plain directory source (non-recursive).
-        scan_plain "$chart_dir" false "implicit directory source"
+        scan_plain "$chart_dir" false "implicit directory source" "$label" "$depth"
         continue
       fi
       if yq -e '.dependencies' "$chart_dir/Chart.yaml" >/dev/null 2>&1; then
@@ -173,7 +216,7 @@ while IFS= read -r app; do
 
     # Translate the Application's helm block into helm CLI flags, as Argo CD does.
     args=()
-    release="$(jq -r '.helm.releaseName // empty' <<<"$src")"; [ -n "$release" ] || release="$name"
+    release="$(jq -r '.helm.releaseName // empty' <<<"$src")"; [ -n "$release" ] || release="$(jq -r '.metadata.name' <<<"$app")"
     if jq -e '.helm.skipCrds == true' <<<"$src" >/dev/null; then
       mode="skipCrds"          # Argo CD omits --include-crds
     else
@@ -215,15 +258,16 @@ while IFS= read -r app; do
     else
       report+=("ok      $label  ($mode, $docs objects, 0 CRDs)")
     fi
+    enqueue_children "$label" "$depth" "$out"
   done
-done < "$WORK/apps.jsonl"
+done
 
 # ---------------------------------------------------------------------------
 # 4. Report
 # ---------------------------------------------------------------------------
 printf '%s\n' "${report[@]}"
 echo "---"
-echo "checked $rendered sources across $app_count Applications ($skipped sources skipped); CRDs found: $crd_total"
+echo "checked $rendered sources across $app_count Applications + $child_total app-of-apps children ($skipped sources skipped); CRDs found: $crd_total"
 if [ "$crd_total" -ne 0 ]; then
   fail "$crd_total CustomResourceDefinition(s) rendered by Argo CD Applications; CRDs must come from the platform-crds bundle"
 fi
