@@ -32,7 +32,9 @@ spec:
       limit: 5
   source:
     repoURL: 'https://github.com/GlueOps/k8s-monitoring-helm.git'
-    targetRevision: main
+    # k8s-monitoring-helm has no releases yet: pinned to a commit on its main so a merge there cannot roll to every
+    # cluster unreviewed. Bump deliberately (renovate is not watching this); switch to a tag once that repo cuts one.
+    targetRevision: d4c4fe270a6d456e7af05d5516146fa0bb931678
     path: apps
     helm:
       values: |
@@ -45,6 +47,13 @@ spec:
           enabled: {{ .Values.kubeadm.enabled }}
         glueops_node_and_tolerations:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+        prometheus:
+          {{- toYaml .Values.prometheus | nindent 10 }}
+        container_images:
+          app_kube_prometheus_stack:
+            {{- toYaml .Values.container_images.app_kube_prometheus_stack | nindent 12 }}
+          app_loki_alert_group_controller:
+            {{- toYaml .Values.container_images.app_loki_alert_group_controller | nindent 12 }}
         grafana:
           {{- toYaml .Values.grafana | nindent 10 }}
         loki:

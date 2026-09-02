@@ -67,6 +67,12 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.13.3@sha256:1b044f6dcac3afbb59e05d98463f1dec6f3d3fb99940bc12ca5d80270358e3bd"` |  |
+| container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
+| container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
+| container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"13.0.1-security-01@sha256:2d1f9ae67c1778d33e291d4c3c759cd8b650e67491f02533499eb950e075eeb5"` |  |
+| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.repository | string | `"glueops/metacontroller-operator-loki-rule-group"` |  |
+| container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"50357243c2743adda4a4477888a1ea89cd9c0a9c@sha256:edf1ab4162db842452257540c9f5a20b4b79c9aaf78523e019f10f3a9338d038"` |  |
 | container_images.app_metacontroller.metacontroller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
 | container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.12.5@sha256:8d8f21f3f4e36897b6405f5507fefce209ae805425e556361d93f3ae0ed16ce6"` |  |
@@ -171,13 +177,11 @@ This chart deploys the GlueOps Platform
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
 | kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
-| kubeadm.kube_etcd.serviceMonitor.caFile | string | `"/etc/prometheus/secrets/etcd-client-certs/ca.crt"` |  |
-| kubeadm.kube_etcd.serviceMonitor.certFile | string | `"/etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.crt"` |  |
-| kubeadm.kube_etcd.serviceMonitor.keyFile | string | `"/etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.key"` |  |
 | loki.chunkConfig | object | `{"allocatedMemory":2024,"batchSize":2,"maxItemMemory":2,"parallelism":2,"replicas":2,"writebackBuffer":1000,"writebackParallelism":1,"writebackSizeLimit":"500MB"}` | memcached chunk cache sizing. https://docs.memcached.org/advisories/grafanaloki/ and https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/ |
 | loki.storage | string | `nil` | https://grafana.com/docs/loki/latest/configure/#storage_config — `bucketNames`, `type: s3`, `s3: {...}` |
 | nginx.controller_replica_count | string | `"placeholder_nginx_controller_replica_count"` | number of replicas for ingress controller |
 | nginx.public_lb.enabled | string | `"placeholder_nginx_enable_public_lb"` |  |
+| prometheus.volume_claim_storage_request | string | `"50"` | Volume of storage requested for each Prometheus PVC, in Gi (2 replicas). Retention is short (1d / 10GB); long-term metrics live in Thanos object storage. |
 | pull_request_bot.watch_for_apps_delay_seconds | string | `"10"` | number of seconds to wait before checking ArgoCD for new applications |
 | tempo.compaction_block_retention | string | `"168h"` | how long the compactor keeps trace blocks |
 | tempo.storage | string | `nil` | https://grafana.com/docs/tempo/latest/configuration/#storage — `backend: s3`, `s3: {...}` |

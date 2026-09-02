@@ -31,6 +31,7 @@ set -euo pipefail
 
 CHART_DIR="${CHART_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 CHART_DIR="$(cd "$CHART_DIR" && pwd)"
+CI_VALUES_SET="${CI_VALUES:-}"                       # an explicitly requested values file must exist (see below)
 CI_VALUES="${CI_VALUES:-$CHART_DIR/ci/values.yaml}"
 MAX_DEPTH="${MAX_DEPTH:-4}"
 WORK="$(mktemp -d)"
@@ -60,7 +61,11 @@ fail() { printf '::error::%s\n' "$*" >&2; exit 1; }
 # 1. Render the chart and pull out the Applications (one JSON per line)
 # ---------------------------------------------------------------------------
 values_args=()
-[ -f "$CI_VALUES" ] && values_args=(-f "$CI_VALUES")
+if [ -f "$CI_VALUES" ]; then
+  values_args=(-f "$CI_VALUES")
+elif [ -n "${CI_VALUES_SET:-}" ]; then
+  fail "CI_VALUES=$CI_VALUES does not exist"
+fi
 helm template glueops-platform "$CHART_DIR" "${values_args[@]}" > "$WORK/platform.yaml"
 yq -o=json -I=0 'select(.kind == "Application")' "$WORK/platform.yaml" > "$WORK/apps.jsonl"
 app_count="$(wc -l < "$WORK/apps.jsonl")"
@@ -157,8 +162,9 @@ scan_plain() {
   else
     report+=("ok      $label  ($what, 0 CRDs)")
   fi
-  # shellcheck disable=SC2086
-  [ -z "$files" ] || enqueue_children "$label" "$depth" $files
+  local -a file_list=()
+  [ -z "$files" ] || mapfile -t file_list <<<"$files"
+  [ "${#file_list[@]}" -eq 0 ] || enqueue_children "$label" "$depth" "${file_list[@]}"
 }
 
 qi=0
