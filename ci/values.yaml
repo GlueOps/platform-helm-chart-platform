@@ -1,0 +1,65 @@
+# Values used ONLY by CI and local checks (hack/check-no-crds.sh, helm lint).
+# They are never deployed. Three purposes:
+#   1. render EVERY Argo CD Application in the chart (the kubeadm / load-balancer
+#      gates default to placeholders that a captain repo fills in),
+#   2. give the typed placeholders (bools / replica counts / storage sizes) values of
+#      the type the upstream charts' values.schema.json expects, and
+#   3. point chart repositories at the public upstream registries so CI does not depend
+#      on (or warm the cache of) the GlueOps Nexus mirrors (*.repo.gpkg.io).
+development_mode_enabled: false
+host_network:
+  enabled: true
+kubeadm:
+  enabled: true
+# shaped like the terraform-substituted storage blocks, so the monitoring app-of-apps children render
+loki:
+  storage:
+    bucketNames:
+      chunks: ci-loki
+      ruler: ci-loki
+      admin: ci-loki
+    type: s3
+    s3:
+      s3: ci-loki
+      endpoint: https://s3.example.com
+      region: us-east-1
+      accessKeyId: ci
+      secretAccessKey: ci
+      s3ForcePathStyle: false
+      insecure: false
+thanos:
+  storage:
+    type: s3
+    config:
+      bucket: ci-thanos
+      endpoint: s3.example.com
+      access_key: ci
+      secret_key: ci
+tempo:
+  storage:
+    backend: s3
+    s3:
+      access_key: ci
+      secret_key: ci
+      bucket: ci-tempo
+      endpoint: s3.example.com
+      insecure: false
+vault:
+  data_storage: "10Gi"
+nginx:
+  controller_replica_count: 1
+  public_lb:
+    enabled: true
+traefik:
+  public_lb:
+    enabled: true
+    deployment_replicas: 1
+  internal_lb:
+    enabled: true
+    deployment_replicas: 1
+base_registries:
+  ghcr_io: ghcr.io
+  quay_io: quay.io
+  docker_io: docker.io
+  registry_k8s_io: registry.k8s.io
+  public_ecr_aws: public.ecr.aws

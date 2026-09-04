@@ -36,7 +36,7 @@ spec:
     helm:
       parameters:
         - name: crds.enabled
-          value: "true"
+          value: "false"
         - name: prometheus.enabled
           value: "true"
         - name: prometheus.servicemonitor.enabled

@@ -29,12 +29,14 @@ spec:
       limit: 5
   source:
     repoURL: 'https://kedacore.github.io/charts'
-    targetRevision: 2.17.2
+    targetRevision: 2.20.1
     chart: keda
     helm:
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         watchNamespace: ""
+        crds:
+          install: false
         resources:
             operator:
                 requests:

@@ -22,7 +22,7 @@ spec:
   source:
     repoURL: 'https://github.com/kubernetes-sigs/descheduler.git'
     path: charts/descheduler
-    targetRevision: v0.33.0
+    targetRevision: v0.36.0
     helm:
       parameters:
         - name: kind
@@ -31,5 +31,41 @@ spec:
           value: "1"
         - name: image.repository
           value: "{{ .Values.container_images.app_descheduler.descheduler.image.registry }}/{{ .Values.container_images.app_descheduler.descheduler.image.repository }}"
+        - name: image.tag
+          value: "{{ .Values.container_images.app_descheduler.descheduler.image.tag }}"
       values: |-
          {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+        deschedulerPolicy:
+          profiles:
+            - name: default
+              pluginConfig:
+                - name: DefaultEvictor
+                  args:
+                    podProtections:
+                      defaultDisabled:
+                      - "PodsWithLocalStorage"
+                      extraEnabled:
+                      - "PodsWithPVC"
+                    minReplicas: 2
+                    noEvictionPolicy: "Mandatory"
+                - name: RemovePodsHavingTooManyRestarts
+                  args:
+                    podRestartThreshold: 100
+                    includingInitContainers: true
+                - name: RemovePodsViolatingNodeAffinity
+                  args:
+                    nodeAffinityType:
+                    - requiredDuringSchedulingIgnoredDuringExecution
+                - name: RemovePodsViolatingNodeTaints
+                - name: RemovePodsViolatingInterPodAntiAffinity
+                - name: RemovePodsViolatingTopologySpreadConstraint
+              plugins:
+                balance:
+                  enabled:
+                    - RemovePodsViolatingTopologySpreadConstraint
+                deschedule:
+                  enabled:
+                    - RemovePodsHavingTooManyRestarts
+                    - RemovePodsViolatingNodeTaints
+                    - RemovePodsViolatingNodeAffinity
+                    - RemovePodsViolatingInterPodAntiAffinity
