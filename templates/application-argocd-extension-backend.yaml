@@ -61,10 +61,11 @@ spec:
     chart: app
     # Pinned to the same app-chart version as the other platform components
     # (application-go-healthz.yaml, application-network-exporter.yaml, …) to avoid
-    # version drift. Renders identically to 0.13.0 for these values (verified)
-    # except the helm.sh/chart labels/annotations, so a future bump is safe (no
-    # selector touches them) but will roll the pods once via the pod-template hash.
-    targetRevision: 0.9.0
+    # version drift. Bumped from 0.9.0 when feat/otel-20260902 merged in and moved
+    # those components to 0.13.0; the two render identically for these values
+    # (verified) except the helm.sh/chart labels/annotations, which no selector
+    # touches — the pods roll once via the pod-template hash.
+    targetRevision: 0.13.0
     helm:
       values: |
         appName: 'argocd-extension-backend-api'
