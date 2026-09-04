@@ -54,7 +54,6 @@ spec:
               - glueops-core-monitoring
               - default
               - glueops-core-kube-api
-              - glueops-core-monitoring
       
         {{- if .Values.kubeadm.enabled }}
         nodeSelector:
