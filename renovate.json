@@ -1,27 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Collapse per-minor PR sprawl. The org preset separates every intermediate minor/patch into its own PR (branches like ...-2.5.x, ...-2.6.x), so a single image can accumulate a dozen open PRs. Overriding these to false makes Renovate open one PR per dependency targeting the highest available version; older intermediate PRs are superseded automatically. Majors stay separate (default separateMajorMinor) so breaking changes are still reviewed on their own.",
+  "separateMinorPatch": false,
+  "separateMultipleMinor": false,
   "packageRules": [
     {
-      "description": "Ignore platform-managed monitoring/logging Argo CD app manifests (chart versions are bumped via the platform release process, not Renovate). Scoped to this repo only.",
+      "description": "Ignore platform-managed logging Argo CD app manifests (chart versions are bumped via the platform release process, not Renovate). The monitoring stack itself lives in GlueOps/k8s-monitoring-helm (templates/application-monitoring.yaml points at it) and is bumped there. Scoped to this repo only.",
       "matchFileNames": [
-        "templates/application-kube-prometheus-stack-crds.yaml",
-        "templates/application-kube-prometheus-stack.yaml",
-        "templates/application-loki.yaml",
         "templates/application-fluent-operator.yaml",
-        "templates/application-glueops-grafana-dashboards.yaml",
-        "templates/application-promtail.yaml",
-        "templates/application-loki-alert-group-controller.yaml"
+        "templates/application-monitoring.yaml"
       ],
       "enabled": false
     },
     {
-      "description": "Ignore container image updates in values.yaml ONLY for the images consumed by the apps above (kube-prometheus-stack/grafana, loki, fluent-operator, promtail, loki-alert-group-controller). Regex anchors are registry-agnostic because depName is registry-qualified (e.g. dockerhub.repo.gpkg.io/grafana/loki). All other values.yaml images still get PRs.",
+      "description": "Ignore container image updates in values.yaml ONLY for the images consumed by the apps above (fluent-operator, and the grafana / loki-alert-group-controller images handed to the k8s-monitoring-helm app-of-apps). Regex anchors are registry-agnostic because depName is registry-qualified (e.g. dockerhub.repo.gpkg.io/grafana/grafana). All other values.yaml images still get PRs.",
       "matchFileNames": ["values.yaml"],
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "/grafana\\/grafana$/",
-        "/grafana\\/loki$/",
-        "/grafana\\/promtail$/",
         "/kubesphere\\/fluent-operator$/",
         "/metacontroller-operator-loki-rule-group$/"
       ],

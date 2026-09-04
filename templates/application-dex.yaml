@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: https://charts.dexidp.io
     chart: dex
-    targetRevision: 0.24.0
+    targetRevision: 0.24.1
     helm:
       values: |
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
@@ -82,7 +82,7 @@ spec:
                 - 'https://grafana.{{ .Values.captain_domain }}/login/generic_oauth'
               secret: {{ .Values.dex.grafana.client_secret }}
             - id: grafana-admin
-              name: Grafana
+              name: Grafana (cluster administrators)
               redirectURIs:
                 - 'https://grafana-admin.{{ .Values.captain_domain }}/login/generic_oauth'
               secret: {{ .Values.dex.grafana.client_secret }}

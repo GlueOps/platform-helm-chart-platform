@@ -28,6 +28,7 @@ spec:
     chart: fluent-operator
     targetRevision: v2.7.0
     helm:
+      skipCrds: true
       values: |-
           operator:
             tolerations:

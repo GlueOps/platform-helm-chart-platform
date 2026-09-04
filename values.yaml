@@ -107,18 +107,17 @@ grafana:
   # -- Default admin password. CHANGE THIS!!!!
   admin_password: placeholder_grafana_admin_password
 
+# Object storage for the monitoring stack (GlueOps/k8s-monitoring-helm). The three `storage` blocks are the
+# `loki_storage` / `thanos_storage` / `tempo_storage` inputs of terraform-module-cloud-multy-prerequisites, passed
+# through verbatim to the loki (`loki.storage`), kube-prometheus-stack/thanos (`objstoreConfig`) and tempo-distributed
+# (`storage.trace`) charts. main.tf normalises each value with indent(4, yamlencode(yamldecode(...))), so any valid
+# YAML at any indentation is re-based onto the placeholder line below.
 loki:
+  # -- https://grafana.com/docs/loki/latest/configure/#storage_config — `bucketNames`, `type: s3`, `s3: {...}`
   storage:
-    # terraform substitutes loki_storage here. main.tf normalizes the value via
-    # indent(4, yamlencode(yamldecode(...))), so any valid YAML (at any indent)
-    # is re-based to this 4-space position — matching thanos/tempo below.
     #placeholder_loki_storage: {}
-      #http_config: {}
-      # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
-      #backoff_config: {}
-      #disable_dualstack: false
-  #https://docs.memcached.org/advisories/grafanaloki/
-  #https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/    
+  # -- memcached chunk cache sizing. https://docs.memcached.org/advisories/grafanaloki/ and
+  # https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/
   chunkConfig:
     replicas: 2
     maxItemMemory: 2
@@ -127,19 +126,24 @@ loki:
     parallelism: 2
     writebackParallelism: 1
     writebackBuffer: 1000
-    writebackSizeLimit: 500MB    
+    writebackSizeLimit: 500MB
 
 thanos:
-  # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
+  # -- https://thanos.io/tip/thanos/storage.md/ — `type: s3`, `config: {bucket, endpoint, access_key, secret_key}`
   storage:
     #placeholder_thanos_storage: {}
 
 tempo:
+  # -- https://grafana.com/docs/tempo/latest/configuration/#storage — `backend: s3`, `s3: {...}`
   storage:
-    placeholder_tempo_storage: {}
-  remote_url: ["http://localhost:9090/api/v1/write"]
-
+    #placeholder_tempo_storage: {}
+  # -- how long the compactor keeps trace blocks
   compaction_block_retention: "168h"
+
+prometheus:
+  # -- Volume of storage requested for each Prometheus PVC, in Gi (2 replicas). Retention is short (1d / 10GB);
+  # long-term metrics live in Thanos object storage.
+  volume_claim_storage_request: "50"
 
 vault:
   # -- Volume of storage requested for each Vault Data PVC, in Gi
@@ -380,13 +384,13 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/certs-backup-restore
-        tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
+        tag: v2.3.4@sha256:bd246e59076bd76329ff1126a07da5f7429ef4307c4153d4986b2201035a8283
   app_descheduler:
     descheduler:
       image:
         registry: k8s.repo.gpkg.io
         repository: descheduler/descheduler
-        tag: v0.33.0
+        tag: v0.36.0
   app_external_secrets:
     external_secrets:
       image:
@@ -399,35 +403,70 @@ container_images:
         registry: k8s.repo.gpkg.io
         repository: external-dns/external-dns
         tag: v0.20.0@sha256:ddc7f4212ed09a21024deb1f470a05240837712e74e4b9f6d1f2632ff10672e7
+  app_vpa:
+    recommender:
+      image:
+        registry: k8s.repo.gpkg.io
+        repository: autoscaling/vpa-recommender
+        tag: "1.6.0"
+    updater:
+      image:
+        registry: k8s.repo.gpkg.io
+        repository: autoscaling/vpa-updater
+        tag: "1.6.0"
+    admission_controller:
+      image:
+        registry: k8s.repo.gpkg.io
+        repository: autoscaling/vpa-admission-controller
+        tag: "1.6.0"
+  app_goldilocks:
+    goldilocks:
+      image:
+        registry: gcp.repo.gpkg.io
+        repository: fairwinds-ops/oss/goldilocks
+        tag: "v4.14.1"
 
   app_backup_and_exports:
     vault_backup_validator:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/vault-backup-validator
-        tag: v2.5.0@sha256:560c7a3167d14b1fab74857771eb3a2c159c93ce206e3f5b7ce9395b17b4650b
+        tag: v2.18.0@sha256:b6cc233317499aafb891773faa88ec43a701ebe253165403fe79aa69d39352d8
     backup_tools:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/backup-tools
-        tag: v2.7.0@sha256:64e194438f3d056b4a658978be30cd06dce2d37e8df65db611b65aad0e7c3231
+        tag: v2.15.0@sha256:dedea98b3745fd30b474ff6a9fd66131230c30918cc35ebbb46abc64dd7ed693
     certs_backup_restore:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/certs-backup-restore
-        tag: v0.12.8@sha256:1edd17bfd8737b7231c17fc93167be1ad16fa025f9b237e01fbf39a4df76117d
+        tag: v2.3.4@sha256:bd246e59076bd76329ff1126a07da5f7429ef4307c4153d4986b2201035a8283
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/cluster-information-help-page-html
-        tag: v4.23.0@sha256:ff9ab76848c696038b997d562f580ffafe2511d04ba746c7b5cf7fed1ee8a65b
+        tag: v4.30.2@sha256:ccd43ecafd24ced075fe66182b749c8247fc2c1dcb9e0a395994d4642cbc70c4
   app_dex:
     dex:
       image:
         registry: ghcr.repo.gpkg.io
         repository: dexidp/dex
         tag: v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86
+  # consumed by GlueOps/k8s-monitoring-helm through application-monitoring.yaml (pulled via the gpkg.io mirrors)
+  app_kube_prometheus_stack:
+    grafana:
+      image:
+        registry: dockerhub.repo.gpkg.io
+        repository: grafana/grafana
+        tag: 13.0.1-security-01@sha256:2d1f9ae67c1778d33e291d4c3c759cd8b650e67491f02533499eb950e075eeb5
+  app_loki_alert_group_controller:
+    loki_alert_group_controller:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: glueops/metacontroller-operator-loki-rule-group
+        tag: 50357243c2743adda4a4477888a1ea89cd9c0a9c@sha256:edf1ab4162db842452257540c9f5a20b4b79c9aaf78523e019f10f3a9338d038
   app_network_exporter:
     network_exporter:
       image:
@@ -439,13 +478,13 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/pull-request-bot
-        tag: v2.0.1@sha256:ded47441a7a0627b107d04e0af085251f506dc77134126e5356e900864a7c8aa
+        tag: v2.5.3@sha256:d7853d6d5222e066adfde535418e01b32d07a83eb5945c28245e43d3ac21449f
   app_go_healthz:
     go_healthz:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/go-healthz
-        tag: v0.0.10@sha256:64dd3450a234497d36acc028c58615a21b4bd6850c9c0343bb0319c3db0ba04c
+        tag: v0.2.1@sha256:929c2ca16d9868f35f0e1ab309caf9766d948df9fac43e0e64c0860dcd80aa0d
   app_qr_code_generator:
     qr_code_generator:
       image: 
@@ -457,7 +496,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/vault-init-controller
-        tag: v2.9.8@sha256:c09535d254194035bfb8ff810be69ab20f25ac5ccc926b42d619fa7e1cc8a419
+        tag: v2.14.0@sha256:9b4d6ed77c3843c269846495b3f1f6f20e86cb8c92381727fcfb3d3169b0fbfa
   app_vault:
     vault:
       image:
@@ -487,7 +526,7 @@ container_images:
       image:
         registry: quay.repo.gpkg.io
         repository: oauth2-proxy/oauth2-proxy
-        tag: v7.13.0@sha256:56e3daedf765c7a1eea6e366fbe684be7d3084830ade14b6174570d3c7960954
+        tag: v7.15.3@sha256:10a1165743a192e1940b4708fb9647027185ce11a681a1c5519b442ff7f1f561
   app_curlimages:
     curl:
       image:
@@ -499,14 +538,13 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/gluekube-ccm
-        tag: v0.37.0@sha256:98a66f1c80140594c34f5c054f40f83913ad93d3978bcb141fb67fbb16de1ff1
+        tag: v0.43.0@sha256:7d6a5d89665d31b26122376b33e89dde79626f244c0688e2a7cf858e917a4feb
 
 enable_chisel_proxy_protocol: false
 
 kubeadm:
+  # LOAD-BEARING: leave this unquoted. terraform substitutes a bare true/false, which must render as a YAML boolean.
+  # captain_utils passes this file to the platform-crds bundle to pick which CRD profiles a cluster installs, and that
+  # chart's values.schema.json requires a boolean — quoting it renders "true", which this chart still accepts as truthy
+  # but which hard-fails the `crds` step on every kubeadm cluster with: at '/kubeadm/enabled': got string, want boolean.
   enabled: placeholder_enable_kubeadm_cluster
-  kube_etcd:
-    serviceMonitor:
-      caFile: /etc/prometheus/secrets/etcd-client-certs/ca.crt
-      certFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.crt
-      keyFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.key

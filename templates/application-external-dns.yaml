@@ -28,6 +28,7 @@ spec:
     path: charts/external-dns
     targetRevision: external-dns-helm-chart-1.20.0
     helm:
+      skipCrds: true
       parameters:
         - name: domainFilters[0]
           value: {{ .Values.captain_domain }}

@@ -1,0 +1,26 @@
+name: no-crds
+
+# Guard: no Argo CD Application in this chart may render a CustomResourceDefinition.
+# Platform CRDs are installed from the platform-crds layer-0 bundle by captain_utils.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  no-crds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
+        with:
+          version: v3.20.2   # what the codespace ships; Argo CD 3.2 bundles helm 3.18 — never "latest"
+      - name: Tool versions (yq and jq are preinstalled on ubuntu-latest)
+        run: helm version --short && yq --version && jq --version && kubectl version --client
+      - name: Lint the platform chart
+        run: helm lint . -f ci/values.yaml
+      - name: Render every Application's chart and assert no CRDs
+        run: hack/check-no-crds.sh

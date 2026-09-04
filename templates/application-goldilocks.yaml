@@ -1,0 +1,62 @@
+{{- if .Values.kubeadm.enabled -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glueops-core-goldilocks
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: glueops-core-goldilocks
+  project: glueops-core
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: 'https://charts.fairwinds.com/stable'
+    targetRevision: 10.4.1
+    chart: goldilocks
+    helm:
+      values: |-
+        {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
+        # VPA is installed and managed by the `vpa` Application (recommender-only),
+        # so Goldilocks must not try to install its own copy.
+        vpa:
+          enabled: false
+        image:
+          repository: {{ .Values.container_images.app_goldilocks.goldilocks.image.registry }}/{{ .Values.container_images.app_goldilocks.goldilocks.image.repository }}
+          tag: {{ .Values.container_images.app_goldilocks.goldilocks.image.tag }}
+        controller:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+
+        dashboard:
+          {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
+
+          # Exposed at https://goldilocks.<captain_domain> behind the shared
+          # oauth2-proxy/dex SSO forward-auth middleware, same as the other
+          # platform dashboards (grafana, prometheus, vault, cluster-info).
+          ingress:
+            enabled: true
+            ingressClassName: platform-traefik
+            annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
+              traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-oauth2-with-redirect@kubernetescrd
+            hosts:
+              - host: goldilocks.{{ .Values.captain_domain }}
+                paths:
+                  - path: /
+                    type: ImplementationSpecific
+{{- end }}
