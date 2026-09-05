@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.79.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.78.0...v0.79.0) (2026-09-05)
+
+
+### Features
+
+* let the argocd and bao CLIs authenticate through oauth2-proxy ([#1485](https://github.com/GlueOps/platform-helm-chart-platform/issues/1485)) ([15b7b98](https://github.com/GlueOps/platform-helm-chart-platform/commit/15b7b989f118919fcb690b80af2bc957eb1e110a))
+
 ## [0.78.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.77.0...v0.78.0) (2026-08-28)
 
 
