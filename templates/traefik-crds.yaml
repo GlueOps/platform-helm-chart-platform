@@ -77,7 +77,6 @@ spec:
                 namespace: glueops-core-oauth2-proxy
                 annotations:
                   argocd.argoproj.io/sync-wave: "1"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 redirectScheme:
                   scheme: https
@@ -90,10 +89,8 @@ spec:
                 name: oauth2-forwardauth
                 namespace: glueops-core-oauth2-proxy
                 annotations:
-                  # ensure it happens after CRDs are registered
+                  # leaf: must exist before the wave-2 chains that reference it
                   argocd.argoproj.io/sync-wave: "1"
-                  # prevents dry-run failures if CRD registration lags slightly
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 forwardAuth:
                   address: https://oauth2.{{ .Values.captain_domain }}/oauth2/auth
@@ -112,7 +109,6 @@ spec:
                 namespace: glueops-core-oauth2-proxy
                 annotations:
                   argocd.argoproj.io/sync-wave: "1"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 plugin:
                   redirectErrors:
@@ -128,7 +124,6 @@ spec:
                 annotations:
                   # apply after the two middlewares it references
                   argocd.argoproj.io/sync-wave: "2"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 chain:
                   middlewares:
@@ -145,7 +140,6 @@ spec:
                 annotations:
                   # apply after the two middlewares it references
                   argocd.argoproj.io/sync-wave: "2"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 chain:
                   middlewares:
@@ -165,10 +159,8 @@ spec:
                 name: oauth2-forwardauth-bearer
                 namespace: glueops-core-oauth2-proxy
                 annotations:
-                  # ensure it happens after CRDs are registered
+                  # leaf: must exist before the wave-2 chains that reference it
                   argocd.argoproj.io/sync-wave: "1"
-                  # prevents dry-run failures if CRD registration lags slightly
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 forwardAuth:
                   address: https://oauth2.{{ .Values.captain_domain }}/oauth2/auth
@@ -189,7 +181,6 @@ spec:
                 annotations:
                   # apply after the two middlewares it references
                   argocd.argoproj.io/sync-wave: "2"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 chain:
                   middlewares:
@@ -211,7 +202,6 @@ spec:
                 annotations:
                   # apply after the three middlewares it references
                   argocd.argoproj.io/sync-wave: "2"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 chain:
                   middlewares:
