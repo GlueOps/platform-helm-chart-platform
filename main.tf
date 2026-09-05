@@ -66,14 +66,6 @@ variable "tls_cert_restore_aws_secret_key" {
   description = "AWS secret key for cert manager"
 }
 
-variable "loki_aws_access_key" {
-  description = "AWS access key for Loki"
-}
-
-variable "loki_aws_secret_key" {
-  description = "AWS secret key for Loki"
-}
-
 variable "dex_github_client_id" {
   description = "Dex GitHub client ID"
 }
@@ -140,11 +132,6 @@ variable "traefik_enable_public_lb" {
 variable "nginx_enable_public_lb" {
   type        = bool
   description = "Determines whether or not to enable the public ingress-nginx load balancer."
-}
-
-variable "prometheus_volume_claim_storage_request" {
-  type        = string
-  description = "Volume of storage requested for each Prometheus PVC, in Gi"
 }
 
 variable "vault_data_storage" {
@@ -255,6 +242,27 @@ variable "tenant_s3_multi_region_access_point" {
   nullable    = false
 }
 
+# Object storage for the monitoring stack. Each is a YAML document (any indentation) that is normalised with
+# indent(4, yamlencode(yamldecode(...))) onto the matching `#placeholder_*_storage: {}` line in values.yaml, so the
+# value is validated as YAML here rather than failing later inside the chart.
+variable "loki_storage" {
+  description = "Loki `storage` block (https://grafana.com/docs/loki/latest/configure/#storage_config) as a YAML string: bucketNames, type: s3, s3: {...}"
+  type        = string
+  nullable    = false
+}
+
+variable "thanos_storage" {
+  description = "Thanos object-store config (https://thanos.io/tip/thanos/storage.md/) as a YAML string: type: s3, config: {bucket, endpoint, access_key, secret_key}"
+  type        = string
+  nullable    = false
+}
+
+variable "tempo_storage" {
+  description = "Tempo `storage.trace` block (https://grafana.com/docs/tempo/latest/configuration/#storage) as a YAML string: backend: s3, s3: {...}"
+  type        = string
+  nullable    = false
+}
+
 
 output "helm_values" {
 
@@ -270,7 +278,6 @@ output "helm_values" {
     "placeholder_traefik_enable_internal_lb", var.traefik_enable_internal_lb),
     "placeholder_traefik_enable_public_lb", var.traefik_enable_public_lb),
     "placeholder_nginx_enable_public_lb", var.nginx_enable_public_lb),
-    "placeholder_prometheus_volume_claim_storage_request", var.prometheus_volume_claim_storage_request),
     "placeholder_vault_data_storage", var.vault_data_storage),
     "placeholder_nginx_controller_replica_count", var.nginx_controller_replica_count),
     "placeholder_traefik_internal_lb_deployment_replicas", var.traefik_internal_lb_deployment_replicas),
@@ -293,8 +300,9 @@ output "helm_values" {
     "placeholder_vault_backup_s3_key_prefix", var.vault_backup_s3_key_prefix),
     "placeholder_tls_cert_backup_s3_key_prefix", var.tls_cert_backup_s3_key_prefix),
     "placeholder_tls_cert_restore_exclude_namespaces", var.tls_cert_restore_exclude_namespaces),
-    "placeholder_loki_aws_access_key", var.loki_aws_access_key),
-    "placeholder_loki_aws_secret_key", var.loki_aws_secret_key),
+    "#placeholder_loki_storage: {}", indent(4, chomp(yamlencode(yamldecode(var.loki_storage))))),
+    "#placeholder_thanos_storage: {}", indent(4, chomp(yamlencode(yamldecode(var.thanos_storage))))),
+    "#placeholder_tempo_storage: {}", indent(4, chomp(yamlencode(yamldecode(var.tempo_storage))))),
     "placeholder_dex_github_client_id", var.dex_github_client_id),
     "placeholder_dex_github_client_secret", var.dex_github_client_secret),
     "placeholder_dex_argocd_client_secret", var.dex_argocd_client_secret),

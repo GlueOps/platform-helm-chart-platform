@@ -115,19 +115,43 @@ grafana:
   # -- Default admin password. CHANGE THIS!!!!
   admin_password: placeholder_grafana_admin_password
 
+# Object storage for the monitoring stack (GlueOps/k8s-monitoring-helm). The three `storage` blocks are the
+# `loki_storage` / `thanos_storage` / `tempo_storage` inputs of terraform-module-cloud-multy-prerequisites, passed
+# through verbatim to the loki (`loki.storage`), kube-prometheus-stack/thanos (`objstoreConfig`) and tempo-distributed
+# (`storage.trace`) charts. main.tf normalises each value with indent(4, yamlencode(yamldecode(...))), so any valid
+# YAML at any indentation is re-based onto the placeholder line below.
 loki:
-  # -- Format: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary, Credentials found at `loki_credentials` of json output of terraform-module-cloud-multy-prerequisites
-  bucket: glueops-tenant-placeholder_tenant_key-placeholder_cluster_environment-loki-primary
-  # -- Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_region: placeholder_aws_region
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_accessKey: placeholder_loki_aws_access_key
-  # -- Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites
-  aws_secretKey: placeholder_loki_aws_secret_key
+  # -- https://grafana.com/docs/loki/latest/configure/#storage_config — `bucketNames`, `type: s3`, `s3: {...}`
+  storage:
+    #placeholder_loki_storage: {}
+  # -- memcached chunk cache sizing. https://docs.memcached.org/advisories/grafanaloki/ and
+  # https://grafana.com/blog/2023/08/23/how-we-scaled-grafana-cloud-logs-memcached-cluster-to-50tb-and-improved-reliability/
+  chunkConfig:
+    replicas: 2
+    maxItemMemory: 2
+    allocatedMemory: 2024
+    batchSize: 2
+    parallelism: 2
+    writebackParallelism: 1
+    writebackBuffer: 1000
+    writebackSizeLimit: 500MB
+
+thanos:
+  # -- https://thanos.io/tip/thanos/storage.md/ — `type: s3`, `config: {bucket, endpoint, access_key, secret_key}`
+  storage:
+    #placeholder_thanos_storage: {}
+
+tempo:
+  # -- https://grafana.com/docs/tempo/latest/configuration/#storage — `backend: s3`, `s3: {...}`
+  storage:
+    #placeholder_tempo_storage: {}
+  # -- how long the compactor keeps trace blocks
+  compaction_block_retention: "168h"
 
 prometheus:
-  # -- Volume of storage requested for each Prometheus PVC, in Gi
-  volume_claim_storage_request: "placeholder_prometheus_volume_claim_storage_request"
+  # -- Volume of storage requested for each Prometheus PVC, in Gi (2 replicas). Retention is short (1d / 10GB);
+  # long-term metrics live in Thanos object storage.
+  volume_claim_storage_request: "50"
 
 vault:
   # -- Volume of storage requested for each Vault Data PVC, in Gi
@@ -412,36 +436,25 @@ container_images:
         registry: ghcr.repo.gpkg.io
         repository: dexidp/dex
         tag: v2.44.0@sha256:5d0656fce7d453c0e3b2706abf40c0d0ce5b371fb0b73b3cf714d05f35fa5f86
+  # consumed by GlueOps/k8s-monitoring-helm through application-monitoring.yaml (pulled via the gpkg.io mirrors)
   app_kube_prometheus_stack:
     grafana:
       image:
         registry: dockerhub.repo.gpkg.io
         repository: grafana/grafana
-        tag: 10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111
+        tag: 13.0.1-security-01@sha256:2d1f9ae67c1778d33e291d4c3c759cd8b650e67491f02533499eb950e075eeb5
   app_loki_alert_group_controller:
     loki_alert_group_controller:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/metacontroller-operator-loki-rule-group
-        tag: v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c
-  app_loki:
-    loki:
-      image:
-        registry: dockerhub.repo.gpkg.io
-        repository: grafana/loki
-        tag: 2.9.10@sha256:35b02acc67654ddc38273e519b4f26f3967a907b9db5489af300c21f37ee1ae7
+        tag: 50357243c2743adda4a4477888a1ea89cd9c0a9c@sha256:edf1ab4162db842452257540c9f5a20b4b79c9aaf78523e019f10f3a9338d038
   app_network_exporter:
     network_exporter:
       image:
         registry: dockerhub.repo.gpkg.io
         repository: syepes/network_exporter
         tag: 1.7.10@sha256:66b0468ca13c59556b2658eaa31520e615c83cdafb4b194a0e792ebe7630ef69
-  app_promtail:
-    promtail:
-      image:
-        registry: dockerhub.repo.gpkg.io
-        repository: grafana/promtail
-        tag: 2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf
   app_pull_request_bot:
     pull_request_bot:
       image:
@@ -517,8 +530,3 @@ kubeadm:
   # chart's values.schema.json requires a boolean — quoting it renders "true", which this chart still accepts as truthy
   # but which hard-fails the `crds` step on every kubeadm cluster with: at '/kubeadm/enabled': got string, want boolean.
   enabled: placeholder_enable_kubeadm_cluster
-  kube_etcd:
-    serviceMonitor:
-      caFile: /etc/prometheus/secrets/etcd-client-certs/ca.crt
-      certFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.crt
-      keyFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.key

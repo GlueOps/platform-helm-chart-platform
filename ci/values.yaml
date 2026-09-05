@@ -11,8 +11,39 @@ host_network:
   enabled: true
 kubeadm:
   enabled: true
-prometheus:
-  volume_claim_storage_request: "10Gi"
+# shaped like the terraform-substituted storage blocks, so the monitoring app-of-apps children render
+loki:
+  storage:
+    bucketNames:
+      chunks: ci-loki
+      ruler: ci-loki
+      admin: ci-loki
+    type: s3
+    s3:
+      s3: ci-loki
+      endpoint: https://s3.example.com
+      region: us-east-1
+      accessKeyId: ci
+      secretAccessKey: ci
+      s3ForcePathStyle: false
+      insecure: false
+thanos:
+  storage:
+    type: s3
+    config:
+      bucket: ci-thanos
+      endpoint: s3.example.com
+      access_key: ci
+      secret_key: ci
+tempo:
+  storage:
+    backend: s3
+    s3:
+      access_key: ci
+      secret_key: ci
+      bucket: ci-tempo
+      endpoint: s3.example.com
+      insecure: false
 vault:
   data_storage: "10Gi"
 nginx:
