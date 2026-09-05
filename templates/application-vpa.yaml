@@ -28,7 +28,7 @@ spec:
       - CreateNamespace=true
   source:
     repoURL: 'https://charts.fairwinds.com/stable'
-    targetRevision: 4.12.3
+    targetRevision: 4.12.5
     chart: vpa
     helm:
       skipCrds: true
