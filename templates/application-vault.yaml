@@ -164,6 +164,41 @@ spec:
                 service_registration "kubernetes" {}
 
         extraObjects:
+        # OpenBao's API, routed without the errors-redirect plugin that the UI needs.
+        # The ingress above uses oauth2-with-redirect, whose errors-redirect plugin
+        # rewrites any 401-403 into a 302 to the login page. Right for a browser and
+        # wrong for an API: OpenBao answers "missing client token" and "permission
+        # denied" with 403, and a CLI then gets an HTML page where it expected JSON.
+        # oauth2-no-redirect authenticates identically - same forwardauth, nothing
+        # exempted - but returns status codes. Traefik derives router priority from
+        # rule length when unset, so this needs an explicit value to beat "/".
+        - |-
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: vault-api
+            namespace: glueops-core-vault
+            annotations:
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: "true"
+              traefik.ingress.kubernetes.io/router.priority: "1000"
+              traefik.ingress.kubernetes.io/router.middlewares: glueops-core-oauth2-proxy-oauth2-no-redirect@kubernetescrd
+              traefik.ingress.kubernetes.io/service.serversscheme: https
+              traefik.ingress.kubernetes.io/service.serverstransport: vault-transport@kubernetescrd
+              traefik.ingress.kubernetes.io/service.servername: vault.glueops-core-vault.svc.cluster.local
+          spec:
+            ingressClassName: platform-traefik
+            rules:
+              - host: vault.{{ .Values.captain_domain }}
+                http:
+                  paths:
+                    - path: /v1
+                      pathType: Prefix
+                      backend:
+                        service:
+                          name: vault
+                          port:
+                            number: 8200
         - |-
           apiVersion: traefik.io/v1alpha1
           kind: ServersTransport
@@ -386,3 +421,4 @@ spec:
                       echo "---"
                       echo "All cert-manager services are ready. Sync wave check successful."
                       exit 0
+
