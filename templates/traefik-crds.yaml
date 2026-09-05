@@ -77,7 +77,6 @@ spec:
                 namespace: glueops-core-oauth2-proxy
                 annotations:
                   argocd.argoproj.io/sync-wave: "1"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 redirectScheme:
                   scheme: https
@@ -90,10 +89,8 @@ spec:
                 name: oauth2-forwardauth
                 namespace: glueops-core-oauth2-proxy
                 annotations:
-                  # ensure it happens after CRDs are registered
+                  # leaf: must exist before the wave-2 chains that reference it
                   argocd.argoproj.io/sync-wave: "1"
-                  # prevents dry-run failures if CRD registration lags slightly
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 forwardAuth:
                   address: https://oauth2.{{ .Values.captain_domain }}/oauth2/auth
@@ -112,7 +109,6 @@ spec:
                 namespace: glueops-core-oauth2-proxy
                 annotations:
                   argocd.argoproj.io/sync-wave: "1"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 plugin:
                   redirectErrors:
@@ -128,7 +124,6 @@ spec:
                 annotations:
                   # apply after the two middlewares it references
                   argocd.argoproj.io/sync-wave: "2"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 chain:
                   middlewares:
@@ -145,9 +140,71 @@ spec:
                 annotations:
                   # apply after the two middlewares it references
                   argocd.argoproj.io/sync-wave: "2"
-                  argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               spec:
                 chain:
                   middlewares:
                     - name: oauth2-ssl-redirect
                     - name: oauth2-forwardauth
+
+            # Same authentication as oauth2-forwardauth, but it does not list "authorization"
+            # in authResponseHeaders. Traefik applies that list as an unconditional
+            # `req.Header.Del(name)` followed by a re-add only if the auth server returned the
+            # header; oauth2-proxy never returns one (set_authorization_header is off), so
+            # listing it silently strips the caller's own bearer token before the backend sees
+            # it. Backends that authenticate the caller themselves (ArgoCD) need it preserved.
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-forwardauth-bearer
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  # leaf: must exist before the wave-2 chains that reference it
+                  argocd.argoproj.io/sync-wave: "1"
+              spec:
+                forwardAuth:
+                  address: https://oauth2.{{ .Values.captain_domain }}/oauth2/auth
+                  trustForwardHeader: true
+                  authResponseHeaders:
+                    - x-auth-request-user
+                    - x-auth-request-email
+                    - x-auth-request-access-token
+
+            # For API/gRPC routes: still fully authenticated at the edge, but returns 401
+            # rather than a login redirect and leaves the caller's bearer token intact.
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-api
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  # apply after the two middlewares it references
+                  argocd.argoproj.io/sync-wave: "2"
+              spec:
+                chain:
+                  middlewares:
+                    - name: oauth2-ssl-redirect
+                    - name: oauth2-forwardauth-bearer
+
+            # For a host that serves a browser UI *and* an API on the same routes (ArgoCD
+            # serves gRPC-web at root paths like /version.VersionService/Version, which the
+            # "/" ingress matches). Redirects an unauthenticated browser to login as
+            # oauth2-with-redirect does, but leaves a CLI's bearer token intact. Browsers
+            # never send Authorization — they use the backend's own session cookie — so
+            # preserving it costs the UI nothing.
+            - |-
+              apiVersion: traefik.io/v1alpha1
+              kind: Middleware
+              metadata:
+                name: oauth2-with-redirect-bearer
+                namespace: glueops-core-oauth2-proxy
+                annotations:
+                  # apply after the three middlewares it references
+                  argocd.argoproj.io/sync-wave: "2"
+              spec:
+                chain:
+                  middlewares:
+                    - name: oauth2-ssl-redirect
+                    - name: oauth2-errors-redirect
+                    - name: oauth2-forwardauth-bearer
