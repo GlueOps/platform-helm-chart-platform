@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.79.2](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.79.1...v0.79.2) (2026-09-06)
+
+
+### Miscellaneous Chores
+
+* bump certs-backup-restore to v2.4.0 ([#1493](https://github.com/GlueOps/platform-helm-chart-platform/issues/1493)) ([e6cbcbc](https://github.com/GlueOps/platform-helm-chart-platform/commit/e6cbcbced3e268f7ea45808ea9ec4d2774cbbd3e))
+
 ## [0.79.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.79.0...v0.79.1) (2026-09-06)
 
 

@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.79.1](https://img.shields.io/badge/Version-0.79.1-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.79.2](https://img.shields.io/badge/Version-0.79.2-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -24,7 +24,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v2.15.0@sha256:dedea98b3745fd30b474ff6a9fd66131230c30918cc35ebbb46abc64dd7ed693"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_backup_and_exports.certs_backup_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v2.3.4@sha256:bd246e59076bd76329ff1126a07da5f7429ef4307c4153d4986b2201035a8283"` |  |
+| container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v2.4.0@sha256:d2c6a534ecc06017eabc80cc2554ca41cae5a64509d7dddc9dfe46459be11e3e"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v2.18.0@sha256:b6cc233317499aafb891773faa88ec43a701ebe253165403fe79aa69d39352d8"` |  |
@@ -33,7 +33,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_cert_manager.cert_manager.image.tag | string | `"v1.18.2@sha256:81316365dc0b713eddddfbf9b8907b2939676e6c0e12beec0f9625f202a36d16"` |  |
 | container_images.app_cert_manager.cert_restore.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
-| container_images.app_cert_manager.cert_restore.image.tag | string | `"v2.3.4@sha256:bd246e59076bd76329ff1126a07da5f7429ef4307c4153d4986b2201035a8283"` |  |
+| container_images.app_cert_manager.cert_restore.image.tag | string | `"v2.4.0@sha256:d2c6a534ecc06017eabc80cc2554ca41cae5a64509d7dddc9dfe46459be11e3e"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v4.30.2@sha256:ccd43ecafd24ced075fe66182b749c8247fc2c1dcb9e0a395994d4642cbc70c4"` |  |
