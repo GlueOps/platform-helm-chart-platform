@@ -256,6 +256,11 @@ spec:
             metadata:
               name: tls-cert-restore
               annotations:
+                # Must be a PreSync hook like the ServiceAccount (-8) and ClusterRole (-7):
+                # ArgoCD orders phase BEFORE wave, so a Sync-phase resource at wave -1 is
+                # still applied after every PreSync hook. Without this the restore Job runs
+                # with an unbound ServiceAccount on a first-ever bootstrap and 403s.
+                argocd.argoproj.io/hook: PreSync
                 argocd.argoproj.io/sync-wave: "-1"
             roleRef:
               apiGroup: rbac.authorization.k8s.io
