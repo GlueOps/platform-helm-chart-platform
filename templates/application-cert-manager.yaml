@@ -237,18 +237,21 @@ spec:
               resources:
               - secrets
               verbs:
+              # create only - the restore never overwrites, so "cannot overwrite"
+              # is enforced by RBAC as well as by code.
               - get
               - list
               - create
-              - update
-              - patch
             - apiGroups:
               - ""
               resources:
               - namespaces
               verbs:
+              # create: at PreSync on a fresh cluster the target namespace of a
+              # backed-up Secret (e.g. glueops-core-vault) does not exist yet.
               - get
               - list
+              - create
 
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
