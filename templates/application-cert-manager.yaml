@@ -23,12 +23,6 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 10
-  ignoreDifferences:
-    - group: apps
-      kind: Job
-      name: glueops-core-tls-cert-restore
-      jqPathExpressions:
-        - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
   source:
     repoURL: quay.io/jetstack/charts
     chart: cert-manager
@@ -103,20 +97,23 @@ spec:
                       value: "{{ .Values.glueops_backups.s3_bucket_name }}"
                     - name: BACKUP_PREFIX
                       value: "{{ .Values.tls_cert_restore.backup_prefix }}"
-                    - name: RESTORE_THIS_BACKUP
-                      value: ""
                     - name: EXCLUDE_NAMESPACES
                       value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
                     image: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
                     imagePullPolicy: IfNotPresent
                     name: glueops-core-tls-cert-restore
                     resources:
+                      # 512Mi in BOTH requests and limits, preserving Guaranteed QoS.
+                      # The python runtime + kubernetes/boto3 imports alone occupy
+                      # ~96Mi of a 128Mi limit before a single Secret is read. An OOM
+                      # here fails the PreSync hook, which blocks the whole
+                      # cert-manager Application from syncing.
                       limits:
                         cpu: 100m
-                        memory: 128Mi
+                        memory: 512Mi
                       requests:
                         cpu: 100m
-                        memory: 128Mi
+                        memory: 512Mi
                   nodeSelector:
                     glueops.dev/role: glueops-platform
                   restartPolicy: Never
@@ -237,18 +234,21 @@ spec:
               resources:
               - secrets
               verbs:
+              # create only - the restore never overwrites, so "cannot overwrite"
+              # is enforced by RBAC as well as by code.
               - get
               - list
               - create
-              - update
-              - patch
             - apiGroups:
               - ""
               resources:
               - namespaces
               verbs:
+              # create: at PreSync on a fresh cluster the target namespace of a
+              # backed-up Secret (e.g. glueops-core-vault) does not exist yet.
               - get
               - list
+              - create
 
           - |-
             apiVersion: rbac.authorization.k8s.io/v1
@@ -256,6 +256,11 @@ spec:
             metadata:
               name: tls-cert-restore
               annotations:
+                # Must be a PreSync hook like the ServiceAccount (-8) and ClusterRole (-7):
+                # ArgoCD orders phase BEFORE wave, so a Sync-phase resource at wave -1 is
+                # still applied after every PreSync hook. Without this the restore Job runs
+                # with an unbound ServiceAccount on a first-ever bootstrap and 403s.
+                argocd.argoproj.io/hook: PreSync
                 argocd.argoproj.io/sync-wave: "-1"
             roleRef:
               apiGroup: rbac.authorization.k8s.io
