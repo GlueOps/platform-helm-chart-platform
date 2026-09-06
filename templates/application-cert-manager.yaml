@@ -23,12 +23,6 @@ spec:
         factor: 2
         maxDuration: 3m0s
       limit: 10
-  ignoreDifferences:
-    - group: apps
-      kind: Job
-      name: glueops-core-tls-cert-restore
-      jqPathExpressions:
-        - '.spec.template.spec.containers[].env[] | select(.name == "RESTORE_THIS_BACKUP") | .value'
   source:
     repoURL: quay.io/jetstack/charts
     chart: cert-manager
@@ -103,8 +97,6 @@ spec:
                       value: "{{ .Values.glueops_backups.s3_bucket_name }}"
                     - name: BACKUP_PREFIX
                       value: "{{ .Values.tls_cert_restore.backup_prefix }}"
-                    - name: RESTORE_THIS_BACKUP
-                      value: ""
                     - name: EXCLUDE_NAMESPACES
                       value: "{{ .Values.tls_cert_restore.exclude_namespaces }}"
                     image: "{{ .Values.container_images.app_cert_manager.cert_restore.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_restore.image.repository }}:{{ .Values.container_images.app_cert_manager.cert_restore.image.tag }}"
