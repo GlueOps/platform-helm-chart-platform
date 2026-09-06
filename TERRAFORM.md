@@ -10,8 +10,10 @@ module "glueops_platform_helm_values" {
   dex_vault_client_secret      = "aLCZg513OvIA0vY5c24KLU2PrRXmBdhLGLUBrpkhBmE="
   vault_aws_access_key         = "AKIAU5Q3HAEIVOZFADIL"
   vault_aws_secret_key         = "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"
-  loki_aws_access_key          = "AKIAA5QFHEEIFO6FYDE7"
-  loki_aws_secret_key          = "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"
+  # object storage for the monitoring stack, as YAML strings (any indentation; quote values that could parse as numbers)
+  loki_storage                 = "bucketNames:\n  chunks: <bucket>\n  ruler: <bucket>\n  admin: <bucket>\ntype: s3\ns3:\n  s3: <bucket>\n  endpoint: https://<s3 endpoint>\n  region: us-east-1\n  accessKeyId: <key>\n  secretAccessKey: <secret>\n  s3ForcePathStyle: false\n  insecure: false\n"
+  thanos_storage               = "type: s3\nconfig:\n  bucket: <bucket>\n  endpoint: <s3 endpoint>\n  access_key: <key>\n  secret_key: <secret>\n"
+  tempo_storage                = "backend: s3\ns3:\n  bucket: <bucket>\n  endpoint: <s3 endpoint>\n  access_key: <key>\n  secret_key: <secret>\n  insecure: false\n"
   loki_exporter_aws_access_key = "AKIAU5Q3FAEITB7FKDHC"
   loki_exporter_aws_secret_key = "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"
   certmanager_aws_access_key   = "AKIAU5Q3HGAFQKZHSDOY"
