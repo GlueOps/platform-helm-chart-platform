@@ -47,11 +47,19 @@ spec:
           metadata:
             name: tls-cert-backup
           rules:
+          # read-only: the backup never writes to the cluster
           - apiGroups: [""]
             resources: ["secrets"]
-            verbs: ["get", "list", "create", "update", "patch"]
+            verbs: ["get", "list"]
           - apiGroups: [""]
             resources: ["namespaces"]
+            verbs: ["get", "list"]
+          # ClusterIssuer/Issuer are read to resolve .spec.acme.privateKeySecretRef,
+          # which is how ACME account private keys are found. Those Secrets do not
+          # carry the controller.cert-manager.io/fao label, so the label selector
+          # alone misses them.
+          - apiGroups: ["cert-manager.io"]
+            resources: ["issuers", "clusterissuers"]
             verbs: ["get", "list"]
         - |-
           apiVersion: rbac.authorization.k8s.io/v1
@@ -147,12 +155,14 @@ spec:
               image: {{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.registry }}/{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.repository }}:{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.tag }}
               command: ["python", "-u", "/app/cert-backup-restore/main.py","--backup"]
               resources:
+                # 512Mi in both requests and limits (Guaranteed QoS): the python
+                # runtime and imports alone use ~96Mi before any Secret is read.
                 requests:
                   cpu: 100m
-                  memory: 128Mi
+                  memory: 512Mi
                 limits:
                   cpu: 100m
-                  memory: 128Mi
+                  memory: 512Mi
               envVariables:
                 - name: AWS_ACCESS_KEY_ID
                   value: "{{ .Values.glueops_backups.tls_cert_backup.aws_accessKey }}"
@@ -166,3 +176,13 @@ spec:
                   value: "{{ .Values.glueops_backups.s3_bucket_name }}"
                 - name: BACKUP_PREFIX
                   value: "{{ .Values.glueops_backups.tls_cert_backup.backup_prefix }}"
+                # The namespace cert-manager runs in. MUST stay equal to the
+                # cert-manager Application's destination namespace
+                # (application-cert-manager.yaml). ClusterIssuer ACME account-key
+                # Secrets live there, because the chart passes cert-manager
+                # --cluster-resource-namespace=$(POD_NAMESPACE), making the two the
+                # same. If .Values.clusterResourceNamespace is ever set explicitly,
+                # this must follow THAT value instead.
+                # This job runs in glueops-core-backup, so it cannot derive the value.
+                - name: CERT_MANAGER_NAMESPACE
+                  value: "glueops-core-cert-manager"
