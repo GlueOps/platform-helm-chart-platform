@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.79.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.79.0...v0.79.1) (2026-09-06)
+
+
+### Bug Fixes
+
+* make cert restore work at bootstrap (RBAC ordering, namespace creation, backup scope) ([#1491](https://github.com/GlueOps/platform-helm-chart-platform/issues/1491)) ([ec66a6b](https://github.com/GlueOps/platform-helm-chart-platform/commit/ec66a6b84ec416b5b5bad1492b0b8e6ba39a19ce))
+
 ## [0.79.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.78.0...v0.79.0) (2026-09-05)
 
 
