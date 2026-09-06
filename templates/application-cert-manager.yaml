@@ -103,12 +103,17 @@ spec:
                     imagePullPolicy: IfNotPresent
                     name: glueops-core-tls-cert-restore
                     resources:
+                      # 512Mi in BOTH requests and limits, preserving Guaranteed QoS.
+                      # The python runtime + kubernetes/boto3 imports alone occupy
+                      # ~96Mi of a 128Mi limit before a single Secret is read. An OOM
+                      # here fails the PreSync hook, which blocks the whole
+                      # cert-manager Application from syncing.
                       limits:
                         cpu: 100m
-                        memory: 128Mi
+                        memory: 512Mi
                       requests:
                         cpu: 100m
-                        memory: 128Mi
+                        memory: 512Mi
                   nodeSelector:
                     glueops.dev/role: glueops-platform
                   restartPolicy: Never

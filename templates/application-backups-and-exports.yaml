@@ -155,12 +155,14 @@ spec:
               image: {{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.registry }}/{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.repository }}:{{ .Values.container_images.app_backup_and_exports.certs_backup_restore.image.tag }}
               command: ["python", "-u", "/app/cert-backup-restore/main.py","--backup"]
               resources:
+                # 512Mi in both requests and limits (Guaranteed QoS): the python
+                # runtime and imports alone use ~96Mi before any Secret is read.
                 requests:
                   cpu: 100m
-                  memory: 128Mi
+                  memory: 512Mi
                 limits:
                   cpu: 100m
-                  memory: 128Mi
+                  memory: 512Mi
               envVariables:
                 - name: AWS_ACCESS_KEY_ID
                   value: "{{ .Values.glueops_backups.tls_cert_backup.aws_accessKey }}"
