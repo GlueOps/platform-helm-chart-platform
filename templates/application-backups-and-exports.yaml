@@ -174,3 +174,13 @@ spec:
                   value: "{{ .Values.glueops_backups.s3_bucket_name }}"
                 - name: BACKUP_PREFIX
                   value: "{{ .Values.glueops_backups.tls_cert_backup.backup_prefix }}"
+                # The namespace cert-manager runs in. MUST stay equal to the
+                # cert-manager Application's destination namespace
+                # (application-cert-manager.yaml). ClusterIssuer ACME account-key
+                # Secrets live there, because the chart passes cert-manager
+                # --cluster-resource-namespace=$(POD_NAMESPACE), making the two the
+                # same. If .Values.clusterResourceNamespace is ever set explicitly,
+                # this must follow THAT value instead.
+                # This job runs in glueops-core-backup, so it cannot derive the value.
+                - name: CERT_MANAGER_NAMESPACE
+                  value: "glueops-core-cert-manager"
