@@ -366,8 +366,8 @@ argocd_extension_backend:
   grafana_prometheus_ds_uid: "prometheus"
   # -- Tempo datasource UID for Drilldown traces links. Pinned explicitly in the monitoring chart's datasource provisioning, so it is identical on every cluster.
   grafana_tempo_ds_uid: "de7lydl3hl9fkd"
-  # -- Loki datasource UID for Drilldown logs links. NOT pinned in provisioning: Grafana auto-generates it per cluster, so there is no correct shared default. Override per cluster with the real value (Grafana > Connections > Data sources > Loki, the uid in its URL). Left blank, logs fall back to the classic workload-logs dashboard, which still works.
-  grafana_loki_ds_uid: ""
+  # -- Loki datasource UID for Drilldown logs links. Not written in provisioning, but NOT per-cluster either: Grafana derives the uid deterministically from the datasource name, so every cluster that provisions a Loki datasource named "Loki" gets this same value. Verified two ways -- two independent Grafana instances on one cluster (grafana-dev and grafana-admin) generated it identically, and five dashboards in GlueOps/platform-helm-chart-grafana-dashboards (loki-logs, loki-operational, ingress-by-host, kubernetes-pod-overview, tempo-overview) already hardcode it. Only change this if the datasource is renamed. Left blank, logs fall back to the classic workload-logs dashboard (uid tBmi6B0Vz), which ships labelled grafana_cluster_administrator_dashboard ONLY -- so it is absent from the developer Grafana the links point at, and the fallback 404s.
+  grafana_loki_ds_uid: "P8E80F9AEF21F6940"
   # -- UID of the OpenTelemetry APM dashboard shipped alongside the OTEL monitoring stack. Blank disables the link.
   grafana_apm_dashboard: "opentelemetry-apm"
   # -- UID of the Kubernetes Overview dashboard shipped alongside the OTEL monitoring stack. Blank disables the link.
