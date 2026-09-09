@@ -392,7 +392,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/certs-backup-restore
-        tag: v2.3.4@sha256:bd246e59076bd76329ff1126a07da5f7429ef4307c4153d4986b2201035a8283
+        tag: v2.4.0@sha256:d2c6a534ecc06017eabc80cc2554ca41cae5a64509d7dddc9dfe46459be11e3e
   app_descheduler:
     descheduler:
       image:
@@ -449,7 +449,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/certs-backup-restore
-        tag: v2.3.4@sha256:bd246e59076bd76329ff1126a07da5f7429ef4307c4153d4986b2201035a8283
+        tag: v2.4.0@sha256:d2c6a534ecc06017eabc80cc2554ca41cae5a64509d7dddc9dfe46459be11e3e
   app_cluster_info_page:
     cluster_information_help_page_html:
       image:

@@ -60,11 +60,14 @@ spec:
                 redirectURI: https://dex.{{ .Values.captain_domain }}/callback
                 clientID: {{ .Values.dex.github.client_id }}
                 clientSecret: {{ .Values.dex.github.client_secret }}
-                {{- if .Values.dex.github.orgs }}
+                {{- /* orgs is the only restriction on who Dex admits: empty means every
+                  GitHub account authenticates. `not`/`fail` because `required` passes []. */}}
+                {{- if not .Values.dex.github.orgs }}
+                {{- fail "dex.github.orgs must be non-empty: it is the only restriction on who Dex admits" }}
+                {{- end }}
                 orgs:
                 {{- range .Values.dex.github.orgs }}
                   - name: {{ . }}
-                {{- end }}
                 {{- end }}
                 loadAllGroups: true
           staticClients:
@@ -75,6 +78,13 @@ spec:
               secret: {{ .Values.dex.argocd.client_secret }}
             - id: kubectl
               name: kubectl
+              public: true
+            # Public client (no secret) developers mint an id_token from, for the
+            # oauth2-proxy edge, via the OIDC device flow. Public so the token can be
+            # obtained on any machine without distributing a client secret; the device
+            # flow needs no redirect URI, so nothing has to be registered per developer.
+            - id: toolbox
+              name: Toolbox
               public: true
             - id: grafana
               name: Grafana

@@ -67,3 +67,19 @@ spec:
               login_url="https://dex.{{ .Values.captain_domain }}/auth"
               redeem_url="https://dex.{{ .Values.captain_domain }}/token"
               oidc_jwks_url="https://dex.{{ .Values.captain_domain }}/keys"
+              # Accept a Dex-issued id_token as an alternative to the browser session
+              # cookie, so CLIs (argocd, bao) can authenticate at the edge. Every request
+              # is still authenticated by this forwardauth; nothing is exempted. Without
+              # this the bearer token is ignored and CLIs get a login redirect.
+              skip_jwt_bearer_tokens=true
+              # Audiences accepted in addition to "oauth2-proxy". Not a widening:
+              # email_domains=["*"] already authorizes anyone Dex admits, and Dex only
+              # admits members of the configured GitHub orgs.
+              #
+              # Deliberately ONLY toolbox. No flow presents an argocd- or vault-audience
+              # token at the edge: the argocd CLI sends the toolbox token as
+              # ARGOCD_AUTH_TOKEN and bao sends the same one. Listing those audiences
+              # would promote every ArgoCD browser-SSO id_token and every Vault OIDC
+              # login token -- each of which today unlocks exactly one service -- into a
+              # key that opens the entire edge for every host behind it.
+              oidc_extra_audiences=["toolbox"]
