@@ -23,7 +23,7 @@ Argo CD namespace model (correction vs the standalone manifests):
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: glueops-argocd-extension-backend
+  name: glueops-core-argocd-extension-backend
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -122,7 +122,7 @@ spec:
               labelSelector:
                 matchLabels:
                   app.kubernetes.io/name: argocd-extension-backend-api
-                  app.kubernetes.io/instance: glueops-argocd-extension-backend
+                  app.kubernetes.io/instance: glueops-core-argocd-extension-backend
 
           startupProbe:
             httpGet:
@@ -290,7 +290,7 @@ spec:
               podSelector:
                 matchLabels:
                   app.kubernetes.io/name: argocd-extension-backend-api
-                  app.kubernetes.io/instance: glueops-argocd-extension-backend
+                  app.kubernetes.io/instance: glueops-core-argocd-extension-backend
               policyTypes:
                 - Ingress
               ingress:
