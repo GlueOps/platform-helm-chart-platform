@@ -8,6 +8,12 @@ This chart deploys the GlueOps Platform
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| argocd_extension_backend.grafana_apm_dashboard | string | `"opentelemetry-apm"` | UID of the OpenTelemetry APM dashboard shipped alongside the OTEL monitoring stack. Blank disables the link. |
+| argocd_extension_backend.grafana_k8s_overview_dashboard | string | `"ee58kcteeir5sf"` | UID of the Kubernetes Overview dashboard shipped alongside the OTEL monitoring stack. Blank disables the link. |
+| argocd_extension_backend.grafana_k8s_pod_dashboard | string | `"ce60j8f8umhhcc"` | UID of the Kubernetes Pod Overview dashboard shipped alongside the OTEL monitoring stack. Blank disables the link. |
+| argocd_extension_backend.grafana_loki_ds_uid | string | `"P8E80F9AEF21F6940"` | Loki datasource UID for Drilldown logs links. Not written in provisioning, but NOT per-cluster either: Grafana derives the uid deterministically from the datasource name, so every cluster that provisions a Loki datasource named "Loki" gets this same value. Only change this if the datasource is renamed. Left blank, logs fall back to the classic workload-logs dashboard (uid tBmi6B0Vz), which ships labelled grafana_cluster_administrator_dashboard ONLY -- so it is absent from the developer Grafana the links point at, and the fallback 404s. |
+| argocd_extension_backend.grafana_prometheus_ds_uid | string | `"prometheus"` | Prometheus datasource UID for Drilldown metrics links. Pinned explicitly in the monitoring chart's datasource provisioning, so it is identical on every cluster. |
+| argocd_extension_backend.grafana_tempo_ds_uid | string | `"de7lydl3hl9fkd"` | Tempo datasource UID for Drilldown traces links. Pinned explicitly in the monitoring chart's datasource provisioning, so it is identical on every cluster. |
 | base_registries.docker_io | string | `"dockerhub.repo.gpkg.io"` |  |
 | base_registries.ghcr_io | string | `"ghcr.repo.gpkg.io"` |  |
 | base_registries.public_ecr_aws | string | `"ecr.repo.gpkg.io"` |  |
@@ -19,6 +25,9 @@ This chart deploys the GlueOps Platform
 | certManager.aws_accessKey | string | `"placeholder_certmanager_aws_access_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| container_images.app_argocd_extension_backend.argocd_extension_backend.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_argocd_extension_backend.argocd_extension_backend.image.repository | string | `"glueops/argocd-extension-backend-api"` |  |
+| container_images.app_argocd_extension_backend.argocd_extension_backend.image.tag | string | `"v0.1.4@sha256:e9f353fb7cb975474ca13594c5001f44c590fce6cf88baa665efb1e7f833290b"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v2.15.0@sha256:dedea98b3745fd30b474ff6a9fd66131230c30918cc35ebbb46abc64dd7ed693"` |  |
