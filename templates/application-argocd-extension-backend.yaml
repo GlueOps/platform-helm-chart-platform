@@ -24,13 +24,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: glueops-argocd-extension-backend
-  annotations:
-    # Kept after captain-manifests (sync-wave 20) as a soft ordering hint. This is
-    # no longer load-bearing: every resource this app creates now lives in either
-    # glueops-core (always present) or its own namespace, and the workload RBAC is
-    # cluster-scoped, so nothing here depends on the tenant environment namespace
-    # existing first. (It previously did, via a Role in $env — see the RBAC below.)
-    argocd.argoproj.io/sync-wave: "21"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -194,17 +187,22 @@ spec:
               value: "https://grafana.{{ .Values.captain_domain }}"
             VAULT_BASE_URL:
               value: "https://vault.{{ .Values.captain_domain }}"
-            # The TENANT org's deployment-configurations repo. Tenant Application
-            # sources reference https://github.com/<tenant_github_org>/deployment-
-            # configurations, and the backend only reads value files whose source
-            # repoURL matches this env var exactly (identity gate) — pointing it at
-            # the GlueOps template repo would permanently disable config-derived
-            # Vault links. KNOWN LIMITATION: tenant repos are typically private and
+            # The TENANT org's deployment-configurations repo. This is an identity
+            # gate, not a lookup: the backend reads value files only from Application
+            # sources whose repoURL matches this string exactly, so pointing it at the
+            # GlueOps template repo would permanently disable config-derived Vault
+            # links. It is derived rather than fetched from the ApplicationSet because
+            # that ApplicationSet lives in the captain-manifests repo, which this chart
+            # cannot read at render time; the default reproduces the same URL the
+            # generated ApplicationSet uses (verified against a live captain manifest:
+            # ApplicationSet repoURL and gitHub.tenant_github_org agree). Override
+            # argocd_extension_backend.deployment_config_repo_url on any tenant whose
+            # repo is not named "deployment-configurations". KNOWN LIMITATION: tenant repos are typically private and
             # no GITHUB_TOKEN is wired (a token belongs in a secret, not envMap),
             # so config-derived Vault links stay empty for private repos;
             # live-ExternalSecret Vault links are unaffected.
             DEPLOYMENT_CONFIG_REPO_URL:
-              value: "https://github.com/{{ .Values.gitHub.tenant_github_org }}/deployment-configurations"
+              value: {{ .Values.argocd_extension_backend.deployment_config_repo_url | default (printf "https://github.com/%s/deployment-configurations" .Values.gitHub.tenant_github_org) | quote }}
             CONFIG_REPO_LOCAL_ROOT:
               value: ""
             GRAFANA_LOGS_DASHBOARD:
@@ -324,7 +322,7 @@ spec:
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
             metadata:
-              name: argocd-extension-backend-api-applications
+              name: glueops-core-argocd-extension-backend-applications
             rules:
               - apiGroups: ["argoproj.io"]
                 resources: ["applications"]
@@ -333,11 +331,11 @@ spec:
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRoleBinding
             metadata:
-              name: argocd-extension-backend-api-applications
+              name: glueops-core-argocd-extension-backend-applications
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
-              name: argocd-extension-backend-api-applications
+              name: glueops-core-argocd-extension-backend-applications
             subjects:
               - kind: ServiceAccount
                 name: argocd-extension-backend-api
@@ -374,7 +372,7 @@ spec:
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRole
             metadata:
-              name: argocd-extension-backend-api-workloads
+              name: glueops-core-argocd-extension-backend-workloads
             rules:
               - apiGroups: ["apps"]
                 resources: ["deployments", "statefulsets", "daemonsets"]
@@ -386,11 +384,11 @@ spec:
             apiVersion: rbac.authorization.k8s.io/v1
             kind: ClusterRoleBinding
             metadata:
-              name: argocd-extension-backend-api-workloads
+              name: glueops-core-argocd-extension-backend-workloads
             roleRef:
               apiGroup: rbac.authorization.k8s.io
               kind: ClusterRole
-              name: argocd-extension-backend-api-workloads
+              name: glueops-core-argocd-extension-backend-workloads
             subjects:
               - kind: ServiceAccount
                 name: argocd-extension-backend-api
