@@ -38,27 +38,7 @@ spec:
         - name: loki.auth_enabled
           value: 'false'
         - name: loki.storage.type
-          value: s3
-        - name: loki.storage.bucketNames.chunks
-          value: {{ .Values.loki.bucket }}
-        - name: loki.storage.bucketNames.ruler
-          value: {{ .Values.loki.bucket }}
-        - name: loki.storage.bucketNames.admin
-          value: {{ .Values.loki.bucket }}
-        - name: loki.storage.s3.s3
-          value: s3://{{ .Values.loki.bucket }}
-        - name: loki.storage.s3.endpoint
-          value: s3.{{ .Values.loki.aws_region }}.amazonaws.com
-        - name: loki.storage.s3.region
-          value: {{ .Values.loki.aws_region }}
-        - name: loki.storage.s3.accessKeyId
-          value: {{ .Values.loki.aws_accessKey }}
-        - name: loki.storage.s3.secretAccessKey
-          value: {{ .Values.loki.aws_secretKey }}
-        - name: loki.storage.s3.s3ForcePathStyle
-          value: 'false'
-        - name: loki.storage.s3.insecure
-          value: 'false'
+          value: filesystem
         - name: read.persistence.enableStatefulSetAutoDeletePVC
           value: 'false'
         - name: backend.persistence.enableStatefulSetAutoDeletePVC
@@ -101,7 +81,7 @@ spec:
         loki:
           compactor:
             working_directory: /tmp/compactor
-            shared_store: s3
+            shared_store: filesystem
             compaction_interval: 10m
             retention_enabled: true
             retention_delete_delay: 2h
@@ -120,7 +100,7 @@ spec:
             configs:
               - from: 2018-04-15
                 store: boltdb-shipper
-                object_store: s3
+                object_store: filesystem
                 schema: v11
                 index:
                   prefix: loki_index_
