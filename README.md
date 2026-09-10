@@ -8,12 +8,13 @@ This chart deploys the GlueOps Platform
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| argocd_extension_backend.grafana_apm_dashboard | string | `"opentelemetry-apm"` | UID of the OpenTelemetry APM dashboard shipped alongside the OTEL monitoring stack. Blank disables the link. |
-| argocd_extension_backend.grafana_k8s_overview_dashboard | string | `"ee58kcteeir5sf"` | UID of the Kubernetes Overview dashboard shipped alongside the OTEL monitoring stack. Blank disables the link. |
-| argocd_extension_backend.grafana_k8s_pod_dashboard | string | `"ce60j8f8umhhcc"` | UID of the Kubernetes Pod Overview dashboard shipped alongside the OTEL monitoring stack. Blank disables the link. |
-| argocd_extension_backend.grafana_loki_ds_uid | string | `"P8E80F9AEF21F6940"` | Loki datasource UID for Drilldown logs links. Not written in provisioning, but NOT per-cluster either: Grafana derives the uid deterministically from the datasource name, so every cluster that provisions a Loki datasource named "Loki" gets this same value. Only change this if the datasource is renamed. Left blank, logs fall back to the classic workload-logs dashboard (uid tBmi6B0Vz), which ships labelled grafana_cluster_administrator_dashboard ONLY -- so it is absent from the developer Grafana the links point at, and the fallback 404s. |
-| argocd_extension_backend.grafana_prometheus_ds_uid | string | `"prometheus"` | Prometheus datasource UID for Drilldown metrics links. Pinned explicitly in the monitoring chart's datasource provisioning, so it is identical on every cluster. |
-| argocd_extension_backend.grafana_tempo_ds_uid | string | `"de7lydl3hl9fkd"` | Tempo datasource UID for Drilldown traces links. Pinned explicitly in the monitoring chart's datasource provisioning, so it is identical on every cluster. |
+| argocd_extension_backend.deployment_config_repo_url | string | `""` | Tenant deployment-configurations repo URL, used as an identity gate: the backend reads value files only from Application sources whose repoURL matches this exactly. Blank derives https://github.com/<gitHub.tenant_github_org>/ deployment-configurations, which is what the generated ApplicationSet uses. Set this only for a tenant whose repo is not named "deployment-configurations". |
+| argocd_extension_backend.grafana_apm_dashboard | string | `""` | OpenTelemetry APM dashboard UID. Blank disables the link. |
+| argocd_extension_backend.grafana_k8s_overview_dashboard | string | `""` | Kubernetes Overview dashboard UID. Blank disables the link. |
+| argocd_extension_backend.grafana_k8s_pod_dashboard | string | `""` | Kubernetes Pod Overview dashboard UID. Blank disables the link. |
+| argocd_extension_backend.grafana_loki_ds_uid | string | `""` | Loki datasource UID. Blank falls back to the classic workload-logs dashboard. |
+| argocd_extension_backend.grafana_prometheus_ds_uid | string | `""` | Prometheus datasource UID. Blank falls back to the classic dashboard. |
+| argocd_extension_backend.grafana_tempo_ds_uid | string | `""` | Tempo datasource UID. Blank falls back to the classic dashboard. |
 | base_registries.docker_io | string | `"dockerhub.repo.gpkg.io"` |  |
 | base_registries.ghcr_io | string | `"ghcr.repo.gpkg.io"` |  |
 | base_registries.public_ecr_aws | string | `"ecr.repo.gpkg.io"` |  |
