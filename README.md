@@ -8,6 +8,13 @@ This chart deploys the GlueOps Platform
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| argocd_extension_backend.deployment_config_repo_url | string | `""` | Tenant deployment-configurations repo URL, used as an identity gate: the backend reads value files only from Application sources whose repoURL matches this exactly. Blank derives https://github.com/<gitHub.tenant_github_org>/ deployment-configurations, which is what the generated ApplicationSet uses. Set this only for a tenant whose repo is not named "deployment-configurations". |
+| argocd_extension_backend.grafana_apm_dashboard | string | `""` | OpenTelemetry APM dashboard UID. Blank disables the link. |
+| argocd_extension_backend.grafana_k8s_overview_dashboard | string | `""` | Kubernetes Overview dashboard UID. Blank disables the link. |
+| argocd_extension_backend.grafana_k8s_pod_dashboard | string | `""` | Kubernetes Pod Overview dashboard UID. Blank disables the link. |
+| argocd_extension_backend.grafana_loki_ds_uid | string | `""` | Loki datasource UID. Blank falls back to the classic workload-logs dashboard. |
+| argocd_extension_backend.grafana_prometheus_ds_uid | string | `""` | Prometheus datasource UID. Blank falls back to the classic dashboard. |
+| argocd_extension_backend.grafana_tempo_ds_uid | string | `""` | Tempo datasource UID. Blank falls back to the classic dashboard. |
 | base_registries.docker_io | string | `"dockerhub.repo.gpkg.io"` |  |
 | base_registries.ghcr_io | string | `"ghcr.repo.gpkg.io"` |  |
 | base_registries.public_ecr_aws | string | `"ecr.repo.gpkg.io"` |  |
@@ -19,6 +26,9 @@ This chart deploys the GlueOps Platform
 | certManager.aws_accessKey | string | `"placeholder_certmanager_aws_access_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| container_images.app_argocd_extension_backend.argocd_extension_backend.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_argocd_extension_backend.argocd_extension_backend.image.repository | string | `"glueops/argocd-extension-backend-api"` |  |
+| container_images.app_argocd_extension_backend.argocd_extension_backend.image.tag | string | `"v0.1.4@sha256:e9f353fb7cb975474ca13594c5001f44c590fce6cf88baa665efb1e7f833290b"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v2.15.0@sha256:dedea98b3745fd30b474ff6a9fd66131230c30918cc35ebbb46abc64dd7ed693"` |  |
