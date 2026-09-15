@@ -154,13 +154,8 @@ spec:
               value: "https://grafana.{{ .Values.captain_domain }}"
             VAULT_BASE_URL:
               value: "https://vault.{{ .Values.captain_domain }}"
-            # Identity gate, not a lookup: the backend reads value files only from
-            # Application sources whose repoURL matches this exactly. Cannot be read
-            # from the ApplicationSet, which lives in the captain-manifests repo.
-            # Override argocd_extension_backend.deployment_config_repo_url for a
-            # tenant whose repo is not named "deployment-configurations".
             DEPLOYMENT_CONFIG_REPO_URL:
-              value: {{ .Values.argocd_extension_backend.deployment_config_repo_url | default (printf "https://github.com/%s/deployment-configurations" .Values.gitHub.tenant_github_org) | quote }}
+              value: "https://github.com/{{ .Values.gitHub.tenant_github_org }}/deployment-configurations"
             CONFIG_REPO_LOCAL_ROOT:
               value: ""
             GRAFANA_LOGS_DASHBOARD:

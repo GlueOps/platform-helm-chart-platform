@@ -8,7 +8,6 @@ This chart deploys the GlueOps Platform
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| argocd_extension_backend.deployment_config_repo_url | string | `""` | Tenant deployment-configurations repo URL, used as an identity gate: the backend reads value files only from Application sources whose repoURL matches this exactly. Blank derives https://github.com/<gitHub.tenant_github_org>/ deployment-configurations, which is what the generated ApplicationSet uses. Set this only for a tenant whose repo is not named "deployment-configurations". |
 | argocd_extension_backend.grafana_apm_dashboard | string | `""` | OpenTelemetry APM dashboard UID. Blank disables the link. |
 | argocd_extension_backend.grafana_k8s_overview_dashboard | string | `""` | Kubernetes Overview dashboard UID. Blank disables the link. |
 | argocd_extension_backend.grafana_k8s_pod_dashboard | string | `""` | Kubernetes Pod Overview dashboard UID. Blank disables the link. |
