@@ -342,6 +342,12 @@ container_images:
         registry: ghcr.repo.gpkg.io
         repository: glueops/certs-backup-restore
         tag: v2.4.0@sha256:d2c6a534ecc06017eabc80cc2554ca41cae5a64509d7dddc9dfe46459be11e3e
+  app_reflector:
+    reflector:
+      image:
+        registry: dockerhub.repo.gpkg.io
+        repository: emberstack/kubernetes-reflector
+        tag: 10.0.65@sha256:51dbd5880929dc26678f6e190c70abfbcccd3846679ff464e5815823fd782f1a
   app_descheduler:
     descheduler:
       image:

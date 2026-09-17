@@ -46,6 +46,10 @@ spec:
             cpu: 200m
             memory: 256Mi
         #
+        image:
+          repository: {{ .Values.container_images.app_reflector.reflector.image.registry }}/{{ .Values.container_images.app_reflector.reflector.image.repository }}
+          tag: {{ .Values.container_images.app_reflector.reflector.image.tag }}
+        #
         nodeSelector:
           glueops.dev/role: glueops-platform
         #
