@@ -34,7 +34,6 @@ spec:
           registry: {{ .Values.container_images.app_go_healthz.go_healthz.image.registry }}
           repository: {{ .Values.container_images.app_go_healthz.go_healthz.image.repository }}
           tag: {{ .Values.container_images.app_go_healthz.go_healthz.image.tag }}
-          pullPolicy: IfNotPresent
         deployment:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
           replicas: 2
