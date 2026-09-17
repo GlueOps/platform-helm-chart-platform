@@ -6,6 +6,7 @@ host_network:
   external_secrets:
     webhook_port: 45010
     webhook_metrics_port: 45011
+    webhook_readiness_port: 45012
   cert_manager:
     webhook_secure_port: 45020
   nginx_public:

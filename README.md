@@ -171,6 +171,7 @@ This chart deploys the GlueOps Platform
 | host_network.enabled | string | `"placeholder_enable_host_network"` |  |
 | host_network.external_secrets.webhook_metrics_port | int | `45011` |  |
 | host_network.external_secrets.webhook_port | int | `45010` |  |
+| host_network.external_secrets.webhook_readiness_port | int | `45012` |  |
 | host_network.keda.prometheus.metricServer.port | int | `45056` |  |
 | host_network.keda.prometheus.operator.port | int | `45055` |  |
 | host_network.keda.prometheus.webhooks.port | int | `45054` |  |
