@@ -408,7 +408,7 @@ container_images:
       image:
         registry: gcp.repo.gpkg.io
         repository: fairwinds-ops/oss/goldilocks
-        tag: "v4.16.1"
+        tag: "v4.16.2"
 
   app_backup_and_exports:
     vault_backup_validator:
