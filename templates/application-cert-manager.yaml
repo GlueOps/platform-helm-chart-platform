@@ -41,14 +41,24 @@ spec:
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
         - name: image.repository
           value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_manager.image.repository }}
+        - name: image.tag
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.tag }}
         - name: webhook.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-webhook
+          value: {{ .Values.container_images.app_cert_manager.webhook.image.registry }}/{{ .Values.container_images.app_cert_manager.webhook.image.repository }}
+        - name: webhook.image.tag
+          value: {{ .Values.container_images.app_cert_manager.webhook.image.tag }}
         - name: cainjector.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-cainjector
+          value: {{ .Values.container_images.app_cert_manager.cainjector.image.registry }}/{{ .Values.container_images.app_cert_manager.cainjector.image.repository }}
+        - name: cainjector.image.tag
+          value: {{ .Values.container_images.app_cert_manager.cainjector.image.tag }}
         - name: acmesolver.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-acmesolver
+          value: {{ .Values.container_images.app_cert_manager.acmesolver.image.registry }}/{{ .Values.container_images.app_cert_manager.acmesolver.image.repository }}
+        - name: acmesolver.image.tag
+          value: {{ .Values.container_images.app_cert_manager.acmesolver.image.tag }}
         - name: startupapicheck.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-startupapicheck
+          value: {{ .Values.container_images.app_cert_manager.startupapicheck.image.registry }}/{{ .Values.container_images.app_cert_manager.startupapicheck.image.repository }}
+        - name: startupapicheck.image.tag
+          value: {{ .Values.container_images.app_cert_manager.startupapicheck.image.tag }}
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         webhook:
