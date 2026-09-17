@@ -67,6 +67,15 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
+| container_images.app_keda.admission_webhooks.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_keda.admission_webhooks.image.repository | string | `"kedacore/keda-admission-webhooks"` |  |
+| container_images.app_keda.admission_webhooks.image.tag | string | `"2.20.2@sha256:41f74102aba7959c6e8d08b433ab8a5fd6cae7c5646c78f7fe3de40a52df3439"` |  |
+| container_images.app_keda.keda.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_keda.keda.image.repository | string | `"kedacore/keda"` |  |
+| container_images.app_keda.keda.image.tag | string | `"2.20.2@sha256:fe74c7b8849586a67ad2201bcb89e7f5ac221ff90399ecaa8fd28427f1ef11e6"` |  |
+| container_images.app_keda.metrics_apiserver.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_keda.metrics_apiserver.image.repository | string | `"kedacore/keda-metrics-apiserver"` |  |
+| container_images.app_keda.metrics_apiserver.image.tag | string | `"2.20.2@sha256:27286536a8a775aeeee37a7e343f8ecebb27ebf680ee1181a4f99e82eefb253b"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.repository | string | `"grafana/grafana"` |  |
 | container_images.app_kube_prometheus_stack.grafana.image.tag | string | `"10.4.19-security-01@sha256:5584505cb75be8cb14c19d7473a87e2675c68b34b546bc1923ef74300c337111"` |  |

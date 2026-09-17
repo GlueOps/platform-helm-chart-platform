@@ -483,6 +483,22 @@ container_images:
         registry: ghcr.repo.gpkg.io
         repository: metacontroller/metacontroller
         tag: v4.17.2@sha256:d7a55ebc70b45c2497e9fb5b1d42aae72a8c03545f66a43d9e58583b79cae12d #this might need to be updated manually because of renovatebot errors
+  app_keda:
+    keda:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: kedacore/keda
+        tag: 2.20.2@sha256:fe74c7b8849586a67ad2201bcb89e7f5ac221ff90399ecaa8fd28427f1ef11e6
+    metrics_apiserver:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: kedacore/keda-metrics-apiserver
+        tag: 2.20.2@sha256:27286536a8a775aeeee37a7e343f8ecebb27ebf680ee1181a4f99e82eefb253b
+    admission_webhooks:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: kedacore/keda-admission-webhooks
+        tag: 2.20.2@sha256:41f74102aba7959c6e8d08b433ab8a5fd6cae7c5646c78f7fe3de40a52df3439
   app_fluent_operator:
     kubesphere:
       image:
