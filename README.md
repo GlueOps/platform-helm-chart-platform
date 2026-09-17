@@ -63,7 +63,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_go_healthz.go_healthz.image.tag | string | `"v0.2.1@sha256:929c2ca16d9868f35f0e1ab309caf9766d948df9fac43e0e64c0860dcd80aa0d"` |  |
 | container_images.app_goldilocks.goldilocks.image.registry | string | `"gcp.repo.gpkg.io"` |  |
 | container_images.app_goldilocks.goldilocks.image.repository | string | `"fairwinds-ops/oss/goldilocks"` |  |
-| container_images.app_goldilocks.goldilocks.image.tag | string | `"v4.16.1"` |  |
+| container_images.app_goldilocks.goldilocks.image.tag | string | `"v4.16.2"` |  |
 | container_images.app_ingress_nginx.controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
