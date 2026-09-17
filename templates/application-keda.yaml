@@ -68,16 +68,18 @@ spec:
             port:  {{ .Values.host_network.keda.webhooks.port }}
             healthProbePort: {{ .Values.host_network.keda.webhooks.healthProbePort }}
             useHostNetwork: {{ .Values.host_network.enabled }}
+        global:
+            image:
+                # The chart gives global.image.registry precedence over the per-image
+                # registry, so base_registries always decides where KEDA pulls from.
+                registry: {{ .Values.base_registries.ghcr_io }}
         image:
             keda:
-                registry: {{ .Values.container_images.app_keda.keda.image.registry }}
                 repository: {{ .Values.container_images.app_keda.keda.image.repository }}
                 tag: {{ .Values.container_images.app_keda.keda.image.tag }}
             metricsApiServer:
-                registry: {{ .Values.container_images.app_keda.metrics_apiserver.image.registry }}
                 repository: {{ .Values.container_images.app_keda.metrics_apiserver.image.repository }}
                 tag: {{ .Values.container_images.app_keda.metrics_apiserver.image.tag }}
             webhooks:
-                registry: {{ .Values.container_images.app_keda.admission_webhooks.image.registry }}
                 repository: {{ .Values.container_images.app_keda.admission_webhooks.image.repository }}
                 tag: {{ .Values.container_images.app_keda.admission_webhooks.image.tag }}
