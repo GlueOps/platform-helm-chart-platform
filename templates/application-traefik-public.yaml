@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: https://traefik.github.io/charts
     chart: traefik
-    targetRevision: 41.5.0
+    targetRevision: 41.6.0
     helm:
       # CRITICAL: CRDs are installed by the CRD-only app
       skipCrds: true
@@ -64,7 +64,6 @@ spec:
               - {{ (split "." .Values.captain_domain)._0 }}
 
         service:
-          type: LoadBalancer
           labels:
             use-as-loadbalancer: "public-traefik"
           annotations:
@@ -73,6 +72,8 @@ spec:
             gluekube-dns: public-lb-traefik.{{ .Values.captain_domain }}
 
           spec:
+            # chart >= 40 reads service.spec.type; a top-level service.type is ignored
+            type: LoadBalancer
             externalTrafficPolicy: Local
 
 
