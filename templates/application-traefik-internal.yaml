@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: https://traefik.github.io/charts
     chart: traefik
-    targetRevision: 41.5.0
+    targetRevision: 41.6.0
     helm:
       skipCrds: true
       values: |-
@@ -56,7 +56,6 @@ spec:
               - {{ (split "." .Values.captain_domain)._0 }}
 
         service:
-          type: LoadBalancer
           labels:
             use-as-loadbalancer: "internal-traefik"
           annotations:
@@ -67,6 +66,8 @@ spec:
             gluekube-dns: internal-lb-traefik.{{ .Values.captain_domain }}
 
           spec:
+            # chart >= 40 reads service.spec.type; a top-level service.type is ignored
+            type: LoadBalancer
             externalTrafficPolicy: Local
 
         tolerations:
