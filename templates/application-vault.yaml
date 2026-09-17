@@ -150,7 +150,9 @@ spec:
                     last_contact_threshold      = "200ms"
                     last_contact_failure_threshold = "10m"
                     max_trailing_logs           = 250000
-                    min_quorum                  = 5
+                    # Must equal the expected voter count (server.ha.replicas). Autopilot never prunes
+                    # below this number, so 5 on a 3-node cluster disabled cleanup_dead_servers entirely.
+                    min_quorum                  = 3
                     server_stabilization_time   = "10s"
                   }
                 }
