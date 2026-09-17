@@ -39,16 +39,22 @@ spec:
           value: "{{ .Values.host_network.enabled }}"
         - name: webhook.securePort
           value: "{{ .Values.host_network.cert_manager.webhook_secure_port }}"
-        - name: image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/{{ .Values.container_images.app_cert_manager.cert_manager.image.repository }}
-        - name: webhook.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-webhook
-        - name: cainjector.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-cainjector
-        - name: acmesolver.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-acmesolver
-        - name: startupapicheck.image.repository
-          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.registry }}/jetstack/cert-manager-startupapicheck
+        # The chart composes every image as imageRegistry/imageNamespace/<image.name>
+        # unless a per-image repository is set, and falls back to quay.io/jetstack when
+        # imageRegistry is unset. base_registries therefore decides the registry for all
+        # five images; tags (with digests) come from container_images.app_cert_manager.
+        - name: imageRegistry
+          value: {{ .Values.base_registries.quay_io }}
+        - name: image.tag
+          value: {{ .Values.container_images.app_cert_manager.cert_manager.image.tag }}
+        - name: webhook.image.tag
+          value: {{ .Values.container_images.app_cert_manager.webhook.image.tag }}
+        - name: cainjector.image.tag
+          value: {{ .Values.container_images.app_cert_manager.cainjector.image.tag }}
+        - name: acmesolver.image.tag
+          value: {{ .Values.container_images.app_cert_manager.acmesolver.image.tag }}
+        - name: startupapicheck.image.tag
+          value: {{ .Values.container_images.app_cert_manager.startupapicheck.image.tag }}
       values: |-
         {{- toYaml .Values.glueops_node_and_tolerations | nindent 8 }}
         webhook:
