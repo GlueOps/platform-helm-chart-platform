@@ -105,13 +105,13 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.14.0@sha256:9b4d6ed77c3843c269846495b3f1f6f20e86cb8c92381727fcfb3d3169b0fbfa"` |  |
 | container_images.app_vpa.admission_controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_vpa.admission_controller.image.repository | string | `"autoscaling/vpa-admission-controller"` |  |
-| container_images.app_vpa.admission_controller.image.tag | string | `"1.6.0"` |  |
+| container_images.app_vpa.admission_controller.image.tag | string | `"1.7.1@sha256:be29624f7f12a0b6f7fe18e2e042195eb6e39ae37d4490000f2643a480873572"` |  |
 | container_images.app_vpa.recommender.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_vpa.recommender.image.repository | string | `"autoscaling/vpa-recommender"` |  |
-| container_images.app_vpa.recommender.image.tag | string | `"1.6.0"` |  |
+| container_images.app_vpa.recommender.image.tag | string | `"1.7.1@sha256:89cea705535f9d8df6e62d5084916ec447e85d64369cfff2f7c6ac9d1cc5cd1e"` |  |
 | container_images.app_vpa.updater.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_vpa.updater.image.repository | string | `"autoscaling/vpa-updater"` |  |
-| container_images.app_vpa.updater.image.tag | string | `"1.6.0"` |  |
+| container_images.app_vpa.updater.image.tag | string | `"1.7.1@sha256:feb42a5269708d065d5a43c5379d0e4700c3eca333231723d6a7c24f222ab446"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
