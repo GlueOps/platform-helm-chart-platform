@@ -27,7 +27,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.certs_backup_restore.image.tag | string | `"v2.4.0@sha256:d2c6a534ecc06017eabc80cc2554ca41cae5a64509d7dddc9dfe46459be11e3e"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_backup_and_exports.vault_backup_validator.image.repository | string | `"glueops/vault-backup-validator"` |  |
-| container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v2.18.0@sha256:b6cc233317499aafb891773faa88ec43a701ebe253165403fe79aa69d39352d8"` |  |
+| container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v2.19.0@sha256:7b596c272737f8df80c8a415b2e8683d6d5a2a157fdef8d3dc67aed14a86ac6b"` |  |
 | container_images.app_cert_manager.acmesolver.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.acmesolver.image.repository | string | `"jetstack/cert-manager-acmesolver"` |  |
 | container_images.app_cert_manager.acmesolver.image.tag | string | `"v1.21.2@sha256:699b40d622211ab7accad8a21b04c5fbaa1841ef7a12621e8de492dbe27b2503"` |  |
