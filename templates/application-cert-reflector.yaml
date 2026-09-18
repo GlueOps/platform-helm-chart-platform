@@ -29,7 +29,7 @@ spec:
     chart: reflector
     # pick a specific chart version you want to pin.
     # If you want to track latest, you can set this to something like "10.x.x" only if your ArgoCD/Helm setup supports semver ranges.
-    targetRevision: 10.0.8
+    targetRevision: 10.0.65
     helm:
       releaseName: reflector
       values: |-
@@ -45,6 +45,10 @@ spec:
           limits:
             cpu: 200m
             memory: 256Mi
+        #
+        image:
+          repository: {{ .Values.container_images.app_reflector.reflector.image.registry }}/{{ .Values.container_images.app_reflector.reflector.image.repository }}
+          tag: {{ .Values.container_images.app_reflector.reflector.image.tag }}
         #
         nodeSelector:
           glueops.dev/role: glueops-platform

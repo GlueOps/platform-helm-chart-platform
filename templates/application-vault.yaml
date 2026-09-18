@@ -32,7 +32,7 @@ spec:
   source:
     repoURL: {{ .Values.base_registries.ghcr_io }}/openbao/charts
     chart: openbao
-    targetRevision: 0.19.3
+    targetRevision: 0.29.4
     helm:
       values: |-
         # OpenBao Helm Chart Value Overrides (cutover from Vault)
@@ -150,7 +150,9 @@ spec:
                     last_contact_threshold      = "200ms"
                     last_contact_failure_threshold = "10m"
                     max_trailing_logs           = 250000
-                    min_quorum                  = 5
+                    # Must equal the expected voter count (server.ha.replicas). Autopilot never prunes
+                    # below this number, so 5 on a 3-node cluster disabled cleanup_dead_servers entirely.
+                    min_quorum                  = 3
                     server_stabilization_time   = "10s"
                   }
                 }
@@ -292,7 +294,7 @@ spec:
             source:
               repoURL: https://helm.gpkg.io/project-template
               chart: app
-              targetRevision: 0.8.1
+              targetRevision: 0.14.1
               helm:
                 values: |
                   appName: 'vault-init-controller'
