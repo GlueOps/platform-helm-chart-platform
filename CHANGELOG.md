@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.80.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.0...v0.80.1) (2026-09-22)
+
+
+### Bug Fixes
+
+* revert back etcd metrics in prometheus ([#1512](https://github.com/GlueOps/platform-helm-chart-platform/issues/1512)) ([b46786b](https://github.com/GlueOps/platform-helm-chart-platform/commit/b46786b8de13b7d430a49dd2f07da435ef6590de))
+
 ## [0.80.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.79.2...v0.80.0) (2026-09-18)
 
 
