@@ -559,3 +559,8 @@ kubeadm:
   # chart's values.schema.json requires a boolean — quoting it renders "true", which this chart still accepts as truthy
   # but which hard-fails the `crds` step on every kubeadm cluster with: at '/kubeadm/enabled': got string, want boolean.
   enabled: placeholder_enable_kubeadm_cluster
+  kube_etcd:
+    serviceMonitor:
+      caFile: /etc/prometheus/secrets/etcd-client-certs/ca.crt
+      certFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.crt
+      keyFile: /etc/prometheus/secrets/etcd-client-certs/apiserver-etcd-client.key
