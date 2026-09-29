@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.80.2](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.1...v0.80.2) (2026-09-29)
+
+
+### Bug Fixes
+
+* monitor etcd on port 2381 without creds ([#1514](https://github.com/GlueOps/platform-helm-chart-platform/issues/1514)) ([30668b1](https://github.com/GlueOps/platform-helm-chart-platform/commit/30668b188a0f6688dc9779fbec0b25435bb2d925))
+
+## [0.80.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.0...v0.80.1) (2026-09-22)
+
+
+### Bug Fixes
+
+* revert back etcd metrics in prometheus ([#1512](https://github.com/GlueOps/platform-helm-chart-platform/issues/1512)) ([b46786b](https://github.com/GlueOps/platform-helm-chart-platform/commit/b46786b8de13b7d430a49dd2f07da435ef6590de))
+
+## [0.80.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.79.2...v0.80.0) (2026-09-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires platform-crds with matching CRDs (cert-manager v1.21.2, external-secrets v2.10.0, metacontroller v4.17.2, traefik chart 41.5.0, keda v2.20.2) to be applied before this release syncs.
+
+### Features
+
+* upgrade platform components for Kubernetes 1.35 ([#1498](https://github.com/GlueOps/platform-helm-chart-platform/issues/1498)) ([c6a2f04](https://github.com/GlueOps/platform-helm-chart-platform/commit/c6a2f04434d775e1b313f5c5a371d3abd076d16c))
+
 ## [0.79.2](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.79.1...v0.79.2) (2026-09-06)
 
 
