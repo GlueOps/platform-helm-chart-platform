@@ -34,7 +34,7 @@ spec:
     repoURL: 'https://github.com/GlueOps/k8s-monitoring-helm.git'
     # k8s-monitoring-helm has no releases yet: pinned to a commit on its main so a merge there cannot roll to every
     # cluster unreviewed. Bump deliberately (renovate is not watching this); switch to a tag once that repo cuts one.
-    targetRevision: b7a003cae9ba523a1784df1976eb7c8429563ac7
+    targetRevision: f813ef898e65172620e5b24f054560ea907f15f5
     path: apps
     helm:
       values: |
