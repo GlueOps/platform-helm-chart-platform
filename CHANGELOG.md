@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.80.2](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.1...v0.80.2) (2026-09-29)
+
+
+### Bug Fixes
+
+* monitor etcd on port 2381 without creds ([#1514](https://github.com/GlueOps/platform-helm-chart-platform/issues/1514)) ([30668b1](https://github.com/GlueOps/platform-helm-chart-platform/commit/30668b188a0f6688dc9779fbec0b25435bb2d925))
+
 ## [0.80.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.0...v0.80.1) (2026-09-22)
 
 
