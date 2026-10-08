@@ -22,5 +22,7 @@ jobs:
         run: helm version --short && yq --version && jq --version && kubectl version --client
       - name: Lint the platform chart
         run: helm lint . -f ci/values.yaml
+      - name: Assert the inventory-agent namespace list matches the chart's Applications
+        run: hack/check-inventory-namespaces.sh
       - name: Render every Application's chart and assert no CRDs
         run: hack/check-no-crds.sh
