@@ -136,6 +136,8 @@ spec:
                   value: {{ eq (toString .Values.development_mode_enabled) "true" | toString | quote }}
                 - name: LOG_LEVEL
                   value: {{ .Values.inventory_agent.log_level | quote }}
+                - name: SEND_GZIP
+                  value: {{ eq (toString .Values.inventory_agent.send_gzip) "true" | toString | quote }}
 
         customResources:
           # Cluster-scoped reads only: nodes (no namespaced alternative) and the

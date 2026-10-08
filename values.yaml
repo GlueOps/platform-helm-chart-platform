@@ -357,6 +357,10 @@ inventory_agent:
   cron_expression: "*/15 * * * *"
   # @ignored
   log_level: "info"
+  # -- gzip the snapshot body (Content-Encoding: gzip). Set false only for a trial
+  # receiver that cannot decompress (e.g. webhook.site); the payload size cap then
+  # applies to the uncompressed body.
+  send_gzip: true
 
 container_images:
   app_inventory_agent:
