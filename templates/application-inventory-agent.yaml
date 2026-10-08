@@ -1,0 +1,219 @@
+{{- /*
+glueops-core-inventory-agent: a read-only CronJob that every 15 minutes snapshots
+cluster/node versions, Helm release metadata in glueops-core and the container images
+running in the platform namespaces, and POSTs one gzipped JSON document to
+.Values.inventory_agent.ingest_url. Spec: internal-GlueOps/issues#526.
+
+Rendered only when enabled AND an ingest URL is set, so nothing runs on any cluster
+until the receiver exists. Every run exits 0; the agent never alerts.
+
+RBAC, deliberately narrow (see the spec for the one accepted exception):
+  - ClusterRole: nodes get/list; namespaces get on kube-system only (cluster_uid).
+  - One Role per platform namespace (templates/_inventory_agent.tpl): pods get/list.
+    No cluster-wide pods grant: tenant workloads deployed with the project-template
+    `app` chart render envVariables as literal values, so a cluster-wide pods read is
+    a read of every tenant's plaintext credentials.
+  - Role in glueops-core: secrets get/list, for Helm release metadata. RBAC cannot
+    scope Secrets by type, so this is every Secret in glueops-core; accepted because
+    the namespace is platform-owned. The agent decodes only the `release` key and
+    sends nine metadata fields, never values or manifests.
+*/ -}}
+{{- if and .Values.inventory_agent.enabled .Values.inventory_agent.ingest_url }}
+{{- if contains "placeholder" .Values.captain_domain }}
+  {{- fail "inventory_agent: captain_domain is still a placeholder" }}
+{{- end }}
+{{- if and (not (hasPrefix "https://" .Values.inventory_agent.ingest_url)) (ne (toString .Values.development_mode_enabled) "true") }}
+  {{- fail (printf "inventory_agent.ingest_url must use https:// (got %q)" .Values.inventory_agent.ingest_url) }}
+{{- end }}
+{{- $namespaces := fromYamlArray (include "glueops.inventoryAgent.podNamespaces" .) -}}
+{{- $helmNamespace := "glueops-core" -}}
+{{- $sa := "inventory-agent" -}}
+{{- $ns := "glueops-core-inventory-agent" -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $ns }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: {{ $ns }}
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 5
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.14.1
+    helm:
+      values: |
+        appName: 'inventory-agent'
+        appVersion: '0.0.1'
+
+        image:
+          registry: {{ .Values.container_images.app_inventory_agent.inventory_agent.image.registry | quote }}
+          repository: {{ .Values.container_images.app_inventory_agent.inventory_agent.image.repository | quote }}
+          tag: {{ .Values.container_images.app_inventory_agent.inventory_agent.image.tag | quote }}
+
+        serviceAccount:
+          create: true
+          name: {{ $sa }}
+
+        deployment:
+          enabled: false
+
+        cronJob:
+          enabled: true
+          jobs:
+            snapshot:
+              {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
+              schedule: {{ .Values.inventory_agent.cron_expression | quote }}
+              concurrencyPolicy: Forbid
+              # The app chart defaults startingDeadlineSeconds to 30, which skips a run
+              # whenever the controller is briefly busy. A missed snapshot is harmless but
+              # a skipped one shows up as a gap, so give it the whole interval minus slack.
+              startingDeadlineSeconds: 600
+              backoffLimit: 0
+              activeDeadlineSeconds: 300
+              ttlSecondsAfterFinished: 900
+              successfulJobsHistoryLimit: 1
+              failedJobsHistoryLimit: 3
+              restartPolicy: Never
+              imagePullPolicy: IfNotPresent
+
+              serviceAccount:
+                enabled: true
+                name: {{ $sa }}
+                automountServiceAccountToken: true
+
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: 65532
+                runAsGroup: 65532
+                fsGroup: 65532
+                seccompProfile:
+                  type: RuntimeDefault
+
+              containerSecurityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+
+              envVariables:
+                - name: CAPTAIN_DOMAIN
+                  value: {{ .Values.captain_domain | quote }}
+                - name: INGEST_URL
+                  value: {{ .Values.inventory_agent.ingest_url | quote }}
+                - name: POD_NAMESPACES
+                  value: {{ join "," $namespaces | quote }}
+                - name: HELM_NAMESPACE
+                  value: {{ $helmNamespace | quote }}
+                - name: GLUEOPS_PLATFORM_CHART_VERSION
+                  value: {{ .Chart.Version | quote }}
+                - name: DEV_MODE
+                  value: {{ .Values.development_mode_enabled | toString | quote }}
+                - name: LOG_LEVEL
+                  value: {{ .Values.inventory_agent.log_level | quote }}
+
+        customResources:
+          # Cluster-scoped reads only: nodes (no namespaced alternative) and the
+          # kube-system Namespace object, whose UID is the cluster incarnation marker.
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRole
+            metadata:
+              name: {{ $ns }}-cluster
+            rules:
+              - apiGroups: [""]
+                resources: ["nodes"]
+                verbs: ["get", "list"]
+              - apiGroups: [""]
+                resources: ["namespaces"]
+                resourceNames: ["kube-system"]
+                verbs: ["get"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              name: {{ $ns }}-cluster
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: {{ $ns }}-cluster
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+          # Helm release metadata. See the header comment for what this really grants.
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: {{ $ns }}-helm
+              namespace: {{ $helmNamespace }}
+            rules:
+              - apiGroups: [""]
+                resources: ["secrets"]
+                verbs: ["get", "list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: {{ $ns }}-helm
+              namespace: {{ $helmNamespace }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: Role
+              name: {{ $ns }}-helm
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+          # Pod images: one namespaced Role per platform namespace, never cluster-wide.
+          {{- range $podNs := $namespaces }}
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: {{ $ns }}-pods
+              namespace: {{ $podNs }}
+            rules:
+              - apiGroups: [""]
+                resources: ["pods"]
+                verbs: ["get", "list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: {{ $ns }}-pods
+              namespace: {{ $podNs }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: Role
+              name: {{ $ns }}-pods
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+          {{- end }}
+{{- end }}
