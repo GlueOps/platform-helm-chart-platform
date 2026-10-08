@@ -331,7 +331,46 @@ base_registries:
   public_ecr_aws: "ecr.repo.gpkg.io"
   registry_k8s_io: "k8s.repo.gpkg.io"
 
+# glueops-core-inventory-agent (internal-GlueOps/issues#526): read-only CronJob that
+# snapshots cluster/node versions, Helm release metadata in glueops-core and the
+# container images running in the platform namespaces, and ships one gzipped JSON
+# document every 15 minutes to a GlueOps-operated receiver (JSON -> S3 -> ClickHouse).
+# Operational visibility data only: no secrets, no tenant workloads, no pod spec
+# fields beyond image identity.
+inventory_agent:
+  # -- On for every cluster unless specifically opted out. The Application is only
+  # rendered when this is true AND ingest_url is non-empty.
+  enabled: true
+  # -- Receiver endpoint. Must be https:// (development_mode_enabled relaxes this for
+  # k3d). Empty renders nothing, so nothing runs anywhere until the receiver exists;
+  # the chart release that fills this in is the fleet-wide switch-on.
+  ingest_url: ""
+  # -- Namespaces installed from the captain repo rather than this chart whose pod
+  # images should also be collected (e.g. glueops-core-monitoring,
+  # glueops-core-gatekeeper). Each must be glueops-core-* or the render fails, and
+  # each MUST already exist on the cluster: Argo CD dry-runs every object before
+  # applying any, so one Role aimed at a missing namespace fails the whole
+  # glueops-core-inventory-agent sync. The chart's own namespaces + kube-system are
+  # always included (templates/_inventory_agent.tpl).
+  extra_pod_namespaces: []
+  # @ignored
+  cron_expression: "*/15 * * * *"
+  # @ignored
+  log_level: "info"
+  # -- gzip the snapshot body (Content-Encoding: gzip). Set false only for a trial
+  # receiver that cannot decompress (e.g. webhook.site); the payload size cap then
+  # applies to the uncompressed body.
+  send_gzip: true
+
 container_images:
+  app_inventory_agent:
+    inventory_agent:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: glueops/inventory-agent
+        # TODO: replace with the first release tag + digest once GlueOps/inventory-agent
+        # publishes v0.1.0 (renovate pins the digest from then on).
+        tag: v0.1.0
   app_cert_manager:
     cert_manager:
       image:

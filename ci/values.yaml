@@ -32,3 +32,11 @@ base_registries:
   docker_io: docker.io
   registry_k8s_io: registry.k8s.io
   public_ecr_aws: public.ecr.aws
+# A syntactically valid, non-placeholder domain: the inventory-agent template fails
+# on "placeholder" so a captain repo can never ship the default by accident.
+captain_domain: ci.ci-tenant.example.com
+inventory_agent:
+  enabled: true
+  ingest_url: https://inventory.example.com/v1/snapshots
+  extra_pod_namespaces:
+    - glueops-core-monitoring
