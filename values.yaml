@@ -347,9 +347,11 @@ inventory_agent:
   ingest_url: ""
   # -- Namespaces installed from the captain repo rather than this chart whose pod
   # images should also be collected (e.g. glueops-core-monitoring,
-  # glueops-core-gatekeeper). Each must match glueops-core* or the render fails. The
-  # chart's own namespaces + kube-system are always included
-  # (templates/_inventory_agent.tpl).
+  # glueops-core-gatekeeper). Each must be glueops-core-* or the render fails, and
+  # each MUST already exist on the cluster: Argo CD dry-runs every object before
+  # applying any, so one Role aimed at a missing namespace fails the whole
+  # glueops-core-inventory-agent sync. The chart's own namespaces + kube-system are
+  # always included (templates/_inventory_agent.tpl).
   extra_pod_namespaces: []
   # @ignored
   cron_expression: "*/15 * * * *"
