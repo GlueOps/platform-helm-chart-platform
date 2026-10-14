@@ -38,5 +38,3 @@ captain_domain: ci.ci-tenant.example.com
 inventory_agent:
   enabled: true
   ingest_url: https://inventory.example.com/v1/snapshots
-  extra_pod_namespaces:
-    - glueops-core-monitoring

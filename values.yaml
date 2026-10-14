@@ -345,14 +345,12 @@ inventory_agent:
   # k3d). Empty renders nothing, so nothing runs anywhere until the receiver exists;
   # the chart release that fills this in is the fleet-wide switch-on.
   ingest_url: ""
-  # -- Namespaces installed from the captain repo rather than this chart whose pod
-  # images should also be collected (e.g. glueops-core-monitoring,
-  # glueops-core-gatekeeper). Each must be glueops-core-* or the render fails, and
-  # each MUST already exist on the cluster: Argo CD dry-runs every object before
-  # applying any, so one Role aimed at a missing namespace fails the whole
-  # glueops-core-inventory-agent sync. The chart's own namespaces + kube-system are
-  # always included (templates/_inventory_agent.tpl).
-  extra_pod_namespaces: []
+  # -- Regexp (anchored by the agent) selecting the namespaces whose pod images are
+  # collected, matched against the namespaces that exist on the cluster. Leave empty to
+  # use the agent's default, kube-system plus glueops-core and glueops-core-*. It is an
+  # allowlist: tenant namespaces are never matched, and a namespace that does not exist
+  # on a given distribution is simply absent.
+  namespace_pattern: ""
   # @ignored
   cron_expression: "*/15 * * * *"
   # @ignored
