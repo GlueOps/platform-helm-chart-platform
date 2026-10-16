@@ -82,8 +82,22 @@ spec:
           lokiCanary:
             image:
               registry: {{ .Values.container_images.app_loki.loki.image.registry }}
+            {{- /*
+            The canary only checks that log shipping works, so it has no business on the control
+            plane. The chart (5.48.0) has no affinity for it, so keep it off by toleration alone: drop
+            the key-less entries of daemonset_tolerations (they match every taint, control-plane
+            included) and name the taints the platform and load-balancer nodes carry instead.
+            */}}
+            {{- $canaryTolerations := list }}
+            {{- range .Values.daemonset_tolerations }}
+            {{- if .key }}
+            {{- $canaryTolerations = append $canaryTolerations . }}
+            {{- end }}
+            {{- end }}
+            {{- $canaryTolerations = append $canaryTolerations (dict "key" "glueops.dev/role" "operator" "Exists" "effect" "NoSchedule") }}
+            {{- $canaryTolerations = append $canaryTolerations (dict "key" "dedicated" "operator" "Exists" "effect" "NoSchedule") }}
             tolerations:
-              {{- toYaml .Values.daemonset_tolerations | nindent 14 }}
+              {{- toYaml $canaryTolerations | nindent 14 }}
         write:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
         tableManager:
