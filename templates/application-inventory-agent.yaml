@@ -1,11 +1,12 @@
 {{- /*
 glueops-core-inventory-agent: a read-only CronJob that every 15 minutes snapshots
 cluster/node versions, Helm release metadata in glueops-core and the container images
-running in the platform namespaces, and POSTs one gzipped JSON document to
-.Values.inventory_agent.ingest_url. Spec: internal-GlueOps/issues#526.
+running in the platform namespaces, and POSTs one gzipped JSON document to the
+GlueOps receiver (https://inventory-agent.glueopshosted.com/, built into the agent).
+Spec: internal-GlueOps/issues#526.
 
-Rendered only when enabled AND an ingest URL is set, so nothing runs on any cluster
-until the receiver exists. Every run exits 0; the agent never alerts.
+Rendered whenever inventory_agent.enabled is true (the default), so every captain
+reports unless opted out. Every run exits 0; the agent never alerts.
 
 Namespaces are discovered by the agent, not listed here: it lists the namespaces that
 exist, keeps the ones matching inventory_agent.namespace_pattern (default: kube-system
@@ -26,10 +27,7 @@ RBAC, all read-only:
     the namespace is platform-owned. The agent decodes only the `release` key and
     sends nine metadata fields, never values or manifests.
 */ -}}
-{{- if and .Values.inventory_agent.enabled .Values.inventory_agent.ingest_url }}
-{{- if and (not (hasPrefix "https://" .Values.inventory_agent.ingest_url)) (ne (toString .Values.development_mode_enabled) "true") }}
-  {{- fail (printf "inventory_agent.ingest_url must use https:// (got %q)" .Values.inventory_agent.ingest_url) }}
-{{- end }}
+{{- if .Values.inventory_agent.enabled }}
 {{- $helmNamespace := "glueops-core" -}}
 {{- $sa := "inventory-agent" -}}
 {{- $ns := "glueops-core-inventory-agent" -}}
@@ -125,8 +123,6 @@ spec:
               envVariables:
                 - name: CAPTAIN_DOMAIN
                   value: {{ .Values.captain_domain | quote }}
-                - name: INGEST_URL
-                  value: {{ .Values.inventory_agent.ingest_url | quote }}
                 {{- with .Values.inventory_agent.namespace_pattern }}
                 - name: NAMESPACE_PATTERN
                   value: {{ . | quote }}

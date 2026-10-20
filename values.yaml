@@ -338,13 +338,10 @@ base_registries:
 # Operational visibility data only: no secrets, no tenant workloads, no pod spec
 # fields beyond image identity.
 inventory_agent:
-  # -- On for every cluster unless specifically opted out. The Application is only
-  # rendered when this is true AND ingest_url is non-empty.
+  # -- On for every cluster unless specifically opted out. The agent reports to the
+  # GlueOps receiver at https://inventory-agent.glueopshosted.com/ (built into the
+  # agent; one endpoint for every environment).
   enabled: true
-  # -- Receiver endpoint. Must be https:// (development_mode_enabled relaxes this for
-  # k3d). Empty renders nothing, so nothing runs anywhere until the receiver exists;
-  # the chart release that fills this in is the fleet-wide switch-on.
-  ingest_url: ""
   # -- Regexp (anchored by the agent) selecting the namespaces whose pod images are
   # collected, matched against the namespaces that exist on the cluster. Leave empty to
   # use the agent's default, kube-system plus glueops-core and glueops-core-*. It is an
@@ -355,9 +352,8 @@ inventory_agent:
   cron_expression: "*/15 * * * *"
   # @ignored
   log_level: "info"
-  # -- gzip the snapshot body (Content-Encoding: gzip). Set false only for a trial
-  # receiver that cannot decompress (e.g. webhook.site); the payload size cap then
-  # applies to the uncompressed body.
+  # -- gzip the snapshot body (Content-Encoding: gzip). Set false only if the receiver
+  # cannot decompress; the payload size cap then applies to the uncompressed body.
   send_gzip: true
 
 container_images:
