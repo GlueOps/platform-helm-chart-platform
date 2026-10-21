@@ -357,6 +357,7 @@ inventory_agent:
     - local-path-storage
     - tigera-operator
     - calico-system
+    - calico-apiserver
   # @ignored
   cron_expression: "*/15 * * * *"
   # @ignored
