@@ -1,0 +1,200 @@
+{{- /*
+glueops-core-inventory-agent: a read-only CronJob that every 15 minutes snapshots
+cluster/node versions, Helm release metadata in glueops-core and the container images
+running in the platform namespaces, and POSTs one gzipped JSON document to the
+GlueOps receiver (https://inventory-agent.glueopshosted.com/, built into the agent).
+Spec: internal-GlueOps/issues#526.
+
+Rendered whenever inventory_agent.enabled is true (the default), so every captain
+reports unless opted out. A run that reaches the agent exits 0 whatever happens to the
+snapshot (unreachable receiver, RBAC denied, bad data), so those never alert. A run
+that fails before or outside the agent (image pull, OOM, activeDeadlineSeconds) does
+alert, through kube_job_status_failed and the pod-phase clause, and that is intended.
+Completed pods sit Ready=False/PodCompleted until the next run, so their prefix
+(inventory-agent-snapshot-, from the CronJob name) is excluded from the
+kube_pod_status_ready clause in application-glueops-alerts.yaml; rename both together.
+
+Namespaces come from inventory_agent.pod_namespaces, a list of names and `*` globs
+rendered into the agent's NAMESPACE_PATTERN. The agent lists the namespaces that
+exist, keeps the matches, and reads pods only in those, so an entry that does not
+exist on a given distribution (EKS vs kubeadm vs k3d) is simply skipped. It is an
+allowlist: a namespace not on the list is never read.
+
+RBAC, all read-only:
+  - ClusterRole: nodes get/list; namespaces get/list (discovery + cluster_uid);
+    pods get/list cluster-wide. The pods grant is cluster-wide because Kubernetes RBAC
+    has no namespace pattern; the agent only ever lists pods in the matched namespaces,
+    so tenant pod specs (which carry literal env values) are never fetched. This is the
+    same breadth kube-state-metrics has, and narrower than tls-cert-backup's
+    cluster-wide secrets read.
+  - Role in glueops-core: secrets get/list, for Helm release metadata. RBAC cannot
+    scope Secrets by type, so this is every Secret in glueops-core; accepted because
+    the namespace is platform-owned. The agent decodes only the `release` key and
+    sends nine metadata fields, never values or manifests.
+*/ -}}
+{{- if .Values.inventory_agent.enabled }}
+{{- /* Each entry is a literal name, with `*` as the only wildcard: quote it as a
+regexp, then turn the quoted \* back into .*; the agent anchors the alternation. */ -}}
+{{- $patterns := list -}}
+{{- range .Values.inventory_agent.pod_namespaces }}
+  {{- $patterns = append $patterns (regexQuoteMeta (toString .) | replace "\\*" ".*") -}}
+{{- end }}
+{{- if not $patterns }}
+  {{- fail "inventory_agent.pod_namespaces must list at least one namespace" }}
+{{- end }}
+{{- $helmNamespace := "glueops-core" -}}
+{{- $sa := "inventory-agent" -}}
+{{- $ns := "glueops-core-inventory-agent" -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $ns }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: {{ $ns }}
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 5
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.14.1
+    helm:
+      values: |
+        appName: 'inventory-agent'
+
+        image:
+          registry: {{ .Values.container_images.app_inventory_agent.inventory_agent.image.registry | quote }}
+          repository: {{ .Values.container_images.app_inventory_agent.inventory_agent.image.repository | quote }}
+          tag: {{ .Values.container_images.app_inventory_agent.inventory_agent.image.tag | quote }}
+
+        serviceAccount:
+          create: true
+          name: {{ $sa }}
+
+        deployment:
+          enabled: false
+
+        cronJob:
+          enabled: true
+          jobs:
+            snapshot:
+              {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
+              schedule: {{ .Values.inventory_agent.cron_expression | quote }}
+              concurrencyPolicy: Forbid
+              # The app chart defaults startingDeadlineSeconds to 30, which skips a run
+              # whenever the controller is briefly busy. A missed snapshot is harmless but
+              # a skipped one shows up as a gap, so give it the whole interval minus slack.
+              startingDeadlineSeconds: 600
+              backoffLimit: 0
+              activeDeadlineSeconds: 300
+              ttlSecondsAfterFinished: 900
+              successfulJobsHistoryLimit: 1
+              failedJobsHistoryLimit: 3
+              restartPolicy: Never
+              imagePullPolicy: IfNotPresent
+
+              serviceAccount:
+                enabled: true
+                name: {{ $sa }}
+                automountServiceAccountToken: true
+
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: 65532
+                runAsGroup: 65532
+                fsGroup: 65532
+                seccompProfile:
+                  type: RuntimeDefault
+
+              containerSecurityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+
+              envVariables:
+                - name: CAPTAIN_DOMAIN
+                  value: {{ .Values.captain_domain | quote }}
+                - name: NAMESPACE_PATTERN
+                  value: {{ join "|" $patterns | quote }}
+                - name: HELM_NAMESPACE
+                  value: {{ $helmNamespace | quote }}
+                # Normalised: the chart default is a placeholder string, never a bool.
+                - name: DEV_MODE
+                  value: {{ eq (toString .Values.development_mode_enabled) "true" | toString | quote }}
+                - name: LOG_LEVEL
+                  value: {{ .Values.inventory_agent.log_level | quote }}
+                - name: SEND_GZIP
+                  value: {{ eq (toString .Values.inventory_agent.send_gzip) "true" | toString | quote }}
+
+        customResources:
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRole
+            metadata:
+              name: {{ $ns }}
+            rules:
+              - apiGroups: [""]
+                resources: ["nodes", "namespaces", "pods"]
+                verbs: ["get", "list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: ClusterRoleBinding
+            metadata:
+              name: {{ $ns }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: ClusterRole
+              name: {{ $ns }}
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+          # Helm release metadata. See the header comment for what this really grants.
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: {{ $ns }}-helm
+              namespace: {{ $helmNamespace }}
+            rules:
+              - apiGroups: [""]
+                resources: ["secrets"]
+                verbs: ["get", "list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: {{ $ns }}-helm
+              namespace: {{ $helmNamespace }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: Role
+              name: {{ $ns }}-helm
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+{{- end }}

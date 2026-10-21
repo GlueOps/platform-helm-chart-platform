@@ -331,7 +331,48 @@ base_registries:
   public_ecr_aws: "ecr.repo.gpkg.io"
   registry_k8s_io: "k8s.repo.gpkg.io"
 
+# glueops-core-inventory-agent (internal-GlueOps/issues#526): read-only CronJob that
+# snapshots cluster/node versions, Helm release metadata in glueops-core and the
+# container images running in the platform namespaces, and ships one gzipped JSON
+# document every 15 minutes to a GlueOps-operated receiver (JSON -> S3 -> ClickHouse).
+# Operational visibility data only: no secrets, no tenant workloads, no pod spec
+# fields beyond image identity.
+inventory_agent:
+  # -- On for every cluster unless specifically opted out. The agent reports to the
+  # GlueOps receiver at https://inventory-agent.glueopshosted.com/ (built into the
+  # agent; one endpoint for every environment).
+  enabled: true
+  # -- Namespaces whose pod images are collected: exact names, with `*` as a wildcard.
+  # Matched against the namespaces that exist on the cluster, so an entry missing on a
+  # given distribution (EKS vs kubeadm vs k3d) is simply skipped. It is an allowlist:
+  # a namespace not listed here is never read.
+  pod_namespaces:
+    - kube-system
+    - kube-node-lease
+    - kube-public
+    - default
+    - glueops-core
+    - glueops-core-*
+    - chisel-operator-system
+    - local-path-storage
+    - tigera-operator
+    - calico-system
+    - calico-apiserver
+  # @ignored
+  cron_expression: "*/15 * * * *"
+  # @ignored
+  log_level: "info"
+  # -- gzip the snapshot body (Content-Encoding: gzip). Set false only if the receiver
+  # cannot decompress; the payload size cap then applies to the uncompressed body.
+  send_gzip: true
+
 container_images:
+  app_inventory_agent:
+    inventory_agent:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: glueops/inventory-agent
+        tag: v1.0.0@sha256:888e4ea68cc50fda7bb8c12ca2517becd5e76710b977a2fa6042ec6b10f884ee
   app_cert_manager:
     cert_manager:
       image:
