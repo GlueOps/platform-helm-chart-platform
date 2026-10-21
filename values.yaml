@@ -221,6 +221,8 @@ traefik:
           lifeCycle:
             requestAcceptGraceTimeout: 240s
             graceTimeOut: 240s
+    # The template strings below are rendered by the traefik chart (it runs tpl on these fields),
+    # so each traefik deployment only spreads against its own replicas.
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
@@ -228,11 +230,20 @@ traefik:
             podAffinityTerm:
               topologyKey: kubernetes.io/hostname
               labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/name
-                    operator: In
-                    values:
-                      - traefik
+                matchLabels:
+                  app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+                  app.kubernetes.io/instance: '{{ template "traefik.instance-name" . }}'
+    # ScheduleAnyway keeps pods schedulable on a single node; the descheduler "traefik-spread"
+    # profile evicts duplicates once another eligible node is available.
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        nodeTaintsPolicy: Honor
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+            app.kubernetes.io/instance: '{{ template "traefik.instance-name" . }}'
 
 
 pull_request_bot:

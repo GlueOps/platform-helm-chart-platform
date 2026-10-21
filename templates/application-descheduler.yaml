@@ -69,3 +69,29 @@ spec:
                     - RemovePodsViolatingNodeTaints
                     - RemovePodsViolatingNodeAffinity
                     - RemovePodsViolatingInterPodAntiAffinity
+            # Traefik uses soft (ScheduleAnyway) spread so pods never go Pending when only one
+            # LB node is available; rebalance them once more eligible nodes appear.
+            - name: traefik-spread
+              pluginConfig:
+                - name: DefaultEvictor
+                  args:
+                    podProtections:
+                      defaultDisabled:
+                      - "PodsWithLocalStorage"
+                      extraEnabled:
+                      - "PodsWithPVC"
+                    minReplicas: 2
+                    noEvictionPolicy: "Mandatory"
+                - name: RemovePodsViolatingTopologySpreadConstraint
+                  args:
+                    constraints:
+                      - DoNotSchedule
+                      - ScheduleAnyway
+                    topologyBalanceNodeFit: true
+                    labelSelector:
+                      matchLabels:
+                        app.kubernetes.io/name: traefik
+              plugins:
+                balance:
+                  enabled:
+                    - RemovePodsViolatingTopologySpreadConstraint
