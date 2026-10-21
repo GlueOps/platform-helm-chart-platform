@@ -342,12 +342,21 @@ inventory_agent:
   # GlueOps receiver at https://inventory-agent.glueopshosted.com/ (built into the
   # agent; one endpoint for every environment).
   enabled: true
-  # -- Regexp (anchored by the agent) selecting the namespaces whose pod images are
-  # collected, matched against the namespaces that exist on the cluster. Leave empty to
-  # use the agent's default, kube-system plus glueops-core and glueops-core-*. It is an
-  # allowlist: tenant namespaces are never matched, and a namespace that does not exist
-  # on a given distribution is simply absent.
-  namespace_pattern: ""
+  # -- Namespaces whose pod images are collected: exact names, with `*` as a wildcard.
+  # Matched against the namespaces that exist on the cluster, so an entry missing on a
+  # given distribution (EKS vs kubeadm vs k3d) is simply skipped. It is an allowlist:
+  # a namespace not listed here is never read.
+  pod_namespaces:
+    - kube-system
+    - kube-node-lease
+    - kube-public
+    - default
+    - glueops-core
+    - glueops-core-*
+    - chisel-operator-system
+    - local-path-storage
+    - tigera-operator
+    - calico-system
   # @ignored
   cron_expression: "*/15 * * * *"
   # @ignored

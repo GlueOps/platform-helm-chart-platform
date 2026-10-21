@@ -6,14 +6,19 @@ GlueOps receiver (https://inventory-agent.glueopshosted.com/, built into the age
 Spec: internal-GlueOps/issues#526.
 
 Rendered whenever inventory_agent.enabled is true (the default), so every captain
-reports unless opted out. Every run exits 0; the agent never alerts.
+reports unless opted out. A run that reaches the agent exits 0 whatever happens to the
+snapshot (unreachable receiver, RBAC denied, bad data), so those never alert. A run
+that fails before or outside the agent (image pull, OOM, activeDeadlineSeconds) does
+alert, through kube_job_status_failed and the pod-phase clause, and that is intended.
+Completed pods sit Ready=False/PodCompleted until the next run, so their prefix
+(inventory-agent-snapshot-, from the CronJob name) is excluded from the
+kube_pod_status_ready clause in application-glueops-alerts.yaml; rename both together.
 
-Namespaces are discovered by the agent, not listed here: it lists the namespaces that
-exist, keeps the ones matching inventory_agent.namespace_pattern (default: kube-system
-and glueops-core*), and reads pods only in those. A namespace that does not exist on a
-given distribution is simply absent; nothing in the chart depends on it. The filter is
-an allowlist pattern, so a tenant namespace (tenants may deploy to any namespace) is
-never collected, and a new glueops-core-* Application is picked up without a chart change.
+Namespaces come from inventory_agent.pod_namespaces, a list of names and `*` globs
+rendered into the agent's NAMESPACE_PATTERN. The agent lists the namespaces that
+exist, keeps the matches, and reads pods only in those, so an entry that does not
+exist on a given distribution (EKS vs kubeadm vs k3d) is simply skipped. It is an
+allowlist: a namespace not on the list is never read.
 
 RBAC, all read-only:
   - ClusterRole: nodes get/list; namespaces get/list (discovery + cluster_uid);
@@ -28,6 +33,15 @@ RBAC, all read-only:
     sends nine metadata fields, never values or manifests.
 */ -}}
 {{- if .Values.inventory_agent.enabled }}
+{{- /* Each entry is a literal name, with `*` as the only wildcard: quote it as a
+regexp, then turn the quoted \* back into .*; the agent anchors the alternation. */ -}}
+{{- $patterns := list -}}
+{{- range .Values.inventory_agent.pod_namespaces }}
+  {{- $patterns = append $patterns (regexQuoteMeta (toString .) | replace "\\*" ".*") -}}
+{{- end }}
+{{- if not $patterns }}
+  {{- fail "inventory_agent.pod_namespaces must list at least one namespace" }}
+{{- end }}
 {{- $helmNamespace := "glueops-core" -}}
 {{- $sa := "inventory-agent" -}}
 {{- $ns := "glueops-core-inventory-agent" -}}
@@ -123,14 +137,10 @@ spec:
               envVariables:
                 - name: CAPTAIN_DOMAIN
                   value: {{ .Values.captain_domain | quote }}
-                {{- with .Values.inventory_agent.namespace_pattern }}
                 - name: NAMESPACE_PATTERN
-                  value: {{ . | quote }}
-                {{- end }}
+                  value: {{ join "|" $patterns | quote }}
                 - name: HELM_NAMESPACE
                   value: {{ $helmNamespace | quote }}
-                - name: GLUEOPS_PLATFORM_CHART_VERSION
-                  value: {{ .Chart.Version | quote }}
                 # Normalised: the chart default is a placeholder string, never a bool.
                 - name: DEV_MODE
                   value: {{ eq (toString .Values.development_mode_enabled) "true" | toString | quote }}

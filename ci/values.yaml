@@ -32,8 +32,3 @@ base_registries:
   docker_io: docker.io
   registry_k8s_io: registry.k8s.io
   public_ecr_aws: public.ecr.aws
-# A syntactically valid, non-placeholder domain, as a real captain repo would set
-# (the inventory agent rejects a placeholder CAPTAIN_DOMAIN at runtime).
-captain_domain: ci.ci-tenant.example.com
-inventory_agent:
-  enabled: true
