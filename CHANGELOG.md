@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.81.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.2...v0.81.0) (2026-10-21)
+
+
+### Features
+
+* add glueops-core-inventory-agent ([#1516](https://github.com/GlueOps/platform-helm-chart-platform/issues/1516)) ([de288e1](https://github.com/GlueOps/platform-helm-chart-platform/commit/de288e11457270270a1fa8db761b6118147dc94c))
+* update ghcr.repo.gpkg.io/glueops/cluster-information-help-page-html to v4.31.0 #minor ([#1520](https://github.com/GlueOps/platform-helm-chart-platform/issues/1520)) ([8ab06a3](https://github.com/GlueOps/platform-helm-chart-platform/commit/8ab06a36cd091bf7323a668a7d4a9b0e68435aa7))
+
+
+### Bug Fixes
+
+* disable goldilocks cost integration email prompt ([#1518](https://github.com/GlueOps/platform-helm-chart-platform/issues/1518)) ([1fa1e8b](https://github.com/GlueOps/platform-helm-chart-platform/commit/1fa1e8bed14b7510957cbc843018f6236328160d))
+
 ## [0.80.2](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.1...v0.80.2) (2026-09-29)
 
 
