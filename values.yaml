@@ -372,9 +372,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/inventory-agent
-        # TODO: replace with the first release tag + digest once GlueOps/inventory-agent
-        # publishes v0.1.0 (renovate pins the digest from then on).
-        tag: v0.1.0
+        tag: v1.0.0@sha256:888e4ea68cc50fda7bb8c12ca2517becd5e76710b977a2fa6042ec6b10f884ee
   app_cert_manager:
     cert_manager:
       image:
