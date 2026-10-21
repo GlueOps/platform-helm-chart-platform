@@ -44,6 +44,10 @@ spec:
         dashboard:
           {{- toYaml .Values.glueops_node_and_tolerations | nindent 10 }}
 
+          # Disable the Fairwinds Insights cost integration (removes the email prompt).
+          flags:
+            enable-cost: false
+
           # Exposed at https://goldilocks.<captain_domain> behind the shared
           # oauth2-proxy/dex SSO forward-auth middleware, same as the other
           # platform dashboards (grafana, prometheus, vault, cluster-info).
