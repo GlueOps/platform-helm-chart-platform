@@ -69,9 +69,9 @@ spec:
                     - RemovePodsViolatingNodeTaints
                     - RemovePodsViolatingNodeAffinity
                     - RemovePodsViolatingInterPodAntiAffinity
-            # Traefik uses soft (ScheduleAnyway) spread so pods never go Pending when only one
-            # LB node is available; rebalance them once more eligible nodes appear.
-            - name: traefik-spread
+            # Ingress controllers (traefik, ingress-nginx) use soft (ScheduleAnyway) spread so pods never
+            # go Pending when only one LB node is available; rebalance them once more eligible nodes appear.
+            - name: ingress-controller-spread
               pluginConfig:
                 - name: DefaultEvictor
                   args:
@@ -89,8 +89,12 @@ spec:
                       - ScheduleAnyway
                     topologyBalanceNodeFit: true
                     labelSelector:
-                      matchLabels:
-                        app.kubernetes.io/name: traefik
+                      matchExpressions:
+                        - key: app.kubernetes.io/name
+                          operator: In
+                          values:
+                            - traefik
+                            - ingress-nginx
               plugins:
                 balance:
                   enabled:

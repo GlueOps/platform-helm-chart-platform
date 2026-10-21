@@ -233,7 +233,7 @@ traefik:
                 matchLabels:
                   app.kubernetes.io/name: '{{ template "traefik.name" . }}'
                   app.kubernetes.io/instance: '{{ template "traefik.instance-name" . }}'
-    # ScheduleAnyway keeps pods schedulable on a single node; the descheduler "traefik-spread"
+    # ScheduleAnyway keeps pods schedulable on a single node; the descheduler "ingress-controller-spread"
     # profile evicts duplicates once another eligible node is available.
     topologySpreadConstraints:
       - maxSkew: 1
