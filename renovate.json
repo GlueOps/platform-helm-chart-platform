@@ -28,6 +28,21 @@
         "/metacontroller-operator-loki-rule-group$/"
       ],
       "enabled": false
+    },
+    {
+      "description": "Argo CD chart repoURLs that use {{ .Values.base_registries.ghcr_io }} are read literally by Renovate (depName loses its registry, e.g. /openbao/charts/openbao) and fail lookup. Point them at upstream GHCR.",
+      "matchManagers": ["argocd"],
+      "matchPackageNames": [
+        "/^\\/openbao\\/charts\\/openbao$/",
+        "/^\\/external-secrets\\/charts\\/external-secrets$/"
+      ],
+      "overridePackageName": "ghcr.io{{{depName}}}"
+    },
+    {
+      "description": "Also raise a PR for the latest patch of the current OpenBao minor, so patch fixes can ship without taking the minor upgrade.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/openbao\\/openbao$/"],
+      "separateMinorPatch": true
     }
   ]
 }
