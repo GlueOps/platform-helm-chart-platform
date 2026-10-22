@@ -1,8 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "description": "Collapse per-minor PR sprawl. The org preset separates every intermediate minor/patch into its own PR (branches like ...-2.5.x, ...-2.6.x), so a single image can accumulate a dozen open PRs. Overriding these to false makes Renovate open one PR per dependency targeting the highest available version; older intermediate PRs are superseded automatically. Majors stay separate (default separateMajorMinor) so breaking changes are still reviewed on their own.",
-  "separateMinorPatch": false,
-  "separateMultipleMinor": false,
   "ignoreDeps": [
     "/openbao/charts/openbao",
     "/external-secrets/charts/external-secrets"
@@ -55,12 +52,6 @@
         "templates/application-external-secrets.yaml"
       ],
       "pinDigests": false
-    },
-    {
-      "description": "Also raise a PR for the latest patch of the current OpenBao minor, so patch fixes can ship without taking the minor upgrade.",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["/openbao\\/openbao$/"],
-      "separateMinorPatch": true
     }
   ]
 }
