@@ -166,6 +166,18 @@ spec:
                       values:
                       - controller
                   topologyKey: kubernetes.io/hostname
+          # ScheduleAnyway keeps pods schedulable on a single node; the descheduler "ingress-controller-spread"
+          # profile evicts duplicates once another eligible node is available.
+          topologySpreadConstraints:
+          - maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+            nodeTaintsPolicy: Honor
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: ingress-nginx
+                app.kubernetes.io/instance: public-ingress-nginx
+                app.kubernetes.io/component: controller
 
 
 
