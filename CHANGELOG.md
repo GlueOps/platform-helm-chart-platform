@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.82.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.81.0...v0.82.0) (2026-10-22)
+
+
+### Features
+
+* update ghcr.repo.gpkg.io/dexidp/dex to v2.46.1 #minor ([#1533](https://github.com/GlueOps/platform-helm-chart-platform/issues/1533)) ([004e5ce](https://github.com/GlueOps/platform-helm-chart-platform/commit/004e5cea953cc424ea40a164293d1aff891eb697))
+* update ghcr.repo.gpkg.io/glueops/inventory-agent to v1.1.0 #minor ([#1523](https://github.com/GlueOps/platform-helm-chart-platform/issues/1523)) ([7be1f28](https://github.com/GlueOps/platform-helm-chart-platform/commit/7be1f2868c6b9f51a174f248f6f1e46a7f083698))
+
+
+### Bug Fixes
+
+* **renovate:** track templated OpenBao/external-secrets charts; latest patch per minor ([#1544](https://github.com/GlueOps/platform-helm-chart-platform/issues/1544)) ([4835abb](https://github.com/GlueOps/platform-helm-chart-platform/commit/4835abb32dd9676d21bd82b2782bb7f481d2b581))
+* spread traefik replicas across nodes and rebalance with descheduler ([#1526](https://github.com/GlueOps/platform-helm-chart-platform/issues/1526)) ([e40f23b](https://github.com/GlueOps/platform-helm-chart-platform/commit/e40f23bddf8e2e6ac2a71476350df1290932a266))
+* zero-downtime rollouts and drains for qr-code-generator ([#1525](https://github.com/GlueOps/platform-helm-chart-platform/issues/1525)) ([e56b8bd](https://github.com/GlueOps/platform-helm-chart-platform/commit/e56b8bd8f8b09215422fd7d031e4b4f48303514f))
+
+
+### Miscellaneous Chores
+
+* **patch:** update quay.repo.gpkg.io/openbao/openbao to 2.6.4 #patch ([#1553](https://github.com/GlueOps/platform-helm-chart-platform/issues/1553)) ([733643e](https://github.com/GlueOps/platform-helm-chart-platform/commit/733643e1654671da496b4ae01eb4beb8c3a42bc9))
+
 ## [0.81.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.80.2...v0.81.0) (2026-10-21)
 
 

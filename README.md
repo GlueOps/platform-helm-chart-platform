@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.81.0](https://img.shields.io/badge/Version-0.81.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.82.0](https://img.shields.io/badge/Version-0.82.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -57,7 +57,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_descheduler.descheduler.image.tag | string | `"v0.36.0"` |  |
 | container_images.app_dex.dex.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
-| container_images.app_dex.dex.image.tag | string | `"v2.45.1@sha256:8499afd690c437f52301efd2b05b2455da5bd2dfc20332cd697dc9937f808462"` |  |
+| container_images.app_dex.dex.image.tag | string | `"v2.46.1@sha256:65b72ca0f4b0bf6d4ada84ec21da8851782563404ac7b8f926923d27ceced9ab"` |  |
 | container_images.app_external_dns.external_dns.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_external_dns.external_dns.image.repository | string | `"external-dns/external-dns"` |  |
 | container_images.app_external_dns.external_dns.image.tag | string | `"v0.22.0@sha256:5fdcaf7deb5c158f93a1fc6fe169cdff4cfb9ae0172bee1a90ab0ef74fb9c9cf"` |  |
@@ -81,7 +81,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.repository | string | `"glueops/inventory-agent"` |  |
-| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.0.0@sha256:888e4ea68cc50fda7bb8c12ca2517becd5e76710b977a2fa6042ec6b10f884ee"` |  |
+| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.1.0@sha256:7a2883f816717190a151cd120076f81bd669f8942e11386f5d39a84600a429fe"` |  |
 | container_images.app_keda.admission_webhooks.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_keda.admission_webhooks.image.repository | string | `"kedacore/keda-admission-webhooks"` |  |
 | container_images.app_keda.admission_webhooks.image.tag | string | `"2.20.2@sha256:41f74102aba7959c6e8d08b433ab8a5fd6cae7c5646c78f7fe3de40a52df3439"` |  |
@@ -123,7 +123,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_reflector.reflector.image.tag | string | `"10.0.65@sha256:51dbd5880929dc26678f6e190c70abfbcccd3846679ff464e5815823fd782f1a"` |  |
 | container_images.app_vault.vault.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
-| container_images.app_vault.vault.image.tag | string | `"2.6.2@sha256:11fd73a2102cda9c55d5d881a8c3210303146a7ec1e8ac76f526e175c6d24641"` |  |
+| container_images.app_vault.vault.image.tag | string | `"2.6.4@sha256:cf2340fc9a22cb9358ca0defd1f39b65673836bd23fe2bb8984a07e11fe13ef4"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.repository | string | `"glueops/vault-init-controller"` |  |
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.14.0@sha256:9b4d6ed77c3843c269846495b3f1f6f20e86cb8c92381727fcfb3d3169b0fbfa"` |  |
@@ -239,9 +239,8 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.additionalArguments[3] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
 | traefik.shared_helm_values.additionalArguments[4] | string | `"--metrics.prometheus.addServicesLabels=true"` |  |
 | traefik.shared_helm_values.additionalArguments[5] | string | `"--serversTransport.insecureSkipVerify=true"` |  |
-| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key | string | `"app.kubernetes.io/name"` |  |
-| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator | string | `"In"` |  |
-| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0] | string | `"traefik"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ template \"traefik.instance-name\" . }}"` |  |
+| traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"traefik.name\" . }}"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"kubernetes.io/hostname"` |  |
 | traefik.shared_helm_values.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `100` |  |
 | traefik.shared_helm_values.api.dashboard | bool | `true` |  |
@@ -271,6 +270,12 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.resources.requests.cpu | string | `"100m"` |  |
 | traefik.shared_helm_values.resources.requests.memory | string | `"90Mi"` |  |
 | traefik.shared_helm_values.tlsStore.default.defaultCertificate.secretName | string | `"default-ingress-cert"` |  |
+| traefik.shared_helm_values.topologySpreadConstraints[0].labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ template \"traefik.instance-name\" . }}"` |  |
+| traefik.shared_helm_values.topologySpreadConstraints[0].labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"traefik.name\" . }}"` |  |
+| traefik.shared_helm_values.topologySpreadConstraints[0].maxSkew | int | `1` |  |
+| traefik.shared_helm_values.topologySpreadConstraints[0].nodeTaintsPolicy | string | `"Honor"` |  |
+| traefik.shared_helm_values.topologySpreadConstraints[0].topologyKey | string | `"kubernetes.io/hostname"` |  |
+| traefik.shared_helm_values.topologySpreadConstraints[0].whenUnsatisfiable | string | `"ScheduleAnyway"` |  |
 | vault.data_storage | string | `"placeholder_vault_data_storage"` | Volume of storage requested for each Vault Data PVC, in Gi |
 | vault_init_controller.aws_accessKey | string | `"placeholder_vault_init_controller_aws_access_key"` | S3 Credentials to access the vault_access.json |
 | vault_init_controller.aws_region | string | `"placeholder_aws_region"` | S3 region to access the vault_access.json |
