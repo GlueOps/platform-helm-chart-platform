@@ -549,7 +549,7 @@ container_images:
       image:
         registry: quay.repo.gpkg.io
         repository: openbao/openbao
-        tag: 2.6.5@sha256:09f1eaaee351c329d75a5a89654d6e1ad4792998650c3cbf0c3513a76d9d9b6e
+        tag: 2.7.2@sha256:5046911075e137e154ce49ab051502f4ec7cf367d484ae4a4dce665d9b90561f
   app_metacontroller:
     metacontroller:
       image:
