@@ -339,7 +339,7 @@ base_registries:
 # fields beyond image identity.
 inventory_agent:
   # -- On for every cluster unless specifically opted out. The agent reports to the
-  # GlueOps receiver at https://inventory-agent.glueopshosted.com/ (built into the
+  # GlueOps receiver at https://inventory-agent.observability.glueopshosted.com/ (built into the
   # agent; one endpoint for every environment).
   enabled: true
   # -- Namespaces whose pod images are collected: exact names, with `*` as a wildcard.
