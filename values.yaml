@@ -426,7 +426,7 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: descheduler/descheduler
-        tag: v0.36.0
+        tag: v0.36.0@sha256:7ca92c0a7b4f1c51d306409da6b832005fcadb224e384795646376726734c6e5
   app_external_secrets:
     external_secrets:
       image:
@@ -460,7 +460,7 @@ container_images:
       image:
         registry: gcp.repo.gpkg.io
         repository: fairwinds-ops/oss/goldilocks
-        tag: "v4.16.2"
+        tag: "v4.16.2@sha256:c46d846d31190b034a76ca4b1191a9e1601ac3f32c3a086f23fb1f49662afc88"
 
   app_backup_and_exports:
     vault_backup_validator:
