@@ -81,7 +81,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.repository | string | `"glueops/inventory-agent"` |  |
-| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.0.0@sha256:888e4ea68cc50fda7bb8c12ca2517becd5e76710b977a2fa6042ec6b10f884ee"` |  |
+| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.2.0@sha256:90f52ee9aa863ee2f507dd6ed9e3d2c750a577be42833d58440fe51f36a37e05"` |  |
 | container_images.app_keda.admission_webhooks.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_keda.admission_webhooks.image.repository | string | `"kedacore/keda-admission-webhooks"` |  |
 | container_images.app_keda.admission_webhooks.image.tag | string | `"2.20.2@sha256:41f74102aba7959c6e8d08b433ab8a5fd6cae7c5646c78f7fe3de40a52df3439"` |  |
@@ -210,7 +210,7 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| inventory_agent.enabled | bool | `true` | On for every cluster unless specifically opted out. The agent reports to the GlueOps receiver at https://inventory-agent.glueopshosted.com/ (built into the agent; one endpoint for every environment). |
+| inventory_agent.enabled | bool | `true` | On for every cluster unless specifically opted out. The agent reports to the GlueOps receiver at https://inventory-agent.observability.glueopshosted.com/ (built into the agent; one endpoint for every environment). |
 | inventory_agent.pod_namespaces | list | `["kube-system","kube-node-lease","kube-public","default","glueops-core","glueops-core-*","chisel-operator-system","local-path-storage","tigera-operator","calico-system","calico-apiserver"]` | Namespaces whose pod images are collected: exact names, with `*` as a wildcard. Matched against the namespaces that exist on the cluster, so an entry missing on a given distribution (EKS vs kubeadm vs k3d) is simply skipped. It is an allowlist: a namespace not listed here is never read. |
 | inventory_agent.send_gzip | bool | `true` | gzip the snapshot body (Content-Encoding: gzip). Set false only if the receiver cannot decompress; the payload size cap then applies to the uncompressed body. |
 | kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
