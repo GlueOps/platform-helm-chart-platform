@@ -2,7 +2,7 @@
 glueops-core-inventory-agent: a read-only CronJob that every 15 minutes snapshots
 cluster/node versions, Helm release metadata in glueops-core and the container images
 running in the platform namespaces, and POSTs one gzipped JSON document to the
-GlueOps receiver (https://inventory-agent.glueopshosted.com/, built into the agent).
+GlueOps receiver (https://inventory-agent.observability.glueopshosted.com/, built into the agent).
 Spec: internal-GlueOps/issues#526.
 
 Rendered whenever inventory_agent.enabled is true (the default), so every captain

@@ -210,7 +210,7 @@ This chart deploys the GlueOps Platform
 | host_network.kube_pometheus_stack.prometheusOperator.tls.internal_port | int | `45040` |  |
 | host_network.nginx_public.controller.host_port.ports.http | int | `45030` |  |
 | host_network.nginx_public.controller.host_port.ports.https | int | `45031` |  |
-| inventory_agent.enabled | bool | `true` | On for every cluster unless specifically opted out. The agent reports to the GlueOps receiver at https://inventory-agent.glueopshosted.com/ (built into the agent; one endpoint for every environment). |
+| inventory_agent.enabled | bool | `true` | On for every cluster unless specifically opted out. The agent reports to the GlueOps receiver at https://inventory-agent.observability.glueopshosted.com/ (built into the agent; one endpoint for every environment). |
 | inventory_agent.pod_namespaces | list | `["kube-system","kube-node-lease","kube-public","default","glueops-core","glueops-core-*","chisel-operator-system","local-path-storage","tigera-operator","calico-system","calico-apiserver"]` | Namespaces whose pod images are collected: exact names, with `*` as a wildcard. Matched against the namespaces that exist on the cluster, so an entry missing on a given distribution (EKS vs kubeadm vs k3d) is simply skipped. It is an allowlist: a namespace not listed here is never read. |
 | inventory_agent.send_gzip | bool | `true` | gzip the snapshot body (Content-Encoding: gzip). Set false only if the receiver cannot decompress; the payload size cap then applies to the uncompressed body. |
 | kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
