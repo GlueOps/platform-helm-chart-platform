@@ -426,7 +426,7 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: descheduler/descheduler
-        tag: v0.36.0
+        tag: v0.37.0@sha256:88deef34ff5c85cb69676d7073dd641bd5c35b156bc1ef4a35ca8fbf9644da98
   app_external_secrets:
     external_secrets:
       image:
