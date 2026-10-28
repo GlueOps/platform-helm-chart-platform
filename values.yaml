@@ -595,7 +595,7 @@ container_images:
       image:
         registry: dockerhub.repo.gpkg.io
         repository: curlimages/curl
-        tag: 8.22.0@sha256:58adaa4e8dca9c988bae2aba4ab3434a0bb2da16bbe3f92dec39ec7785166777
+        tag: 8.23.0@sha256:3fb7e13e5d179a845c97d78204f3f1064d1907037f26a3ebf91710571151fd93
   app_gluekube_ccm:
     gluekube_ccm:
       image:
