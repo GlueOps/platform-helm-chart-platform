@@ -420,7 +420,7 @@ container_images:
       image:
         registry: dockerhub.repo.gpkg.io
         repository: emberstack/kubernetes-reflector
-        tag: 10.0.65@sha256:51dbd5880929dc26678f6e190c70abfbcccd3846679ff464e5815823fd782f1a
+        tag: 10.0.70@sha256:90a48a9e9cf2ae2afdb75218801ba4962ab8adf04ce36ccae70314462323fcb2
   app_descheduler:
     descheduler:
       image:
