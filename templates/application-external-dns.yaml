@@ -26,7 +26,7 @@ spec:
   source:
     repoURL: 'https://github.com/kubernetes-sigs/external-dns'
     path: charts/external-dns
-    targetRevision: external-dns-helm-chart-1.22.0
+    targetRevision: external-dns-helm-chart-1.23.0
     helm:
       skipCrds: true
       parameters:
