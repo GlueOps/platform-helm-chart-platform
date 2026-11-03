@@ -389,27 +389,27 @@ container_images:
       image:
         registry: quay.repo.gpkg.io
         repository: jetstack/cert-manager-controller
-        tag: v1.21.2@sha256:70f532fd9cfde0b09d55687200942399d89838bc2d5d5b45152eb799a15912b8
+        tag: v1.21.3@sha256:9f4f96a33c7774cef24466fcd85031997531a03a8d117f151126baa8d1290dcc
     webhook:
       image:
         registry: quay.repo.gpkg.io
         repository: jetstack/cert-manager-webhook
-        tag: v1.21.2@sha256:a60e2dac46dbb8a7f3df95c54ce941012f54c2fe022f0ee55aaa1ab40ed957ae
+        tag: v1.21.3@sha256:055ac8e9de6a0ba6763794838fe38944acc650f68ebe1b01dd8be079e580f458
     cainjector:
       image:
         registry: quay.repo.gpkg.io
         repository: jetstack/cert-manager-cainjector
-        tag: v1.21.2@sha256:c85268c64f2e0e76684bf5fe8906caff34b82523561c6affe0fae3546bd87562
+        tag: v1.21.3@sha256:083d0e906f8eb44e255fe4ff817ae54e49f9ed82e22f1011bb4e9e4f4b8a641f
     acmesolver:
       image:
         registry: quay.repo.gpkg.io
         repository: jetstack/cert-manager-acmesolver
-        tag: v1.21.2@sha256:699b40d622211ab7accad8a21b04c5fbaa1841ef7a12621e8de492dbe27b2503
+        tag: v1.21.3@sha256:c8c1225bb2fe8ab37a330b77f0d8c2ee6a41210fcb54fc07ca606ab9a022b8b7
     startupapicheck:
       image:
         registry: quay.repo.gpkg.io
         repository: jetstack/cert-manager-startupapicheck
-        tag: v1.21.2@sha256:46e75b6866359ffb5d82624f41e3ed1c70b2994982702ced547ce5edb418a8f5
+        tag: v1.21.3@sha256:1c519d4afca1413d1e4ccd78bdc756184418ab55a34569a3b3de39d32f9974e1
     cert_restore:
       image:
         registry: ghcr.repo.gpkg.io
@@ -444,17 +444,17 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: autoscaling/vpa-recommender
-        tag: 1.7.1@sha256:89cea705535f9d8df6e62d5084916ec447e85d64369cfff2f7c6ac9d1cc5cd1e
+        tag: 1.7.3@sha256:3b207e6e719e8a88b96b5777afa6f6fb261e73669fa39f487c04560d85bf2e7d
     updater:
       image:
         registry: k8s.repo.gpkg.io
         repository: autoscaling/vpa-updater
-        tag: 1.7.1@sha256:feb42a5269708d065d5a43c5379d0e4700c3eca333231723d6a7c24f222ab446
+        tag: 1.7.3@sha256:666e5fe1b933c85c0bc01dfca9cd7fac93bcc5618072e32d6bece16b77e39d14
     admission_controller:
       image:
         registry: k8s.repo.gpkg.io
         repository: autoscaling/vpa-admission-controller
-        tag: 1.7.1@sha256:be29624f7f12a0b6f7fe18e2e042195eb6e39ae37d4490000f2643a480873572
+        tag: 1.7.3@sha256:404b5e7389ae85881c8e06147035244c9f0aa366d5b1b10cbb1ca8eda72ee07e
   app_goldilocks:
     goldilocks:
       image:
@@ -555,7 +555,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: metacontroller/metacontroller
-        tag: v4.17.2@sha256:d7a55ebc70b45c2497e9fb5b1d42aae72a8c03545f66a43d9e58583b79cae12d #this might need to be updated manually because of renovatebot errors
+        tag: v4.17.6@sha256:1c083f7587130f611dc1330b898c49d78cc223674570c223b8081d7ca4b197dd #this might need to be updated manually because of renovatebot errors
   app_keda:
     keda:
       image:
@@ -589,13 +589,13 @@ container_images:
       image:
         registry: quay.repo.gpkg.io
         repository: oauth2-proxy/oauth2-proxy
-        tag: v7.15.4@sha256:b1b2021fe8f4004573e8d690dec6c7bb29cc44364572cf8510a05bf3a0ae2ded
+        tag: v7.15.5@sha256:8498b0d0ef0a7b29686414000a08aee467f02d0299c9ed1e006a8f33fc017916
   app_curlimages:
     curl:
       image:
         registry: dockerhub.repo.gpkg.io
         repository: curlimages/curl
-        tag: 8.22.0@sha256:58adaa4e8dca9c988bae2aba4ab3434a0bb2da16bbe3f92dec39ec7785166777
+        tag: 8.23.0@sha256:3fb7e13e5d179a845c97d78204f3f1064d1907037f26a3ebf91710571151fd93
   app_gluekube_ccm:
     gluekube_ccm:
       image:
