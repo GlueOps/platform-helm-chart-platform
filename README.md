@@ -1,6 +1,6 @@
 # glueops-platform
 
-![Version: 0.82.0](https://img.shields.io/badge/Version-0.82.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: 0.83.0](https://img.shields.io/badge/Version-0.83.0-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
 
 This chart deploys the GlueOps Platform
 
@@ -30,40 +30,40 @@ This chart deploys the GlueOps Platform
 | container_images.app_backup_and_exports.vault_backup_validator.image.tag | string | `"v2.19.0@sha256:7b596c272737f8df80c8a415b2e8683d6d5a2a157fdef8d3dc67aed14a86ac6b"` |  |
 | container_images.app_cert_manager.acmesolver.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.acmesolver.image.repository | string | `"jetstack/cert-manager-acmesolver"` |  |
-| container_images.app_cert_manager.acmesolver.image.tag | string | `"v1.21.2@sha256:699b40d622211ab7accad8a21b04c5fbaa1841ef7a12621e8de492dbe27b2503"` |  |
+| container_images.app_cert_manager.acmesolver.image.tag | string | `"v1.21.3@sha256:c8c1225bb2fe8ab37a330b77f0d8c2ee6a41210fcb54fc07ca606ab9a022b8b7"` |  |
 | container_images.app_cert_manager.cainjector.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.cainjector.image.repository | string | `"jetstack/cert-manager-cainjector"` |  |
-| container_images.app_cert_manager.cainjector.image.tag | string | `"v1.21.2@sha256:c85268c64f2e0e76684bf5fe8906caff34b82523561c6affe0fae3546bd87562"` |  |
+| container_images.app_cert_manager.cainjector.image.tag | string | `"v1.21.3@sha256:083d0e906f8eb44e255fe4ff817ae54e49f9ed82e22f1011bb4e9e4f4b8a641f"` |  |
 | container_images.app_cert_manager.cert_manager.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.cert_manager.image.repository | string | `"jetstack/cert-manager-controller"` |  |
-| container_images.app_cert_manager.cert_manager.image.tag | string | `"v1.21.2@sha256:70f532fd9cfde0b09d55687200942399d89838bc2d5d5b45152eb799a15912b8"` |  |
+| container_images.app_cert_manager.cert_manager.image.tag | string | `"v1.21.3@sha256:9f4f96a33c7774cef24466fcd85031997531a03a8d117f151126baa8d1290dcc"` |  |
 | container_images.app_cert_manager.cert_restore.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.cert_restore.image.repository | string | `"glueops/certs-backup-restore"` |  |
 | container_images.app_cert_manager.cert_restore.image.tag | string | `"v2.4.0@sha256:d2c6a534ecc06017eabc80cc2554ca41cae5a64509d7dddc9dfe46459be11e3e"` |  |
 | container_images.app_cert_manager.startupapicheck.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.startupapicheck.image.repository | string | `"jetstack/cert-manager-startupapicheck"` |  |
-| container_images.app_cert_manager.startupapicheck.image.tag | string | `"v1.21.2@sha256:46e75b6866359ffb5d82624f41e3ed1c70b2994982702ced547ce5edb418a8f5"` |  |
+| container_images.app_cert_manager.startupapicheck.image.tag | string | `"v1.21.3@sha256:1c519d4afca1413d1e4ccd78bdc756184418ab55a34569a3b3de39d32f9974e1"` |  |
 | container_images.app_cert_manager.webhook.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_cert_manager.webhook.image.repository | string | `"jetstack/cert-manager-webhook"` |  |
-| container_images.app_cert_manager.webhook.image.tag | string | `"v1.21.2@sha256:a60e2dac46dbb8a7f3df95c54ce941012f54c2fe022f0ee55aaa1ab40ed957ae"` |  |
+| container_images.app_cert_manager.webhook.image.tag | string | `"v1.21.3@sha256:055ac8e9de6a0ba6763794838fe38944acc650f68ebe1b01dd8be079e580f458"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.repository | string | `"glueops/cluster-information-help-page-html"` |  |
 | container_images.app_cluster_info_page.cluster_information_help_page_html.image.tag | string | `"v4.31.0@sha256:0c4903305aca8cc4cd618bde10c897b249639f6bf422d4d25392d531c21470ed"` |  |
 | container_images.app_curlimages.curl.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_curlimages.curl.image.repository | string | `"curlimages/curl"` |  |
-| container_images.app_curlimages.curl.image.tag | string | `"8.22.0@sha256:58adaa4e8dca9c988bae2aba4ab3434a0bb2da16bbe3f92dec39ec7785166777"` |  |
+| container_images.app_curlimages.curl.image.tag | string | `"8.23.0@sha256:3fb7e13e5d179a845c97d78204f3f1064d1907037f26a3ebf91710571151fd93"` |  |
 | container_images.app_descheduler.descheduler.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_descheduler.descheduler.image.repository | string | `"descheduler/descheduler"` |  |
-| container_images.app_descheduler.descheduler.image.tag | string | `"v0.36.0"` |  |
+| container_images.app_descheduler.descheduler.image.tag | string | `"v0.37.0@sha256:88deef34ff5c85cb69676d7073dd641bd5c35b156bc1ef4a35ca8fbf9644da98"` |  |
 | container_images.app_dex.dex.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_dex.dex.image.repository | string | `"dexidp/dex"` |  |
 | container_images.app_dex.dex.image.tag | string | `"v2.46.1@sha256:65b72ca0f4b0bf6d4ada84ec21da8851782563404ac7b8f926923d27ceced9ab"` |  |
 | container_images.app_external_dns.external_dns.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_external_dns.external_dns.image.repository | string | `"external-dns/external-dns"` |  |
-| container_images.app_external_dns.external_dns.image.tag | string | `"v0.22.0@sha256:5fdcaf7deb5c158f93a1fc6fe169cdff4cfb9ae0172bee1a90ab0ef74fb9c9cf"` |  |
+| container_images.app_external_dns.external_dns.image.tag | string | `"v0.24.0@sha256:a80a146d2540fa138565e404f0625157271071a06093021f27ae19d8316d10f9"` |  |
 | container_images.app_external_secrets.external_secrets.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_external_secrets.external_secrets.image.repository | string | `"external-secrets/external-secrets"` |  |
-| container_images.app_external_secrets.external_secrets.image.tag | string | `"v2.10.0@sha256:814117b0fd6d121b03e8ba3b6db1cecbe7449a354fc0fc9c4faf73a37aa221b1"` |  |
+| container_images.app_external_secrets.external_secrets.image.tag | string | `"v2.14.0@sha256:10608eb53e636e744903d5f3657a4d9c44e28d9d9c181b73e07bc7dd2e6884dc"` |  |
 | container_images.app_fluent_operator.kubesphere.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_fluent_operator.kubesphere.image.repository | string | `"kubesphere/fluent-operator"` |  |
 | container_images.app_fluent_operator.kubesphere.image.tag | string | `"v2.7.0@sha256:b0668c0d878bde4ab04802a7e92d0dd3bef4c1fed1b5e63cf83d49bb3c5d3947"` |  |
@@ -75,7 +75,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_go_healthz.go_healthz.image.tag | string | `"v0.2.1@sha256:929c2ca16d9868f35f0e1ab309caf9766d948df9fac43e0e64c0860dcd80aa0d"` |  |
 | container_images.app_goldilocks.goldilocks.image.registry | string | `"gcp.repo.gpkg.io"` |  |
 | container_images.app_goldilocks.goldilocks.image.repository | string | `"fairwinds-ops/oss/goldilocks"` |  |
-| container_images.app_goldilocks.goldilocks.image.tag | string | `"v4.16.2"` |  |
+| container_images.app_goldilocks.goldilocks.image.tag | string | `"v4.16.2@sha256:c46d846d31190b034a76ca4b1191a9e1601ac3f32c3a086f23fb1f49662afc88"` |  |
 | container_images.app_ingress_nginx.controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
@@ -102,13 +102,13 @@ This chart deploys the GlueOps Platform
 | container_images.app_loki_alert_group_controller.loki_alert_group_controller.image.tag | string | `"v0.4.6@sha256:61aa2e48fd5c2277551daca68f287e77530a357d280a8199a5db5724b255401c"` |  |
 | container_images.app_metacontroller.metacontroller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_metacontroller.metacontroller.image.repository | string | `"metacontroller/metacontroller"` |  |
-| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.17.2@sha256:d7a55ebc70b45c2497e9fb5b1d42aae72a8c03545f66a43d9e58583b79cae12d"` |  |
+| container_images.app_metacontroller.metacontroller.image.tag | string | `"v4.17.6@sha256:1c083f7587130f611dc1330b898c49d78cc223674570c223b8081d7ca4b197dd"` |  |
 | container_images.app_network_exporter.network_exporter.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_network_exporter.network_exporter.image.repository | string | `"syepes/network_exporter"` |  |
 | container_images.app_network_exporter.network_exporter.image.tag | string | `"1.8.0@sha256:00af1691570e84bb0d8839d934e1ca10e9ee018385463609e03a8137e0ea9c56"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_oauth2_proxy.oauth2_proxy.image.repository | string | `"oauth2-proxy/oauth2-proxy"` |  |
-| container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.15.4@sha256:b1b2021fe8f4004573e8d690dec6c7bb29cc44364572cf8510a05bf3a0ae2ded"` |  |
+| container_images.app_oauth2_proxy.oauth2_proxy.image.tag | string | `"v7.15.5@sha256:8498b0d0ef0a7b29686414000a08aee467f02d0299c9ed1e006a8f33fc017916"` |  |
 | container_images.app_promtail.promtail.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_promtail.promtail.image.repository | string | `"grafana/promtail"` |  |
 | container_images.app_promtail.promtail.image.tag | string | `"2.9.10@sha256:63a2e57a5b1401109f77d36a49a637889d431280ed38f5f885eedcd3949e52cf"` |  |
@@ -120,7 +120,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_qr_code_generator.qr_code_generator.image.tag | string | `"v2.0.1@sha256:4d3ac7b38661db9ebb87f10f46ca636301570e90c027f217b97c681a0d2825c2"` |  |
 | container_images.app_reflector.reflector.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | container_images.app_reflector.reflector.image.repository | string | `"emberstack/kubernetes-reflector"` |  |
-| container_images.app_reflector.reflector.image.tag | string | `"10.0.65@sha256:51dbd5880929dc26678f6e190c70abfbcccd3846679ff464e5815823fd782f1a"` |  |
+| container_images.app_reflector.reflector.image.tag | string | `"10.0.71@sha256:2071836ea0afdfafb25007a23e2ae0726747c189613f739021dbcbd694e03ec0"` |  |
 | container_images.app_vault.vault.image.registry | string | `"quay.repo.gpkg.io"` |  |
 | container_images.app_vault.vault.image.repository | string | `"openbao/openbao"` |  |
 | container_images.app_vault.vault.image.tag | string | `"2.6.5@sha256:09f1eaaee351c329d75a5a89654d6e1ad4792998650c3cbf0c3513a76d9d9b6e"` |  |
@@ -129,13 +129,13 @@ This chart deploys the GlueOps Platform
 | container_images.app_vault_init_controller.vault_init_controller.image.tag | string | `"v2.14.0@sha256:9b4d6ed77c3843c269846495b3f1f6f20e86cb8c92381727fcfb3d3169b0fbfa"` |  |
 | container_images.app_vpa.admission_controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_vpa.admission_controller.image.repository | string | `"autoscaling/vpa-admission-controller"` |  |
-| container_images.app_vpa.admission_controller.image.tag | string | `"1.7.1@sha256:be29624f7f12a0b6f7fe18e2e042195eb6e39ae37d4490000f2643a480873572"` |  |
+| container_images.app_vpa.admission_controller.image.tag | string | `"1.7.3@sha256:404b5e7389ae85881c8e06147035244c9f0aa366d5b1b10cbb1ca8eda72ee07e"` |  |
 | container_images.app_vpa.recommender.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_vpa.recommender.image.repository | string | `"autoscaling/vpa-recommender"` |  |
-| container_images.app_vpa.recommender.image.tag | string | `"1.7.1@sha256:89cea705535f9d8df6e62d5084916ec447e85d64369cfff2f7c6ac9d1cc5cd1e"` |  |
+| container_images.app_vpa.recommender.image.tag | string | `"1.7.3@sha256:3b207e6e719e8a88b96b5777afa6f6fb261e73669fa39f487c04560d85bf2e7d"` |  |
 | container_images.app_vpa.updater.image.registry | string | `"k8s.repo.gpkg.io"` |  |
 | container_images.app_vpa.updater.image.repository | string | `"autoscaling/vpa-updater"` |  |
-| container_images.app_vpa.updater.image.tag | string | `"1.7.1@sha256:feb42a5269708d065d5a43c5379d0e4700c3eca333231723d6a7c24f222ab446"` |  |
+| container_images.app_vpa.updater.image.tag | string | `"1.7.3@sha256:666e5fe1b933c85c0bc01dfca9cd7fac93bcc5618072e32d6bece16b77e39d14"` |  |
 | daemonset_tolerations[0].effect | string | `"NoSchedule"` |  |
 | daemonset_tolerations[0].operator | string | `"Exists"` |  |
 | daemonset_tolerations[1].effect | string | `"NoExecute"` |  |
@@ -248,7 +248,7 @@ This chart deploys the GlueOps Platform
 | traefik.shared_helm_values.experimental.plugins.redirectErrors.version | string | `"v0.1.0"` |  |
 | traefik.shared_helm_values.image.registry | string | `"dockerhub.repo.gpkg.io"` |  |
 | traefik.shared_helm_values.image.repository | string | `"traefik"` |  |
-| traefik.shared_helm_values.image.tag | string | `"v3.7.13@sha256:f86a2cab1b5c649070c49f883c743dd32d8485a56e3368c5f93b9e91f1e91259"` |  |
+| traefik.shared_helm_values.image.tag | string | `"v3.7.17@sha256:68ae5fe5b64ca166704b746a9e8afcd385e36b3f569a5691401bf652d57b3748"` |  |
 | traefik.shared_helm_values.log.format | string | `"json"` |  |
 | traefik.shared_helm_values.log.level | string | `"INFO"` |  |
 | traefik.shared_helm_values.metrics.prometheus.addEntryPointsLabels | bool | `true` |  |
