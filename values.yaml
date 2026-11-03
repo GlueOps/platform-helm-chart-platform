@@ -432,7 +432,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: external-secrets/external-secrets
-        tag: v2.10.0@sha256:814117b0fd6d121b03e8ba3b6db1cecbe7449a354fc0fc9c4faf73a37aa221b1
+        tag: v2.14.0@sha256:10608eb53e636e744903d5f3657a4d9c44e28d9d9c181b73e07bc7dd2e6884dc
   app_external_dns:
     external_dns:
       image:
