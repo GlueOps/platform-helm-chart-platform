@@ -1,5 +1,53 @@
 # Changelog
 
+## [0.83.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.82.0...v0.83.0) (2026-11-03)
+
+
+### Features
+
+* **deps:** update actions/checkout action to v7 ([#1462](https://github.com/GlueOps/platform-helm-chart-platform/issues/1462)) ([3a0f54f](https://github.com/GlueOps/platform-helm-chart-platform/commit/3a0f54fd7ac0f13a5414ca9dc60ced94a3ebcbc4))
+* **deps:** update actions/create-github-app-token action to v3.3.0 ([#1597](https://github.com/GlueOps/platform-helm-chart-platform/issues/1597)) ([844f46e](https://github.com/GlueOps/platform-helm-chart-platform/commit/844f46effcc8a75f78e5d00d4c7ab25e4ae7d1d2))
+* **deps:** update dependency helm to v3.21.4 ([#1564](https://github.com/GlueOps/platform-helm-chart-platform/issues/1564)) ([fe7cef6](https://github.com/GlueOps/platform-helm-chart-platform/commit/fe7cef6629e65d905fe9c95638bb57616e417495))
+* **deps:** update dependency kubernetes-sigs/descheduler to v0.37.0 ([#1598](https://github.com/GlueOps/platform-helm-chart-platform/issues/1598)) ([514d553](https://github.com/GlueOps/platform-helm-chart-platform/commit/514d5536f642364e6db21093e58fd71e0dcb2d40))
+* **deps:** update dependency kubernetes-sigs/external-dns to v1.23.0 ([#1592](https://github.com/GlueOps/platform-helm-chart-platform/issues/1592)) ([0205da7](https://github.com/GlueOps/platform-helm-chart-platform/commit/0205da75c58107524255ee8cbfa92cb965bb8768))
+* **deps:** update dockerhub.repo.gpkg.io/curlimages/curl docker tag to v8.23.0 ([#1557](https://github.com/GlueOps/platform-helm-chart-platform/issues/1557)) ([e3221ce](https://github.com/GlueOps/platform-helm-chart-platform/commit/e3221ce890896a8e52de636e52378ea7a7095244))
+* **deps:** update external-secrets docker tag to v2.14.0 ([#1578](https://github.com/GlueOps/platform-helm-chart-platform/issues/1578)) ([5e361b1](https://github.com/GlueOps/platform-helm-chart-platform/commit/5e361b1ae5bf778f4a066bfd799a7f991ebc9809))
+* **deps:** update ghcr.repo.gpkg.io/external-secrets/external-secrets docker tag to v2.14.0 ([#1577](https://github.com/GlueOps/platform-helm-chart-platform/issues/1577)) ([a79e333](https://github.com/GlueOps/platform-helm-chart-platform/commit/a79e333d0a349baba1f634ea4798f00e70409424))
+* **deps:** update helm release app to v0.17.1 ([#1556](https://github.com/GlueOps/platform-helm-chart-platform/issues/1556)) ([5b1651d](https://github.com/GlueOps/platform-helm-chart-platform/commit/5b1651d8a7f2ef699cdc124704a0d6a0ac613abb))
+* **deps:** update helm release dex to v0.26.0 ([#1599](https://github.com/GlueOps/platform-helm-chart-platform/issues/1599)) ([7717b9f](https://github.com/GlueOps/platform-helm-chart-platform/commit/7717b9fc65390e99f9596df30101c10933c0cf08))
+* **deps:** update helm release goldilocks to v11.2.0 ([#1586](https://github.com/GlueOps/platform-helm-chart-platform/issues/1586)) ([5d6b852](https://github.com/GlueOps/platform-helm-chart-platform/commit/5d6b85286a78499bf7d5249706f37e608f3ebd09))
+* **deps:** update helm release traefik to v42 ([#1601](https://github.com/GlueOps/platform-helm-chart-platform/issues/1601)) ([fef4c73](https://github.com/GlueOps/platform-helm-chart-platform/commit/fef4c739bd9ac12f0975b12033ea694b39411f8a))
+* **deps:** update k8s.repo.gpkg.io/descheduler/descheduler docker tag to v0.37.0 ([#1569](https://github.com/GlueOps/platform-helm-chart-platform/issues/1569)) ([abd1525](https://github.com/GlueOps/platform-helm-chart-platform/commit/abd1525adbac70e440219c0586e12459345a973b))
+* **deps:** update k8s.repo.gpkg.io/external-dns/external-dns docker tag to v0.24.0 ([#1576](https://github.com/GlueOps/platform-helm-chart-platform/issues/1576)) ([9bdb763](https://github.com/GlueOps/platform-helm-chart-platform/commit/9bdb7630a5f5fa447178a686046f3a5f879e2091))
+* **deps:** update openbao docker tag to v0.30.6 ([#1571](https://github.com/GlueOps/platform-helm-chart-platform/issues/1571)) ([43944b7](https://github.com/GlueOps/platform-helm-chart-platform/commit/43944b79a7514ac547f3f6da46736f03d1d47c43))
+
+
+### Bug Fixes
+
+* **hooks:** delete health-check hook jobs after they finish ([#1594](https://github.com/GlueOps/platform-helm-chart-platform/issues/1594)) ([8b0ffd4](https://github.com/GlueOps/platform-helm-chart-platform/commit/8b0ffd45b40313b8e4a32b9969a37acb6587e100))
+
+
+### Dependencies
+
+* pin dependencies ([#1258](https://github.com/GlueOps/platform-helm-chart-platform/issues/1258)) ([94ccce5](https://github.com/GlueOps/platform-helm-chart-platform/commit/94ccce524f65f7839d009a61c72633926960ea01))
+* update actions/checkout digest to d23441a ([#1464](https://github.com/GlueOps/platform-helm-chart-platform/issues/1464)) ([12e9c84](https://github.com/GlueOps/platform-helm-chart-platform/commit/12e9c8406c225ae10eea074a01245ab824c8c03d))
+* update dependency https://github.com/metacontroller/metacontroller.git to v4.17.6 ([#1547](https://github.com/GlueOps/platform-helm-chart-platform/issues/1547)) ([7980d85](https://github.com/GlueOps/platform-helm-chart-platform/commit/7980d85c6cf8f40b5c47b15bf9dfd32d7366f05b))
+* update dockerhub.repo.gpkg.io/emberstack/kubernetes-reflector docker tag to v10.0.71 ([#1587](https://github.com/GlueOps/platform-helm-chart-platform/issues/1587)) ([cf488f8](https://github.com/GlueOps/platform-helm-chart-platform/commit/cf488f8541e59ea1e0c9f6425c2d362987ef4a20))
+* update dockerhub.repo.gpkg.io/traefik docker tag to v3.7.17 ([#1545](https://github.com/GlueOps/platform-helm-chart-platform/issues/1545)) ([b3be1ae](https://github.com/GlueOps/platform-helm-chart-platform/commit/b3be1ae694304a5031c049b1e232d2cdbd7bda5d))
+* update ghcr.repo.gpkg.io/metacontroller/metacontroller docker tag to v4.17.6 ([#1546](https://github.com/GlueOps/platform-helm-chart-platform/issues/1546)) ([365e194](https://github.com/GlueOps/platform-helm-chart-platform/commit/365e1941391dd1c73212aa912d51fdfcb1887913))
+* update helm release oauth2-proxy to v10.7.1 ([#1593](https://github.com/GlueOps/platform-helm-chart-platform/issues/1593)) ([dd1c95c](https://github.com/GlueOps/platform-helm-chart-platform/commit/dd1c95cc66f2cc451cc697839bc1e46a7eed2f7d))
+* update helm release reflector to v10.0.71 ([#1596](https://github.com/GlueOps/platform-helm-chart-platform/issues/1596)) ([4c0a2ba](https://github.com/GlueOps/platform-helm-chart-platform/commit/4c0a2bac1fc54fd89edbfd6ecab67d550cab892f))
+* update k8s.repo.gpkg.io/autoscaling/vpa-admission-controller docker tag to v1.7.3 ([#1548](https://github.com/GlueOps/platform-helm-chart-platform/issues/1548)) ([ad3ccb8](https://github.com/GlueOps/platform-helm-chart-platform/commit/ad3ccb85d327d2db0c334f8db53d506b35a79f5e))
+* update k8s.repo.gpkg.io/autoscaling/vpa-recommender docker tag to v1.7.3 ([#1549](https://github.com/GlueOps/platform-helm-chart-platform/issues/1549)) ([fbbc08c](https://github.com/GlueOps/platform-helm-chart-platform/commit/fbbc08cddb6b4369d923456b66bdfe37a0f80517))
+* update k8s.repo.gpkg.io/autoscaling/vpa-updater docker tag to v1.7.3 ([#1550](https://github.com/GlueOps/platform-helm-chart-platform/issues/1550)) ([9fed62e](https://github.com/GlueOps/platform-helm-chart-platform/commit/9fed62e7b5d75f643783cd7d3119eefa2270081f))
+* update quay.io/jetstack/charts/cert-manager docker tag to v1.21.3 ([#1585](https://github.com/GlueOps/platform-helm-chart-platform/issues/1585)) ([c78c8dc](https://github.com/GlueOps/platform-helm-chart-platform/commit/c78c8dcc0a639158f248a5c09876bfa696d1133d))
+* update quay.repo.gpkg.io/jetstack/cert-manager-acmesolver docker tag to v1.21.3 ([#1580](https://github.com/GlueOps/platform-helm-chart-platform/issues/1580)) ([ad6eb58](https://github.com/GlueOps/platform-helm-chart-platform/commit/ad6eb589855280c6ae8db9de13fae58154b794cf))
+* update quay.repo.gpkg.io/jetstack/cert-manager-cainjector docker tag to v1.21.3 ([#1581](https://github.com/GlueOps/platform-helm-chart-platform/issues/1581)) ([9e08a94](https://github.com/GlueOps/platform-helm-chart-platform/commit/9e08a948fd67d92ffd0f2771ab64dcc001ebadf0))
+* update quay.repo.gpkg.io/jetstack/cert-manager-controller docker tag to v1.21.3 ([#1582](https://github.com/GlueOps/platform-helm-chart-platform/issues/1582)) ([c83c8e0](https://github.com/GlueOps/platform-helm-chart-platform/commit/c83c8e0bf24334ae87bb42dceebcf86631ad15ab))
+* update quay.repo.gpkg.io/jetstack/cert-manager-startupapicheck docker tag to v1.21.3 ([#1583](https://github.com/GlueOps/platform-helm-chart-platform/issues/1583)) ([c648ddb](https://github.com/GlueOps/platform-helm-chart-platform/commit/c648ddb97711acb6329b3bab01edcb382e93d411))
+* update quay.repo.gpkg.io/jetstack/cert-manager-webhook docker tag to v1.21.3 ([#1584](https://github.com/GlueOps/platform-helm-chart-platform/issues/1584)) ([9928f59](https://github.com/GlueOps/platform-helm-chart-platform/commit/9928f59eaadcbc73d39014288ffba83ac928b154))
+* update quay.repo.gpkg.io/oauth2-proxy/oauth2-proxy docker tag to v7.15.5 ([#1552](https://github.com/GlueOps/platform-helm-chart-platform/issues/1552)) ([32b0e86](https://github.com/GlueOps/platform-helm-chart-platform/commit/32b0e86248175402fadb4aa1758a579e294eaba9))
+
 ## [0.82.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.81.0...v0.82.0) (2026-10-27)
 
 
