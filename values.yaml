@@ -454,7 +454,7 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: autoscaling/vpa-admission-controller
-        tag: 1.7.1@sha256:be29624f7f12a0b6f7fe18e2e042195eb6e39ae37d4490000f2643a480873572
+        tag: 1.7.3@sha256:404b5e7389ae85881c8e06147035244c9f0aa366d5b1b10cbb1ca8eda72ee07e
   app_goldilocks:
     goldilocks:
       image:
