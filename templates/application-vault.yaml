@@ -369,6 +369,8 @@ spec:
               # This needs to run before other sync waves to ensure cert-manager is ready.
               argocd.argoproj.io/sync-wave: "-100"
               argocd.argoproj.io/hook: PreSync
+              # Never keep or reuse a hook Job: a leftover Failed pod or Job trips glueops-pod-in-bad-state.
+              argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded,HookFailed
           spec:
             # The number of times to retry the job before marking it as failed.
             backoffLimit: 3
