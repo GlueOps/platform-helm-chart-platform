@@ -8,6 +8,11 @@ This chart deploys the GlueOps Platform
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| app_chart_preflight.argocd_diff_text | bool | `false` | Also attach Argo CD's text diff (pod-template resources only, capped) to each app that differs, next to the structured old/new values. |
+| app_chart_preflight.concurrency | int | `4` | Parallel per-app checks. Each is one `argocd app diff` plus, only when the app differs, two renders through argocd-repo-server. |
+| app_chart_preflight.enabled | bool | `false` | Render the preflight CronJob. Off by default: without a target it has nothing to check. Turn on per environment while rolling out a chart release. |
+| app_chart_preflight.target_revision | string | `""` | The chart revision every ApplicationSet is checked against. Its form follows how the ApplicationSet sources the chart: `0.18.0` when the chart comes from helm.gpkg.io or OCI, `v0.18.0` (a tag) or a branch when it comes from the chart's git repository. A target of the wrong kind for a set is reported as `unknown` with the expected form, never as a false `ok`. Empty: every set is `skipped`. |
+| app_chart_preflight.targets | object | `{}` | Per-ApplicationSet override, `{<name>: <revision>}`; an empty revision skips that set for the run (e.g. check previews first, hold the main set). |
 | base_registries.docker_io | string | `"dockerhub.repo.gpkg.io"` |  |
 | base_registries.ghcr_io | string | `"ghcr.repo.gpkg.io"` |  |
 | base_registries.public_ecr_aws | string | `"ecr.repo.gpkg.io"` |  |
@@ -19,6 +24,9 @@ This chart deploys the GlueOps Platform
 | certManager.aws_accessKey | string | `"placeholder_certmanager_aws_access_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | certManager.aws_secretKey | string | `"placeholder_certmanager_aws_secret_key"` | Part of `certmanager_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
+| container_images.app_argocd_app_chart_preflight.argocd_app_chart_preflight.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_argocd_app_chart_preflight.argocd_app_chart_preflight.image.repository | string | `"glueops/argocd-app-chart-preflight"` |  |
+| container_images.app_argocd_app_chart_preflight.argocd_app_chart_preflight.image.tag | string | `"v0.1.0"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.repository | string | `"glueops/backup-tools"` |  |
 | container_images.app_backup_and_exports.backup_tools.image.tag | string | `"v2.18.0@sha256:c0a3f220c8425bed27acdc7e4bf58f9f8ae42effaf4ef66e25e8c77ae3f2f95d"` |  |
