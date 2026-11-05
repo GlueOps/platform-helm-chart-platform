@@ -9,8 +9,9 @@ This chart deploys the GlueOps Platform
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | app_chart_preflight.argocd_diff_text | bool | `false` | Also attach Argo CD's text diff (pod-template resources only, capped) to each app that differs, next to the structured old/new values. |
-| app_chart_preflight.concurrency | int | `4` | Parallel per-app checks. Each is one `argocd app diff` plus, only when the app differs, two renders through argocd-repo-server. |
+| app_chart_preflight.concurrency | int | `2` | Parallel per-app checks. Each is two renders through argocd-repo-server. The pod is CPU bound, so raising this mostly adds peak memory. |
 | app_chart_preflight.enabled | bool | `false` | Render the preflight CronJob. Off by default: without a target it has nothing to check. Turn on per environment while rolling out a chart release. |
+| app_chart_preflight.run_timeout_minutes | int | `14` | Minutes before a run stops starting work and reports what it has, marking the rest `unknown`. The Job's activeDeadlineSeconds follows from this. Measured at about 0.7 s per app at the 500m CPU limit. |
 | app_chart_preflight.target_revision | string | `""` | The chart revision every ApplicationSet is checked against. Its form follows how the ApplicationSet sources the chart: `0.18.0` when the chart comes from helm.gpkg.io or OCI, `v0.18.0` (a tag) or a branch when it comes from the chart's git repository. A target of the wrong kind for a set is reported as `unknown` with the expected form, never as a false `ok`. Empty: every set is `skipped`. |
 | app_chart_preflight.targets | object | `{}` | Per-ApplicationSet override, `{<name>: <revision>}`; an empty revision skips that set for the run (e.g. check previews first, hold the main set). |
 | base_registries.docker_io | string | `"dockerhub.repo.gpkg.io"` |  |

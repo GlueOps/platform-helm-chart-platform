@@ -21,17 +21,17 @@ PodCompleted until the next run, so their prefix (argocd-app-chart-preflight-che
 from the CronJob name) is excluded from the kube_pod_status_ready clause in
 application-glueops-alerts.yaml; rename both together.
 
-How it talks to Argo CD: the argocd CLI in core mode, which runs Argo CD's API
-server in-process as this pod's ServiceAccount and hands renders to
-argocd-repo-server. The credentials in play are therefore Argo CD's own
-repository credentials, exactly as a sync uses them; the agent holds none.
-Core mode bypasses Argo CD's RBAC (it is the server), so the boundary is
-Kubernetes RBAC below.
+How it talks to Argo CD: one `argocd admin dashboard` per run, a local API
+server on 127.0.0.1 inside this pod, running as this pod's ServiceAccount and
+handing renders to argocd-repo-server. The credentials in play are therefore
+Argo CD's own repository credentials, exactly as a sync uses them; the agent
+holds none. That server has Argo CD's auth off and never leaves loopback, so
+the boundary is Kubernetes RBAC below.
 
 RBAC, all read-only except the one status ConfigMap (verified on a captain):
   - Role in glueops-core (Argo CD's namespace): applications, applicationsets,
     appprojects get/list (discovery and the specs the renders are built from);
-    secrets, configmaps get/list (core mode reads argocd-cm / argocd-rbac-cm
+    secrets, configmaps get/list (the local server reads argocd-cm / argocd-rbac-cm
     and the repository-credential Secrets to brief the repo-server — the
     agent's own code never reads a Secret; this is the read half of
     argocd-server's own Role, accepted for the same reason inventory-agent's
@@ -99,10 +99,12 @@ spec:
               # The app chart defaults startingDeadlineSeconds to 30, which skips a run
               # whenever the controller is briefly busy; give it the whole interval minus slack.
               startingDeadlineSeconds: 600
-              backoffLimit: 0
-              # Two renders per app through the repo-server, bounded by concurrency; the
-              # agent's own backstop is 14 minutes, below this.
-              activeDeadlineSeconds: 900
+              # The agent exits 0 whatever the verdict, so this only ever retries a run that
+              # was killed outright (OOM, node loss). A SIGTERM still writes a partial report.
+              backoffLimit: 1
+              # Covers both attempts plus the agent's report writing; the deadline counts the
+              # whole Job, and the agent stops itself at run_timeout_minutes.
+              activeDeadlineSeconds: {{ add (mul .Values.app_chart_preflight.run_timeout_minutes 120) 120 }}
               ttlSecondsAfterFinished: 900
               successfulJobsHistoryLimit: 1
               failedJobsHistoryLimit: 3
@@ -156,6 +158,8 @@ spec:
                   value: {{ .Values.app_chart_preflight.targets | toJson | quote }}
                 - name: CONCURRENCY
                   value: {{ .Values.app_chart_preflight.concurrency | toString | quote }}
+                - name: RUN_TIMEOUT_MS
+                  value: {{ mul .Values.app_chart_preflight.run_timeout_minutes 60000 | toString | quote }}
                 - name: ARGOCD_DIFF_TEXT
                   value: {{ eq (toString .Values.app_chart_preflight.argocd_diff_text) "true" | toString | quote }}
                 - name: STATUS_CONFIGMAP

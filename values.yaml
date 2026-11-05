@@ -399,10 +399,14 @@ app_chart_preflight:
   # that set for the run (e.g. check previews first, hold the main set).
   targets: {}
   # @ignored
-  cron_expression: "0 */6 * * *"
-  # -- Parallel per-app checks. Each is one `argocd app diff` plus, only when the
-  # app differs, two renders through argocd-repo-server.
-  concurrency: 4
+  cron_expression: "0 6 * * *"
+  # -- Parallel per-app checks. Each is two renders through argocd-repo-server. The
+  # pod is CPU bound, so raising this mostly adds peak memory.
+  concurrency: 2
+  # -- Minutes before a run stops starting work and reports what it has, marking the
+  # rest `unknown`. The Job's activeDeadlineSeconds follows from this. Measured at
+  # about 0.7 s per app at the 500m CPU limit.
+  run_timeout_minutes: 14
   # -- Also attach Argo CD's text diff (pod-template resources only, capped) to each
   # app that differs, next to the structured old/new values.
   argocd_diff_text: false
