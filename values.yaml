@@ -377,6 +377,38 @@ inventory_agent:
   # cannot decompress; the payload size cap then applies to the uncompressed body.
   send_gzip: true
 
+# glueops-core-argocd-app-chart-preflight (GlueOps/argocd-app-chart-preflight): the
+# pre-bump gate for the `app` Helm chart. While a target revision is set, a read-only
+# CronJob renders every tenant Application at that revision through this cluster's
+# Argo CD (core mode, Argo CD's own repository credentials — the agent holds none)
+# and reports per ApplicationSet whether the bump is clean and which command/args
+# items would change: a ConfigMap in its namespace, JSON log lines, and the same
+# YAML report POSTed to the GlueOps receiver for the fleet dashboard. Off until an
+# upgrade is being rolled out; bump an ApplicationSet only when its status is `ok`.
+app_chart_preflight:
+  # -- Render the preflight CronJob. Off by default: without a target it has nothing
+  # to check. Turn on per environment while rolling out a chart release.
+  enabled: false
+  # -- The chart revision every ApplicationSet is checked against. Its form follows
+  # how the ApplicationSet sources the chart: `0.18.0` when the chart comes from
+  # helm.gpkg.io or OCI, `v0.18.0` (a tag) or a branch when it comes from the chart's
+  # git repository. A target of the wrong kind for a set is reported as `unknown`
+  # with the expected form, never as a false `ok`. Empty: every set is `skipped`.
+  target_revision: ""
+  # -- Per-ApplicationSet override, `{<name>: <revision>}`; an empty revision skips
+  # that set for the run (e.g. check previews first, hold the main set).
+  targets: {}
+  # @ignored
+  cron_expression: "0 */6 * * *"
+  # -- Parallel per-app checks. Each is one `argocd app diff` plus, only when the
+  # app differs, two renders through argocd-repo-server.
+  concurrency: 4
+  # -- Also attach Argo CD's text diff (pod-template resources only, capped) to each
+  # app that differs, next to the structured old/new values.
+  argocd_diff_text: false
+  # @ignored
+  log_level: "info"
+
 container_images:
   app_inventory_agent:
     inventory_agent:
@@ -384,6 +416,12 @@ container_images:
         registry: ghcr.repo.gpkg.io
         repository: glueops/inventory-agent
         tag: v1.2.0@sha256:90f52ee9aa863ee2f507dd6ed9e3d2c750a577be42833d58440fe51f36a37e05
+  app_argocd_app_chart_preflight:
+    argocd_app_chart_preflight:
+      image:
+        registry: ghcr.repo.gpkg.io
+        repository: glueops/argocd-app-chart-preflight
+        tag: v0.1.0
   app_cert_manager:
     cert_manager:
       image:
