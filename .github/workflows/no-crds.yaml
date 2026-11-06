@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
         with:
-          version: v3.21.4   # what the codespace ships; Argo CD 3.2 bundles helm 3.18 — never "latest"
+          version: v4.3.0   # what the codespace ships; Argo CD 3.2 bundles helm 3.18 — never "latest"
       - name: Tool versions (yq and jq are preinstalled on ubuntu-latest)
         run: helm version --short && yq --version && jq --version && kubectl version --client
       - name: Lint the platform chart
