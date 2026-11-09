@@ -376,6 +376,10 @@ inventory_agent:
   # -- gzip the snapshot body (Content-Encoding: gzip). Set false only if the receiver
   # cannot decompress; the payload size cap then applies to the uncompressed body.
   send_gzip: true
+  # -- Each run waits a random 0..N seconds before collecting, so the fleet's snapshots
+  # reach the receiver spread across the interval instead of all at :00/:15/:30/:45.
+  # 0 turns it off; at most 840 (14m), and the job deadline grows with it.
+  start_jitter_seconds: 480
 
 container_images:
   app_inventory_agent:
