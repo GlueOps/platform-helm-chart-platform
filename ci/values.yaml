@@ -7,6 +7,10 @@
 #   3. point chart repositories at the public upstream registries so CI does not depend
 #      on (or warm the cache of) the GlueOps Nexus mirrors (*.repo.gpkg.io).
 development_mode_enabled: false
+# Off by default in values.yaml (nothing to check without a target); on here so CI renders it.
+app_chart_preflight:
+  enabled: true
+  target_revision: "0.18.0"
 host_network:
   enabled: true
 kubeadm:

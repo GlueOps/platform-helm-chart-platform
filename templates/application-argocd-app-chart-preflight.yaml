@@ -1,0 +1,234 @@
+{{- /*
+glueops-core-argocd-app-chart-preflight: the pre-bump gate for the `app` Helm chart
+(GlueOps/argocd-app-chart-preflight). A read-only CronJob that, while
+app_chart_preflight.target_revision is set, renders every tenant Application at
+that chart revision through this cluster's own Argo CD and reports, per
+ApplicationSet, whether the bump is clean and which command/args items would
+change. It writes the report to a ConfigMap in its namespace, logs one JSON
+summary line (component=argocd-app-chart-preflight) and POSTs the same YAML
+document to the GlueOps receiver (https://inventory-agent.observability.glueopshosted.com/v1/preflight,
+built into the agent) for the fleet dashboard. Design: the plan in
+GlueOps/argocd-app-chart-preflight README; rollout for 0.18.0:
+GlueOps/project-template-helm-chart-app#147.
+
+Rendered only when app_chart_preflight.enabled is true (default false): the
+agent has nothing useful to do without a target. A run that reaches the agent
+exits 0 whatever the verdict (a diff is not a Job failure; nor is an unreachable
+receiver). Verdicts never alert: a diff can stand until a tenant fixes its values,
+so they are read from the report and the fleet dashboard. A run that fails before or outside the agent (image pull, OOM,
+activeDeadlineSeconds) does alert, through kube_job_status_failed and the
+pod-phase clause, and that is intended. Completed pods sit Ready=False/
+PodCompleted until the next run, so their prefix (argocd-app-chart-preflight-check-,
+from the CronJob name) is excluded from the kube_pod_status_ready clause in
+application-glueops-alerts.yaml; rename both together.
+
+How it talks to Argo CD: one `argocd admin dashboard` per run, a local API
+server on 127.0.0.1 inside this pod, running as this pod's ServiceAccount and
+handing renders to argocd-repo-server. The credentials in play are therefore
+Argo CD's own repository credentials, exactly as a sync uses them; the agent
+holds none. That server has Argo CD's auth off and never leaves loopback, so
+the boundary is Kubernetes RBAC below.
+
+RBAC, all read-only except the one status ConfigMap (verified on a captain):
+  - Role in glueops-core (Argo CD's namespace): applications, applicationsets,
+    appprojects get/list (discovery and the specs the renders are built from);
+    secrets, configmaps get/list (the local server reads argocd-cm / argocd-rbac-cm
+    and the repository-credential Secrets to brief the repo-server — the
+    agent's own code never reads a Secret; this is the read half of
+    argocd-server's own Role, accepted for the same reason inventory-agent's
+    Helm-metadata Role is: a platform-owned namespace); services, pods
+    get/list and pods/portforward create (the headless client discovers and
+    port-forwards to argocd-repo-server / redis, even from inside the cluster).
+  - Role in its own namespace: get/create/update on the status ConfigMap.
+  No ClusterRole.
+*/ -}}
+{{- if .Values.app_chart_preflight.enabled }}
+{{- $argocdNamespace := "glueops-core" -}}
+{{- $sa := "argocd-app-chart-preflight" -}}
+{{- $ns := "glueops-core-argocd-app-chart-preflight" -}}
+{{- $statusConfigMap := "app-chart-preflight-status" -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $ns }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    name: "in-cluster"
+    namespace: {{ $ns }}
+  project: glueops-core
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
+      limit: 5
+  source:
+    repoURL: https://helm.gpkg.io/project-template
+    chart: app
+    targetRevision: 0.17.1
+    helm:
+      values: |
+        appName: 'argocd-app-chart-preflight'
+
+        image:
+          registry: {{ .Values.container_images.app_argocd_app_chart_preflight.argocd_app_chart_preflight.image.registry | quote }}
+          repository: {{ .Values.container_images.app_argocd_app_chart_preflight.argocd_app_chart_preflight.image.repository | quote }}
+          tag: {{ .Values.container_images.app_argocd_app_chart_preflight.argocd_app_chart_preflight.image.tag | quote }}
+
+        serviceAccount:
+          create: true
+          name: {{ $sa }}
+
+        deployment:
+          enabled: false
+
+        cronJob:
+          enabled: true
+          jobs:
+            check:
+              {{- toYaml .Values.glueops_node_and_tolerations | nindent 14 }}
+              schedule: {{ .Values.app_chart_preflight.cron_expression | quote }}
+              concurrencyPolicy: Forbid
+              # The app chart defaults startingDeadlineSeconds to 30, which skips a run
+              # whenever the controller is briefly busy; give it the whole interval minus slack.
+              startingDeadlineSeconds: 600
+              # The agent exits 0 whatever the verdict, so this only ever retries a run that
+              # was killed outright (OOM, node loss). A SIGTERM still writes a partial report.
+              backoffLimit: 1
+              # Covers both attempts plus the agent's report writing; the deadline counts the
+              # whole Job, and the agent stops itself at run_timeout_minutes.
+              activeDeadlineSeconds: {{ add (mul .Values.app_chart_preflight.run_timeout_minutes 120) 120 }}
+              ttlSecondsAfterFinished: 900
+              successfulJobsHistoryLimit: 1
+              failedJobsHistoryLimit: 3
+              restartPolicy: Never
+              imagePullPolicy: IfNotPresent
+
+              serviceAccount:
+                enabled: true
+                name: {{ $sa }}
+                automountServiceAccountToken: true
+
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: 65532
+                runAsGroup: 65532
+                fsGroup: 65532
+                seccompProfile:
+                  type: RuntimeDefault
+
+              containerSecurityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+
+              # The rootfs is read-only; the kubeconfig the agent writes and the argocd
+              # CLI's HOME live under /tmp.
+              volumes:
+                - name: tmp
+                  emptyDir: {}
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+
+              envVariables:
+                - name: CAPTAIN_DOMAIN
+                  value: {{ .Values.captain_domain | quote }}
+                - name: ARGOCD_NAMESPACE
+                  value: {{ $argocdNamespace | quote }}
+                - name: TARGET_REVISION
+                  value: {{ .Values.app_chart_preflight.target_revision | quote }}
+                - name: TARGETS_JSON
+                  value: {{ .Values.app_chart_preflight.targets | toJson | quote }}
+                - name: CONCURRENCY
+                  value: {{ .Values.app_chart_preflight.concurrency | toString | quote }}
+                - name: RUN_TIMEOUT_MS
+                  value: {{ mul .Values.app_chart_preflight.run_timeout_minutes 60000 | toString | quote }}
+                - name: ARGOCD_DIFF_TEXT
+                  value: {{ eq (toString .Values.app_chart_preflight.argocd_diff_text) "true" | toString | quote }}
+                - name: STATUS_CONFIGMAP
+                  value: {{ $statusConfigMap | quote }}
+                - name: KUBECONFIG_DIR
+                  value: "/tmp"
+                # Normalised: the chart default is a placeholder string, never a bool.
+                - name: DEV_MODE
+                  value: {{ eq (toString .Values.development_mode_enabled) "true" | toString | quote }}
+                - name: LOG_LEVEL
+                  value: {{ .Values.app_chart_preflight.log_level | quote }}
+
+        customResources:
+          # The read half of argocd-server's own RBAC in Argo CD's namespace. See the header
+          # comment for what each grant really is.
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: {{ $ns }}-argocd-read
+              namespace: {{ $argocdNamespace }}
+            rules:
+              - apiGroups: ["argoproj.io"]
+                resources: ["applications", "applicationsets", "appprojects"]
+                verbs: ["get", "list"]
+              - apiGroups: [""]
+                resources: ["secrets", "configmaps", "services", "pods"]
+                verbs: ["get", "list"]
+              - apiGroups: [""]
+                resources: ["pods/portforward"]
+                verbs: ["create"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: {{ $ns }}-argocd-read
+              namespace: {{ $argocdNamespace }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: Role
+              name: {{ $ns }}-argocd-read
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+          # The agent's only write: its status ConfigMap in its own namespace.
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: {{ $ns }}-status
+              namespace: {{ $ns }}
+            rules:
+              - apiGroups: [""]
+                resources: ["configmaps"]
+                verbs: ["get", "create", "update"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: {{ $ns }}-status
+              namespace: {{ $ns }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: Role
+              name: {{ $ns }}-status
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+{{- end }}
