@@ -14,7 +14,8 @@ GlueOps/project-template-helm-chart-app#147.
 Rendered only when app_chart_preflight.enabled is true (default false): the
 agent has nothing useful to do without a target. A run that reaches the agent
 exits 0 whatever the verdict (a diff is not a Job failure; nor is an unreachable
-receiver). A run that fails before or outside the agent (image pull, OOM,
+receiver). Verdicts never alert: a diff can stand until a tenant fixes its values,
+so they are read from the report and the fleet dashboard. A run that fails before or outside the agent (image pull, OOM,
 activeDeadlineSeconds) does alert, through kube_job_status_failed and the
 pod-phase clause, and that is intended. Completed pods sit Ready=False/
 PodCompleted until the next run, so their prefix (argocd-app-chart-preflight-check-,

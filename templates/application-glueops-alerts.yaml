@@ -192,26 +192,3 @@ spec:
                   labels:
                     alertname: glueops-core-alerts
                     namespace: glueops-core-alerts
-          # The app-chart preflight (application-argocd-app-chart-preflight.yaml) ends every run
-          # with one "run summary" line. diff/error means the configured chart bump would change or
-          # break tenant pods: do not bump that ApplicationSet; the report names the apps and items.
-          # unknown is not a verdict and does not alert; ok and skipped are quiet.
-          - |-
-            apiVersion: metacontroller.glueops.dev/v1alpha1
-            kind: LokiAlertRuleGroup
-            metadata:
-              name: glueops-app-chart-preflight-not-clean
-            spec:
-              name: glueops-app-chart-preflight-not-clean
-              rules:
-                - alert: glueops-app-chart-preflight-not-clean
-                  expr: |
-                    sum(
-                      count_over_time({namespace="glueops-core-argocd-app-chart-preflight"} | json | component="argocd-app-chart-preflight" | msg="run summary" | run_status=~"diff|error" [6h])
-                    ) > 0
-                  for: 1m
-                  annotations:
-                    description: The app-chart preflight found that bumping to the configured chart revision would change (diff) or break (error) tenant pods on this captain. Do not bump; see the app-chart-preflight-status ConfigMap or the App chart preflight dashboard.
-                  labels:
-                    alertname: glueops-core-alerts
-                    namespace: glueops-core-alerts
