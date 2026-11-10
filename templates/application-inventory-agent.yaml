@@ -3,7 +3,10 @@ glueops-core-inventory-agent: a read-only CronJob that every 15 minutes snapshot
 cluster/node versions, Helm release metadata in glueops-core and the container images
 running in the platform namespaces, and POSTs one gzipped JSON document to the
 GlueOps receiver (https://inventory-agent.observability.glueopshosted.com/, built into the agent).
-Spec: internal-GlueOps/issues#526.
+Spec: internal-GlueOps/issues#526. Every captain shares the schedule, so each run first
+waits a random 0..inventory_agent.start_jitter_seconds (agent START_JITTER) to spread
+the fleet's POSTs; activeDeadlineSeconds is that bound plus the agent's 4m run timeout
+plus 1m of slack, and the bound is capped at 14m so a run never overlaps the next one.
 
 Rendered whenever inventory_agent.enabled is true (the default), so every captain
 reports unless opted out. A run that reaches the agent exits 0 whatever happens to the
@@ -41,6 +44,10 @@ regexp, then turn the quoted \* back into .*; the agent anchors the alternation.
 {{- end }}
 {{- if not $patterns }}
   {{- fail "inventory_agent.pod_namespaces must list at least one namespace" }}
+{{- end }}
+{{- $jitter := int (.Values.inventory_agent.start_jitter_seconds | default 0) -}}
+{{- if or (lt $jitter 0) (gt $jitter 840) }}
+  {{- fail "inventory_agent.start_jitter_seconds must be between 0 and 840" }}
 {{- end }}
 {{- $helmNamespace := "glueops-core" -}}
 {{- $sa := "inventory-agent" -}}
@@ -100,7 +107,8 @@ spec:
               # a skipped one shows up as a gap, so give it the whole interval minus slack.
               startingDeadlineSeconds: 600
               backoffLimit: 0
-              activeDeadlineSeconds: 300
+              # Start delay + the agent's 4m run timeout + 1m slack (see the header).
+              activeDeadlineSeconds: {{ add $jitter 300 }}
               ttlSecondsAfterFinished: 900
               successfulJobsHistoryLimit: 1
               failedJobsHistoryLimit: 3
@@ -146,6 +154,8 @@ spec:
                   value: {{ eq (toString .Values.development_mode_enabled) "true" | toString | quote }}
                 - name: LOG_LEVEL
                   value: {{ .Values.inventory_agent.log_level | quote }}
+                - name: START_JITTER
+                  value: {{ printf "%ds" $jitter | quote }}
                 - name: SEND_GZIP
                   value: {{ eq (toString .Values.inventory_agent.send_gzip) "true" | toString | quote }}
 
