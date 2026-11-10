@@ -387,7 +387,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: glueops/inventory-agent
-        tag: v1.2.0@sha256:90f52ee9aa863ee2f507dd6ed9e3d2c750a577be42833d58440fe51f36a37e05
+        tag: v1.3.0@sha256:b2695a1ff48682f0a0f4e9dd5e3bd4f40b77486c20009f7a40d54fe10aa17cca
   app_cert_manager:
     cert_manager:
       image:

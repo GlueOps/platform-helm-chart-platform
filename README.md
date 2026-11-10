@@ -81,7 +81,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.repository | string | `"glueops/inventory-agent"` |  |
-| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.2.0@sha256:90f52ee9aa863ee2f507dd6ed9e3d2c750a577be42833d58440fe51f36a37e05"` |  |
+| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.3.0@sha256:b2695a1ff48682f0a0f4e9dd5e3bd4f40b77486c20009f7a40d54fe10aa17cca"` |  |
 | container_images.app_keda.admission_webhooks.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_keda.admission_webhooks.image.repository | string | `"kedacore/keda-admission-webhooks"` |  |
 | container_images.app_keda.admission_webhooks.image.tag | string | `"2.20.2@sha256:41f74102aba7959c6e8d08b433ab8a5fd6cae7c5646c78f7fe3de40a52df3439"` |  |
@@ -213,6 +213,7 @@ This chart deploys the GlueOps Platform
 | inventory_agent.enabled | bool | `true` | On for every cluster unless specifically opted out. The agent reports to the GlueOps receiver at https://inventory-agent.observability.glueopshosted.com/ (built into the agent; one endpoint for every environment). |
 | inventory_agent.pod_namespaces | list | `["kube-system","kube-node-lease","kube-public","default","glueops-core","glueops-core-*","chisel-operator-system","local-path-storage","tigera-operator","calico-system","calico-apiserver"]` | Namespaces whose pod images are collected: exact names, with `*` as a wildcard. Matched against the namespaces that exist on the cluster, so an entry missing on a given distribution (EKS vs kubeadm vs k3d) is simply skipped. It is an allowlist: a namespace not listed here is never read. |
 | inventory_agent.send_gzip | bool | `true` | gzip the snapshot body (Content-Encoding: gzip). Set false only if the receiver cannot decompress; the payload size cap then applies to the uncompressed body. |
+| inventory_agent.start_jitter_seconds | int | `480` | Each run waits a random 0..N seconds before collecting, so the fleet's snapshots reach the receiver spread across the interval instead of all at :00/:15/:30/:45. 0 turns it off; at most 840 (14m), and the job deadline grows with it. |
 | kubeadm.enabled | string | `"placeholder_enable_kubeadm_cluster"` |  |
 | loki.aws_accessKey | string | `"placeholder_loki_aws_access_key"` | Part of `loki_s3_iam_credentials` output from terraform-module-cloud-multy-prerequisites: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
 | loki.aws_region | string | `"placeholder_aws_region"` | Should be the same `primary_region` you used in: https://github.com/GlueOps/terraform-module-cloud-multy-prerequisites |
