@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.84.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.83.0...v0.84.0) (2026-11-10)
+
+
+### Features
+
+* spread inventory-agent POSTs with a random start delay ([#1616](https://github.com/GlueOps/platform-helm-chart-platform/issues/1616)) ([b6fd9ed](https://github.com/GlueOps/platform-helm-chart-platform/commit/b6fd9ed1894c7f30d56488c4c12b264ee576350a))
+
 ## [0.83.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.82.0...v0.83.0) (2026-11-03)
 
 
