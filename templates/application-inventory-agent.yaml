@@ -1,7 +1,8 @@
 {{- /*
 glueops-core-inventory-agent: a read-only CronJob that every 15 minutes snapshots
-cluster/node versions, Helm release metadata in glueops-core and the container images
-running in the platform namespaces, and POSTs one gzipped JSON document to the
+cluster/node versions, Helm release metadata in glueops-core, the container images
+running in the platform namespaces and the ApplicationSets/Applications that
+captain-manifests deploys (application-captain-manifests.yaml), and POSTs one gzipped JSON document to the
 GlueOps receiver (https://inventory-agent.observability.glueopshosted.com/, built into the agent).
 Spec: internal-GlueOps/issues#526. Every captain shares the schedule, so each run first
 waits a random 0..inventory_agent.start_jitter_seconds (agent START_JITTER) to spread
@@ -34,6 +35,11 @@ RBAC, all read-only:
     scope Secrets by type, so this is every Secret in glueops-core; accepted because
     the namespace is platform-owned. The agent decodes only the `release` key and
     sends nine metadata fields, never values or manifests.
+  - Role in glueops-core: argoproj.io applications and applicationsets get/list, to
+    follow captain-manifests to the sets it deploys and the Applications they
+    generate. The agent decodes only source identity (repo, chart/path,
+    targetRevision) and status; Helm values, parameters and plugin env never leave
+    the cluster.
 */ -}}
 {{- if .Values.inventory_agent.enabled }}
 {{- /* Each entry is a literal name, with `*` as the only wildcard: quote it as a
@@ -50,6 +56,10 @@ regexp, then turn the quoted \* back into .*; the agent anchors the alternation.
   {{- fail "inventory_agent.start_jitter_seconds must be between 0 and 840" }}
 {{- end }}
 {{- $helmNamespace := "glueops-core" -}}
+{{- /* Where Argo CD keeps its Applications; captain-manifests is rendered by this
+chart (application-captain-manifests.yaml), so rename both together. */ -}}
+{{- $argocdNamespace := "glueops-core" -}}
+{{- $argocdRootApplication := "captain-manifests" -}}
 {{- $sa := "inventory-agent" -}}
 {{- $ns := "glueops-core-inventory-agent" -}}
 apiVersion: argoproj.io/v1alpha1
@@ -149,6 +159,10 @@ spec:
                   value: {{ join "|" $patterns | quote }}
                 - name: HELM_NAMESPACE
                   value: {{ $helmNamespace | quote }}
+                - name: ARGOCD_NAMESPACE
+                  value: {{ $argocdNamespace | quote }}
+                - name: ARGOCD_ROOT_APPLICATION
+                  value: {{ $argocdRootApplication | quote }}
                 # Normalised: the chart default is a placeholder string, never a bool.
                 - name: DEV_MODE
                   value: {{ eq (toString .Values.development_mode_enabled) "true" | toString | quote }}
@@ -203,6 +217,31 @@ spec:
               apiGroup: rbac.authorization.k8s.io
               kind: Role
               name: {{ $ns }}-helm
+            subjects:
+              - kind: ServiceAccount
+                name: {{ $sa }}
+                namespace: {{ $ns }}
+          # captain-manifests and what it deploys. See the header comment.
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: Role
+            metadata:
+              name: {{ $ns }}-argocd
+              namespace: {{ $argocdNamespace }}
+            rules:
+              - apiGroups: ["argoproj.io"]
+                resources: ["applications", "applicationsets"]
+                verbs: ["get", "list"]
+          - |-
+            apiVersion: rbac.authorization.k8s.io/v1
+            kind: RoleBinding
+            metadata:
+              name: {{ $ns }}-argocd
+              namespace: {{ $argocdNamespace }}
+            roleRef:
+              apiGroup: rbac.authorization.k8s.io
+              kind: Role
+              name: {{ $ns }}-argocd
             subjects:
               - kind: ServiceAccount
                 name: {{ $sa }}

@@ -81,7 +81,7 @@ This chart deploys the GlueOps Platform
 | container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.repository | string | `"glueops/inventory-agent"` |  |
-| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.3.0@sha256:b2695a1ff48682f0a0f4e9dd5e3bd4f40b77486c20009f7a40d54fe10aa17cca"` |  |
+| container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.4.0@sha256:07b0dbf8c123fb01dce617e0c160d8c61629a336baba79f3cbc11d8815fc4596"` |  |
 | container_images.app_keda.admission_webhooks.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_keda.admission_webhooks.image.repository | string | `"kedacore/keda-admission-webhooks"` |  |
 | container_images.app_keda.admission_webhooks.image.tag | string | `"2.20.2@sha256:41f74102aba7959c6e8d08b433ab8a5fd6cae7c5646c78f7fe3de40a52df3439"` |  |
