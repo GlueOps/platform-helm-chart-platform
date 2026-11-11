@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.85.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.84.0...v0.85.0) (2026-11-11)
+
+
+### Features
+
+* let inventory-agent read captain-manifests' ApplicationSets and Applications ([#1617](https://github.com/GlueOps/platform-helm-chart-platform/issues/1617)) ([ab89ddf](https://github.com/GlueOps/platform-helm-chart-platform/commit/ab89ddf7a0a12d7cbb5a5d6dfe64eb49414dc0f7))
+
 ## [0.84.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.83.0...v0.84.0) (2026-11-10)
 
 
