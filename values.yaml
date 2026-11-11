@@ -453,7 +453,7 @@ container_images:
       image:
         registry: k8s.repo.gpkg.io
         repository: autoscaling/vpa-updater
-        tag: 1.7.3@sha256:666e5fe1b933c85c0bc01dfca9cd7fac93bcc5618072e32d6bece16b77e39d14
+        tag: 1.8.1@sha256:b4a03d56131cc6f6c44cd91982b6db5961496f18b9bc24abe1c4b6160aefe04a
     admission_controller:
       image:
         registry: k8s.repo.gpkg.io
