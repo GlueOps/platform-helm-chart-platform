@@ -27,7 +27,7 @@ spec:
   source:
     repoURL: https://github.com/metacontroller/metacontroller.git
     path: deploy/helm/metacontroller
-    targetRevision: v4.17.6
+    targetRevision: v4.17.7
     helm:
       skipCrds: true
       parameters:
