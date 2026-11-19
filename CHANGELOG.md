@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.84.1](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.84.0...v0.84.1) (2026-11-19)
+
+
+### Bug Fixes
+
+* **nginx:** use the GlueOps-built ingress-nginx controller v1.15.16 ([4727be8](https://github.com/GlueOps/platform-helm-chart-platform/commit/4727be8af61fa274d25176ecaeb8c60915327e99))
+
 ## [0.84.0](https://github.com/GlueOps/platform-helm-chart-platform/compare/v0.83.0...v0.84.0) (2026-11-10)
 
 
