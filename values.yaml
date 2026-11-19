@@ -585,9 +585,9 @@ container_images:
   app_ingress_nginx:
     controller:
       image:
-        registry: k8s.repo.gpkg.io
-        repository: ingress-nginx/controller
-        tag: v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1
+        registry: ghcr.repo.gpkg.io
+        repository: glueops/ingress-nginx/controller
+        tag: v1.15.16@sha256:5419e593f58df147c7d2397e38941fce87c7fd4d5f12651f1aadb2951bc57323
   app_oauth2_proxy:
     oauth2_proxy:
       image:
