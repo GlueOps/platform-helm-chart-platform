@@ -570,7 +570,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: kedacore/keda-metrics-apiserver
-        tag: 2.20.2@sha256:27286536a8a775aeeee37a7e343f8ecebb27ebf680ee1181a4f99e82eefb253b
+        tag: 2.21.1@sha256:747e376b3e80dc4f72bf4f7043f47cc4cdb56f34b1aed9531789f474996e1c84
     admission_webhooks:
       image:
         registry: ghcr.repo.gpkg.io
