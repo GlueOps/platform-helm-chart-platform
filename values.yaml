@@ -565,7 +565,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: kedacore/keda
-        tag: 2.20.2@sha256:fe74c7b8849586a67ad2201bcb89e7f5ac221ff90399ecaa8fd28427f1ef11e6
+        tag: 2.21.1@sha256:d09d92c0a310e3057a3c54df387b99abf2bf31352218dbe1adcb00e807886488
     metrics_apiserver:
       image:
         registry: ghcr.repo.gpkg.io
