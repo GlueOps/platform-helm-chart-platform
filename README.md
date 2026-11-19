@@ -76,9 +76,9 @@ This chart deploys the GlueOps Platform
 | container_images.app_goldilocks.goldilocks.image.registry | string | `"gcp.repo.gpkg.io"` |  |
 | container_images.app_goldilocks.goldilocks.image.repository | string | `"fairwinds-ops/oss/goldilocks"` |  |
 | container_images.app_goldilocks.goldilocks.image.tag | string | `"v4.16.2@sha256:c46d846d31190b034a76ca4b1191a9e1601ac3f32c3a086f23fb1f49662afc88"` |  |
-| container_images.app_ingress_nginx.controller.image.registry | string | `"k8s.repo.gpkg.io"` |  |
-| container_images.app_ingress_nginx.controller.image.repository | string | `"ingress-nginx/controller"` |  |
-| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.1@sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1"` |  |
+| container_images.app_ingress_nginx.controller.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
+| container_images.app_ingress_nginx.controller.image.repository | string | `"glueops/ingress-nginx/controller"` |  |
+| container_images.app_ingress_nginx.controller.image.tag | string | `"v1.15.16@sha256:5419e593f58df147c7d2397e38941fce87c7fd4d5f12651f1aadb2951bc57323"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.registry | string | `"ghcr.repo.gpkg.io"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.repository | string | `"glueops/inventory-agent"` |  |
 | container_images.app_inventory_agent.inventory_agent.image.tag | string | `"v1.4.0@sha256:07b0dbf8c123fb01dce617e0c160d8c61629a336baba79f3cbc11d8815fc4596"` |  |
