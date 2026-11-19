@@ -575,7 +575,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: kedacore/keda-admission-webhooks
-        tag: 2.20.2@sha256:41f74102aba7959c6e8d08b433ab8a5fd6cae7c5646c78f7fe3de40a52df3439
+        tag: 2.21.1@sha256:5f4b0b0f7831b9f53738be85e99449a1747a5effa970305fe602455ab0f4fcd3
   app_fluent_operator:
     kubesphere:
       image:
