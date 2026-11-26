@@ -559,7 +559,7 @@ container_images:
       image:
         registry: ghcr.repo.gpkg.io
         repository: metacontroller/metacontroller
-        tag: v4.17.6@sha256:1c083f7587130f611dc1330b898c49d78cc223674570c223b8081d7ca4b197dd #this might need to be updated manually because of renovatebot errors
+        tag: v4.17.12@sha256:eb860485620a077958460f9cb1d37e5110f7bdf548155e7c525b8e04a1c9883f #this might need to be updated manually because of renovatebot errors
   app_keda:
     keda:
       image:
